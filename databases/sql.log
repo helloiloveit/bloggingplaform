@@ -1,0 +1,126 @@
+timestamp: 2013-03-07T16:39:37.157000
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512)
+);
+success!
+timestamp: 2013-03-07T16:39:37.225000
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2013-03-07T16:39:37.245000
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2013-03-07T16:39:37.257000
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2013-03-07T16:39:37.271000
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2013-03-07T16:39:37.283000
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    created_on TIMESTAMP,
+    service CHAR(512),
+    ticket CHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2013-05-29T17:21:24.881538
+CREATE TABLE movie(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    plot CHAR(512),
+    theater CHAR(512),
+    trailerUrl CHAR(512),
+    movieType CHAR(512),
+    poster CHAR(512)
+);
+success!
+timestamp: 2013-05-30T13:44:12.986427
+ALTER TABLE movie ADD status TEXT;
+timestamp: 2013-05-30T18:04:39.593271
+CREATE TABLE theater(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    address CHAR(512)
+);
+success!
+timestamp: 2013-05-30T18:05:30.220031
+CREATE TABLE schedule(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    theater INTEGER REFERENCES theater (id) ON DELETE CASCADE,
+    movie INTEGER REFERENCES movie (id) ON DELETE CASCADE,
+    showtime TEXT
+);
+success!
+timestamp: 2013-06-05T14:52:54.727627
+CREATE TABLE comment_tbl(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    commentContent CHAR(512),
+    likeCount INTEGER,
+    rating INTEGER,
+    replyCount INTEGER,
+    syncStatus CHAR(1)
+);
+success!
+timestamp: 2013-06-05T15:09:37.275743
+ALTER TABLE comment_tbl ADD movie INTEGER REFERENCES movie (id) ON DELETE CASCADE;
+timestamp: 2013-06-06T08:07:29.033928
+ALTER TABLE comment_tbl ADD ratting INTEGER;
+timestamp: 2013-06-11T16:09:26.110771
+CREATE TABLE user_extend(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512)
+);
+success!
+timestamp: 2013-06-11T16:10:12.130910
+ALTER TABLE comment_tbl ADD user_info INTEGER REFERENCES user_extend (id) ON DELETE CASCADE;
+timestamp: 2013-06-12T11:36:01.605914
+CREATE TABLE reply_tbl(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    replyContent CHAR(512),
+    likeCount INTEGER,
+    hateCount INTEGER,
+    commentId INTEGER REFERENCES comment_tbl (id) ON DELETE CASCADE,
+    user_info INTEGER REFERENCES user_extend (id) ON DELETE CASCADE,
+    syncStatus CHAR(1)
+);
+success!
+timestamp: 2013-07-22T14:09:13.878460
+ALTER TABLE movie ADD ratting DOUBLE;
+timestamp: 2013-09-26T17:43:17.832042
+CREATE TABLE blog(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    story TEXT,
+    writer CHAR(512)
+);
+success!
