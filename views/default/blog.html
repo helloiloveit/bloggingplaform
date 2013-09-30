@@ -81,16 +81,20 @@ body {
 
 <div id="container">
   <div id="header">
+      <!--
       {{=A("edit",_href=URL(r=request,f='edit_blog',args=[item.id]))}}
     <h1>
       {{=A("helloiloveit",_href=URL(r=request,f='blog_list'))}}
     </h1>
     <h2> A human being view </h2>
+    -->
   <!-- end #header --></div>
   <div id="mainContent">
     {{=XML(item.story)}}
     <h2>&nbsp;</h2>
+    <!--
     <p>300 nguoi thich 1000 su dung lai</p>
+    -->
     <!-- end #mainContent --></div>
 </body>
 </html>
