@@ -83,9 +83,10 @@ def post():
     log.info("session.user = %s", auth.user)
     test = request.vars.editor1
     try:
-        id = db.blog.insert(story = request.vars.editor1,
+        if  test:
+            id = db.blog.insert(story = request.vars.editor1,
                             writer = auth.user.id)
-        log.info('successfully create a blog')
+            log.info('successfully create a blog')
     except:
         log.error('cant create blog')
     return dict()
