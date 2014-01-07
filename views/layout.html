@@ -67,28 +67,43 @@
 </head>
 
 <body>
+  <div id="logo">
+        <img src="{{=URL('static', 'images/chuotnhatIcon.jpg')}}" alt="Smiley face" height="109" width="264">
+  </div>
   <!-- Navbar ================================================== -->
-  <div class="navbar navbar-inverse navbar-fixed-top">
+  <!-- Navbar ================================================== -->
+  <div class="navbar navbar-inverse">
     <div class="flash">{{=response.flash or ''}}</div>
-    <!--
     <div class="navbar-inner">
       <div class="container">
-        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        {{is_mobile=request.user_agent().is_mobile}}
+        <!-- the next tag is necessary for bootstrap menus, do not remove -->
+        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse" style="{{='display:none;' if not is_mobile else ''}}">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-	{{=response.logo or ''}}
+       <!-- {{=response.logo }}-->
+
+
         <ul id="navbar" class="nav pull-right">{{='auth' in globals() and auth.navbar(mode="dropdown") or ''}}</ul>
-        <div class="nav-collapse">
-          {{is_mobile=request.user_agent().is_mobile}}
+         <div class = "nav">
+             <ul class = "nav">
+        <li class="web2py-menu-first"><a  href="/welcome/default/index">Tin Tức</a></li>
+        <li class="web2py-menu-first"><a data-w2p_disable_with="default" href="/welcome/default/index">Đánh giá</a></li>
+        <li class="web2py-menu-first"><a data-w2p_disable_with="default" href="/welcome/default/index">Công nghệ</a></li>
+        <li class="web2py-menu-first"><a data-w2p_disable_with="default" href="/welcome/default/index">Start-Up</a></li>
+                 </ul>
+             </div>
+          <!--
+        <div class="{{='nav-collapse' if is_mobile else 'nav'}}">
           {{if response.menu:}}
           {{=MENU(response.menu, _class='mobile-menu nav' if is_mobile else 'nav',mobile=is_mobile,li_class='dropdown',ul_class='dropdown-menu')}}
           {{pass}}
-        </div>
+        </div><!--/.nav-collapse -->
+-->
       </div>
     </div>
-    -->
   </div><!--/top navbar -->
 
   <div class="container">
