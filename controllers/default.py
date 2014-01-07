@@ -28,11 +28,7 @@ def index():
     if you need a simple wiki simple replace the two lines below with:
     return auth.wiki()
     """
-    response.flash = T("Welcome to web2py!")
-    print 'reponse.menu = ', response.logo
-    response.logo = A(B('web',SPAN(2),'py'),XML('&trade;&nbsp;'),
-                          _class="brand",_href="http://www.google.com/")
-    return dict(message=T('Hello World'))
+    redirect(URL(r = request, f= 'blog', args = 3))
 
 
 def blog():
@@ -41,6 +37,7 @@ def blog():
     """
     log.info("request.vars = %s", request.args[0])
     id_info = request.args[0]
+
     try:
         blog_item = db(db.blog.id == int(id_info)).select()[0]
     except:

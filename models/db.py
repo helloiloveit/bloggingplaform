@@ -82,10 +82,7 @@ use_janrain(auth, filename='private/janrain.key')
 
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
-from ConstantDefinition import *
-ON_SCREEN = 'onScreen'
-COMMING_SOON = 'commingSoon'
-ARCHIVE = 'archive'
+
 
 db.define_table('user_extend',
     Field('name', 'string'),
