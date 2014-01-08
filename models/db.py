@@ -88,7 +88,13 @@ db.define_table('user_extend',
     Field('name', 'string'),
     Field('id', 'string'))
 
+db.define_table('article_class',
+    Field('name', 'string')
+    )
+
 db.define_table('blog',
+    Field('article_header' 'text'),
     Field('story', 'text'),
+    Field('article_type', db.article_class),
     Field('writer', 'reference auth_user'))
 

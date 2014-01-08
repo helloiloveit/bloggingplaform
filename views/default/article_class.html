@@ -6,25 +6,18 @@
     <!-- end #header --></div>
   <div id="mainContent">
     <h1>  </h1>
-    <form action="post_article" method="post">
+    <form action="post_article_class" method="post">
          <p>
              Select Class of article
          </p>
-         <p>
-         <select name="article_class" >
+
         {{for article in article_class_list:}}
-
-                  <option value={{=article.name}}>{{=article.name}}</option>
-
+         <p>
+             <input type="text" name="article_class" value = "{{=article.name}}">
+         </p>
         {{pass}}
-        </select>
-        </p>
         <p>
-            <textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">
 
-            </textarea>
-        </p>
-        <p>
             <input type="submit" value="Submit">
         </p>
     </form>
@@ -33,9 +26,6 @@
     <h2></h2>
     <p></p>
     <!-- end #mainContent --></div>
-  <div id="footer">
-    <p>xem thêm....</p>
-  <!-- end #footer --></div>
 <!-- end #container --></div>
 
 </html>

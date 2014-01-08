@@ -13,6 +13,14 @@ pass
 =form
 }}
 </div>
+
+<h2>{{=T("Writting Management" )}}</h2>
+<a href={{=URL('post')}} rel="nofollow"><i class="icon-user"></i> Post new Article</a>
+<h2>{{=T("Update Article Class" )}}</h2>
+<a href={{=URL('article_class')}} rel="nofollow"><i class="icon-user"></i> Change article Class</a>
+
+
+
 <script language="javascript"><!--
 jQuery("#web2py_user_form input:visible:enabled:first").focus();
 {{if request.args(0)=='register':}}

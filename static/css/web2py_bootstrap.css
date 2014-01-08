@@ -3,7 +3,7 @@
 ==============================================================*/
 
 body{height:auto;} /* to avoid vertical scroll bar */
-
+/* add by huy */
 #logo{
 margin-left: auto;
 margin-right: auto;
@@ -14,7 +14,11 @@ width: 1022px;
 .article_container{
 
 }
+.post_article{
+font-family: 'Roboto Slab', serif;
+}
 
+/* end add by huy */
 a{}
 a:visited{}
 a:hover{}

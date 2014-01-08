@@ -124,3 +124,13 @@ CREATE TABLE blog(
     writer CHAR(512)
 );
 success!
+timestamp: 2014-01-08T13:40:21.402437
+CREATE TABLE article_class(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512)
+);
+success!
+timestamp: 2014-01-08T13:40:54.300302
+ALTER TABLE blog ADD headertext CHAR(512);
+timestamp: 2014-01-08T13:40:54.347311
+ALTER TABLE blog ADD article_type INTEGER REFERENCES article_class (id) ON DELETE CASCADE;
