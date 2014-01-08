@@ -88,6 +88,7 @@ def post_article_class():
     article_class_list = db(db.article_class).select()
     log.info("article = %s ",article_class_list )
 
+
     result= ""
     if len(article_classes):
         for item in article_classes:
@@ -112,9 +113,26 @@ def article_class():
     article_class_list = db(db.article_class).select()
     log.info("article_class = %s", article_class_list)
     if len(article_class_list) <= 0:
-        article_class_list = ["","","",""]
+        #create database
+        db.article_class.insert(name ="")
+        db.article_class.insert(name ="")
+        db.article_class.insert(name ="")
+        db.article_class.insert(name ="")
+        article_class_list = db(db.article_class).select()
 
     return dict(article_class_list = article_class_list)
+
+def get_article_id(name):
+    """
+    return id
+    """
+    article_class_list = db(db.article_class).select()
+    log.info("article_class = %s", article_class_list)
+    for item in article_class_list:
+        if item.name == name:
+            return item.id
+    return False;
+
 
 @auth.requires_login()
 def post():
@@ -123,7 +141,7 @@ def post():
 
     return dict(article_class_list =article_class_list )
 
-
+@auth.requires_login()
 def post_article():
     log.info("post")
     log.info("request.vars = %s",request.vars)
@@ -140,15 +158,23 @@ def post_article():
     log.info("header_text = %s", header_text)
     log.info("auth.user.id = %s", auth.user.id)
 
-    article_class_list = db(db.article_class.id).select()
-    log.info("article_class = %s", article_class_list)
+
+    articleId = get_article_id(article_class)
+    if articleId == False:
+        log.error('cant get article id')
+
+    blog_list= db(db.blog).select()
+    log.info("blog_list = %s", blog_list)
+    id = db.blog.insert(story = content_text,
+                        article_header = header_text,
+                        article_type = articleId,
+                        writer = auth.user.id)
     try:
-        if  test:
-            id = db.blog.insert(story = request.vars.editor1,
-                                header = header_text,
-                                article_type = article_class,
+        id = db.blog.insert(story = content_text,
+                                article_header = header_text,
+                                article_type = articleId,
                             writer = auth.user.id)
-            log.info('successfully create a blog')
+        log.info('successfully create a blog')
     except:
         log.error('cant create blog')
     return dict()

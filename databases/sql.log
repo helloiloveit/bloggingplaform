@@ -134,3 +134,7 @@ timestamp: 2014-01-08T13:40:54.300302
 ALTER TABLE blog ADD headertext CHAR(512);
 timestamp: 2014-01-08T13:40:54.347311
 ALTER TABLE blog ADD article_type INTEGER REFERENCES article_class (id) ON DELETE CASCADE;
+timestamp: 2014-01-08T17:52:55.621216
+ALTER TABLE blog ADD article_headertext CHAR(512);
+timestamp: 2014-01-08T18:05:47.187501
+ALTER TABLE blog ADD article_header TEXT;
