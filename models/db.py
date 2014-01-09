@@ -99,3 +99,6 @@ db.define_table('blog',
     Field('article_type', db.article_class),
     Field('writer', 'reference auth_user'))
 
+db.define_table('pic_store',
+    Field('pic','upload')
+    )

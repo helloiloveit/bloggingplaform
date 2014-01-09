@@ -147,17 +147,19 @@ def article_class():
     """
     article_class_list = db(db.article_class).select()
     log.info("article_class = %s", article_class_list.__doc__ )
-    try:
-        if len(article_class_list) > 0:
+
+    if len(article_class_list) > 0:
             log.info(" article class is existed..display it")
-    except:
+    else:
+        log.info("create database:w")
         #create database
         db.article_class.insert(name ="")
         db.article_class.insert(name ="")
         db.article_class.insert(name ="")
         db.article_class.insert(name ="")
-        article_class_list = db(db.article_class).select()
 
+    article_class_list = db(db.article_class).select()
+    log.info("article_class = %s", article_class_list )
     return dict(article_class_list = article_class_list)
 
 def get_article_id(name):
@@ -217,3 +219,27 @@ def post_article():
     except:
         log.error('cant create blog')
     return dict()
+
+
+
+#those code is for manage meta data not using right now
+# using flickr for photo uploading
+@auth.requires_login()
+def show_image():
+
+    image_data = db(db.pic_store).select()
+    #image = image_data.pic
+
+    form = SQLFORM(db.pic_store)
+    if form.process().accepted:
+        response.flash = 'movie info is posted'
+    return dict(form = form)
+@auth.requires_login()
+def manage_image():
+    grid = SQLFORM.smartgrid(db.pic_store)
+    return dict(grid=grid)
+
+@auth.requires_login()
+def manage_article_class():
+    grid = SQLFORM.smartgrid(db.article_class)
+    return dict(grid=grid)
