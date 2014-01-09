@@ -8,12 +8,30 @@
   <div id="mainContent">
     <h1>  </h1>
     <form action="" method="post">
+         <p>
+             Select Class of article
+         </p>
+         <p>
+         <select name="article_class" >
+        {{for item in article_class_list:}}
+
+          <option value="{{=item.name}}">{{=item.name}}</option>
+
+        {{pass}}
+        </select>
+        </p>
+         <p>
+           <input type="text" name="article_header" value = "{{=article.article_header}}">
+        </p>
+        <p>
+           <input type="text" name="article_introduction" value = "{{=article.article_introduction}}">
+        </p>
         <p>
             <label for="editor1">
-               Sua lai blog 
+               Sua lai blog
             </label>
             <textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">
-                {{=item.story}}
+                {{=article.story}}
             </textarea>
         </p>
         <p>

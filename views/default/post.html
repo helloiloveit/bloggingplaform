@@ -14,10 +14,16 @@
          <select name="article_class" >
         {{for article in article_class_list:}}
 
-                  <option value={{=article.name}}>{{=article.name}}</option>
+                  <option value="{{=article.name}}">{{=article.name}}</option>
 
         {{pass}}
         </select>
+        </p>
+        <p>
+           <input type="text" name="article_header" value = "article header here">
+        </p>
+        <p>
+           <input type="text" name="article_introduction" value = "few first line of article">
         </p>
         <p>
             <textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">

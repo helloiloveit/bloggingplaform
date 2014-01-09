@@ -31,11 +31,14 @@ def index():
     #redirect(URL(r = request, f= 'blog', args = 3))
     return dict()
 
-def blog():
+def article():
     """
     Display blog by id
     """
     log.info("request.vars = %s", request.args[0])
+    selection = request.vars
+    log.info('selection = %s', selection['selection'])
+    log.info('id = %s', request.args[0])
     id_info = request.args[0]
 
     try:
@@ -46,25 +49,57 @@ def blog():
 
     return dict(item = blog_item)
 
-def edit_blog():
+
+@auth.requires_login()
+def edit_article():
     """
     Edit blog
     """
-    item_info = blog()
-    item = item_info["item"]
+    log.info("edit artchile")
+    log.info("request.vars 0= %s", request.args[0])
+    log.info("request.vars = %s", request.args)
+    id_info = request.args[0]
 
-    # if user press submit editted blog
+    article_class_list = db(db.article_class).select()
+    log.info("article_class = %s", article_class_list)
+
+    try:
+        blog_item = db(db.blog.id == int(id_info)).select()[0]
+    except:
+        log.error('cant query a blog from db')
+        blog_item = None
+
+
+
     if request.vars.editor1:
-        id =db(db.blog.id == int(request.args[0])).update(story = request.vars.editor1)
-        redirect(URL(r = request, f= 'blog', args = [request.args[0]]))
+        article_id = get_article_id(request.vars.article_class)
+        log.info("article-id = %s", article_id)
+        id =db(db.blog.id == int(request.args[0])).update(
+            article_type = article_id,
+            article_header = request.vars.article_header,
+            article_introduction = request.vars.article_introduction,
+            story = request.vars.editor1
+        )
+        redirect(URL(r = request, f= 'article', args = [request.args[0]]))
 
+    log.info("blog_item = %s",blog_item)
+    return dict(article = blog_item, article_class_list = article_class_list)
 
-
-    return dict(item = item)
         
+def delete_article():
+    selection = request.vars
+    log.info('selection = %s', selection['selection'])
+    log.info('id = %s', request.args[0])
+    id_info = request.args[0]
+    if selection['selection'] == "YES":
+        log.info("delete post")
+        db(db.blog.id == int(request.args[0])).delete()
+        redirect(URL(r = request, f= 'article_list'))
+    elif selection['selection'] == "NO":
+        redirect(URL(r = request, f= 'article', args = [request.args[0]]))
+    return dict()
 
-
-def blog_list():
+def article_list():
     try:
         items = db(db.blog).select()
         return dict(items = items)
@@ -111,8 +146,11 @@ def article_class():
         Create, change , update article_class
     """
     article_class_list = db(db.article_class).select()
-    log.info("article_class = %s", article_class_list)
-    if len(article_class_list) <= 0:
+    log.info("article_class = %s", article_class_list.__doc__ )
+    try:
+        if len(article_class_list) > 0:
+            log.info(" article class is existed..display it")
+    except:
         #create database
         db.article_class.insert(name ="")
         db.article_class.insert(name ="")
@@ -146,14 +184,17 @@ def post_article():
     log.info("post")
     log.info("request.vars = %s",request.vars)
     article_class = request.vars.article_class
-    header_text = ""
+    header_text = request.vars.article_header
+    introduction_text  = request.vars.article_introduction
     content_text = request.vars.editor1
+
+    """
     if isinstance(request.vars.editor1,str):
         header_text = get_header(content_text)
     else:
         log.error("Article has no text")
         return dict()
-
+    """
     log.info("session.user = %s", auth.user)
     log.info("header_text = %s", header_text)
     log.info("auth.user.id = %s", auth.user.id)
@@ -162,15 +203,13 @@ def post_article():
     articleId = get_article_id(article_class)
     if articleId == False:
         log.error('cant get article id')
-
+    """
     blog_list= db(db.blog).select()
     log.info("blog_list = %s", blog_list)
-    id = db.blog.insert(story = content_text,
-                        article_header = header_text,
-                        article_type = articleId,
-                        writer = auth.user.id)
+    """
     try:
         id = db.blog.insert(story = content_text,
+                                article_introduction = introduction_text,
                                 article_header = header_text,
                                 article_type = articleId,
                             writer = auth.user.id)

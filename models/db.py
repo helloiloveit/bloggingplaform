@@ -94,6 +94,7 @@ db.define_table('article_class',
 
 db.define_table('blog',
     Field('article_header', 'text'),
+    Field('article_introduction', 'text'),
     Field('story', 'text'),
     Field('article_type', db.article_class),
     Field('writer', 'reference auth_user'))

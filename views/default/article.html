@@ -19,8 +19,16 @@
     <!--
     <p>300 nguoi thich 1000 su dung lai</p>
     -->
-    <!-- end #mainContent --></div>
+    <!-- end #mainContent -->
+  </div>
+    <div>
+      {{=A("edit",_href=URL(r=request,f='edit_article',args=[item.id]))}}
+    </div>
 
+    <div>
+      {{=A("delete",_href=URL(r=request,f='delete_article',args=[item.id]))}}
+    </div>
+</div>
 </html>
 
 
