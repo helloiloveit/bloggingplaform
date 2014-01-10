@@ -25,12 +25,14 @@ width: 1022px;
 
 }
 .article_list_containter .article_header{
-    font-size:24px;
+    font-size: 24px;
     font-family: 'Roboto Slab', serif;
+    font-weight: 400;
 }
 .article_list_containter .article_introduction{
-    font-size:20px;
-    font-family: 'Roboto Slab', serif;
+    font-size: 16px;
+
+    font-weight: 300;
 }
 
 

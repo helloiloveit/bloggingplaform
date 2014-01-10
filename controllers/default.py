@@ -209,6 +209,7 @@ def post_article():
     blog_list= db(db.blog).select()
     log.info("blog_list = %s", blog_list)
     """
+    id_temp =""
     try:
         id = db.blog.insert(story = content_text,
                                 article_introduction = introduction_text,
@@ -216,8 +217,12 @@ def post_article():
                                 article_type = articleId,
                             writer = auth.user.id)
         log.info('successfully create a blog')
+        log.info('id = %s',id)
+        id_temp = id
+
     except:
         log.error('cant create blog')
+    redirect(URL(r = request, f= 'article', args = id_temp))
     return dict()
 
 
