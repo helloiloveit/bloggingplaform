@@ -1,9 +1,9 @@
 {{extend 'layout.html'}}
-
+{{block center}}
 
 <div class="article_list_containter">
   <div class="header">
-    <h1>&nbsp;</h1>
+    <h1>Question and answer is being discussed</h1>
     <!--
     <h1><img src="../avarta.jpg" width="110" height="102" /></h1>
     <h2 >suy nghĩ của một cô  gái nhỏ</h2>
@@ -41,7 +41,51 @@
     <p>xem thêm....</p>
   <!-- end #footer --></div>
 <!-- end #container --></div>
+{{end}}
 
+
+{{block right_sidebar}}
+<div class="article_list_containter">
+  <div class="header">
+    <h1>Open question</h1>
+    <!--
+    <h1><img src="../avarta.jpg" width="110" height="102" /></h1>
+    <h2 >suy nghĩ của một cô  gái nhỏ</h2>
+    -->
+    <!-- end #header --></div>
+  <div class = "content">
+    <h1>  </h1>
+    <table>
+        {{for item in items:}}
+      <tr>
+        <td>
+            <table  >
+           <tr class="article_header">
+               <td>
+                   {{=A(XML(item.article_header),_href=URL(r=request,f='article',args=[item.id]))}}
+               </td>
+           </tr>
+          <tr>
+              <td class="article_introduction">
+                  {{=item.article_introduction}}
+                  <!--{{=A(XML(item.story),_href=URL(r=request,f='blog',args=[item.id]))}}-->
+                 </td>
+          </tr>
+          </table>
+        </td>
+      </tr>
+        {{pass}}
+    </table>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <h2></h2>
+    <p></p>
+    <!-- end #mainContent --></div>
+  <div id="footer">
+    <p>xem thêm....</p>
+  <!-- end #footer --></div>
+<!-- end #container --></div>
+{{end}}
 </html>
 
 

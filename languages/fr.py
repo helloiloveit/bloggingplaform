@@ -184,6 +184,7 @@
 'Timestamp': 'Horodatage',
 'Twitter': 'Twitter',
 'unable to parse csv file': "incapable d'analyser le fichier cvs",
+'Update Article Class': 'Update Article Class',
 'Update:': 'Mise à jour:',
 'Use (...)&(...) for AND, (...)|(...) for OR, and ~(...)  for NOT to build more complex queries.': 'Employez (...)&(...) pour AND, (...)|(...) pour OR, and ~(...)  pour NOT pour construire des requêtes plus complexes.',
 'User %(id)s Logged-in': 'Utilisateur %(id)s connecté',

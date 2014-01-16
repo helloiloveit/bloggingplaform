@@ -31,6 +31,10 @@ def index():
     #redirect(URL(r = request, f= 'blog', args = 3))
     return dict()
 
+def post_question():
+    data_group = [{'type':'now',"data":""},{'type':'future',"data":""}]
+    return json.dumps(data_group)
+
 def article():
     """
     Display blog by id
@@ -102,7 +106,7 @@ def delete_article():
 def article_list():
     try:
         items = db(db.blog).select()
-        return dict(items = items)
+        return dict(items = items, right_sidebar_enabled=True)
     except:
         log.error('cant query data from db')
         return dict()

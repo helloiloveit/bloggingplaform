@@ -72,9 +72,7 @@
 </head>
 
 <body>
-  <div id="logo">
-        <img src="{{=URL('static', 'images/chuotnhatIcon.jpg')}}" alt="Smiley face" height="109" width="264">
-  </div>
+
   <!-- Navbar ================================================== -->
   <!-- Navbar ================================================== -->
   <div class="navbar navbar-inverse">
@@ -94,10 +92,10 @@
         <ul id="navbar" class="nav pull-right">{{='auth' in globals() and auth.navbar(mode="dropdown") or ''}}</ul>
          <div class = "nav">
              <ul class = "nav">
-        <li class="web2py-menu-first"><a  href="/welcome/default/article_list">Tin Tức</a></li>
-        <li class="web2py-menu-first"><a data-w2p_disable_with="default" href="/welcome/default/article_list">Đánh giá</a></li>
-        <li class="web2py-menu-first"><a data-w2p_disable_with="default" href="/welcome/default/article_list">Công nghệ</a></li>
-        <li class="web2py-menu-first"><a data-w2p_disable_with="default" href="/welcome/default/article_list">Start-Up</a></li>
+        <li class="web2py-menu-first"><a  href="/welcome/default/article_list">ChuotNhat </a></li>
+        <li class="web2py-menu-first"><input type="text" name="" style="height:30px;font-size:16pt;size=80;"  value = "search for what do u want to know"></li>
+        <li class="web2py-menu-first"><a data-w2p_disable_with="default" href="/welcome/default/article_list">Tìm </a></li>
+               <li class="web2py-menu-first">   <a href={{=URL('post')}} rel="nofollow"> Post new Question</a></li>
                  </ul>
              </div>
           <!--
@@ -125,14 +123,16 @@
     -->
 
     <section id="main" class="main row">
-        {{if left_sidebar_enabled:}}
+
+
+        <!--
         <div class="span3 left-sidebar">
             {{block left_sidebar}}
             <h3>Left Sidebar</h3>
             <p></p>
             {{end}}
         </div>
-        {{pass}}
+        -->
 
         <div class="{{=middle_columns}}">
             {{block center}}
@@ -141,13 +141,17 @@
         </div>
 
         {{if right_sidebar_enabled:}}
+
         <div class="span3">
             {{block right_sidebar}}
             <h3>Right Sidebar</h3>
+
             <p></p>
             {{end}}
         </div>
         {{pass}}
+
+
     </section><!--/main-->
 
     <!-- Footer ================================================== -->

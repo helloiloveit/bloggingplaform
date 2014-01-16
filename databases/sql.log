@@ -138,3 +138,11 @@ timestamp: 2014-01-08T17:52:55.621216
 ALTER TABLE blog ADD article_headertext CHAR(512);
 timestamp: 2014-01-08T18:05:47.187501
 ALTER TABLE blog ADD article_header TEXT;
+timestamp: 2014-01-15T16:44:29.997890
+ALTER TABLE blog ADD article_introduction TEXT;
+timestamp: 2014-01-15T16:44:30.722225
+CREATE TABLE pic_store(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    pic CHAR(512)
+);
+success!
