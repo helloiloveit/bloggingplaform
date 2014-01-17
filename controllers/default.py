@@ -244,7 +244,7 @@ def post_article():
     log.info("request.vars = %s",request.vars)
     article_class = request.vars.article_class
     header_text = request.vars.article_header
-    introduction_text  = request.vars.article_introduction
+
     content_text = request.vars.editor1
 
     log.info("session.user = %s", auth.user)
@@ -264,7 +264,6 @@ def post_article():
 
     try:
         question_id = db.question_tbl.insert(story = content_text,
-                                article_introduction = introduction_text,
                                 article_header = header_text,
                                 writer = auth.user.id)
         log.info('successfully create a question_tbl')
