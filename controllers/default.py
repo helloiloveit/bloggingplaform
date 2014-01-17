@@ -31,10 +31,6 @@ def index():
     #redirect(URL(r = request, f= 'blog', args = 3))
     return dict()
 
-def post_question():
-    data_group = [{'type':'now',"data":""},{'type':'future',"data":""}]
-    return json.dumps(data_group)
-
 def article():
     """
     Display blog by id
@@ -46,13 +42,12 @@ def article():
     id_info = request.args[0]
 
     try:
-        question_tbl = db(db.question_tbl.id == int(id_info)).select()[0]
+        blog_item = db(db.blog.id == int(id_info)).select()[0]
     except:
         log.error('cant query a blog from db')
-        question_tbl = None
+        blog_item = None
 
-
-    return dict(item = question_tbl)
+    return dict(item = blog_item)
 
 
 @auth.requires_login()
@@ -65,7 +60,7 @@ def edit_article():
     log.info("request.vars = %s", request.args)
     id_info = request.args[0]
 
-    article_class_list = db(db.article_tag).select()
+    article_class_list = db(db.article_class).select()
     log.info("article_class = %s", article_class_list)
 
     try:
@@ -98,27 +93,19 @@ def delete_article():
     id_info = request.args[0]
     if selection['selection'] == "YES":
         log.info("delete post")
-        db(db.question_tbl.id == int(request.args[0])).delete()
+        db(db.blog.id == int(request.args[0])).delete()
         redirect(URL(r = request, f= 'article_list'))
     elif selection['selection'] == "NO":
         redirect(URL(r = request, f= 'article', args = [request.args[0]]))
     return dict()
 
 def article_list():
-    items= []
     try:
-        items = db(db.question_tbl).select()
-
+        items = db(db.blog).select()
+        return dict(items = items)
     except:
         log.error('cant query data from db')
-
-    for item in items:
-        log.info('items = %s',item)
-        comment_count = db(db.comment_tbl.id == item.id).select()
-        log.info('comment_count = %d', len(comment_count))
-        tag_list = db(db.tag_tbl.question_info ==item.id).select()
-        log.info('tag_list = %d', len(tag_list))
-    return dict(items= items)
+        return dict()
 
 def get_header(text):
     """
@@ -189,7 +176,7 @@ def get_article_id(name):
 
 @auth.requires_login()
 def post():
-    article_class_list = db(db.article_tag).select()
+    article_class_list = db(db.article_class).select()
     log.info("article_class = %s", article_class_list)
 
     return dict(article_class_list =article_class_list )
@@ -219,22 +206,22 @@ def post_article():
     if articleId == False:
         log.error('cant get article id')
     """
-    question_tbl_list= db(db.question_tbl).select()
-    log.info("question_tbl_list = %s", question_tbl_list)
+    blog_list= db(db.blog).select()
+    log.info("blog_list = %s", blog_list)
     """
     id_temp =""
     try:
-        id = db.question_tbl.insert(story = content_text,
+        id = db.blog.insert(story = content_text,
                                 article_introduction = introduction_text,
                                 article_header = header_text,
                                 article_type = articleId,
                             writer = auth.user.id)
-        log.info('successfully create a question_tbl')
+        log.info('successfully create a blog')
         log.info('id = %s',id)
         id_temp = id
 
     except:
-        log.error('cant create question_tbl')
+        log.error('cant create blog')
     redirect(URL(r = request, f= 'article', args = id_temp))
     return dict()
 
@@ -259,5 +246,5 @@ def manage_image():
 
 @auth.requires_login()
 def manage_article_class():
-    grid = SQLFORM.smartgrid(db.article_tag)
+    grid = SQLFORM.smartgrid(db.article_class)
     return dict(grid=grid)

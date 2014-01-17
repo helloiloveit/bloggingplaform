@@ -88,37 +88,16 @@ db.define_table('user_extend',
     Field('name', 'string'),
     Field('id', 'string'))
 
-db.define_table('article_tag',
+db.define_table('article_class',
     Field('name', 'string')
     )
 
-
-
-
-
-db.define_table('question_tbl',
+db.define_table('blog',
     Field('article_header', 'text'),
     Field('article_introduction', 'text'),
     Field('story', 'text'),
+    Field('article_type', db.article_class),
     Field('writer', 'reference auth_user'))
-
-
-
-db.define_table('tag_tbl',
-    Field('question_info',db.question_tbl),
-    Field('tag_info', db.article_tag))
-
-
-db.define_table('follow_tbl',
-    Field('blog_info',db.question_tbl),
-    Field('user_info', 'reference auth_user'))
-
-db.define_table('comment_tbl',
-    Field('comment_info', 'text'),
-    Field('blog_info',db.question_tbl),
-    Field('author_info', 'reference auth_user'))
-
-
 
 db.define_table('pic_store',
     Field('pic','upload')

@@ -1,4 +1,4 @@
-timestamp: 2014-01-17T11:11:56.937910
+timestamp: 2013-03-07T16:39:37.157000
 CREATE TABLE auth_user(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name CHAR(128),
@@ -10,21 +10,21 @@ CREATE TABLE auth_user(
     registration_id CHAR(512)
 );
 success!
-timestamp: 2014-01-17T11:11:56.940176
+timestamp: 2013-03-07T16:39:37.225000
 CREATE TABLE auth_group(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role CHAR(512),
     description TEXT
 );
 success!
-timestamp: 2014-01-17T11:11:56.942258
+timestamp: 2013-03-07T16:39:37.245000
 CREATE TABLE auth_membership(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-01-17T11:11:56.944574
+timestamp: 2013-03-07T16:39:37.257000
 CREATE TABLE auth_permission(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE,
@@ -33,7 +33,7 @@ CREATE TABLE auth_permission(
     record_id INTEGER
 );
 success!
-timestamp: 2014-01-17T11:11:56.947060
+timestamp: 2013-03-07T16:39:37.271000
 CREATE TABLE auth_event(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp TIMESTAMP,
@@ -43,7 +43,7 @@ CREATE TABLE auth_event(
     description TEXT
 );
 success!
-timestamp: 2014-01-17T11:11:56.949567
+timestamp: 2013-03-07T16:39:37.283000
 CREATE TABLE auth_cas(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
@@ -53,77 +53,88 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
-timestamp: 2014-01-17T11:11:56.992269
+timestamp: 2013-05-29T17:21:24.881538
+CREATE TABLE movie(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    plot CHAR(512),
+    theater CHAR(512),
+    trailerUrl CHAR(512),
+    movieType CHAR(512),
+    poster CHAR(512)
+);
+success!
+timestamp: 2013-05-30T13:44:12.986427
+ALTER TABLE movie ADD status TEXT;
+timestamp: 2013-05-30T18:04:39.593271
+CREATE TABLE theater(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    address CHAR(512)
+);
+success!
+timestamp: 2013-05-30T18:05:30.220031
+CREATE TABLE schedule(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    theater INTEGER REFERENCES theater (id) ON DELETE CASCADE,
+    movie INTEGER REFERENCES movie (id) ON DELETE CASCADE,
+    showtime TEXT
+);
+success!
+timestamp: 2013-06-05T14:52:54.727627
+CREATE TABLE comment_tbl(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    commentContent CHAR(512),
+    likeCount INTEGER,
+    rating INTEGER,
+    replyCount INTEGER,
+    syncStatus CHAR(1)
+);
+success!
+timestamp: 2013-06-05T15:09:37.275743
+ALTER TABLE comment_tbl ADD movie INTEGER REFERENCES movie (id) ON DELETE CASCADE;
+timestamp: 2013-06-06T08:07:29.033928
+ALTER TABLE comment_tbl ADD ratting INTEGER;
+timestamp: 2013-06-11T16:09:26.110771
 CREATE TABLE user_extend(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(512)
 );
 success!
-timestamp: 2014-01-17T11:11:56.994792
+timestamp: 2013-06-11T16:10:12.130910
+ALTER TABLE comment_tbl ADD user_info INTEGER REFERENCES user_extend (id) ON DELETE CASCADE;
+timestamp: 2013-06-12T11:36:01.605914
+CREATE TABLE reply_tbl(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    replyContent CHAR(512),
+    likeCount INTEGER,
+    hateCount INTEGER,
+    commentId INTEGER REFERENCES comment_tbl (id) ON DELETE CASCADE,
+    user_info INTEGER REFERENCES user_extend (id) ON DELETE CASCADE,
+    syncStatus CHAR(1)
+);
+success!
+timestamp: 2013-07-22T14:09:13.878460
+ALTER TABLE movie ADD ratting DOUBLE;
+timestamp: 2013-09-26T17:43:17.832042
+CREATE TABLE blog(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    story TEXT,
+    writer CHAR(512)
+);
+success!
+timestamp: 2014-01-08T13:40:21.402437
 CREATE TABLE article_class(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(512)
 );
 success!
-timestamp: 2014-01-17T11:11:56.997114
-CREATE TABLE blog(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    article_header TEXT,
-    article_introduction TEXT,
-    story TEXT,
-    article_type INTEGER REFERENCES article_class (id) ON DELETE CASCADE,
-    writer INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
-);
-success!
-timestamp: 2014-01-17T11:11:57.036270
-CREATE TABLE pic_store(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    pic CHAR(512)
-);
-success!
-timestamp: 2014-01-17T13:30:32.805204
-CREATE TABLE follow_tbl(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
-);
-success!
-timestamp: 2014-01-17T13:30:32.853166
-CREATE TABLE comment_tbl(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    comment_info TEXT,
-    author_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
-);
-success!
-timestamp: 2014-01-17T13:30:32.857908
-ALTER TABLE blog ADD comment_tbl INTEGER REFERENCES comment_tbl (id) ON DELETE CASCADE;
-timestamp: 2014-01-17T13:30:32.880120
-ALTER TABLE blog ADD follow_tbl INTEGER REFERENCES follow_tbl (id) ON DELETE CASCADE;
-timestamp: 2014-01-17T13:37:40.165155
-ALTER TABLE follow_tbl ADD blog_info INTEGER REFERENCES blog (id) ON DELETE CASCADE;
-timestamp: 2014-01-17T13:37:40.167827
-ALTER TABLE comment_tbl ADD blog_info INTEGER REFERENCES blog (id) ON DELETE CASCADE;
-timestamp: 2014-01-17T13:47:06.419626
-CREATE TABLE question_tbl(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    article_header TEXT,
-    article_introduction TEXT,
-    story TEXT,
-    article_type INTEGER REFERENCES article_class (id) ON DELETE CASCADE,
-    writer INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
-);
-success!
-timestamp: 2014-01-17T14:11:33.575828
-CREATE TABLE article_tag(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name CHAR(512)
-);
-success!
-timestamp: 2014-01-17T14:11:33.607289
-CREATE TABLE tag_tbl(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    blog_info INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
-    tag_info INTEGER REFERENCES article_tag (id) ON DELETE CASCADE
-);
-success!
-timestamp: 2014-01-17T14:15:00.227155
-ALTER TABLE tag_tbl ADD question_info INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE;
+timestamp: 2014-01-08T13:40:54.300302
+ALTER TABLE blog ADD headertext CHAR(512);
+timestamp: 2014-01-08T13:40:54.347311
+ALTER TABLE blog ADD article_type INTEGER REFERENCES article_class (id) ON DELETE CASCADE;
+timestamp: 2014-01-08T17:52:55.621216
+ALTER TABLE blog ADD article_headertext CHAR(512);
+timestamp: 2014-01-08T18:05:47.187501
+ALTER TABLE blog ADD article_header TEXT;
