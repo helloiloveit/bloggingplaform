@@ -8,6 +8,13 @@
     <h1>  </h1>
     <form action="post_article" method="post">
          <p>
+        <select name="article_class" >
+        {{for article in article_tag_list:}}
+
+        <option value="{{=article.name}}">{{=article.name}}</option>
+
+        {{pass}}
+        </select>
         </p>
         <p>
            <input type="text" name="article_header" value = "what is the date of today?">

@@ -35,24 +35,61 @@ def post_question():
     data_group = [{'type':'now',"data":""},{'type':'future',"data":""}]
     return json.dumps(data_group)
 
+
+
+
 def article():
     """
     Display blog by id
     """
     log.info("request.vars = %s", request.args[0])
-    selection = request.vars
-    log.info('selection = %s', selection['selection'])
-    log.info('id = %s', request.args[0])
-    id_info = request.args[0]
+    log.info("request.vars = %s",request.vars)
+
+
+
+    if request.args[0] == 'post_comment':
+        log.info('post a comment')
+        post_comment(request.vars.questionId, request.vars.editor1, auth.user.id)
+        redirect(URL(r = request, f= 'article', args = request.vars.questionId))
+
+    else:
+        log.info('show article with comment')
+        log.info('id = %s', request.args[0])
+
+        try:
+            question = db(db.question_tbl.id == int(request.args[0])).select()[0]
+        except:
+            log.error('cant query a blog from db')
+            question = None
+        comment_list = show_question(request.args[0])
+
+        return dict(item = question, comment_list = comment_list)
+
+
+def show_question(question_id):
+
+    comment_list = db(db.comment_tbl.question_info == question_id).select()
+    return  comment_list
+
+
+def post_comment(question_id, comment_info, user_id):
+    log.info("post_comment")
+
+    log.info("session.user = %s", auth.user)
+    log.info("auth.user.id = %s", user_id)
+
+
 
     try:
-        question_tbl = db(db.question_tbl.id == int(id_info)).select()[0]
+        comment_id = db.comment_tbl.insert(comment_info = comment_info,
+                                question_info = question_id,
+                                author_info = user_id
+                                )
+        log.info('successfully create a comment_tbl')
+
+
     except:
-        log.error('cant query a blog from db')
-        question_tbl = None
-
-
-    return dict(item = question_tbl)
+        log.error('cant create comment_tbl')
 
 
 @auth.requires_login()
@@ -106,6 +143,7 @@ def delete_article():
 
 def article_list():
     items= []
+
     try:
         items = db(db.question_tbl).select()
 
@@ -118,6 +156,9 @@ def article_list():
         log.info('comment_count = %d', len(comment_count))
         tag_list = db(db.tag_tbl.question_info ==item.id).select()
         log.info('tag_list = %d', len(tag_list))
+        for tag in tag_list:
+            tag_name = db(db.article_tag.id == tag.tag_info).select()[0]
+            log.info('tag_name = %s', tag_name)
     return dict(items= items)
 
 def get_header(text):
@@ -154,6 +195,8 @@ def post_article_class():
     return dict(result = result)
 
 
+
+
 def article_class():
     """
         Create, change , update article_class
@@ -179,7 +222,7 @@ def get_article_id(name):
     """
     return id
     """
-    article_class_list = db(db.article_class).select()
+    article_class_list = db(db.article_tag).select()
     log.info("article_class = %s", article_class_list)
     for item in article_class_list:
         if item.name == name:
@@ -189,10 +232,11 @@ def get_article_id(name):
 
 @auth.requires_login()
 def post():
-    article_class_list = db(db.article_tag).select()
-    log.info("article_class = %s", article_class_list)
+    article_tag_list = db(db.article_tag).select()
+    log.info("article_tag = %s", article_tag_list)
 
-    return dict(article_class_list =article_class_list )
+    return dict(article_tag_list =article_tag_list )
+
 
 @auth.requires_login()
 def post_article():
@@ -203,40 +247,39 @@ def post_article():
     introduction_text  = request.vars.article_introduction
     content_text = request.vars.editor1
 
-    """
-    if isinstance(request.vars.editor1,str):
-        header_text = get_header(content_text)
-    else:
-        log.error("Article has no text")
-        return dict()
-    """
     log.info("session.user = %s", auth.user)
     log.info("header_text = %s", header_text)
     log.info("auth.user.id = %s", auth.user.id)
 
 
     articleId = get_article_id(article_class)
+
     if articleId == False:
         log.error('cant get article id')
     """
     question_tbl_list= db(db.question_tbl).select()
     log.info("question_tbl_list = %s", question_tbl_list)
     """
-    id_temp =""
+    question_id =""
+
     try:
-        id = db.question_tbl.insert(story = content_text,
+        question_id = db.question_tbl.insert(story = content_text,
                                 article_introduction = introduction_text,
                                 article_header = header_text,
-                                article_type = articleId,
-                            writer = auth.user.id)
+                                writer = auth.user.id)
         log.info('successfully create a question_tbl')
-        log.info('id = %s',id)
-        id_temp = id
+
 
     except:
         log.error('cant create question_tbl')
-    redirect(URL(r = request, f= 'article', args = id_temp))
+    try:
+        tag_id = db.tag_tbl.insert(tag_info = articleId,
+                            question_info = id_temp)
+    except:
+        log.error('cant create tag for question')
+    redirect(URL(r = request, f= 'article', args = question_id))
     return dict()
+
 
 
 
@@ -258,6 +301,6 @@ def manage_image():
     return dict(grid=grid)
 
 @auth.requires_login()
-def manage_article_class():
+def manage_article_tag():
     grid = SQLFORM.smartgrid(db.article_tag)
     return dict(grid=grid)

@@ -23,7 +23,12 @@
             <table  >
             <tr class="article_field">
                <td>
-                   khoa hoc
+                   {{        tag_list = db(db.tag_tbl.question_info ==item.id).select()}}
+
+                   {{for tag in tag_list:}}
+                   {{= db(db.article_tag.id == tag.tag_info).select()[0].name}}
+                   {{pass}}
+
                </td>
            </tr>
            <tr class="article_header">

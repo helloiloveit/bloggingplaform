@@ -115,7 +115,7 @@ db.define_table('follow_tbl',
 
 db.define_table('comment_tbl',
     Field('comment_info', 'text'),
-    Field('blog_info',db.question_tbl),
+    Field('question_info',db.question_tbl),
     Field('author_info', 'reference auth_user'))
 
 

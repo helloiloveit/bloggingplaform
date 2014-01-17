@@ -127,3 +127,5 @@ CREATE TABLE tag_tbl(
 success!
 timestamp: 2014-01-17T14:15:00.227155
 ALTER TABLE tag_tbl ADD question_info INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE;
+timestamp: 2014-01-17T15:42:41.900830
+ALTER TABLE comment_tbl ADD question_info INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE;
