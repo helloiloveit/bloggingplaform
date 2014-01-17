@@ -1,9 +1,14 @@
 {{extend 'layout.html'}}
-
+{{block center}}
 
 <div class="article_list_containter">
   <div class="header">
-    <h1>&nbsp;</h1>
+      <table class="header_option">
+          <tr >
+              <td>Dang Hot</td>
+              <td>Cho tra loi</td>
+          </tr>
+      </table>
     <!--
     <h1><img src="../avarta.jpg" width="110" height="102" /></h1>
     <h2 >suy nghĩ của một cô  gái nhỏ</h2>
@@ -16,16 +21,27 @@
       <tr>
         <td>
             <table  >
+            <tr class="article_field">
+               <td>
+                   khoa hoc
+               </td>
+           </tr>
            <tr class="article_header">
                <td>
                    {{=A(XML(item.article_header),_href=URL(r=request,f='article',args=[item.id]))}}
                </td>
            </tr>
-          <tr>
-              <td class="article_introduction">
-                  {{=item.article_introduction}}
-                  <!--{{=A(XML(item.story),_href=URL(r=request,f='blog',args=[item.id]))}}-->
+          <tr class="article_introduction">
+              <td>
+                 <!-- {{=item.article_introduction}}-->
+                  <input type="text" name="article_introduction" value = "quan diem cua ban">
                  </td>
+          </tr>
+          <tr class="article_popularity_info">
+              <td >
+                  {{=len(db(db.comment_tbl.id == item.id).select())}} quan diem {{=len(db(db.follow_tbl.id == item.id).select())}} quan tam
+                 </td>
+
           </tr>
           </table>
         </td>
@@ -41,7 +57,12 @@
     <p>xem thêm....</p>
   <!-- end #footer --></div>
 <!-- end #container --></div>
+{{end}}
 
+<!--
+{{block right_sidebar}}
+{{end}}
+-->
 </html>
 
 

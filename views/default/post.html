@@ -2,28 +2,18 @@
 
 <div class="post_article">
   <div>
-    <h1>Write an article</h1>
+    <h1>Viết câu hỏi mới</h1>
     <!-- end #header --></div>
   <div id="mainContent">
     <h1>  </h1>
     <form action="post_article" method="post">
          <p>
-             Select Class of article
-         </p>
-         <p>
-         <select name="article_class" >
-        {{for article in article_class_list:}}
-
-                  <option value="{{=article.name}}">{{=article.name}}</option>
-
-        {{pass}}
-        </select>
         </p>
         <p>
-           <input type="text" name="article_header" value = "article header here">
+           <input type="text" name="article_header" value = "what is the date of today?">
         </p>
         <p>
-           <input type="text" name="article_introduction" value = "few first line of article">
+           <input type="text" name="article_introduction" value = "tags">
         </p>
         <p>
             <textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">
