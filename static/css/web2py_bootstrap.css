@@ -18,11 +18,35 @@ width: 1022px;
 .article_list_containter{
 
 }
-.article_list_containter .header{
+
+.article_list_containter .header  tr{
+
+
+}
+.article_list_containter .header  td{
+
+vertical-align: middle;
+text-align:center;
+}
+
+.article_list_containter .header_option{
+
+    font-size: 18px;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 300;
+    width: 400px;
+    height:50px;
+    background-color: lightgrey;
 
 }
 .article_list_containter .content{
 
+}
+
+.article_list_containter .article_field{
+    font-size: 16px;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 400;
 }
 .article_list_containter .article_header{
     font-size: 16px;
@@ -34,7 +58,17 @@ width: 1022px;
 
     font-weight: 300;
 }
+.article_list_containter .article_popularity_info{
+    font-size: 14px;
 
+    font-weight: 300;
+}
+.article_list_containter .article_popularity_info td{
+    font-size: 14px;
+
+    font-weight: 300;
+    text-align:left;
+}
 
 .post_article{
 font-family: 'Roboto Slab', serif;

@@ -89,6 +89,7 @@
 'Internal State': 'État interne',
 'Introduction': 'Introduction',
 'Invalid email': 'E-mail invalide',
+'Invalid login': 'Invalid login',
 'Invalid Query': 'Requête Invalide',
 'invalid request': 'requête invalide',
 'Is Active': 'Is Active',
