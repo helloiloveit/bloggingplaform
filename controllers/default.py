@@ -17,6 +17,10 @@ log.setLevel(logging.DEBUG)
 
 from ConstantDefinition import *
 
+
+def test_facebook():
+    return dict()
+
 def user():
     return dict(form = auth())
 

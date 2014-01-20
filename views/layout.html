@@ -93,8 +93,23 @@
          <div class = "nav">
              <ul class = "nav">
         <li class="web2py-menu-first"><a  href="/welcome/default/article_list">ChuotNhat </a></li>
-        <li class="web2py-menu-first"><input type="text" name="" style="height:30px;font-size:16pt;size=80; width: 500px"  value = "search " ></li>
-        <li class="web2py-menu-first"><a data-w2p_disable_with="default" href="/welcome/default/article_list">Tìm </a></li>
+      <!--  <li class="web2py-menu-first"><input type="text" name="" style="height:30px;font-size:16pt;size=80; width: 500px"  value = "search " ></li>-->
+                <li class="web2py-menu-first"><a id="kaka">
+<script>
+  (function() {
+    var cx = '000962600827879314668:shbqhmi-59y';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+                       </a>
+                </li>
                <li class="web2py-menu-first">   <a href={{=URL('post')}} rel="nofollow"> Post</a></li>
                  </ul>
              </div>
@@ -109,6 +124,7 @@
   </div><!--/top navbar -->
 
   <div class="container">
+
     <!-- Masthead ================================================== -->
     <!--
     <header class="mastheader row" id="header">
