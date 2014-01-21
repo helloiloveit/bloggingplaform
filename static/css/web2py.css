@@ -15,7 +15,7 @@ td,th {text-align:left; padding:2px 5px 2px 5px}
 th {vertical-align:middle; border-right:1px solid white}
 td {vertical-align:top}
 form table tr td label {text-align:left}
-p,table,ol,ul {padding:0; margin: 0.75em 0}
+p,table,ol,ul {padding:0; margin: 0em 0}
 p {text-align:justify}
 ol, ul {list-style-position:outside; margin-left:2em}
 li {margin-bottom:0.5em}

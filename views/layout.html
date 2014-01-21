@@ -99,9 +99,18 @@ tinymce.init({
         <ul id="navbar" class="nav pull-right">{{='auth' in globals() and auth.navbar(mode="dropdown") or ''}}</ul>
          <div class = "nav">
              <ul class = "nav">
-        <li class="web2py-menu-first"><a  href="/welcome/default/article_list">ChuotNhat </a></li>
+        <li class="web2py-menu-first"><a  id = "logo_site" href="/welcome/default/article_list">Chuot nhat </a></li>
       <!--  <li class="web2py-menu-first"><input type="text" name="" style="height:30px;font-size:16pt;size=80; width: 500px"  value = "search " ></li>-->
                 <li class="web2py-menu-first"><a id="kaka">
+                    <style type="text/css">
+                            td.gsc-search-button { display: none !important; }
+                            #gsc-i-id1{
+                            }
+                        .gsc-input-box{
+                         height: 30px;
+                        }
+
+                    </style>
 <script>
   (function() {
     var cx = '000962600827879314668:shbqhmi-59y';
@@ -113,11 +122,13 @@ tinymce.init({
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(gcse, s);
   })();
+
 </script>
-<gcse:search></gcse:search>
+<gcse:searchbox-only resultsUrl="http://localhost:8000/welcome/default/test_jquery"></gcse:searchbox-only>
+
                        </a>
                 </li>
-               <li class="web2py-menu-first">   <a href={{=URL('post')}} rel="nofollow"> Post</a></li>
+               <li class="web2py-menu-first">   <a id = "logo_site" href={{=URL('post')}} rel="nofollow"> Post</a></li>
                  </ul>
              </div>
           <!--

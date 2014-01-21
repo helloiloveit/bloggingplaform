@@ -19,11 +19,11 @@
     <!-- end #header --></div>
   <div class = "content">
     <h1>  </h1>
-    <table>
+    <table >
         {{for item in items:}}
       <tr>
         <td>
-            <table  >
+            <table class = "content_list_table"  >
             <tr class="article_field">
                <td>
                    {{        tag_list = db(db.tag_tbl.question_info ==item.id).select()}}

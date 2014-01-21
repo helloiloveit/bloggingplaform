@@ -1,17 +1,21 @@
 <html lang="en">
-{{extend 'layout.html'}}
 
+<body>
+<div1>...</div1>
 
- 
-<p id="test">First Paragraph</p>
-<p>Second Paragraph</p>
-<p>Yet one more Paragraph</p>
- 
 <script>
-$( '#test' ).click(function() {
-  $( this ).slideUp();
-  alert("lalala");
-});
+  (function() {
+    var cx = '000962600827879314668:shbqhmi-59y';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
 </script>
-
+<gcse:searchresults-only></gcse:searchresults-only>
+<div2>...</div2>
+</body>
 </html>

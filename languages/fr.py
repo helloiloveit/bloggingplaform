@@ -77,6 +77,7 @@
 'done!': 'fait!',
 'Download': 'Téléchargement',
 'E-mail': 'E-mail',
+'E-mail invalide': 'E-mail invalide',
 'Edit': 'Éditer',
 'Edit current record': "Modifier l'enregistrement courant",
 'edit profile': 'modifier le profil',
