@@ -43,7 +43,14 @@
   <script src="{{=URL('static','js/modernizr.custom.js')}}"></script>
   <script src="{{=URL('static','js/ckeditor/ckeditor.js')}}"></script>
 
+<script type="text/javascript" src="{{=URL('static','js/tinymce/tinymce.min.js')}}"></script>
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+tinymce.init({
+    selector: "textarea"
+ });
+</script>
 
   <!-- include stylesheets -->
   {{  

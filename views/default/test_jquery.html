@@ -1,0 +1,17 @@
+<html lang="en">
+{{extend 'layout.html'}}
+
+
+ 
+<p id="test">First Paragraph</p>
+<p>Second Paragraph</p>
+<p>Yet one more Paragraph</p>
+ 
+<script>
+$( '#test' ).click(function() {
+  $( this ).slideUp();
+  alert("lalala");
+});
+</script>
+
+</html>

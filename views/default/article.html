@@ -2,7 +2,6 @@
 
 
 
-
 <div class="article_container">
   <div>
 
@@ -42,15 +41,25 @@
 
     <h2>&nbsp;</h2>
 
-    <form action="post_comment" method="post">
+     <input id="test" name="questionId" value = "nhap comment here">
+
+
+    <form id="realEditor"  action="post_comment" method="post">
         <p>
            <input type="hidden" name="questionId" value = {{=item.id}}>
         </p>
+        <!--
         <p>
             <textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">
 
             </textarea>
         </p>
+        -->
+
+                <textarea  id="editor1" name="editor1" rows="10" >w
+
+            </textarea>
+
         <p>
             <input type="submit" value="Submit">
         </p>
@@ -100,3 +109,12 @@
 
 
 
+<script>
+$('#realEditor').hide();
+$( '#test' ).click(function() {
+  $( this ).hide( );
+  <!--$( this ).slideUp();-->
+    $( '#realEditor' ).show(  );
+
+});
+</script>

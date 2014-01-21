@@ -17,6 +17,10 @@ log.setLevel(logging.DEBUG)
 
 from ConstantDefinition import *
 
+def test_jquery():
+    return dict()
+def test_tinyMCE():
+    return dict()
 
 def test_facebook():
     return dict()
