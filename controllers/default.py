@@ -16,6 +16,33 @@ log = logging.getLogger("h")
 log.setLevel(logging.DEBUG)
 
 from ConstantDefinition import *
+try:
+    import json
+except ImportError:
+    from gluon.contrib import simplejson as json
+from facebook import GraphAPI, GraphAPIError
+from gluon.contrib.login_methods.oauth20_account import OAuthAccount
+
+## extend the OAUthAccount class
+class FaceBookAccount(OAuthAccount):
+    """OAuth impl for FaceBook"""
+    AUTH_URL="https://graph.facebook.com/oauth/authorize"
+    TOKEN_URL="https://graph.facebook.com/oauth/access_token"
+
+    def __init__(self):
+        OAuthAccount.__init__(self, None, "248577781948157", "a5abf06a362c8f0fa4cf5da339906185",
+                              self.AUTH_URL, self.TOKEN_URL,
+                              scope='email,user_about_me,user_activities, user_birthday, user_education_history, user_groups, user_hometown, user_interests, user_likes, user_location, user_relationships, user_relationship_details, user_religion_politics, user_subscriptions, user_work_history, user_photos, user_status, user_videos, publish_actions, friends_hometown, friends_location,friends_photos',
+                              state="auth_provider=facebook",
+                              display='popup')
+        self.graph = None
+
+
+
+## use the above class to build a new login form
+auth.settings.login_form=FaceBookAccount()
+
+
 
 def test_jquery():
     return dict()
@@ -37,6 +64,8 @@ def index():
     return auth.wiki()
     """
     #redirect(URL(r = request, f= 'blog', args = 3))
+    user = auth.user
+    print user
     return dict()
 
 def post_question():
