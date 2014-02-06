@@ -43,7 +43,9 @@ auth_table = db.define_table(
     auth.settings.table_user_name,
     Field('first_name', length=128, default=""),
     Field('last_name', length=128, default=""),
-    Field('username', length=128, default="", unique=True),
+    #Field('username', length=128, default="", unique=True),
+    Field('email', length=128, default='', unique=True),
+    Field('username', length=128, default=""),
     Field('password', 'password', length=256,
           readable=False, label='Password'),
     Field('registration_key', length=128, default= "",
@@ -65,7 +67,6 @@ crud.settings.auth = None                      # =auth to enforce authorization 
 ## use fb auth
 ## for facebook "graphbook" application
 ################################################################################
-
 db.define_table('article_tag',
     Field('name', 'string')
     )
@@ -76,8 +77,6 @@ db.define_table('question_tbl',
     Field('article_introduction', 'text'),
     Field('story', 'text'),
     Field('writer', 'reference auth_user'))
-
-
 
 db.define_table('tag_tbl',
     Field('question_info',db.question_tbl),
@@ -99,6 +98,8 @@ db.define_table('pic_store',
     Field('pic','upload')
     )
 
+
+
 import sys, os
 path = os.path.join(request.folder, 'modules')
 if not path in sys.path:
@@ -113,7 +114,7 @@ class FaceBookAccount(OAuthAccount):
 
     def __init__(self, g):
 
-
+        #import pdb;pdb.set_trace()
         OAuthAccount.__init__(self, g, "248577781948157", "a5abf06a362c8f0fa4cf5da339906185",
                               self.AUTH_URL, self.TOKEN_URL,
                               scope='user_photos,friends_photos')
@@ -123,10 +124,11 @@ class FaceBookAccount(OAuthAccount):
     def get_user(self):
         '''Returns the user using the Graph API.
         '''
-
+        #import pdb;pdb.set_trace()
         if not self.accessToken():
             print' return none'
             return None
+
         if not self.graph:
             self.graph = GraphAPI((self.accessToken()))
 
@@ -139,8 +141,15 @@ class FaceBookAccount(OAuthAccount):
 
 
         if user:
+
+            first_name = user['first_name']
+            last_name = user['last_name']
+            username = user['id']
+            email = user['email']
+
             return dict(first_name = user['first_name'],
                         last_name = user['last_name'],
+                        email    = user['email'],
                         username = user['id'])
 
 
