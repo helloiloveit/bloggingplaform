@@ -33,6 +33,21 @@ def test_tinyMCE():
 def test_facebook():
     return dict()
 
+def month_selector():
+    if not request.vars.month: return ''
+    months = ['January', 'February', 'March', 'April', 'May',
+              'June', 'July', 'August', 'September' ,'October',
+              'November', 'December']
+    month_start = request.vars.month.capitalize()
+    selected = [m for m in months if m.startswith(month_start)]
+    return DIV(*[DIV(k,
+                     _onclick="jQuery('#month').val('%s')" % k,
+                     _onmouseover="this.style.backgroundColor='yellow'",
+                     _onmouseout="this.style.backgroundColor='white'"
+                     ) for k in selected])
+
+
+
 def user():
     return dict(form = auth())
 
@@ -250,10 +265,15 @@ def get_article_id(name):
 
 @auth.requires_login()
 def post():
-    article_tag_list = db(db.article_tag).select()
-    log.info("article_tag = %s", article_tag_list)
+    log.info("request.vars = %s",request.vars)
 
-    return dict(article_tag_list =article_tag_list )
+    return dict(article_tag_list ="" )
+
+
+@auth.requires_login()
+def post_tag():
+    data_group = [{'type':'now',"data":""},{'type':'future',"data":""}]
+    return json.dumps(data_group)
 
 
 @auth.requires_login()
