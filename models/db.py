@@ -67,10 +67,11 @@ crud.settings.auth = None                      # =auth to enforce authorization 
 ## use fb auth
 ## for facebook "graphbook" application
 ################################################################################
+
+#tag info
 db.define_table('article_tag',
     Field('name', 'string')
     )
-
 
 db.define_table('question_tbl',
     Field('article_header', 'text'),
@@ -78,11 +79,14 @@ db.define_table('question_tbl',
     Field('story', 'text'),
     Field('writer', 'reference auth_user'))
 
+#store tag of a given question
 db.define_table('tag_tbl',
     Field('question_info',db.question_tbl),
     Field('tag_info', db.article_tag))
 
 
+
+# store infor of followed table
 db.define_table('follow_tbl',
     Field('blog_info',db.question_tbl),
     Field('user_info', 'reference auth_user'))

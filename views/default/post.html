@@ -13,16 +13,17 @@
   <div id="mainContent">
     <h1>  </h1>
     <form>
-        <input type="text" id="month" name="month" style="width: 250px" /><br />
-         <div style="position: absolute;" id="suggestions" class="suggestions"></div>
+        <input type="text" id="month" name="tag_info" style="width: 250px" />
          <button id ="submit1" type="button" >Click Me!</button>
+        <br />
+         <div style="position: absolute;" id="suggestions" class="suggestions"></div>
     </form>
+      <div id="target"></div>
     <script>
         jQuery("#month").keyup(function(){
-      ajax('month_selector', ['month'], 'suggestions')});
+      ajax('month_selector', ['tag_info'], 'suggestions')});
      $('#submit1').click(function () {
-        alert('Submit 1 clicked');
-        ajax('post_tag', ['month'], '');
+        ajax('post_tag', ['tag_info'], ':eval');
     });
     </script>
     <form action="post_article" method="post">

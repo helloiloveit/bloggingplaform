@@ -34,11 +34,11 @@ def test_facebook():
     return dict()
 
 def month_selector():
-    if not request.vars.month: return ''
+    if not request.vars.tag_info: return ''
     months = ['January', 'February', 'March', 'April', 'May',
               'June', 'July', 'August', 'September' ,'October',
               'November', 'December']
-    month_start = request.vars.month.capitalize()
+    month_start = request.vars.tag_info.capitalize()
     selected = [m for m in months if m.startswith(month_start)]
     return DIV(*[DIV(k,
                      _onclick="jQuery('#month').val('%s')" % k,
@@ -266,14 +266,18 @@ def get_article_id(name):
 @auth.requires_login()
 def post():
     log.info("request.vars = %s",request.vars)
-
+    session.tag_list_store = []
     return dict(article_tag_list ="" )
 
 
 @auth.requires_login()
 def post_tag():
-    data_group = [{'type':'now',"data":""},{'type':'future',"data":""}]
-    return json.dumps(data_group)
+    log.info("post_tag")
+    log.info("request.vars = %s",request.vars.tag_info)
+    session.tag_list_store.append(request.vars.tag_info)
+    log.info("session.tag list = %s", session.tag_list_store)
+    #return json.dumps(request.vars.tag_info)
+    return "var x=$('#target'); x.html(x.html()+' %s');" % request.vars.tag_info.replace("'","\\'")
 
 
 @auth.requires_login()
