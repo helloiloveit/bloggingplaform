@@ -11,6 +11,7 @@
 
 import json
 import logging
+from database_handler import *
 
 log = logging.getLogger("h")
 log.setLevel(logging.DEBUG)
@@ -174,7 +175,7 @@ def delete_article():
         redirect(URL(r = request, f= 'article', args = [request.args[0]]))
     return dict()
 
-def article_list():
+def question_list():
     items= []
 
     try:
@@ -204,66 +205,10 @@ def get_header(text):
     return header_text
 
 
-def post_article_class():
-    log.info("request.vars = %s",request.vars.article_class)
-    article_classes = request.vars.article_class
-    article_class_list = db(db.article_class).select()
-    log.info("article = %s ",article_class_list )
-
-
-    result= ""
-    if len(article_classes):
-        for item in article_classes:
-            log.info("item = %s", item)
-            try:
-                db(db.article_class.id == article_class_list[article_classes.index(item)].id).update(name=item)
-            except:
-                log.error("database error")
-                result = "failure"
-    else:
-        log.error("no infor about article class")
-
-    result = "update article class successfully"
-
-    return dict(result = result)
 
 
 
-
-def article_class():
-    """
-        Create, change , update article_class
-    """
-    article_class_list = db(db.article_class).select()
-    log.info("article_class = %s", article_class_list.__doc__ )
-
-    if len(article_class_list) > 0:
-            log.info(" article class is existed..display it")
-    else:
-        log.info("create database:w")
-        #create database
-        db.article_class.insert(name ="")
-        db.article_class.insert(name ="")
-        db.article_class.insert(name ="")
-        db.article_class.insert(name ="")
-
-    article_class_list = db(db.article_class).select()
-    log.info("article_class = %s", article_class_list )
-    return dict(article_class_list = article_class_list)
-
-def get_article_id(name):
-    """
-    return id
-    """
-    article_class_list = db(db.article_tag).select()
-    log.info("article_class = %s", article_class_list)
-    for item in article_class_list:
-        if item.name == name:
-            return item.id
-    return False;
-
-
-@auth.requires_login()
+#@auth.requires_login()
 def post():
     log.info("request.vars = %s",request.vars)
     session.tag_list_store = []
@@ -281,45 +226,54 @@ def post_tag():
 
 
 @auth.requires_login()
-def post_article():
+def post_question():
     log.info("post")
     log.info("request.vars = %s",request.vars)
-    article_class = request.vars.article_class
-    header_text = request.vars.article_header
 
-    content_text = request.vars.editor1
-
-    log.info("session.user = %s", auth.user)
-    log.info("header_text = %s", header_text)
-    log.info("auth.user.id = %s", auth.user.id)
-
-
-    articleId = get_article_id(article_class)
-
-    if articleId == False:
-        log.error('cant get article id')
-    """
-    question_tbl_list= db(db.question_tbl).select()
-    log.info("question_tbl_list = %s", question_tbl_list)
-    """
-    question_id =""
-
-    try:
-        question_id = db.question_tbl.insert(story = content_text,
-                                article_header = header_text,
-                                writer = auth.user.id)
-        log.info('successfully create a question_tbl')
-
-
-    except:
-        log.error('cant create question_tbl')
-    try:
-        tag_id = db.tag_tbl.insert(tag_info = articleId,
-                            question_info = id_temp)
-    except:
-        log.error('cant create tag for question')
-    redirect(URL(r = request, f= 'article', args = question_id))
+    question_id = post_new_question(request, auth)
+    if question_id:
+        redirect(URL(r = request, f= 'article', args = question_id))
     return dict()
+
+
+@auth.requires_login()
+def user_delete_question():
+    delete_a_question(request)
+    return dict()
+@auth.requires_login()
+def user_modify_question():
+    update_a_question(request)
+    return dict()
+
+
+####### answer ######
+@auth.requires_login()
+def user_post_new_answer():
+    create_new_answer(request, auth)
+    return dict()
+
+@auth.requires_login()
+def user_update_an_answer():
+    update_an_answer(request)
+    return dict()
+@auth.requires_login()
+def user_del_an_answer():
+    del_an_answer(request)
+    return dict()
+
+
+##############################
+@auth.requires_login()
+def user_like_a_question():
+    like_a_question(request, auth)
+    return dict()
+
+@auth.requires_login()
+def user_unlike_a_question():
+    unlike_a_question(request, auth)
+    return dict()
+
+
 
 
 

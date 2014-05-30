@@ -28,6 +28,7 @@ else:                                         # else use a normal relational dat
 #########################################################################
 
 from gluon.tools import *
+from gluon import current
 mail = Mail()                                  # mailer
 auth = Auth(globals(),db)                      # authentication/authorization
 crud = Crud(globals(),db)                      # for CRUD helpers using auth
@@ -68,40 +69,58 @@ crud.settings.auth = None                      # =auth to enforce authorization 
 ## for facebook "graphbook" application
 ################################################################################
 
-#tag info
-db.define_table('article_tag',
-    Field('name', 'string')
-    )
+current.db = db
+current.auth = auth
 
 db.define_table('question_tbl',
-    Field('article_header', 'text'),
-    Field('article_introduction', 'text'),
-    Field('story', 'text'),
+    Field('question_info', 'text'),
+    Field('question_detail_info', 'text'),
     Field('writer', 'reference auth_user'))
+
+db.define_table('question_like_tbl',
+    Field('question_id', db.question_tbl),
+    Field('user_info','reference auth_user')
+    )
+db.define_table('question_follow_tbl',
+    Field('question_id', db.question_tbl),
+    Field('user_info','reference auth_user')
+)
+db.define_table('question_report_tbl',
+    Field('question_id', db.question_tbl),
+    Field('user_info','reference auth_user')
+)
+
+
 
 #store tag of a given question
 db.define_table('tag_tbl',
+                Field('name', 'string')
+)
+db.define_table('question_tag_tbl',
     Field('question_info',db.question_tbl),
-    Field('tag_info', db.article_tag))
+    Field('tag_info', db.tag_tbl))
 
 
 
-# store infor of followed table
-db.define_table('follow_tbl',
-    Field('blog_info',db.question_tbl),
-    Field('user_info', 'reference auth_user'))
-
-db.define_table('comment_tbl',
-    Field('comment_info', 'text'),
-    Field('question_info',db.question_tbl),
+# answer tables
+db.define_table('answer_tbl',
+    Field('answer_info', 'text'),
+    Field('question_id',db.question_tbl),
     Field('author_info', 'reference auth_user'))
 
+db.define_table('answer_like_tbl',
+    Field('answer_id', db.answer_tbl),
+    Field('user_info','reference auth_user'))
+
+db.define_table('answer_report_tbl',
+    Field('answer_id', db.answer_tbl),
+    Field('user_info', 'reference auth_user'))
 
 
-db.define_table('pic_store',
-    Field('pic','upload')
-    )
-
+# follower feature
+db.define_table('follower',
+    Field('user_info', 'reference auth_user'),
+    Field('follower', 'reference auth_user'))
 
 
 import sys, os
