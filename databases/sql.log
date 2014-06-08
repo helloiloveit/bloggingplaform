@@ -1,28 +1,29 @@
-timestamp: 2014-01-22T14:48:55.625049
+timestamp: 2014-06-02T20:49:46.907756
 CREATE TABLE auth_user(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name CHAR(128),
     last_name CHAR(128),
-    username CHAR(128) UNIQUE,
+    email CHAR(128),
+    username CHAR(128),
     password CHAR(256),
     registration_key CHAR(128)
 );
 success!
-timestamp: 2014-01-22T14:48:55.627935
+timestamp: 2014-06-02T20:49:46.914884
 CREATE TABLE auth_group(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role CHAR(512),
     description TEXT
 );
 success!
-timestamp: 2014-01-22T14:48:55.630093
+timestamp: 2014-06-02T20:49:46.917605
 CREATE TABLE auth_membership(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-01-22T14:48:55.633195
+timestamp: 2014-06-02T20:49:46.920538
 CREATE TABLE auth_permission(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE,
@@ -31,7 +32,7 @@ CREATE TABLE auth_permission(
     record_id INTEGER
 );
 success!
-timestamp: 2014-01-22T14:48:55.635670
+timestamp: 2014-06-02T20:49:46.923679
 CREATE TABLE auth_event(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp TIMESTAMP,
@@ -41,7 +42,7 @@ CREATE TABLE auth_event(
     description TEXT
 );
 success!
-timestamp: 2014-01-22T14:48:55.637775
+timestamp: 2014-06-02T20:49:46.926280
 CREATE TABLE auth_cas(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
@@ -51,46 +52,74 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
-timestamp: 2014-01-22T14:48:55.640076
-CREATE TABLE article_tag(
+timestamp: 2014-06-02T20:49:46.929159
+CREATE TABLE question_tbl(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    question_info TEXT,
+    question_detail_info TEXT,
+    writer INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2014-06-02T20:49:46.932448
+CREATE TABLE question_like_tbl(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    question_id INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
+    user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2014-06-02T20:49:46.935896
+CREATE TABLE question_follow_tbl(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    question_id INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
+    user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2014-06-02T20:49:46.954941
+CREATE TABLE question_report_tbl(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    question_id INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
+    user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2014-06-02T20:49:46.959098
+CREATE TABLE tag_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(512)
 );
 success!
-timestamp: 2014-01-22T14:48:55.642207
-CREATE TABLE question_tbl(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    article_header TEXT,
-    article_introduction TEXT,
-    story TEXT,
-    writer INTEGER REFERENCES table_user_name (id) ON DELETE CASCADE
-);
-success!
-timestamp: 2014-01-22T14:48:55.644220
-CREATE TABLE tag_tbl(
+timestamp: 2014-06-02T20:49:46.963294
+CREATE TABLE question_tag_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_info INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
-    tag_info INTEGER REFERENCES article_tag (id) ON DELETE CASCADE
+    tag_info INTEGER REFERENCES tag_tbl (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-01-22T14:48:55.669935
-CREATE TABLE follow_tbl(
+timestamp: 2014-06-02T20:49:46.967534
+CREATE TABLE answer_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    blog_info INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
-    user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
-);
-success!
-timestamp: 2014-01-22T14:48:55.671975
-CREATE TABLE comment_tbl(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    comment_info TEXT,
-    question_info INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
+    answer_info TEXT,
+    question_id INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
     author_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-01-22T14:48:55.688439
-CREATE TABLE pic_store(
+timestamp: 2014-06-02T20:49:46.971329
+CREATE TABLE answer_like_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    pic CHAR(512)
+    answer_id INTEGER REFERENCES answer_tbl (id) ON DELETE CASCADE,
+    user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2014-06-02T20:49:46.974773
+CREATE TABLE answer_report_tbl(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    answer_id INTEGER REFERENCES answer_tbl (id) ON DELETE CASCADE,
+    user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2014-06-02T20:49:46.977875
+CREATE TABLE follower(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    follower INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!

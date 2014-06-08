@@ -180,19 +180,9 @@ def question_list():
 
     try:
         items = db(db.question_tbl).select()
-
     except:
         log.error('cant query data from db')
 
-    for item in items:
-        log.info('items = %s',item)
-        comment_count = db(db.comment_tbl.id == item.id).select()
-        log.info('comment_count = %d', len(comment_count))
-        tag_list = db(db.tag_tbl.question_info ==item.id).select()
-        log.info('tag_list = %d', len(tag_list))
-        for tag in tag_list:
-            tag_name = db(db.article_tag.id == tag.tag_info).select()[0]
-            log.info('tag_name = %s', tag_name)
     return dict(items= items)
 
 def get_header(text):

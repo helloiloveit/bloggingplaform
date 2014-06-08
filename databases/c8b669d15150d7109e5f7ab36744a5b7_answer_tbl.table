@@ -1,43 +1,43 @@
 (dp1
-S'writer'
+S'answer_info'
 p2
 (dp3
 S'length'
 p4
-I512
+I32768
 sS'unique'
 p5
 I00
 sS'sortable'
 p6
-I4
+I2
 sS'sql'
 p7
-S'INTEGER REFERENCES auth_user (id) ON DELETE CASCADE'
+S'TEXT'
 p8
 sS'notnull'
 p9
 I00
 sS'type'
 p10
-S'reference auth_user'
+S'text'
 p11
-ssS'question_detail_info'
+ssS'author_info'
 p12
 (dp13
 g4
-I32768
+I512
 sg5
 I00
 sg6
-I3
+I4
 sg7
-S'TEXT'
+S'INTEGER REFERENCES auth_user (id) ON DELETE CASCADE'
 p14
 sg9
 I00
 sg10
-S'text'
+S'reference auth_user'
 p15
 ssS'id'
 p16
@@ -55,20 +55,21 @@ sg9
 I00
 sg10
 g16
-ssS'question_info'
+ssS'question_id'
 p19
 (dp20
 g4
-I32768
+I512
 sg5
 I00
 sg6
-I2
+I3
 sg7
-S'TEXT'
+S'INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE'
 p21
 sg9
 I00
 sg10
-g15
+S'reference question_tbl'
+p22
 ss.

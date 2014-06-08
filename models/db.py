@@ -45,7 +45,7 @@ auth_table = db.define_table(
     Field('first_name', length=128, default=""),
     Field('last_name', length=128, default=""),
     #Field('username', length=128, default="", unique=True),
-    Field('email', length=128, default='', unique=True),
+    Field('email', length=128, default=''),
     Field('username', length=128, default=""),
     Field('password', 'password', length=256,
           readable=False, label='Password'),
@@ -138,7 +138,7 @@ class FaceBookAccount(OAuthAccount):
     def __init__(self, g):
 
         #import pdb;pdb.set_trace()
-        OAuthAccount.__init__(self, g, "248577781948157", "a5abf06a362c8f0fa4cf5da339906185",
+        OAuthAccount.__init__(self, g, "228859397308903", "650209bd438e288908309751aae01b5d",
                               self.AUTH_URL, self.TOKEN_URL,
                               scope='user_photos,friends_photos')
         self.graph = None
@@ -168,11 +168,11 @@ class FaceBookAccount(OAuthAccount):
             first_name = user['first_name']
             last_name = user['last_name']
             username = user['id']
-            email = user['email']
+            #email = user['email']
 
             return dict(first_name = user['first_name'],
                         last_name = user['last_name'],
-                        email    = user['email'],
+                        #email    = user['email'],
                         username = user['id'])
 
 

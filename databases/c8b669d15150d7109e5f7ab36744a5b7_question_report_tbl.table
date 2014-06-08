@@ -1,5 +1,5 @@
 (dp1
-S'writer'
+S'user_info'
 p2
 (dp3
 S'length'
@@ -10,7 +10,7 @@ p5
 I00
 sS'sortable'
 p6
-I4
+I3
 sS'sql'
 p7
 S'INTEGER REFERENCES auth_user (id) ON DELETE CASCADE'
@@ -22,26 +22,9 @@ sS'type'
 p10
 S'reference auth_user'
 p11
-ssS'question_detail_info'
+ssS'id'
 p12
 (dp13
-g4
-I32768
-sg5
-I00
-sg6
-I3
-sg7
-S'TEXT'
-p14
-sg9
-I00
-sg10
-S'text'
-p15
-ssS'id'
-p16
-(dp17
 g4
 I512
 sg5
@@ -50,25 +33,26 @@ sg6
 I1
 sg7
 S'INTEGER PRIMARY KEY AUTOINCREMENT'
-p18
+p14
 sg9
 I00
 sg10
-g16
-ssS'question_info'
-p19
-(dp20
+g12
+ssS'question_id'
+p15
+(dp16
 g4
-I32768
+I512
 sg5
 I00
 sg6
 I2
 sg7
-S'TEXT'
-p21
+S'INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE'
+p17
 sg9
 I00
 sg10
-g15
+S'reference question_tbl'
+p18
 ss.
