@@ -123,3 +123,228 @@ CREATE TABLE follower(
     follower INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!

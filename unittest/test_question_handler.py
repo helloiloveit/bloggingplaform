@@ -1,22 +1,10 @@
 __author__ = 'huyheo'
-import unittest
-import gluon
 
-from gluon.globals import Request
+import os
+file_path = os.path.join(os.getcwd(),'applications','welcome','unittest','setup_test.py')
+execfile(file_path, globals())
 
 
-execfile("/home/huyheo/Documents/web2py_share/applications/welcome/models/db.py", globals())
-execfile("/home/huyheo/Documents/web2py_share/applications/welcome/controllers/default.py", globals())
-def set_up_basic_environment():
-    env = dict()
-    request = Request(env)
-    #set up user
-    db.auth_user.truncate()
-    db.question_tbl.truncate()
-    db.commit()
-    user_id =  db.auth_user.insert(first_name = 'first_user', email = 'first_user_email@gmail.com')
-    user_record = db(db.auth_user.id == user_id).select()[0]
-    auth.user = user_record
 
 class TestQuestionHandling(unittest.TestCase):
     def setUp(self):
@@ -57,18 +45,18 @@ class TestQuestionHandling(unittest.TestCase):
         self.assertEqual(question_record.question_info , question)
         self.assertEqual(question_record.question_detail_info , question_detail_info)
 
-
-
     def testDeleteAQuestion(self):
         #create a question in db
         question_id = self._create_a_question()
         #delete that question
-        request.vars.question_id = question_id
+        request.args[0] = question_id
         user_delete_question()
         #query that question
         question = db(db.question_tbl.id == question_id).select()
         with self.assertRaises(IndexError):
             question[0]
+
+
 
 class TestQuestionRattingHandler(unittest.TestCase):
     def setUp(self):

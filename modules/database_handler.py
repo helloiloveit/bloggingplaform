@@ -18,16 +18,22 @@ def post_new_question(request, auth):
     question_id = question_handler_obj.create_new_record_in_question_tbl()
     return question_id
 def delete_a_question(request):
-    question_id = request.vars.question_id
+    question_id = request.args[0]
     question_handler_obj = question_handler(question_id, None,None, None)
     question_handler_obj.delete_record_in_question_tbl()
     return
 
 def update_a_question(request):
-    question_id = request.vars.question_id
-    question_handler_obj = question_handler(question_id, request.vars.question_info, request.vars.editor1,None)
+    question_id = request.args[0]
+    import pdb; pdb.set_trace()
+    question_handler_obj = question_handler(question_id, request.vars.question_info, request.vars.question_detail_info,None)
     question_handler_obj.update_to_question_tbl()
     return
+
+
+
+
+
 def like_a_question(request, auth):
     question_id = request.vars.question_id
     question_handler_obj = question_handler(question_id, None, None, None)
@@ -108,7 +114,7 @@ class question_handler(object):
         except:
             log.error('cant update db')
             return DB_FAILED
-        return DB
+        return DB_FAILED
 
     def report_a_question(self, audience):
         db  = self.db

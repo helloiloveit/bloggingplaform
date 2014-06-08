@@ -1,23 +1,8 @@
 __author__ = 'huyheo'
-import unittest
-import gluon
 
-from gluon.globals import Request
-
-
-execfile("/home/huyheo/Documents/web2py_share/applications/welcome/models/db.py", globals())
-execfile("/home/huyheo/Documents/web2py_share/applications/welcome/controllers/default.py", globals())
-def set_up_basic_environment():
-    env = dict()
-    request = Request(env)
-    #set up user
-    db(db.auth_user.id >0).delete()
-    db.question_tbl.truncate()
-    db.commit()
-    user_id =  db.auth_user.insert(first_name = 'lala')
-    user_record = db(db.auth_user.id == user_id).select()[0]
-    auth.user = user_record
-
+import os
+file_path = os.path.join(os.getcwd(),'applications','welcome','unittest','setup_test.py')
+execfile(file_path, globals())
 
 
 class TestAnswerHandling(unittest.TestCase):

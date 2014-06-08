@@ -12,6 +12,7 @@
 import json
 import logging
 from database_handler import *
+from tag_handler import *
 
 log = logging.getLogger("h")
 log.setLevel(logging.DEBUG)
@@ -34,13 +35,12 @@ def test_tinyMCE():
 def test_facebook():
     return dict()
 
-def month_selector():
+def tag_handler():
     if not request.vars.tag_info: return ''
-    months = ['January', 'February', 'March', 'April', 'May',
-              'June', 'July', 'August', 'September' ,'October',
-              'November', 'December']
-    month_start = request.vars.tag_info.capitalize()
-    selected = [m for m in months if m.startswith(month_start)]
+    tag_list = question_tag_handler().search_for_related_tag_in_tbl()
+    tag_info = request.vars.tag_info.capitalize()
+    handle_tag_in_tag_tbl(tag_info)
+    selected = [m for m in tag_list if m.name.startswith(tag_info)]
     return DIV(*[DIV(k,
                      _onclick="jQuery('#month').val('%s')" % k,
                      _onmouseover="this.style.backgroundColor='yellow'",
@@ -65,125 +65,81 @@ def index():
     print user
     return dict()
 
-def post_question():
-    data_group = [{'type':'now',"data":""},{'type':'future',"data":""}]
-    return json.dumps(data_group)
 
-
-
-
-def article():
+def question():
     """
     Display blog by id
     """
-    log.info("request.vars = %s", request.args[0])
-    log.info("request.vars = %s",request.vars)
-
-
-
-    if request.args[0] == 'post_comment':
-        log.info('post a comment')
-        post_comment(request.vars.questionId, request.vars.editor1, auth.user.id)
-        redirect(URL(r = request, f= 'article', args = request.vars.questionId))
-
-    else:
-        log.info('show article with comment')
-        log.info('id = %s', request.args[0])
-
+    if request.env.REQUEST_METHOD == 'POST':
+        create_new_answer(request, auth)
+        redirect(URL(r = request, f= 'question', args = request.vars.question_id))
+    elif request.env.REQUEST_METHOD == 'GET':
+        question = None
+        answer_list = []
         try:
             question = db(db.question_tbl.id == int(request.args[0])).select()[0]
+            try:
+                answer_list = db(db.answer_tbl.question_id == question.id).select()
+            except:
+                log.error('cant query answer db')
         except:
-            log.error('cant query a blog from db')
+            log.error('cant query a question from db')
             question = None
-        comment_list = show_question(request.args[0])
+        return dict(item = question, comment_list = answer_list)
 
-        return dict(item = question, comment_list = comment_list)
-
-
-def show_question(question_id):
-
-    comment_list = db(db.comment_tbl.question_info == question_id).select()
-    return  comment_list
-
-
-def post_comment(question_id, comment_info, user_id):
-    log.info("post_comment")
-
-    log.info("session.user = %s", auth.user)
-    log.info("auth.user.id = %s", user_id)
-
-
-
-    try:
-        comment_id = db.comment_tbl.insert(comment_info = comment_info,
-                                question_info = question_id,
-                                author_info = user_id
-                                )
-        log.info('successfully create a comment_tbl')
-
-
-    except:
-        log.error('cant create comment_tbl')
-
-
-@auth.requires_login()
-def edit_article():
+#@auth.requires_login()
+def edit_question():
     """
     Edit blog
     """
-    log.info("edit artchile")
-    log.info("request.vars 0= %s", request.args[0])
-    log.info("request.vars = %s", request.args)
-    id_info = request.args[0]
+    log.info("edit question")
+    import pdb; pdb.set_trace()
+    if request.env.REQUEST_METHOD == 'GET':
+        question = db(db.question_tbl.id == request.args[0]).select()[0]
+        return dict(question = question , article_class_list = [])
+    elif request.env.REQUEST_METHOD == 'POST':
+        update_a_question(request)
+        redirect(URL(r = request, f= 'question', args = [request.args[0]]))
 
-    article_class_list = db(db.article_tag).select()
-    log.info("article_class = %s", article_class_list)
-
-    try:
-        blog_item = db(db.blog.id == int(id_info)).select()[0]
-    except:
-        log.error('cant query a blog from db')
-        blog_item = None
-
-
-
-    if request.vars.editor1:
-        article_id = get_article_id(request.vars.article_class)
-        log.info("article-id = %s", article_id)
-        id =db(db.blog.id == int(request.args[0])).update(
-            article_type = article_id,
-            article_header = request.vars.article_header,
-            article_introduction = request.vars.article_introduction,
-            story = request.vars.editor1
-        )
-        redirect(URL(r = request, f= 'article', args = [request.args[0]]))
-
-    log.info("blog_item = %s",blog_item)
-    return dict(article = blog_item, article_class_list = article_class_list)
-
-        
-def delete_article():
-    selection = request.vars
-    log.info('selection = %s', selection['selection'])
-    log.info('id = %s', request.args[0])
-    id_info = request.args[0]
-    if selection['selection'] == "YES":
-        log.info("delete post")
-        db(db.question_tbl.id == int(request.args[0])).delete()
-        redirect(URL(r = request, f= 'article_list'))
-    elif selection['selection'] == "NO":
-        redirect(URL(r = request, f= 'article', args = [request.args[0]]))
     return dict()
 
+        
+def delete_question():
+    selection = request.vars
+    if selection['selection'] == "YES":
+        delete_a_question(request)
+        redirect(URL(r = request, f= 'question_list'))
+    elif selection['selection'] == "NO":
+        redirect(URL(r = request, f= 'question', args = [request.args[0]]))
+    return dict()
+
+
+def create_data_for_question_list_for_test():
+    user_id =  db.auth_user.insert(first_name = 'first_user', email = 'first_user_email@gmail.com')
+    auth.user = db(db.auth_user.id == user_id).select()[0]
+    for i in range(1,10,1):
+        question = "this is a new question " + str(i)
+        question_detail_info = "detail of question " + str(i)
+        question_id = question_handler(None,question, question_detail_info, user_id).create_new_record_in_question_tbl()
+
 def question_list():
+    """
+    test data
+    """
+    question_list = db(db.question_tbl).select()
+    if not len(question_list):
+        create_data_for_question_list_for_test()
+    """
+    end test data
+    """
     items= []
 
     try:
         items = db(db.question_tbl).select()
+
     except:
         log.error('cant query data from db')
-
-    return dict(items= items)
+    return dict(items= items, audience_id = '1')
 
 def get_header(text):
     """
@@ -207,8 +163,6 @@ def post():
 
 @auth.requires_login()
 def post_tag():
-    log.info("post_tag")
-    log.info("request.vars = %s",request.vars.tag_info)
     session.tag_list_store.append(request.vars.tag_info)
     log.info("session.tag list = %s", session.tag_list_store)
     #return json.dumps(request.vars.tag_info)
@@ -227,20 +181,12 @@ def post_question():
 
 
 @auth.requires_login()
-def user_delete_question():
-    delete_a_question(request)
-    return dict()
-@auth.requires_login()
 def user_modify_question():
     update_a_question(request)
     return dict()
 
 
 ####### answer ######
-@auth.requires_login()
-def user_post_new_answer():
-    create_new_answer(request, auth)
-    return dict()
 
 @auth.requires_login()
 def user_update_an_answer():
@@ -254,12 +200,12 @@ def user_del_an_answer():
 
 ##############################
 @auth.requires_login()
-def user_like_a_question():
+def like_a_question():
     like_a_question(request, auth)
     return dict()
 
 @auth.requires_login()
-def user_unlike_a_question():
+def unlike_a_question():
     unlike_a_question(request, auth)
     return dict()
 

@@ -21,7 +21,7 @@
       <div id="target"></div>
     <script>
         jQuery("#month").keyup(function(){
-      ajax('month_selector', ['tag_info'], 'suggestions')});
+      ajax('tag_handler', ['tag_info'], 'suggestions')});
      $('#submit1').click(function () {
         ajax('post_tag', ['tag_info'], ':eval');
     });

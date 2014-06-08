@@ -9,27 +9,22 @@
             <table  >
             <tr class="article_tag">
                <td>
-                   {{tag_list = db(db.tag_tbl.question_info ==item.id).select()}}
-
-                   {{for tag in tag_list:}}
-                   {{= db(db.article_tag.id == tag.tag_info).select()[0].name}}
-                   {{pass}}
 
                </td>
            </tr>
            <tr class="article_header">
                <td>
-                   {{=A(XML(item.article_header),_href=URL(r=request,f='article',args=[item.id]))}}
+                   {{=A(XML(item.question_info),_href=URL(r=request,f='article',args=[item.id]))}}
                </td>
            </tr>
           <tr class="article_introduction">
               <td>
-                {{=XML(item.story)}}
+                {{=XML(item.question_detail_info)}}
               </td>
           </tr>
           <tr class="article_popularity_info">
               <td >
-                  {{=len(db(db.comment_tbl.id == item.id).select())}} quan diem {{=len(db(db.follow_tbl.id == item.id).select())}} quan tam
+                  {{=len(comment_list)}} quan diem  quan tam
                  </td>
 
           </tr>
@@ -41,12 +36,12 @@
 
 
 
-     <input id="inputCommentButton" name="questionId" value = "nhap comment here">
+     <input id="inputCommentButton" name="question_id" value = "nhap comment here">
 
 
     <form id="realEditor"  action="post_comment" method="post">
         <p>
-           <input type="hidden" name="questionId" value = {{=item.id}}>
+           <input type="hidden" name="question_id" value = {{=item.id}}>
         </p>
         <!--
         <p>
@@ -56,7 +51,7 @@
         </p>
         -->
 
-                <textarea  id="editor1" name="editor1" rows="10" >
+                <textarea  id="editor1" name="answer_info" rows="10" >
 
             </textarea>
 
@@ -79,7 +74,7 @@
            </tr>
             <tr class="comment_info">
                  <td>
-                {{=XML(comment.comment_info)}}
+                {{=XML(comment.answer_info)}}
                </td>
            </tr>
           <tr class="article_popularity_info">
@@ -97,7 +92,7 @@
 
 
     <div>
-      {{=A("edit",_href=URL(r=request,f='edit_article',args=[item.id]))}}
+      {{=A("edit",_href=URL(r=request,f='edit_question',args=[item.id]))}}
     </div>
 
     <div>

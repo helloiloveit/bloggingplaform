@@ -26,28 +26,29 @@
             <table class = "content_list_table"  >
             <tr class="article_field">
                <td>
-                   {{        tag_list = db(db.tag_tbl.question_info ==item.id).select()}}
-
-                   {{for tag in tag_list:}}
-                   {{= db(db.article_tag.id == tag.tag_info).select()[0].name}}
-                   {{pass}}
 
                </td>
            </tr>
            <tr class="article_header">
                <td>
-                   {{=A(XML(item.article_header),_href=URL(r=request,f='article',args=[item.id]))}}
+                   {{=A(XML(item.question_info),_href=URL(r=request,f='question',args=[item.id]))}}
                </td>
            </tr>
           <tr class="article_introduction">
               <td>
-                 <!-- {{=item.article_introduction}}-->
+                 {{=XML(item.question_detail_info)}}
                  <!-- <input type="text" name="article_introduction" value = "quan diem cua ban">-->
                  </td>
           </tr>
           <tr class="article_popularity_info">
               <td >
-                  {{=len(db(db.comment_tbl.id == item.id).select())}} quan diem {{=len(db(db.follow_tbl.id == item.id).select())}} quan tam
+                  {{=len(db(db.answer_tbl.id == item.id).select())}}
+                  {{like_record = db((db.question_like_tbl.question_id == item.id)&(db.question_like_tbl.user_info == audience_id )).select()}}
+                  {{if len(like_record):}}
+                    <button id ="un_like_button" value={{=item.id}} name="status"> unlike</button>
+                  {{else:}}
+                    <button id ="like_button" value={{=item.id}} name="status"> like</button>
+                  {{pass}}
                  </td>
 
           </tr>
@@ -65,6 +66,19 @@
     <p>xem thêm....</p>
   <!-- end #footer --></div>
 <!-- end #container --></div>
+     <script>
+     // click button
+     $('#like_button').click(function () {
+        alert("hello ");
+         var id = $(this).attr("value");
+        ajax('like_a_question?question_id='+ id, [''], 'like_button');
+        });
+     $('#un_like_button').click(function () {
+        alert("hello ");
+         var id = $(this).attr("value");
+        ajax('unlike_a_question?question_id='+ id, [''], 'un_like_button');
+        });
+      </script>
 {{end}}
 
 <!--

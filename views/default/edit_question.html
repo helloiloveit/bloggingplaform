@@ -21,17 +21,12 @@
         </select>
         </p>
          <p>
-           <input type="text" name="article_header" value = "{{=article.article_header}}">
+           <input type="text" name="question_info" value = "{{=question.question_info}}">
         </p>
         <p>
-           <input type="text" name="article_introduction" value = "{{=article.article_introduction}}">
-        </p>
-        <p>
-            <label for="editor1">
-               Sua lai blog
-            </label>
-            <textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">
-                {{=article.story}}
+           <!-- <textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">-->
+            <textarea  cols="80" id="editor1" name="question_detail_info" rows="10">
+                {{=question.question_detail_info}}
             </textarea>
         </p>
         <p>
