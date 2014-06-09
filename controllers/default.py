@@ -37,10 +37,10 @@ def test_facebook():
 
 def tag_handler():
     if not request.vars.tag_info: return ''
-    tag_list = question_tag_handler().search_for_related_tag_in_tbl()
+    tag_list = question_tag_handler().get_all_tag_info_from_db()
     tag_info = request.vars.tag_info.capitalize()
     handle_tag_in_tag_tbl(tag_info)
-    selected = [m for m in tag_list if m.name.startswith(tag_info)]
+    selected = [m for m in tag_list if m.startswith(tag_info)]
     return DIV(*[DIV(k,
                      _onclick="jQuery('#month').val('%s')" % k,
                      _onmouseover="this.style.backgroundColor='yellow'",
@@ -96,9 +96,10 @@ def edit_question():
     import pdb; pdb.set_trace()
     if request.env.REQUEST_METHOD == 'GET':
         question = db(db.question_tbl.id == request.args[0]).select()[0]
-        return dict(question = question , article_class_list = [])
+        tag_list = question_tag_handler().get_tag_list_of_a_question(request.args[0])
+        return dict(question = question , tag_list = tag_list)
     elif request.env.REQUEST_METHOD == 'POST':
-        update_a_question(request)
+        update_a_question(request, session.tag_list_store)
         redirect(URL(r = request, f= 'question', args = [request.args[0]]))
 
     return dict()
@@ -133,6 +134,7 @@ def question_list():
     end test data
     """
     items= []
+
 
     try:
         items = db(db.question_tbl).select()
@@ -173,16 +175,16 @@ def post_tag():
 def post_question():
     log.info("post")
     log.info("request.vars = %s",request.vars)
-
-    question_id = post_new_question(request, auth)
+    import pdb;pdb.set_trace()
+    question_id = post_new_question(request, auth, session)
     if question_id:
-        redirect(URL(r = request, f= 'article', args = question_id))
+        redirect(URL(r = request, f= 'question', args = question_id))
     return dict()
 
 
 @auth.requires_login()
 def user_modify_question():
-    update_a_question(request)
+    update_a_question(request, session.tag_list_store)
     return dict()
 
 
@@ -201,7 +203,7 @@ def user_del_an_answer():
 ##############################
 @auth.requires_login()
 def like_a_question():
-    like_a_question(request, auth)
+    user_like_a_question(request, auth)
     return dict()
 
 @auth.requires_login()

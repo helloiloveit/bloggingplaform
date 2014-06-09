@@ -1,3 +1,4 @@
 ../sessions/*
 ../databases/*
 ../errors/*
+../modules/*.pyc

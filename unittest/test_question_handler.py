@@ -1,3 +1,5 @@
+from applications.welcome.modules.database_handler import update_a_question, question_handler
+
 __author__ = 'huyheo'
 
 import os
@@ -6,51 +8,66 @@ execfile(file_path, globals())
 
 
 
+def create_a_question( question_info, question_detail_info, user_id, tag_list):
+        question_id = question_handler().create_new_record_in_question_tbl(question_info,
+                                                                       question_detail_info,
+                                                                       user_id,
+                                                                       tag_list)
+        return question_id
+
 class TestQuestionHandling(unittest.TestCase):
     def setUp(self):
         set_up_basic_environment()
+        self.question = "this is a new question"
+        self.question_detail_info = "more detail of this question"
+        self.tag_list = ['tag1','tag2','tag3']
 
-    def _add_value_of_question_to_request(self,question_id,question, question_detail_info):
-        request.vars.question_info = question
-        request.vars.editor1 = question_detail_info
+
+    def _add_value_of_question_to_request(self, question_id):
+        request.vars.question_info = self.question
+        request.vars.question_detail_info = self.question_detail_info
         if question_id:
             request.vars.question_id = question_id
-    @classmethod
+        session.tag_list_store = self.tag_list
+
     def _create_a_question(self):
-        question = "this is a new question"
-        question_detail_info = "more detail of this question"
-        question_id = question_handler(None,question, question_detail_info, auth.user.id).create_new_record_in_question_tbl()
+        self._add_value_of_question_to_request(None)
+        question_id = post_new_question(request, auth, session)
+
         return question_id
 
 
     def testPostNewQuestion(self):
         #set variable for the test
-        question = "this is a new question"
-        question_detail_info = "more detail of this question"
-        self._add_value_of_question_to_request(None,question,question_detail_info)
-        question_id = post_new_question(request, auth)
+        self._add_value_of_question_to_request(None)
+        question_id = post_new_question(request, auth, session)
         #update_to_question_tbl('','', auth.user.id)
         self.assertEqual(type(question_id),gluon.dal.Reference)
+        return question_id
 
     def testUpdateOldQuestion(self):
         #create a question in db
         question_id = self._create_a_question()
         #update
-        question = "this is an updated question"
-        question_detail_info = "update more detail of this question"
-        self._add_value_of_question_to_request(question_id, question,question_detail_info )
-        user_modify_question()
+        self.question = "this is an updated question"
+        self.question_detail_info = "update more detail of this question"
+        self.tag_list = ['tag1','tag2','tag3', 'tag4']
+        self._add_value_of_question_to_request(question_id)
+        update_a_question(request, self.tag_list)
         #get the question
         question_record = db(db.question_tbl.id == question_id).select()[0]
-        self.assertEqual(question_record.question_info , question)
-        self.assertEqual(question_record.question_detail_info , question_detail_info)
+        self.assertEqual(question_record.question_info , self.question)
+        self.assertEqual(question_record.question_detail_info , self.question_detail_info)
+        #check tag
+        tag_list = db(db.question_tag_tbl.question_info == question_id).select()
+        self.assertEqual(len(tag_list), len(self.tag_list))
 
     def testDeleteAQuestion(self):
         #create a question in db
         question_id = self._create_a_question()
         #delete that question
-        request.args[0] = question_id
-        user_delete_question()
+        request.args.append(question_id)
+        delete_a_question(request)
         #query that question
         question = db(db.question_tbl.id == question_id).select()
         with self.assertRaises(IndexError):
@@ -61,9 +78,9 @@ class TestQuestionHandling(unittest.TestCase):
 class TestQuestionRattingHandler(unittest.TestCase):
     def setUp(self):
         set_up_basic_environment()
-        self._question_id = TestQuestionHandling._create_a_question()
         #create second user as audience
         user_id =  db.auth_user.insert(first_name = 'audience', email = 'audienceemail@gmail.com')
+        self._question_id = create_a_question("question info", "question detail", user_id, ['tag1','tag2'])
         self._audience = db(db.auth_user.id == user_id).select()[0]
 
 
@@ -83,7 +100,7 @@ class TestQuestionRattingHandler(unittest.TestCase):
         owner_of_question = auth.user
         auth.user = self._audience
         request.vars.question_id = self._question_id
-        user_like_a_question()
+        user_like_a_question(request, auth)
 
         #check if audience is in like-list of question
         question_like_record = check_if_user_did_like_question()
@@ -98,7 +115,7 @@ class TestQuestionRattingHandler(unittest.TestCase):
         owner_of_question = auth.user
         auth.user = self._audience
         request.vars.question_id = self._question_id
-        user_unlike_a_question()
+        user_unlike_a_question(request, auth)
         #check if audience is not in like-list of question
         def check_if_user_did_like_question():
             question_like_record = db((db.question_like_tbl.question_id == self._question_id)&(db.question_like_tbl.user_info == self._audience.id )).select()

@@ -31,7 +31,7 @@ class question_tag_handler(object):
         if not len(tag_id):
             return False
         else:
-            return True
+            return tag_id
     def insert_tag_to_tbl(self, tag_name):
         #search for tag_name in db
         db = self.db
@@ -43,18 +43,51 @@ class question_tag_handler(object):
             return None
 
     def handle_new_tag_from_user(self, tag_name):
-        if self.check_if_tag_is_in_tbl(tag_name):
-            return True
+        tag_id = self.check_if_tag_is_in_tbl(tag_name)
+        if tag_id:
+            return tag_id
         else:
-            if not self.insert_tag_to_tbl(tag_name):
-                return None
-            else:
-                return True
+            try:
+                tag_id =  self.insert_tag_to_tbl(tag_name)
+                return tag_id
+            except:
+                log.error('cant update tag tbl')
+                return False
 
-    def search_for_related_tag_in_tbl(self):
+        return False
+
+    def handle_new_tag_list_from_user(self, tag_list):
+        id_list = []
+        for tag in tag_list:
+            id_list.append(self.handle_new_tag_from_user(tag))
+        return id_list
+
+
+    def get_all_tag_info_from_db(self):
         db = self.db
-        tag_list = db(db.tag_tbl).select()
+        tag_list = []
+        tag_record_list = db(db.tag_tbl).select()
+        for tag in tag_record_list:
+            tag_list.append(tag.name)
+
+
         return tag_list
+
+    def get_tag_list_of_a_question(self, question_id):
+        db = self.db
+        tag_list = db(db.question_tag_tbl.question_info == question_id).select()
+        return tag_list
+
+
+
+    def delete_question(self, question_id):
+        db = self.db
+        try:
+            db(db.question_tag_tbl.id == question_id).delete()
+            return True
+        except:
+            log.error("db error")
+        return False
 
 
 
