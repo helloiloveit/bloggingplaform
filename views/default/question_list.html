@@ -6,6 +6,7 @@
 
 <div class="article_list_containter">
   <div class="header">
+      <!--
       <table class="header_option">
           <tr >
               <td>Dang Hot</td>
@@ -42,14 +43,20 @@
           </tr>
           <tr class="article_popularity_info">
               <td >
-                  {{=len(db(db.answer_tbl.id == item.id).select())}}
                   {{like_record = db((db.question_like_tbl.question_id == item.id)&(db.question_like_tbl.user_info == audience_id )).select()}}
                   {{if len(like_record):}}
                     <button id ="un_like_button" value={{=item.id}} name="status"> unlike</button>
                   {{else:}}
                     <button id ="like_button" value={{=item.id}} name="status"> like</button>
                   {{pass}}
+                  {{=len(db(db.answer_tbl.question_id == item.id).select())}}
+                  {{='tra loi'}}
                  </td>
+              <td>
+                  {{writer = db(db.auth_user.id == item.writer).select().first()}}
+                  {{= writer.last_name}}
+
+              </td>
 
           </tr>
           </table>

@@ -71,6 +71,10 @@ crud.settings.auth = None                      # =auth to enforce authorization 
 
 current.db = db
 current.auth = auth
+#extend information for auth_user
+db.define_table('user_profile',
+    Field('user_info', 'reference auth_user'),
+    Field('self_introduction','text'))
 
 db.define_table('question_tbl',
     Field('question_info', 'text'),
@@ -177,7 +181,8 @@ class FaceBookAccount(OAuthAccount):
 
 
 crud.settings.auth = None                      # =auth to enforce authorization on crud
-auth.settings.actions_disabled=['register','change_password','request_reset_password','profile']
+#auth.settings.actions_disabled=['register','change_password','request_reset_password','profile']
+auth.settings.actions_disabled=['register','change_password','request_reset_password']
 auth.settings.login_form=FaceBookAccount(globals())
 #auth.settings.login_next=URL(f='index')
 #########################################################################

@@ -95,8 +95,11 @@ tinymce.init({
         </button>
        <!-- {{=response.logo }}-->
 
-
-        <ul id="navbar" class="nav pull-right">{{='auth' in globals() and auth.navbar(mode="dropdown") or ''}}</ul>
+        <ul id="navbar" class="nav pull-right">
+            <li><img border="0" src=https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/p50x50/524680_10151914256443389_1087551412_n.jpg alt="Pulpit rock" width="40" height="40">
+            </li>
+            {{='auth' in globals() and auth.navbar(mode="dropdown") or ''}}
+        </ul>
          <div class = "nav">
              <ul class = "nav">
         <li class="web2py-menu-first"><a  id = "logo_site" href="/welcome/default/question_list">Chuot nhat </a></li>
