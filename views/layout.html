@@ -96,8 +96,14 @@ tinymce.init({
        <!-- {{=response.logo }}-->
 
         <ul id="navbar" class="nav pull-right">
-            <li><img border="0" src=https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/p50x50/524680_10151914256443389_1087551412_n.jpg alt="Pulpit rock" width="40" height="40">
+            {{if auth.user:}}
+            {{img_path =' https://graph.facebook.com/' + auth.user.username + '/picture'}}
+            <li>
+                <a href="http://www.pageresource.com">
+                <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
+                </a>
             </li>
+            {{pass}}
             {{='auth' in globals() and auth.navbar(mode="dropdown") or ''}}
         </ul>
          <div class = "nav">

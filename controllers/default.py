@@ -51,15 +51,17 @@ def tag_handler():
 
 
 def user():
-    import pdb; pdb.set_trace()
+    """
     if request.env.REQUEST_METHOD =='POST':
         #save self introduction to db
         update_self_introduction(request, auth)
         redirect(URL(r = request, f= 'user', args = 'profile'))
     if request.env.REQUEST_METHOD =='GET':
+        if request.args[0] == 'login':
+            return dict(form = auth())
         profile_info = db(db.user_profile.user_info == auth.user.id).select().first()
         return dict(user_profile = profile_info)
-
+    """
     return dict(form = auth())
 
 def index():
@@ -78,14 +80,17 @@ def question():
     """
     Display blog by id
     """
+    import pdb;pdb.set_trace()
     if request.env.REQUEST_METHOD == 'POST':
         create_new_answer(request, auth)
         redirect(URL(r = request, f= 'question', args = request.vars.question_id))
     elif request.env.REQUEST_METHOD == 'GET':
         question = None
         answer_list = []
+        user_id =''
         try:
             question = db(db.question_tbl.id == int(request.args[0])).select()[0]
+            user_info = db(db.auth_user.id == question.writer).select().first()
             try:
                 answer_list = db(db.answer_tbl.question_id == question.id).select()
             except:
@@ -93,7 +98,7 @@ def question():
         except:
             log.error('cant query a question from db')
             question = None
-        return dict(item = question, comment_list = answer_list)
+        return dict(item = question, comment_list = answer_list, user_info = user_info)
 
 #@auth.requires_login()
 def edit_question():
@@ -167,7 +172,7 @@ def get_header(text):
 
 
 
-#@auth.requires_login()
+@auth.requires_login()
 def post():
     log.info("request.vars = %s",request.vars)
     session.tag_list_store = []
