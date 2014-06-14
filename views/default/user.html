@@ -1,30 +1,23 @@
 {{extend 'layout.html'}}
 <h2>{{=T( request.args(0).replace('_',' ').capitalize() )}}</h2>
-<h2>{{=T("Self Introduction" )}}</h2>
-{{if user_profile:}}
-{{=XML(user_profile.self_introduction)}}
-{{else:}}
-<form id="realEditor"  action="post_comment" method="post">
-    <!--
-    <p>
-        <textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">
+<div id="web2py_user_form">
+{{
+if request.args(0)=='login':
+    if not 'register' in auth.settings.actions_disabled:
+        form.add_button(T('Register'),URL(args='register', vars={'_next': request.vars._next} if request.vars._next else None),_class='btn')
+    pass
+    if not 'request_reset_password' in auth.settings.actions_disabled:
+        form.add_button(T('Lost Password'),URL(args='request_reset_password'),_class='btn')
+    pass
+pass
+=form
+}}
+</div>
 
-        </textarea>
-    </p>
-    -->
-    <textarea  id="editor1" name="self_introduction" rows="10" >
-
-
-    </textarea>
-
-    <p>
-        <input type="submit" value="Submit">
-    </p>
-</form>
-{{pass}}
-<h2>{{=T("Follower" )}}</h2>
-<h2>{{=T("Following" )}}</h2>
-
+<h2>{{=T("Writting Management" )}}</h2>
+<a href={{=URL('post')}} rel="nofollow"><i class="icon-user"></i> Post new Article</a>
+<h2>{{=T("Update Article Class" )}}</h2>
+<a href={{=URL('article_class')}} rel="nofollow"><i class="icon-user"></i> Change article Class</a>
 
 
 
