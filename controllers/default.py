@@ -13,6 +13,7 @@ import json
 import logging
 from database_handler import *
 from tag_handler import *
+from user_handler import *
 
 log = logging.getLogger("h")
 log.setLevel(logging.DEBUG)
@@ -50,6 +51,17 @@ def tag_handler():
 
 
 def user():
+    """
+    if request.env.REQUEST_METHOD =='POST':
+        #save self introduction to db
+        update_self_introduction(request, auth)
+        redirect(URL(r = request, f= 'user', args = 'profile'))
+    if request.env.REQUEST_METHOD =='GET':
+        if request.args[0] == 'login':
+            return dict(form = auth())
+        profile_info = db(db.user_profile.user_info == auth.user.id).select().first()
+        return dict(user_profile = profile_info)
+    """
     return dict(form = auth())
 
 def index():
@@ -61,8 +73,6 @@ def index():
     return auth.wiki()
     """
     #redirect(URL(r = request, f= 'blog', args = 3))
-    user = auth.user
-    print user
     return dict()
 
 
@@ -70,14 +80,17 @@ def question():
     """
     Display blog by id
     """
+    import pdb;pdb.set_trace()
     if request.env.REQUEST_METHOD == 'POST':
         create_new_answer(request, auth)
         redirect(URL(r = request, f= 'question', args = request.vars.question_id))
     elif request.env.REQUEST_METHOD == 'GET':
         question = None
         answer_list = []
+        user_id =''
         try:
             question = db(db.question_tbl.id == int(request.args[0])).select()[0]
+            user_info = db(db.auth_user.id == question.writer).select().first()
             try:
                 answer_list = db(db.answer_tbl.question_id == question.id).select()
             except:
@@ -85,7 +98,7 @@ def question():
         except:
             log.error('cant query a question from db')
             question = None
-        return dict(item = question, comment_list = answer_list)
+        return dict(item = question, comment_list = answer_list, user_info = user_info)
 
 #@auth.requires_login()
 def edit_question():
@@ -121,15 +134,18 @@ def create_data_for_question_list_for_test():
     for i in range(1,10,1):
         question = "this is a new question " + str(i)
         question_detail_info = "detail of question " + str(i)
-        question_id = question_handler(None,question, question_detail_info, user_id).create_new_record_in_question_tbl()
+        tag_list = ["tag1","tag2","tag3"]
+        question_id = question_handler().create_new_record_in_question_tbl(question, question_detail_info, user_id, tag_list)
 
 def question_list():
     """
     test data
     """
     question_list = db(db.question_tbl).select()
+    """
     if not len(question_list):
         create_data_for_question_list_for_test()
+    """
     """
     end test data
     """
@@ -156,7 +172,7 @@ def get_header(text):
 
 
 
-#@auth.requires_login()
+@auth.requires_login()
 def post():
     log.info("request.vars = %s",request.vars)
     session.tag_list_store = []
@@ -203,13 +219,14 @@ def user_del_an_answer():
 ##############################
 @auth.requires_login()
 def like_a_question():
+    import pdb; pdb.set_trace()
     user_like_a_question(request, auth)
-    return dict()
+    return "unlike"
 
 @auth.requires_login()
 def unlike_a_question():
-    unlike_a_question(request, auth)
-    return dict()
+    user_unlike_a_question(request, auth)
+    return "like"
 
 
 

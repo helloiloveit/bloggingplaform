@@ -31,7 +31,7 @@ class question_tag_handler(object):
         if not len(tag_id):
             return False
         else:
-            return tag_id
+            return tag_id[0].id
     def insert_tag_to_tbl(self, tag_name):
         #search for tag_name in db
         db = self.db

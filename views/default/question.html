@@ -26,8 +26,16 @@
               <td >
                   {{=len(comment_list)}} quan diem  quan tam
                  </td>
+              <td>
+             <!-- <img border="0" src=https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/p50x50/524680_10151914256443389_1087551412_n.jpg alt="Pulpit rock" width="150" height="150"> -->
+                  {{if user_info:}}
+                  {{img_path =' https://graph.facebook.com/' + user_info.username + '/picture'}}
+                  <img border="0" src={{=img_path}} alt="Pulpit rock" width="50" height="50">
+                  {{pass}}
+              </td>
 
           </tr>
+
           </table>
 
 
