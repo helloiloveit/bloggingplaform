@@ -75,7 +75,6 @@ class question_handler(object):
     def add_tag_for_question(self,question_id, tag_list):
         db = self.db
         tag_id_list = question_tag_handler().handle_new_tag_list_from_user(tag_list)
-        import pdb;pdb.set_trace()
         for tag_id in tag_id_list:
             try:
                 id = db.question_tag_tbl.insert(question_info = question_id,

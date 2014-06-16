@@ -181,8 +181,7 @@ class FaceBookAccount(OAuthAccount):
 
 
 crud.settings.auth = None                      # =auth to enforce authorization on crud
-#auth.settings.actions_disabled=['register','change_password','request_reset_password','profile']
-auth.settings.actions_disabled=['register','change_password','request_reset_password']
+auth.settings.actions_disabled=['register','change_password','request_reset_password','profile']
 auth.settings.login_form=FaceBookAccount(globals())
 #auth.settings.login_next=URL(f='index')
 #########################################################################

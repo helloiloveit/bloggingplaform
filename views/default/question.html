@@ -68,7 +68,13 @@
         </p>
     </form>
   </div>
+    <div>
+      {{=A("edit",_href=URL(r=request,f='edit_question',args=[item.id]))}}
+    </div>
 
+    <div>
+      {{=A("delete",_href=URL(r=request,f='delete_question',args=[item.id]))}}
+    </div>
    <div class="article_comment_container">
     <table>
         {{for comment in comment_list:}}
@@ -77,7 +83,8 @@
             <table  >
             <tr class="user_info">
                  <td>
-                {{= db(db.auth_user.id == comment.author_info).select()[0].first_name}}
+                {{user_info = db(db.auth_user.id == comment.author_info).select().first()}}
+                {{=user_info.first_name}}
                </td>
            </tr>
             <tr class="comment_info">
@@ -99,13 +106,6 @@
    </div>
 
 
-    <div>
-      {{=A("edit",_href=URL(r=request,f='edit_question',args=[item.id]))}}
-    </div>
-
-    <div>
-      {{=A("delete",_href=URL(r=request,f='delete_question',args=[item.id]))}}
-    </div>
 </div>
 
 

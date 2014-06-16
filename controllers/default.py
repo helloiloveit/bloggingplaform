@@ -64,6 +64,16 @@ def user():
     """
     return dict(form = auth())
 
+def user_profile():
+    if request.env.REQUEST_METHOD =='POST':
+        #save self introduction to db
+        update_self_introduction(request, auth)
+        redirect(URL(r = request, f= 'user_profile', args = ''))
+    if request.env.REQUEST_METHOD =='GET':
+        profile_info = db(db.user_profile.user_info == auth.user.id).select().first()
+        return dict(user_profile = profile_info)
+    return dict()
+
 def index():
     """
     example action using the internationalization operator T and flash
@@ -80,7 +90,6 @@ def question():
     """
     Display blog by id
     """
-    import pdb;pdb.set_trace()
     if request.env.REQUEST_METHOD == 'POST':
         create_new_answer(request, auth)
         redirect(URL(r = request, f= 'question', args = request.vars.question_id))
@@ -132,8 +141,10 @@ def create_data_for_question_list_for_test():
     user_id =  db.auth_user.insert(first_name = 'first_user', email = 'first_user_email@gmail.com')
     auth.user = db(db.auth_user.id == user_id).select()[0]
     for i in range(1,10,1):
-        question = "this is a new question " + str(i)
-        question_detail_info = "detail of question " + str(i)
+        question = "Lam sao de giai quyet duoc van de nay h troi oi " + str(i)
+        question_detail_info = """
+        Đối với một lập trình viên trong thế giới công nghệ, có một thứ mà có thể kéo chúng ta ra khỏi nhà và đến nơi làm việc, đó là niềm vui và đam mê trong việc lập trình. Nhưng để khiến cho công việc thực sự vui vẻ và có thể tạo ra một niềm hứng khởi vĩnh cửu, chúng ta cần phải biết những điều căn bản để giúp trở thành một nhà lập trình viên giỏi. - See more at: http://toancauxanh.vn/news/technology/10-cach-hay-de-tro-thanh-mot-lap-trinh-vien-gioi#sthash.ZZ4aV4xY.dpufb
+         """+ str(i)
         tag_list = ["tag1","tag2","tag3"]
         question_id = question_handler().create_new_record_in_question_tbl(question, question_detail_info, user_id, tag_list)
 
@@ -142,10 +153,8 @@ def question_list():
     test data
     """
     question_list = db(db.question_tbl).select()
-    """
     if not len(question_list):
         create_data_for_question_list_for_test()
-    """
     """
     end test data
     """

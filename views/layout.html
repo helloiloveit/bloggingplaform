@@ -99,7 +99,8 @@ tinymce.init({
             {{if auth.user:}}
             {{img_path =' https://graph.facebook.com/' + auth.user.username + '/picture'}}
             <li>
-                <a href="http://www.pageresource.com">
+                <!--<a href={{=URL( 'welcome/default/user_profile')}}>-->
+                <a href='http://localhost:8002/welcome/default/user_profile'>
                 <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
                 </a>
             </li>
@@ -167,14 +168,11 @@ tinymce.init({
     <section id="main" class="main row">
 
 
-        <!--
         <div class="span3 left-sidebar">
             {{block left_sidebar}}
-            <h3>Left Sidebar</h3>
-            <p></p>
+            <!--<h3>Left Sidebar</h3>-->
             {{end}}
         </div>
-        -->
 
         <div class="{{=middle_columns}}">
             {{block center}}
@@ -183,7 +181,6 @@ tinymce.init({
         </div>
 
 
-        <!--
         {{if right_sidebar_enabled:}}
 
         <div class="span3">
@@ -194,7 +191,6 @@ tinymce.init({
             {{end}}
         </div>
         {{pass}}
-        -->
 
     </section><!--/main-->
 
