@@ -6,12 +6,19 @@
   <div>
 
 
-            <table  >
+     <table  >
             <tr class="article_tag">
+                {{question_tag_list = db(db.question_tag_tbl.question_info == item.id).select()}}
+                {{for tag_unit in question_tag_list:}}
                <td>
+                   {{tag_record = db(db.tag_tbl.id == tag_unit.tag_info).select().first()}}
+                   {{=tag_record.name}}
 
                </td>
+                {{pass}}
            </tr>
+         </table>
+         <table  >
            <tr class="article_header">
                <td>
                    {{=A(XML(item.question_info),_href=URL(r=request,f='article',args=[item.id]))}}
@@ -22,6 +29,8 @@
                 {{=XML(item.question_detail_info)}}
               </td>
           </tr>
+          </table>
+          <table>
           <tr class="article_popularity_info">
               <td >
                   {{=len(comment_list)}} quan diem  quan tam

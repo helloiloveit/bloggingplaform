@@ -24,6 +24,20 @@ class question_tag_handler(object):
     def __init__(self):
         self.db = current.db
 
+    def add_tag_for_question(self,question_id, tag_list):
+        db = self.db
+
+        tag_id_list = question_tag_handler().handle_new_tag_list_from_user(tag_list)
+        for tag_id in tag_id_list:
+            try:
+                id = db.question_tag_tbl.insert(question_info = question_id,
+                                                tag_info = tag_id)
+            except:
+                log.error("db false")
+                return False
+
+        return True
+
     def check_if_tag_is_in_tbl(self, tag_name):
         #search for tag_name in db
         db = self.db
@@ -80,14 +94,32 @@ class question_tag_handler(object):
 
 
 
-    def delete_question(self, question_id):
+    def delete_question_tag(self, question_id):
         db = self.db
         try:
-            db(db.question_tag_tbl.id == question_id).delete()
+            db(db.question_tag_tbl.question_info == question_id).delete()
+            db.commit()
             return True
         except:
             log.error("db error")
         return False
+
+    def update_new_tag_list_to_db(self, question_id, new_tag_list):
+        """
+            select tag_list to delete
+            update new tag_list to db
+        """
+        import pdb; pdb.set_trace()
+        db = self.db
+        try:
+            self.delete_question_tag(question_id)
+            self.add_tag_for_question(question_id, new_tag_list)
+            return True
+        except:
+            log.error("fail update tag")
+            return False
+
+
 
 
 

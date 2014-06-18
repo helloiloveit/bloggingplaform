@@ -1,6 +1,8 @@
 {{extend 'layout.html'}}
 <h2>{{=T("Self Introduction" )}}</h2>
 {{if user_profile:}}
+{{img_path =' https://graph.facebook.com/' + user_info.username + '/picture'}}
+<img border="0" src={{=img_path}} alt="Pulpit rock" width="50" height="50">
 {{=XML(user_profile.self_introduction)}}
 {{else:}}
 <form id="realEditor"  action="user_profile" method="post">

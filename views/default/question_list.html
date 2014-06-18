@@ -25,11 +25,20 @@
       <tr>
         <td>
             <table class = "content_list_table"  >
-            <tr class="article_field">
+                <tr class="article_field">
+                {{question_tag_list = db(db.question_tag_tbl.question_info == item.id).select()}}
+                {{for tag_unit in question_tag_list:}}
                <td>
+                   {{tag_record = db(db.tag_tbl.id == tag_unit.tag_info).select().first()}}
+                   {{=tag_record.name}}
+
 
                </td>
-           </tr>
+                {{pass}}
+                </tr>
+            </table>
+            <table class = "content_list_table"  >
+
            <tr class="article_header">
                <td>
                    {{=A(XML(item.question_info),_href=URL(r=request,f='question',args=[item.id]))}}
@@ -49,15 +58,21 @@
                   {{else:}}
                     <button id ="like_button" value={{=item.id}} name="status"> like</button>
                   {{pass}}
-                  {{=len(db(db.answer_tbl.question_id == item.id).select())}}
-                  {{='tra loi'}}
-                 </td>
+                  <!--
+                  <button id ="report_button" value={{=item.id}} name="report"> report</button>
+                  -->
+                  {{answer_num=len(db(db.answer_tbl.question_id == item.id).select())}}
+                  <!--
+                  <button id ="view_answer_button" value={{=item.id}} name="view_answer">{{=str(answer_num)+' tra loi'}} </button>
+                  -->
+                  {{=A(" " + str(answer_num) + " asnwer",_href=URL(r=request,f='question',args=[item.id]))}}
+              </td>
               <td>
                   {{writer = db(db.auth_user.id == item.writer).select().first()}}
                   {{= writer.last_name}}
 
-              </td>
 
+              </td>
           </tr>
           </table>
         </td>
@@ -75,6 +90,14 @@
 <!-- end #container --></div>
      <script>
      // click button
+     $('#view_answer_button').click(function () {
+         var id = $(this).attr("value");
+        });
+     $('#report_button').click(function () {
+        alert("hello ");
+         var id = $(this).attr("value");
+        ajax('report_a_question?question_id='+ id, [''], 'report_button');
+        });
      $('#like_button').click(function () {
         alert("hello ");
          var id = $(this).attr("value");

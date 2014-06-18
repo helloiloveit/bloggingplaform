@@ -66,24 +66,12 @@ class question_handler(object):
         log.info("question_id = %s",question_id)
 
         #tag list
-        rst = self.add_tag_for_question(question_id, tag_list)
+        rst = question_tag_handler().add_tag_for_question(question_id, tag_list)
         if not rst:
             return False
 
         return question_id
 
-    def add_tag_for_question(self,question_id, tag_list):
-        db = self.db
-        tag_id_list = question_tag_handler().handle_new_tag_list_from_user(tag_list)
-        for tag_id in tag_id_list:
-            try:
-                id = db.question_tag_tbl.insert(question_info = question_id,
-                                                tag_info = tag_id)
-            except:
-                log.error("db false")
-                return False
-
-        return True
 
 
     def update_to_question_tbl(self, question_id, question_info, question_detail_info, tag_list):
@@ -93,7 +81,10 @@ class question_handler(object):
             row.update_record(question_info = question_info,
                           question_detail_info = question_detail_info)
             #update tag
-            #later
+            rst = question_tag_handler().update_new_tag_list_to_db(question_id, tag_list)
+            if rst:
+                return True
+            return False
         except:
             log.error('cant update tbl')
         pass
@@ -101,7 +92,7 @@ class question_handler(object):
     def delete_question_in_db(self, question_id):
         if self.delete_record_in_question_tbl(question_id):
             #delete question id in tag
-            if question_tag_handler().delete_question(question_id):
+            if question_tag_handler().delete_question_tag(question_id):
                 return True
         return False
 

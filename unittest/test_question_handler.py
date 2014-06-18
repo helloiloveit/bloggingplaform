@@ -41,8 +41,28 @@ class TestQuestionHandling(unittest.TestCase):
         #set variable for the test
         self._add_value_of_question_to_request(None)
         question_id = post_new_question(request, auth, session)
+        question_record = db(db.question_tbl.id == question_id).select().first()
+        def get_tag_name_list_from_record_list(record_list):
+            tag_name_list= []
+            for unit in record_list:
+                tag = db(db.tag_tbl.id == unit.tag_info).select().first()
+                tag_name_list.append(tag.name)
+            return tag_name_list
+
+        if question_record:
+            question_tag_records = db(db.question_tag_tbl.question_info == question_record.id).select()
+            tag_name_list = get_tag_name_list_from_record_list(question_tag_records)
+            result = set(tag_name_list)&set(self.tag_list)
+            self.assertEqual(len(result),len(self.tag_list))
+
+        else:
+            self.assertEqual(1,0)
+
+
         #update_to_question_tbl('','', auth.user.id)
         self.assertEqual(type(question_id),gluon.dal.Reference)
+        self.assertEqual(question_record.question_info, self.question)
+        self.assertEqual(question_record.question_detail_info, self.question_detail_info)
         return question_id
 
     def testUpdateOldQuestion(self):
@@ -61,6 +81,8 @@ class TestQuestionHandling(unittest.TestCase):
         #check tag
         tag_list = db(db.question_tag_tbl.question_info == question_id).select()
         self.assertEqual(len(tag_list), len(self.tag_list))
+
+
 
     def testDeleteAQuestion(self):
         #create a question in db

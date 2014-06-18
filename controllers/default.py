@@ -71,7 +71,8 @@ def user_profile():
         redirect(URL(r = request, f= 'user_profile', args = ''))
     if request.env.REQUEST_METHOD =='GET':
         profile_info = db(db.user_profile.user_info == auth.user.id).select().first()
-        return dict(user_profile = profile_info)
+        user_info = db(db.auth_user.id == auth.user.id).select().first()
+        return dict(user_profile = profile_info, user_info= user_info)
     return dict()
 
 def index():
@@ -237,7 +238,9 @@ def unlike_a_question():
     user_unlike_a_question(request, auth)
     return "like"
 
-
+def report_a_question():
+    #user_report_a_question(request, auth)
+    return "reported"
 
 
 
