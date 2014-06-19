@@ -157,7 +157,12 @@ font-family: 'Roboto Slab', serif;
 .content_list_table{
 margin-top: 10px;
 }
-.content_list_table tr{
+
+.content_list_table {
+    margin-top:20px;
+}
+.content_list_table .header  tr{
+    font-size:20px;
 
 }
 
@@ -168,6 +173,12 @@ margin-top: 10px;
 width: 550px;
 height: 40px;
 }
+
+/*****user_profile***********/
+.user_brief_info{
+
+}
+
 /* end add by huy */
 a{}
 a:visited{}

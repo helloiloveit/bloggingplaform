@@ -70,9 +70,15 @@ def user_profile():
         update_self_introduction(request, auth)
         redirect(URL(r = request, f= 'user_profile', args = ''))
     if request.env.REQUEST_METHOD =='GET':
-        profile_info = db(db.user_profile.user_info == auth.user.id).select().first()
-        user_info = db(db.auth_user.id == auth.user.id).select().first()
-        return dict(user_profile = profile_info, user_info= user_info)
+        target_person_id = request.vars.user_id
+        profile_info = db(db.user_profile.user_info == target_person_id).select().first()
+        user_info = db(db.auth_user.id == target_person_id).select().first()
+        follow_record = db((db.follow_info_tbl.followed_user == target_person_id)&(db.follow_info_tbl.following_user == auth.user.id )).select().first()
+        if follow_record:
+            follow_flag = True
+        else:
+            follow_flag = False
+        return dict(person_profile = profile_info, person_info= user_info, follow_flag = follow_flag)
     return dict()
 
 def index():
@@ -139,7 +145,12 @@ def delete_question():
 
 
 def create_data_for_question_list_for_test():
-    user_id =  db.auth_user.insert(first_name = 'first_user', email = 'first_user_email@gmail.com')
+    import pdb; pdb.set_trace()
+    user_record = db(db.auth_user).select().first()
+    if not user_record:
+        user_id =  db.auth_user.insert(first_name = 'first_user', email = 'first_user_email@gmail.com')
+    else:
+        user_id = user_record.id
     auth.user = db(db.auth_user.id == user_id).select()[0]
     for i in range(1,10,1):
         question = "Lam sao de giai quyet duoc van de nay h troi oi " + str(i)
@@ -153,9 +164,12 @@ def question_list():
     """
     test data
     """
+    record = db(db.auth_user).select()
+
     question_list = db(db.question_tbl).select()
     if not len(question_list):
-        create_data_for_question_list_for_test()
+        pass
+        #create_data_for_question_list_for_test()
     """
     end test data
     """
@@ -242,7 +256,20 @@ def report_a_question():
     #user_report_a_question(request, auth)
     return "reported"
 
-
+##############follow##########
+@auth.requires_login()
+def follow_a_person():
+    rst = user_follow_a_person(request, auth)
+    if rst:
+        return "followed"
+    else:
+        return "error"
+def unfollow_a_person():
+    rst = user_unfollow_a_person(request, auth)
+    if rst :
+        return "follow"
+    else:
+        return "error"
 
 
 #those code is for manage meta data not using right now

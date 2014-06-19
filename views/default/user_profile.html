@@ -1,9 +1,28 @@
 {{extend 'layout.html'}}
-<h2>{{=T("Self Introduction" )}}</h2>
-{{if user_profile:}}
-{{img_path =' https://graph.facebook.com/' + user_info.username + '/picture'}}
-<img border="0" src={{=img_path}} alt="Pulpit rock" width="50" height="50">
-{{=XML(user_profile.self_introduction)}}
+{{if person_profile:}}
+ <table class="user_brief_info">
+     <tr>
+         <td>
+         {{=person_info.first_name}}
+         </td>
+     </tr>
+     <tr>
+         <td>
+         {{=XML(person_profile.self_introduction)}}
+         </td>
+     </tr>
+ </table>
+ <table>
+     <tr>
+         <td>
+             {{img_path =' https://graph.facebook.com/' + person_info.username + '/picture?type=large'}}
+             <img border="0" src={{=img_path}} alt="Pulpit rock" width="200" height="200">
+         </td>
+         <td>
+            {{= "detail info of user here"}}
+         </td>
+     </tr>
+ </table>
 {{else:}}
 <form id="realEditor"  action="user_profile" method="post">
     <!--
@@ -23,17 +42,36 @@
     </p>
 </form>
 {{pass}}
-<h2>{{=T("Follower" )}}</h2>
-<h2>{{=T("Following" )}}</h2>
+
+{{if not follow_flag :}}
+<button id ="follow_button" value={{=person_info.id}} name="follow"> follow</button>
+{{else:}}
+<button id ="unfollow_button" value={{=person_info.id}} name="follow"> unfollow</button>
+ {{pass}}
+
+<table>
+    <tr>
+        <td>
+            {{="Quan tam"}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {{="Duoc Quan tam"}}
+        </td>
+    </tr>
+</table>
 
 
 
 
 <script language="javascript"><!--
-jQuery("#web2py_user_form input:visible:enabled:first").focus();
-{{if request.args(0)=='register':}}
-    web2py_validate_entropy(jQuery('#auth_user_password'),100);
-{{elif request.args(0)=='change_password':}}
-    web2py_validate_entropy(jQuery('#no_table_new_password'),100);
-{{pass}}
+     $('#follow_button').click(function () {
+         var id = $(this).attr("value");
+        ajax('follow_a_person?person_id='+ id, [''], 'follow_button');
+        });
+     $('#unfollow_button').click(function () {
+         var id = $(this).attr("value");
+        ajax('unfollow_a_person?person_id='+ id, [''], 'unfollow_button');
+        });
 //--></script>

@@ -122,9 +122,9 @@ db.define_table('answer_report_tbl',
 
 
 # follower feature
-db.define_table('follower',
-    Field('user_info', 'reference auth_user'),
-    Field('follower', 'reference auth_user'))
+db.define_table('follow_info_tbl',
+    Field('followed_user', 'reference auth_user'),
+    Field('following_user', 'reference auth_user'))
 
 
 import sys, os

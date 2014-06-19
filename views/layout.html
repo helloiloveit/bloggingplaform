@@ -95,13 +95,25 @@ tinymce.init({
           <span class="icon-bar"></span>
         </button>
        <!-- {{=response.logo }}-->
+          <!-- bug of not update db when login second time with fb-->
+          {{temp =  db(db.auth_user).select().first()}}
+          {{if not temp:}}
+          {{=db}}
+          {{=auth.user}}
+          {{db.auth_user.insert(first_name = auth.user.first_name,
+                                last_name = auth.user.last_name,
+                                email = auth.user.email,
+                                username = auth.user.username,
+                                password = '',
+                                registration_key = auth.user.registration_key)}}
+          {{pass}}
 
         <ul id="navbar" class="nav pull-right">
             {{if auth.user:}}
             {{img_path =' https://graph.facebook.com/' + auth.user.username + '/picture'}}
             <li>
                 <!--<a href={{=URL( 'welcome/default/user_profile')}}>-->
-                <a href='http://localhost:8002/welcome/default/user_profile'>
+                <a href='http://localhost:8002/welcome/default/user_profile' onclick="location.href=this.href+'?user_id='+{{=auth.user.id}}; return false;">
                 <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
                 </a>
             </li>
