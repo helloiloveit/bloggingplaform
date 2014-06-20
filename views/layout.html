@@ -97,15 +97,6 @@ tinymce.init({
        <!-- {{=response.logo }}-->
           <!-- bug of not update db when login second time with fb-->
           {{temp =  db(db.auth_user).select().first()}}
-          {{if not temp:}}
-          {{=db}}
-          {{=auth.user}}
-          {{db.auth_user.insert(first_name = auth.user.first_name,
-                                last_name = auth.user.last_name,
-                                email = auth.user.email,
-                                username = auth.user.username,
-                                password = '',
-                                registration_key = auth.user.registration_key)}}
           {{pass}}
 
         <ul id="navbar" class="nav pull-right">
@@ -151,7 +142,7 @@ tinymce.init({
 
                        </a>
                 </li>
-               <li class="web2py-menu-first">   <a id = "logo_site" href={{=URL('post')}} rel="nofollow"> Post</a></li>
+               <li class="web2py-menu-first">   <a id = "post_button" href={{=URL('post')}} rel="nofollow"> Post</a></li>
                  </ul>
              </div>
           <!--

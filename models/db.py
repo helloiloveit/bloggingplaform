@@ -49,7 +49,7 @@ auth_table = db.define_table(
     Field('username', length=128, default=""),
     Field('password', 'password', length=256,
           readable=False, label='Password'),
-    Field('registration_key', length=128, default= "",
+    Field('registration_id', length=128, default= "",
           writable=False, readable=False))
 
 auth_table.username.requires = IS_NOT_IN_DB(db, auth_table.username)
