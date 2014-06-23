@@ -74,7 +74,8 @@ current.auth = auth
 #extend information for auth_user
 db.define_table('user_profile',
     Field('user_info', 'reference auth_user'),
-    Field('self_introduction','text'))
+    Field('sub_info','text'),
+    Field('detail_info','text'))
 
 db.define_table('question_tbl',
     Field('question_info', 'text'),

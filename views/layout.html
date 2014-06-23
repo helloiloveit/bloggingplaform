@@ -104,7 +104,7 @@ tinymce.init({
             {{img_path =' https://graph.facebook.com/' + auth.user.username + '/picture'}}
             <li>
                 <!--<a href={{=URL( 'welcome/default/user_profile')}}>-->
-                <a href='http://localhost:8002/welcome/default/user_profile' onclick="location.href=this.href+'?user_id='+{{=auth.user.id}}; return false;">
+                <a id ="user_profile" href='http://localhost:8002/welcome/default/user_profile' onclick="location.href=this.href+'?user_id='+{{=auth.user.id}}; return false;">
                 <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
                 </a>
             </li>

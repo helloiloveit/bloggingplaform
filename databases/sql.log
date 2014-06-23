@@ -1,4 +1,4 @@
-timestamp: 2014-06-20T15:32:31.514563
+timestamp: 2014-06-23T17:07:17.710378
 CREATE TABLE auth_user(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name CHAR(128),
@@ -9,21 +9,21 @@ CREATE TABLE auth_user(
     registration_id CHAR(128)
 );
 success!
-timestamp: 2014-06-20T15:32:31.517407
+timestamp: 2014-06-23T17:07:17.714394
 CREATE TABLE auth_group(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role CHAR(512),
     description TEXT
 );
 success!
-timestamp: 2014-06-20T15:32:31.519973
+timestamp: 2014-06-23T17:07:17.717457
 CREATE TABLE auth_membership(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-06-20T15:32:31.522702
+timestamp: 2014-06-23T17:07:17.720082
 CREATE TABLE auth_permission(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE,
@@ -32,7 +32,7 @@ CREATE TABLE auth_permission(
     record_id INTEGER
 );
 success!
-timestamp: 2014-06-20T15:32:31.525600
+timestamp: 2014-06-23T17:07:17.723370
 CREATE TABLE auth_event(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp TIMESTAMP,
@@ -42,7 +42,7 @@ CREATE TABLE auth_event(
     description TEXT
 );
 success!
-timestamp: 2014-06-20T15:32:31.528799
+timestamp: 2014-06-23T17:07:17.725977
 CREATE TABLE auth_cas(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
@@ -52,14 +52,15 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
-timestamp: 2014-06-20T15:32:31.531898
+timestamp: 2014-06-23T17:07:17.728719
 CREATE TABLE user_profile(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
-    self_introduction TEXT
+    sub_info TEXT,
+    detail_info TEXT
 );
 success!
-timestamp: 2014-06-20T15:32:31.535351
+timestamp: 2014-06-23T17:07:17.731492
 CREATE TABLE question_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_info TEXT,
@@ -67,41 +68,41 @@ CREATE TABLE question_tbl(
     writer INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-06-20T15:32:31.537823
+timestamp: 2014-06-23T17:07:17.733900
 CREATE TABLE question_like_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_id INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-06-20T15:32:31.540300
+timestamp: 2014-06-23T17:07:17.738194
 CREATE TABLE question_follow_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_id INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-06-20T15:32:31.543507
+timestamp: 2014-06-23T17:07:17.741185
 CREATE TABLE question_report_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_id INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-06-20T15:32:31.546223
+timestamp: 2014-06-23T17:07:17.744915
 CREATE TABLE tag_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(512)
 );
 success!
-timestamp: 2014-06-20T15:32:31.548896
+timestamp: 2014-06-23T17:07:17.747803
 CREATE TABLE question_tag_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_info INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
     tag_info INTEGER REFERENCES tag_tbl (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-06-20T15:32:31.552140
+timestamp: 2014-06-23T17:07:17.751949
 CREATE TABLE answer_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     answer_info TEXT,
@@ -109,21 +110,21 @@ CREATE TABLE answer_tbl(
     author_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-06-20T15:32:31.555519
+timestamp: 2014-06-23T17:07:17.770780
 CREATE TABLE answer_like_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     answer_id INTEGER REFERENCES answer_tbl (id) ON DELETE CASCADE,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-06-20T15:32:31.558589
+timestamp: 2014-06-23T17:07:17.773897
 CREATE TABLE answer_report_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     answer_id INTEGER REFERENCES answer_tbl (id) ON DELETE CASCADE,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-06-20T15:32:31.563013
+timestamp: 2014-06-23T17:07:17.777092
 CREATE TABLE follow_info_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     followed_user INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,

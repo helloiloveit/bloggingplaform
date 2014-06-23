@@ -1,14 +1,54 @@
 {{extend 'layout.html'}}
-{{if person_profile:}}
+<script type="text/javascript">
+tinymce.init({
+    selector: "h1.simple_editable",
+    inline: true,
+    toolbar: "undo redo",
+    menubar: false
+});
+
+tinymce.init({
+    selector: "div.simple_editable",
+    inline: true,
+    toolbar: "undo redo",
+    menubar: false
+});
+tinymce.init({
+    selector: "div.editable",
+    inline: true,
+    plugins: [
+        "advlist autolink lists link image charmap print preview anchor",
+        "searchreplace visualblocks code fullscreen",
+        "insertdatetime media table contextmenu paste"
+    ],
+    toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | "
+});
+
+</script>
+
+
  <table class="user_brief_info">
      <tr>
          <td>
-         {{=person_info.first_name}}
+         <h1 class="simple_editable">{{=person_info.first_name}}
+         </h1>
+         </td>
+         <td>
+             <p id ="edit_button" > edit</p>
+             <p id ="save_button" hidden="yes" > save</p>
+
          </td>
      </tr>
      <tr>
          <td>
-         {{=XML(person_profile.self_introduction)}}
+         <div id = "user_sub_info" class = "simple_editable">
+         {{if person_profile:}}
+         {{='lallala'}}
+         {{=XML(person_profile.sub_info)}}
+          {{else:}}
+          {{= 'sub info'}}
+          {{pass}}
+         </div>
          </td>
      </tr>
  </table>
@@ -19,29 +59,16 @@
              <img border="0" src={{=img_path}} alt="Pulpit rock" width="200" height="200">
          </td>
          <td>
-            {{= "detail info of user here"}}
+           <div id="user_detail_info" class = "editable">
+                {{if person_profile:}}
+               {{=XML(person_profile.detail_info)}}
+               {{else:}}
+               {{='detail info'}}
+               {{pass}}
+           </div>
          </td>
      </tr>
  </table>
-{{else:}}
-<form id="realEditor"  action="user_profile" method="post">
-    <!--
-    <p>
-        <textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">
-
-        </textarea>
-    </p>
-    -->
-    <textarea  id="editor1" name="self_introduction" rows="10" >
-
-
-    </textarea>
-
-    <p>
-        <input type="submit" value="Submit">
-    </p>
-</form>
-{{pass}}
 
 {{if not follow_flag :}}
 <button id ="follow_button" value={{=person_info.id}} name="follow"> follow</button>
@@ -66,9 +93,30 @@
 
 
 <script language="javascript"><!--
+     $('#edit_button').click(function () {
+        $("#user_sub_info").css({"backgroundColor": "white" });
+        $("#user_detail_info").css({"backgroundColor": "white"});
+        $('#edit_button').hide();
+        $('#save_button').show();
+        });
+
+     $('#save_button').click(function () {
+         user_sub_info = document.getElementById("user_sub_info");
+          user_detail_info = document.getElementById("user_detail_info");
+        $.ajax({
+  type: "POST",
+  url: "update_profile",
+  data: {sub_if : user_sub_info.innerHTML, detail_if:user_detail_info.innerHTML},
+  cache: false,
+  success: function(data){
+     $("#save_button").hide();
+     $("#edit_button").show();
+  }
+});
+        });
      $('#follow_button').click(function () {
          var id = $(this).attr("value");
-        ajax('follow_a_person?person_id='+ id, [''], 'follow_button');
+        ajax('follow_a_person?person_id='+ id, ['aaaaa'], 'follow_button');
         });
      $('#unfollow_button').click(function () {
          var id = $(this).attr("value");
