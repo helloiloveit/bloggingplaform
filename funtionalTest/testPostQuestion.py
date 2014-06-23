@@ -49,8 +49,20 @@ class TestPostNewArticle(unittest.TestCase):
 
     def testPostNewArticle(self):
         import pdb;pdb.set_trace()
-        post_button = self.driver.find_element_by_id("post_button")
+        driver = self.driver
+        post_button = driver.find_element_by_id("post_button")
         post_button.click()
+        #add tag
+        tag_info= driver.find_element_by_id('month')
+        tag_info.send_keys('tag1')
+        post_tag_button = driver.find_element_by_id('submit1')
+        post_tag_button.click()
+        #add question title
+        question_info = driver.find_element_by_id('question_info')
+        question_info.clear()
+        question_info.send_keys('this is a test question')
+
+
     def tearDown(self):
         self.driver.close()
 
