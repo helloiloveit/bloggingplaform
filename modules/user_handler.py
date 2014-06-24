@@ -52,8 +52,7 @@ class user_profile_handler(object):
                                                 detail_info = user_detail_info)
                 return profile_id
             else:
-                row.update_record(question_info = question_info,
-                                  sub_info = user_sub_info,
+                row.update_record(sub_info = user_sub_info,
                                   detail_info = user_detail_info)
                 return row.id
         except:

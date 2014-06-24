@@ -43,7 +43,6 @@ tinymce.init({
          <td>
          <div id = "user_sub_info" class = "simple_editable">
          {{if person_profile:}}
-         {{='lallala'}}
          {{=XML(person_profile.sub_info)}}
           {{else:}}
           {{= 'sub info'}}
@@ -80,11 +79,31 @@ tinymce.init({
     <tr>
         <td>
             {{="Quan tam"}}
+            {{=len(followed_list)}}
         </td>
     </tr>
     <tr>
         <td>
-            {{="Duoc Quan tam"}}
+            {{for follow_record in followed_list:}}
+            {{user_info = db(db.auth_user.id == follow_record.followed_user).select().first()}}
+            {{img_path =' https://graph.facebook.com/' + auth.user.username + '/picture'}}
+            <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
+            {{pass}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {{="Duoc quan tam "}}
+            {{=len(following_list)}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {{for follow_record in following_list:}}
+            {{user_info = db(db.auth_user.id == follow_record.followed_user).select().first()}}
+            {{img_path =' https://graph.facebook.com/' + auth.user.username + '/picture'}}
+            <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
+            {{pass}}
         </td>
     </tr>
 </table>

@@ -65,7 +65,6 @@ def user():
     return dict(form = auth())
 
 def user_profile():
-    import pdb;pdb.set_trace()
     if request.env.REQUEST_METHOD =='GET':
         target_person_id = request.vars.user_id
         profile_info = db(db.user_profile.user_info == target_person_id).select().first()
@@ -75,7 +74,15 @@ def user_profile():
             follow_flag = True
         else:
             follow_flag = False
-        return dict(person_profile = profile_info, person_info= user_info, follow_flag = follow_flag)
+        #following
+        following_list = db(db.follow_info_tbl.followed_user == target_person_id).select()
+        #followed
+        followed_list = db(db.follow_info_tbl.following_user == target_person_id).select()
+        return dict(person_profile = profile_info,
+                    person_info= user_info,
+                    follow_flag = follow_flag,
+                    following_list = followed_list,
+                    followed_list = followed_list)
     return dict()
 def update_profile():
     import pdb;pdb.set_trace()
