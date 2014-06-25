@@ -62,6 +62,12 @@ class TestUserProfile(unittest.TestCase):
     def tearDown(self):
         self.driver.close()
 
+class TestQuestionListPage(unittest.TestCase):
+    def setUp(self):
+        self.driver = webdriver.Chrome()
+    def testViewQuestionByTag(self):
+        pass
+
 class TestPostNewArticle(unittest.TestCase):
     def setUp(self):
         import pdb;pdb.set_trace()

@@ -124,7 +124,13 @@ def question():
         except:
             log.error('cant query a question from db')
             question = None
-        return dict(item = question, comment_list = answer_list, user_info = user_info)
+        #like list
+
+        like_list = db(db.question_like_tbl.question_id==question.id).select()
+        return dict(item = question,
+                    like_list = like_list,
+                    comment_list = answer_list,
+                    user_info = user_info)
 
 #@auth.requires_login()
 def edit_question():

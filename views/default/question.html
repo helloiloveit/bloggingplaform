@@ -33,7 +33,7 @@
           <table>
           <tr class="article_popularity_info">
               <td >
-                  {{=len(comment_list)}} quan diem  quan tam
+                  {{=len(comment_list)}} quan diem  {{=len(like_list)}} quan tam
                  </td>
               <td>
              <!-- <img border="0" src=https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/p50x50/524680_10151914256443389_1087551412_n.jpg alt="Pulpit rock" width="150" height="150"> -->
@@ -77,13 +77,16 @@
         </p>
     </form>
   </div>
-    <div>
-      {{=A("edit",_id ='edit_button',_href=URL(r=request,f='edit_question',args=[item.id]))}}
-    </div>
-
-    <div>
-      {{=A("delete",_id='delete_button', _href=URL(r=request,f='delete_question',args=[item.id]))}}
-    </div>
+    <table>
+        <tr>
+            <td>
+                {{=A("edit",_id ='edit_button',_href=URL(r=request,f='edit_question',args=[item.id]))}}
+            </td>
+            <td>
+                {{=A("delete",_id='delete_button', _href=URL(r=request,f='delete_question',args=[item.id]))}}
+            </td>
+        </tr>
+    </table>
    <div class="article_comment_container">
     <table>
         {{for comment in comment_list:}}

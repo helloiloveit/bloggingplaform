@@ -69,8 +69,9 @@
               </td>
               <td>
                   {{writer = db(db.auth_user.id == item.writer).select().first()}}
-                  {{= writer.last_name}}
-
+                  <a id ="user_profile" href={{=URL(r=request,f='user_profile',args=[])}} onclick="location.href=this.href+'?user_id='+{{=item.writer}}; return false;">
+                      {{=writer.last_name}}
+                   </a>
 
               </td>
           </tr>
