@@ -38,15 +38,21 @@ def test_facebook():
 
 def tag_handler():
     if not request.vars.tag_info: return ''
-    tag_list = question_tag_handler().get_all_tag_info_from_db()
     tag_info = request.vars.tag_info.capitalize()
-    handle_tag_in_tag_tbl(tag_info)
-    selected = [m for m in tag_list if m.startswith(tag_info)]
-    return DIV(*[DIV(k,
-                     _onclick="jQuery('#month').val('%s')" % k,
-                     _onmouseover="this.style.backgroundColor='yellow'",
-                     _onmouseout="this.style.backgroundColor='white'"
-                     ) for k in selected])
+    import pdb; pdb.set_trace()
+    selected = question_tag_handler().search_for_related_tag_in_tbl(tag_info)
+    #selected =['tag1','tag2', 'tag3','tag4']
+    #selected = [m for m in tag_list if m.name.startswith(tag_info)]
+    div_id = "suggestion_box"
+    temp = [DIV(k,
+         _onclick="user_select_tag_handler('%s','%s');" %(k,div_id),
+         _onmouseover="this.style.backgroundColor='yellow'",
+         _onmouseout="this.style.backgroundColor='white'"
+    ) for k in selected]
+
+    return DIV(
+                temp, _id ="%s" % div_id
+                )
 
 
 
@@ -140,7 +146,7 @@ def edit_question():
     log.info("edit question")
     if request.env.REQUEST_METHOD == 'GET':
         question = db(db.question_tbl.id == request.args[0]).select()[0]
-        tag_list = question_tag_handler().get_tag_list_of_a_question(request.args[0])
+        tag_list = question_tag_handler()._get_tag_list_of_a_question(request.args[0])
         return dict(question = question , tag_list = tag_list)
     elif request.env.REQUEST_METHOD == 'POST':
         update_a_question(request, session.tag_list_store)
@@ -214,23 +220,18 @@ def get_header(text):
 @auth.requires_login()
 def post():
     log.info("request.vars = %s",request.vars)
-    session.tag_list_store = []
     return dict(article_tag_list ="" )
 
 
-@auth.requires_login()
-def post_tag():
-    session.tag_list_store.append(request.vars.tag_info)
-    log.info("session.tag list = %s", session.tag_list_store)
-    #return json.dumps(request.vars.tag_info)
-    return "var x=$('#target'); x.html(x.html()+' %s');" % request.vars.tag_info.replace("'","\\'")
 
 
 @auth.requires_login()
 def post_question():
     log.info("post")
     log.info("request.vars = %s",request.vars)
-    question_id = post_new_question(request, auth, session)
+    tag_info = request.vars.tag_list
+    tag_list = tag_info.split(',')
+    question_id = post_new_question(request, auth, tag_list)
     if question_id:
         redirect(URL(r = request, f= 'question', args = question_id))
     return dict()

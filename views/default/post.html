@@ -13,18 +13,33 @@
   <div id="mainContent">
     <h1>  </h1>
     <form>
-        <input type="text" id="month" name="tag_info" style="width: 250px" />
-         <button id ="submit1" type="button" >Click Me!</button>
+        <input type="text" id="month" name="tag_info" value = "input tag here" style="width: 250px" />
         <br />
          <div style="position: absolute;" id="suggestions" class="suggestions"></div>
     </form>
       <div id="target"></div>
     <script>
+        var tag_list = [];
+
         jQuery("#month").keyup(function(){
-      ajax('tag_handler', ['tag_info'], 'suggestions')});
-     $('#submit1').click(function () {
-        ajax('post_tag', ['tag_info'], ':eval');
-    });
+            ajax('tag_handler', ['tag_info'], 'suggestions');
+            });
+        jQuery("#month").click(function(){
+            $("#month").val("");
+            });
+
+
+      function user_select_tag_handler(tag_info, suggestion_box_id){
+         $('#month').val(tag_info);
+         $("#" + suggestion_box_id).remove();
+         tag_list[tag_list.length] = tag_info;
+
+         current_tag = $('#target').html();
+         $('#target').html(current_tag+' ' + tag_info);
+
+         $('#tag_list').val(tag_list);
+         alert(tag_list);
+      }
     </script>
     <form action="post_question" method="post">
          <p>
@@ -41,7 +56,8 @@
         -->
         </p>
         <p>
-           <input id ="question_info" type="text" name="question_info" value = "what is the date of today?">
+            <input id ="tag_list" type ="hidden"  type="text" name="tag_list" value = tag_list>
+           <input type="text" name="article_header" value = "what is the date of today?">
         </p>
         <!--
         <p>
@@ -50,12 +66,12 @@
             </textarea>
         </p>-->
         <p>
-                <textarea  id="editor1" name="question_detail_info" rows="10" >
+                <textarea  id="editor1" name="editor1" rows="10" >
 
             </textarea>
         </p>
         <p>
-            <input id = "submit_button" type="submit" value="Submit">
+            <input type="submit" value="Submit">
         </p>
     </form>
     <p>&nbsp;</p>
