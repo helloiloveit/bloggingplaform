@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="00c75d4d-eb10-4fd4-ad89-f0ec7ee5cbd7" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/databases/storage.sqlite" afterPath="$PROJECT_DIR$/databases/storage.sqlite" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/bootstrap-responsive.min.css" afterPath="$PROJECT_DIR$/static/css/bootstrap-responsive.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/bootstrap.min.css" afterPath="$PROJECT_DIR$/static/css/bootstrap.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/default.py" afterPath="$PROJECT_DIR$/controllers/default.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.html" afterPath="$PROJECT_DIR$/views/layout.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/default/post.html" afterPath="$PROJECT_DIR$/views/default/post.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/default/question.html" afterPath="$PROJECT_DIR$/views/default/question.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/web2py.css" afterPath="$PROJECT_DIR$/static/css/web2py.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/web2py_bootstrap.css" afterPath="$PROJECT_DIR$/static/css/web2py_bootstrap.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/welcome.iml" afterPath="$PROJECT_DIR$/.idea/welcome.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="welcome.iws" />
@@ -26,19 +35,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="layout.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/layout.html">
+      <file leaf-file-name="question.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/default/question.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="0" selection-start="3726" selection-end="3726" vertical-scroll-proportion="0.5887541" vertical-offset="576" max-vertical-offset="2925">
+            <state line="128" column="16" selection-start="3700" selection-end="3700" vertical-scroll-proportion="-23.375" vertical-offset="1359" max-vertical-offset="2250">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="web2py_bootstrap.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/css/web2py_bootstrap.css">
+      <file leaf-file-name="question_list.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/default/question_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="11" selection-start="757" selection-end="757" vertical-scroll-proportion="0.0" vertical-offset="660" max-vertical-offset="4695">
+            <state line="43" column="55" selection-start="1191" selection-end="1191" vertical-scroll-proportion="-13.125" vertical-offset="330" max-vertical-offset="1905">
               <folding />
             </state>
           </provider>
@@ -47,7 +56,16 @@
       <file leaf-file-name="bootstrap.min.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/css/bootstrap.min.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="77689" selection-start="77909" selection-end="77909" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
+            <state line="7" column="70" selection-start="33288" selection-end="33293" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="web2py_bootstrap.css" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/static/css/web2py_bootstrap.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="44" column="0" selection-start="773" selection-end="773" vertical-scroll-proportion="0.44800884" vertical-offset="255" max-vertical-offset="7935">
               <folding />
             </state>
           </provider>
@@ -56,7 +74,7 @@
       <file leaf-file-name="db.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/db.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="90" column="30" selection-start="3755" selection-end="3768" vertical-scroll-proportion="0.0" vertical-offset="656" max-vertical-offset="1635">
+            <state line="90" column="30" selection-start="3755" selection-end="3768" vertical-scroll-proportion="0.6" vertical-offset="1350" max-vertical-offset="3120">
               <folding />
             </state>
           </provider>
@@ -65,8 +83,20 @@
       <file leaf-file-name="default.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/default.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="224" column="8" selection-start="6780" selection-end="6780" vertical-scroll-proportion="0.0" vertical-offset="3360" max-vertical-offset="3825">
+            <state line="143" column="59" selection-start="5048" selection-end="5048" vertical-scroll-proportion="-23.4" vertical-offset="1500" max-vertical-offset="4815">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="post.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/default/post.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="45" column="66" selection-start="1234" selection-end="1234" vertical-scroll-proportion="-10.416667" vertical-offset="425" max-vertical-offset="1530">
+              <folding>
+                <element signature="n#style#0;n#input#0;n#form#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#form#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -74,7 +104,7 @@
       <file leaf-file-name="manage_article_class.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/default/manage_article_class.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="195">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="195">
               <folding />
             </state>
           </provider>
@@ -83,16 +113,7 @@
       <file leaf-file-name="manage_image.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/default/manage_image.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="24" selection-start="92" selection-end="92" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="195">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="show.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Google Drive/Mobile App/Back-End/web2py_currnt/applications/welcome/views/default/show.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="0" selection-start="0" selection-end="194" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="195">
+            <state line="4" column="24" selection-start="92" selection-end="92" vertical-scroll-proportion="-2.5" vertical-offset="0" max-vertical-offset="195">
               <folding />
             </state>
           </provider>
@@ -101,16 +122,7 @@
       <file leaf-file-name="show_image.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/default/show_image.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="195">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="default.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Google Drive/Mobile App/Back-End/web2py_currnt/applications/welcome/controllers/default.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="199" column="0" selection-start="6324" selection-end="6428" vertical-scroll-proportion="0.0" vertical-offset="2985" max-vertical-offset="4680">
+            <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="-1.25" vertical-offset="0" max-vertical-offset="195">
               <folding />
             </state>
           </provider>
@@ -137,7 +149,6 @@
         <option value="$PROJECT_DIR$/views/default/user.html" />
         <option value="$PROJECT_DIR$/views/default/post_article_class.html" />
         <option value="$PROJECT_DIR$/views/default/article_class.html" />
-        <option value="$PROJECT_DIR$/views/default/post.html" />
         <option value="$PROJECT_DIR$/views/default/blog.html" />
         <option value="$PROJECT_DIR$/views/default/blog_list.html" />
         <option value="$PROJECT_DIR$/views/default/article.html" />
@@ -146,18 +157,23 @@
         <option value="$PROJECT_DIR$/models/db.py" />
         <option value="$PROJECT_DIR$/views/default/show_image.html" />
         <option value="$PROJECT_DIR$/views/default/manage_image.html" />
-        <option value="$PROJECT_DIR$/controllers/default.py" />
+        <option value="$PROJECT_DIR$/views/default/question_list.html" />
         <option value="$PROJECT_DIR$/static/css/bootstrap.min.css" />
-        <option value="$PROJECT_DIR$/static/css/web2py_bootstrap.css" />
+        <option value="$PROJECT_DIR$/static/css/web2py.css" />
         <option value="$PROJECT_DIR$/views/layout.html" />
+        <option value="$PROJECT_DIR$/static/css/bootstrap-responsive.min.css" />
+        <option value="$PROJECT_DIR$/views/default/post.html" />
+        <option value="$PROJECT_DIR$/controllers/default.py" />
+        <option value="$PROJECT_DIR$/views/default/question.html" />
+        <option value="$PROJECT_DIR$/static/css/web2py_bootstrap.css" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="8" />
-    <option name="y" value="25" />
-    <option name="width" value="1920" />
-    <option name="height" value="1054" />
+    <option name="x" value="21" />
+    <option name="y" value="22" />
+    <option name="width" value="1432" />
+    <option name="height" value="1024" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -185,7 +201,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -316,12 +331,13 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.lastSelected" value="Settings.JavaScript" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/views/default" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/web2py/applications/welcome" />
     <property name="FullScreen" value="false" />
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
@@ -466,14 +482,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="8" y="25" width="1920" height="1054" extended-state="0" />
+    <frame x="21" y="22" width="1432" height="1024" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21197917" sideWeight="0.0" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24511173" sideWeight="0.0" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -481,12 +497,17 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -502,46 +523,58 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/views/default/article.html">
+    <entry file="file://$PROJECT_DIR$/views/default/question.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="57" selection-start="650" selection-end="650" vertical-scroll-proportion="-17.5" vertical-offset="0" max-vertical-offset="630" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/default/article_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="65" selection-end="264" vertical-scroll-proportion="-2.5" vertical-offset="0" max-vertical-offset="795" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/default/post.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="503" selection-end="730" vertical-scroll-proportion="-13.125" vertical-offset="0" max-vertical-offset="825" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/default/article_class.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="24" selection-start="115" selection-end="115" vertical-scroll-proportion="-3.125" vertical-offset="0" max-vertical-offset="600" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/default/edit_article.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="98" selection-start="679" selection-end="679" vertical-scroll-proportion="-16.25" vertical-offset="0" max-vertical-offset="885" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/default/delete_article.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="56" selection-start="257" selection-end="260" vertical-scroll-proportion="-5.625" vertical-offset="0" max-vertical-offset="405" />
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Google Drive/Mobile App/Back-End/web2py_currnt/applications/welcome/views/default/show.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="0" selection-end="194" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="195">
+        <state line="134" column="60" selection-start="3808" selection-end="3808" vertical-scroll-proportion="0.0" vertical-offset="1293" max-vertical-offset="2325">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/default/show_image.html">
+    <entry file="file://$PROJECT_DIR$/static/css/bootstrap-responsive.min.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="195">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/web2py.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="49" selection-start="451" selection-end="451" vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="4845">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="70" selection-start="33288" selection-end="33293" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="225">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/web2py_bootstrap.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="11" selection-start="345" selection-end="345" vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="7695">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="30" selection-start="3755" selection-end="3768" vertical-scroll-proportion="0.0" vertical-offset="1350" max-vertical-offset="3135">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/default.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="224" column="0" selection-start="7711" selection-end="7711" vertical-scroll-proportion="0.0" vertical-offset="3360" max-vertical-offset="4725">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/manage_article_class.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="195">
           <folding />
         </state>
       </provider>
@@ -553,30 +586,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Google Drive/Mobile App/Back-End/web2py_currnt/applications/welcome/controllers/default.py">
+    <entry file="file://$PROJECT_DIR$/views/default/show_image.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="199" column="0" selection-start="6324" selection-end="6428" vertical-scroll-proportion="0.0" vertical-offset="2265" max-vertical-offset="4665">
+        <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="195">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="181" column="31" selection-start="8264" selection-end="8264" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3765" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/question_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="13" selection-start="38" selection-end="38" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="1905">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/question.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="19" selection-start="44" selection-end="44" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="2115">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="33075" selection-start="33289" selection-end="33294" vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="225">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="30" selection-start="3755" selection-end="3768" vertical-scroll-proportion="0.0" vertical-offset="656" max-vertical-offset="1635">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/default/manage_article_class.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="979">
+        <state line="90" column="30" selection-start="3755" selection-end="3768" vertical-scroll-proportion="0.0" vertical-offset="1350" max-vertical-offset="3135">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/default.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="224" column="8" selection-start="6780" selection-end="6780" vertical-scroll-proportion="0.0" vertical-offset="596" max-vertical-offset="3810">
+        <state line="224" column="0" selection-start="7711" selection-end="7711" vertical-scroll-proportion="0.0" vertical-offset="3360" max-vertical-offset="4725">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/manage_article_class.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="195">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/manage_image.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="24" selection-start="92" selection-end="92" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="195">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/show_image.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="195">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="0" selection-start="3516" selection-end="3516" vertical-scroll-proportion="0.0" vertical-offset="1110" max-vertical-offset="3675" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/web2py_bootstrap.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="0" selection-start="751" selection-end="751" vertical-scroll-proportion="0.0" vertical-offset="660" max-vertical-offset="6825">
           <folding />
         </state>
       </provider>
@@ -588,16 +673,134 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/web2py_bootstrap.css">
+    <entry file="file://$PROJECT_DIR$/models/db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="11" selection-start="757" selection-end="757" vertical-scroll-proportion="0.0" vertical-offset="660" max-vertical-offset="4695">
+        <state line="90" column="30" selection-start="3755" selection-end="3768" vertical-scroll-proportion="0.0" vertical-offset="1350" max-vertical-offset="3135">
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/default.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="224" column="0" selection-start="7711" selection-end="7711" vertical-scroll-proportion="0.0" vertical-offset="3360" max-vertical-offset="4725">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/manage_article_class.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="195">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/manage_image.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="24" selection-start="92" selection-end="92" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="195">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/show_image.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="195">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/article_class.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="24" selection-start="115" selection-end="115" vertical-scroll-proportion="-3.125" vertical-offset="0" max-vertical-offset="600" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/layout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="0" selection-start="3726" selection-end="3726" vertical-scroll-proportion="0.5887541" vertical-offset="576" max-vertical-offset="2925">
+        <state line="102" column="0" selection-start="4938" selection-end="4938" vertical-scroll-proportion="-6.25" vertical-offset="1380" max-vertical-offset="3795" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/show_image.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="-1.25" vertical-offset="0" max-vertical-offset="195">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/manage_image.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="24" selection-start="92" selection-end="92" vertical-scroll-proportion="-2.5" vertical-offset="0" max-vertical-offset="195">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/manage_article_class.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="979">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="70" selection-start="33288" selection-end="33293" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/web2py.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="49" selection-start="451" selection-end="451" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4845">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/bootstrap-responsive.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1761">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="30" selection-start="3755" selection-end="3768" vertical-scroll-proportion="0.6" vertical-offset="1350" max-vertical-offset="3120">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/default.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="143" column="59" selection-start="5048" selection-end="5048" vertical-scroll-proportion="-23.4" vertical-offset="1500" max-vertical-offset="4815">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/post.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="66" selection-start="1234" selection-end="1234" vertical-scroll-proportion="-10.416667" vertical-offset="425" max-vertical-offset="1530">
+          <folding>
+            <element signature="n#style#0;n#input#0;n#form#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#form#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/question_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="55" selection-start="1191" selection-end="1191" vertical-scroll-proportion="-13.125" vertical-offset="330" max-vertical-offset="1905">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/question.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="128" column="16" selection-start="3700" selection-end="3700" vertical-scroll-proportion="-23.375" vertical-offset="1359" max-vertical-offset="2250">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/web2py_bootstrap.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="0" selection-start="773" selection-end="773" vertical-scroll-proportion="0.44800884" vertical-offset="255" max-vertical-offset="7935">
           <folding />
         </state>
       </provider>

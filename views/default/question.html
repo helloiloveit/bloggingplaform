@@ -1,3 +1,5 @@
+{{left_sidebar_enabled = False}}
+{{right_sidebar_enabled=True}}
 {{extend 'layout.html'}}
 
 
@@ -6,8 +8,8 @@
   <div>
 
 
-     <table  >
-            <tr class="article_tag">
+            <table class="article_tag">
+            <tr>
                 {{question_tag_list = db(db.question_tag_tbl.question_info == item.id).select()}}
                 {{for tag_unit in question_tag_list:}}
                <td>
@@ -18,29 +20,40 @@
                 {{pass}}
            </tr>
          </table>
-         <table  >
-           <tr class="article_header">
+         <table  class="article_header">
+           <tr >
                <td>
                    {{=A(XML(item.question_info),_href=URL(r=request,f='article',args=[item.id]))}}
                </td>
            </tr>
-          <tr class="article_introduction">
+           </table>
+           <table class ="article_introduction">
+          <tr >
               <td>
                 {{=XML(item.question_detail_info)}}
               </td>
           </tr>
           </table>
-          <table>
-          <tr class="article_popularity_info">
+          <table class="article_popularity_info">
+            <tr>
               <td >
                   {{=len(comment_list)}} quan diem  {{=len(like_list)}} quan tam
                  </td>
+                <td>
+                    {{=A("edit",_id ='edit_button',_href=URL(r=request,f='edit_question',args=[item.id]))}}
+                </td>
+                <td>
+                    {{=A("delete",_id='delete_button', _href=URL(r=request,f='delete_question',args=[item.id]))}}
+                </td>
               <td>
              <!-- <img border="0" src=https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/p50x50/524680_10151914256443389_1087551412_n.jpg alt="Pulpit rock" width="150" height="150"> -->
                   {{if user_info:}}
                   {{img_path =' https://graph.facebook.com/' + user_info.username + '/picture'}}
+                  <!--
                   <img border="0" src={{=img_path}} alt="Pulpit rock" width="50" height="50">
+                  -->
                   {{pass}}
+                  {{='  by   ' + user_info.first_name}}
               </td>
 
           </tr>
@@ -53,7 +66,7 @@
 
 
 
-     <input id="inputCommentButton" name="question_id" value = "nhap comment here">
+     <input id="inputCommentButton" name="question_id" value = "tra loi">
 
 
     <form id="realEditor"  action="post_comment" method="post">
@@ -77,22 +90,12 @@
         </p>
     </form>
   </div>
-    <table>
-        <tr>
-            <td>
-                {{=A("edit",_id ='edit_button',_href=URL(r=request,f='edit_question',args=[item.id]))}}
-            </td>
-            <td>
-                {{=A("delete",_id='delete_button', _href=URL(r=request,f='delete_question',args=[item.id]))}}
-            </td>
-        </tr>
-    </table>
-   <div class="article_comment_container">
-    <table>
+   <div >
+       <table class="article_comment_container">
         {{for comment in comment_list:}}
       <tr>
         <td>
-            <table  >
+            <table class="user_comment" >
             <tr class="user_info">
                  <td>
                 {{user_info = db(db.auth_user.id == comment.author_info).select().first()}}
@@ -119,8 +122,15 @@
 
 
 </div>
-
-
+{{block right_sidebar}}
+        <ul id="right_bar_question_list" >
+            {{for item in related_question_list:}}
+            <li>
+                {{=A(XML(item.question_info),_href=URL(r=request,f='question',args=[item.id]))}}
+            </li>
+            {{pass}}
+        </ul>
+{{end}}
 
 
 

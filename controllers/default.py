@@ -39,16 +39,24 @@ def test_facebook():
 def tag_handler():
     if not request.vars.tag_info: return ''
     tag_info = request.vars.tag_info.capitalize()
-    import pdb; pdb.set_trace()
     selected = question_tag_handler().search_for_related_tag_in_tbl(tag_info)
     #selected =['tag1','tag2', 'tag3','tag4']
     #selected = [m for m in tag_list if m.name.startswith(tag_info)]
     div_id = "suggestion_box"
-    temp = [DIV(k,
-         _onclick="user_select_tag_handler('%s','%s');" %(k,div_id),
-         _onmouseover="this.style.backgroundColor='yellow'",
-         _onmouseout="this.style.backgroundColor='white'"
-    ) for k in selected]
+
+    if not len(selected):
+        temp = [DIV('tạo tag moi',
+                    _onclick="user_post_new_tag('%s','%s');" %(tag_info, div_id),
+                    _onmouseover="this.style.backgroundColor='yellow'",
+                    _onmouseout="this.style.backgroundColor='white'"
+        )]
+    else:
+        temp = [DIV(k,
+                    _onclick="user_select_tag_handler('%s','%s');" %(k,div_id),
+                    _onmouseover="this.style.backgroundColor='yellow'",
+                    _onmouseout="this.style.backgroundColor='white'"
+        ) for k in selected]
+
 
     return DIV(
                 temp, _id ="%s" % div_id
@@ -131,12 +139,14 @@ def question():
             log.error('cant query a question from db')
             question = None
         #like list
-
         like_list = db(db.question_like_tbl.question_id==question.id).select()
+        #related question list
+        related_question_list = db(db.question_tbl).select()
         return dict(item = question,
                     like_list = like_list,
                     comment_list = answer_list,
-                    user_info = user_info)
+                    user_info = user_info,
+                    related_question_list = related_question_list)
 
 #@auth.requires_login()
 def edit_question():

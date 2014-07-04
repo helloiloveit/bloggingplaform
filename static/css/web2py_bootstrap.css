@@ -5,7 +5,11 @@
 body{height:auto;} /* to avoid vertical scroll bar */
 /* add by huy */
 #logo_site{
-    margin-top:6px;
+    margin-top: 6px;
+background-color: red;
+padding-top: 10px;
+padding-bottom: 10px;
+color:white;
 }
 #logo{
 margin-left: auto;
@@ -32,32 +36,37 @@ width: 550px;
     font-size: 18px;
     font-family: 'Roboto Slab', serif;
     font-weight: 300;
-    width: 400px;
     height:40px;
-    background-color: lightgrey;
+    margin-top:20px;
+    border-spacing: 7px;
+    border-collapse: separate;
 
 }
 
 .article_container .article_tag td{
 vertical-align: middle;
 text-align:center;
+background-color: lightgrey;
 }
 
 
 .article_container .article_header{
-    font-size: 16px;
+    font-size: 30px;
     font-family: 'Roboto Slab', serif;
     font-weight: 400;
+    margin-top:20px;
 }
 .article_container .article_introduction{
     font-size: 14px;
 
     font-weight: 300;
+    margin-top:20px;
 }
 .article_container .article_popularity_info{
     font-size: 14px;
 
     font-weight: 300;
+    width: 600px;
 }
 .article_container .article_popularity_info td{
     font-size: 14px;
@@ -67,6 +76,14 @@ text-align:center;
 }
 
 /* comment */
+.article_comment_container{
+margin-top:30px;
+}
+.article_comment_container  {
+border-collapse:separate;
+border-spacing: 0 2em;
+}
+
 .article_comment_container .comment_info{
 
     font-size: 16px;
@@ -87,6 +104,7 @@ text-align:center;
 
     font-weight: 300;
 }
+
 /****************/
 
 
@@ -165,16 +183,26 @@ margin-top: 10px;
     font-size:20px;
 
 }
+#question_header{
+ width: 600px;
+height: 40px;
+font-size: 24px;
+font-family: fantasy;
+border: none;
+border-color: transparent;
+margin-top:60px;
+}
 
 
 
 #inputCommentButton{
     margin-left: 5px;
-width: 550px;
-height: 40px;
+width: 60px;
+height: 20px;
 }
 #post_button{
     margin-top:6px;
+    color: black;
 }
 
 /*****user_profile***********/
@@ -182,6 +210,51 @@ height: 40px;
 
 }
 
+
+/********header********/
+.navbar-inverse .navbar-inner-new {
+/*
+background-color: #1b1b1b;
+background-image: -moz-linear-gradient(top,#222,#111);
+background-image: -webkit-gradient(linear,0 0,0 100%,from(#222),to(#111));
+background-image: -webkit-linear-gradient(top,#222,#111);
+background-image: -o-linear-gradient(top,#222,#111);
+background-image: linear-gradient(to bottom,#FF3A3A,#FF3A3A);
+background-repeat: repeat-x;
+border-color: none;
+*/
+}
+.navbar-inner-new {
+-webkit-border-radius: 0;
+-moz-border-radius: 0;
+border-radius: 0;
+}
+.navbar-inner-new {
+min-height: 40px;
+padding-right: 20px;
+/*padding-left: 20px;
+*/
+/*
+background-color: #fafafa;
+background-image: -moz-linear-gradient(top,#fff,#f2f2f2);
+background-image: -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#f2f2f2));
+background-image: -webkit-linear-gradient(top,#fff,#f2f2f2);
+background-image: -o-linear-gradient(top,#fff,#f2f2f2);
+background-image: linear-gradient(to bottom,#fff,#f2f2f2);
+background-repeat: repeat-x;
+border: 1px solid #d4d4d4;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+*/
+}
+
+/******rightbar******/
+#right_bar_question_list{
+    float:left;
+    margin-top:90px;
+    margin-left:60px;
+}
 /* end add by huy */
 a{}
 a:visited{}
@@ -274,6 +347,7 @@ div.controls select +.error_wrapper {margin-left:5px;}
 .navbar {margin-bottom:0;
         margin-left:auto;
         margin-right:auto;
+        margin-top:10px;
         width:1022px;
         }
 .navbar-inverse .brand{color:#white;}
@@ -290,7 +364,7 @@ span.highlighted{color:#d8d800;}
 
 /* reset to default */
 a{white-space:normal;}
-li{margin-bottom:0;margin-top:0px;}
+li{margin-bottom:0;margin-top:0px;  list-style-type: none;}
 textarea,button{display:block;}
 /*reset ul padding */
 ul#navbar{padding:0;}
