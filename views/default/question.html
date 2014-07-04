@@ -23,7 +23,7 @@
          <table  class="article_header">
            <tr >
                <td>
-                   {{=A(XML(item.question_info),_href=URL(r=request,f='article',args=[item.id]))}}
+                   {{=item.question_info}}
                </td>
            </tr>
            </table>
@@ -109,8 +109,14 @@
            </tr>
           <tr class="article_popularity_info">
               <td >
-                  thich   binh luan  bao cao
+                  {{like_record = db((db.answer_like_tbl.answer_id == comment.id)&(db.answer_like_tbl.user_info == auth.user.id )).select()}}
+                  {{if len(like_record):}}
+                  <a id ="unlike_button" value ={{=comment.id}}> unlike</a>
+                  {{else:}}
+                  <a id ="like_button" value ={{=comment.id}}> like</a>
+                  {{pass}}
                  </td>
+              <td>bao cao</td>
 
           </tr>
             </table>
@@ -141,5 +147,12 @@ $( '#inputCommentButton' ).click(function() {
   <!--$( this ).slideUp();-->
     $( '#realEditor' ).show(  );
 
+});
+
+$('#like_button').click(function () {
+        alert("hello a ");
+         var id = $(this).attr("value");
+         alert(id);
+        ajax('http://localhost:8002/question/like_an_answera?answer_id='+ id, [''], 'like_button');
 });
 </script>

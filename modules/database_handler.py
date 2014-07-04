@@ -160,6 +160,15 @@ def del_an_answer(request):
     answer_handler(answer_id, None, None).del_answer_record_in_tbl()
     pass
 
+def user_like_an_answer(request, auth):
+    answer_id = request.vars.answer_id
+    record_id = answer_handler().vote_up_an_answer(question_id, auth.user.id)
+    return record_id
+
+def user_unlike_an_answer(request, auth):
+    answer_id = request.vars.answer_id
+    record_id = answer_handler().vote_down_an_answer(question_id, auth.user.id)
+    return record_id
 
 class answer_handler(object):
     def __init__(self,
@@ -194,3 +203,44 @@ class answer_handler(object):
         db = current.db
         db(db.answer_tbl.id == self.answer_id).delete()
         pass
+
+    def vote_up_an_answer(self, answer_id, audience_id):
+        db = self.db
+        question_like_id =None
+        try:
+            answer_like_id = db.answer_like_tbl.insert( answer_id = answer_id,
+                                                            user_info = audience_id)
+        except:
+            log.error('cant create tbl')
+        return answer_like_id
+
+    def vote_down_an_answer(self, answer_id, audience_id):
+        db = self.db
+        try:
+            #check if user did like this question or not
+            # if yes . delete this record
+            # if no   return flag  0: success 1: db failed 2: user already not like it
+            like_record = db((db.answer_like_tbl.answer_id == question_id)&(db.answer_like_tbl.user_info == audience_id )).select()
+            if len(like_record):
+                db(db.answer_like_tbl.id == like_record[0].id).delete()
+                return SUCCESS_RESULT
+            else:
+                return DB_IS_UPDATED_ALREADY
+
+        except:
+            log.error('cant update db')
+            return DB_FAILED
+        return DB_FAILED
+
+    def report_an_answer(self, answer_id, audience):
+        db  = self.db
+        answer_report_id =None
+        try:
+            answer_report_id = db.answer_report_tbl.insert(answer_id = question_id,
+                                                               user_info = audience)
+        except:
+            log.error('cant create tbl')
+        return answer_report_id
+
+
+

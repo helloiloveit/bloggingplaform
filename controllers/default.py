@@ -254,6 +254,15 @@ def user_modify_question():
 
 
 ####### answer ######
+@auth.requires_login()
+def like_an_answer():
+    import pdb; pdb.set_trace()
+    user_like_an_answer(request, auth)
+    return True
+
+def unlike_an_answer():
+    user_unlike_an_answer(request, auth)
+    return True
 
 @auth.requires_login()
 def user_update_an_answer():

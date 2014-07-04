@@ -3,16 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="00c75d4d-eb10-4fd4-ad89-f0ec7ee5cbd7" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/databases/storage.sqlite" afterPath="$PROJECT_DIR$/databases/storage.sqlite" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/bootstrap-responsive.min.css" afterPath="$PROJECT_DIR$/static/css/bootstrap-responsive.min.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/bootstrap.min.css" afterPath="$PROJECT_DIR$/static/css/bootstrap.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sessions/127.0.0.1-c9b38e92-34a0-40d0-8003-c3fc5a264a1c" afterPath="$PROJECT_DIR$/sessions/127.0.0.1-c9b38e92-34a0-40d0-8003-c3fc5a264a1c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/database_handler.py" afterPath="$PROJECT_DIR$/modules/database_handler.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/default.py" afterPath="$PROJECT_DIR$/controllers/default.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.html" afterPath="$PROJECT_DIR$/views/layout.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/default/post.html" afterPath="$PROJECT_DIR$/views/default/post.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/default/question.html" afterPath="$PROJECT_DIR$/views/default/question.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/web2py.css" afterPath="$PROJECT_DIR$/static/css/web2py.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/web2py_bootstrap.css" afterPath="$PROJECT_DIR$/static/css/web2py_bootstrap.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/welcome.iml" afterPath="$PROJECT_DIR$/.idea/welcome.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/default/question_list.html" afterPath="$PROJECT_DIR$/views/default/question_list.html" />
     </list>
     <ignored path="welcome.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,10 +30,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="question.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="question.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/default/question.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="128" column="16" selection-start="3700" selection-end="3700" vertical-scroll-proportion="-23.375" vertical-offset="1359" max-vertical-offset="2250">
+            <state line="25" column="40" selection-start="696" selection-end="696" vertical-scroll-proportion="0.43252596" vertical-offset="0" max-vertical-offset="2445">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="127.0.0.1.2014-07-04.16-42-20.cb3df6f5-86d7-4828-bb1d-3a75d36ab842" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/errors/127.0.0.1.2014-07-04.16-42-20.cb3df6f5-86d7-4828-bb1d-3a75d36ab842">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
               <folding />
             </state>
           </provider>
@@ -47,43 +51,52 @@
       <file leaf-file-name="question_list.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/default/question_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="55" selection-start="1191" selection-end="1191" vertical-scroll-proportion="-13.125" vertical-offset="330" max-vertical-offset="1905">
+            <state line="44" column="19" selection-start="1265" selection-end="1265" vertical-scroll-proportion="-13.75" vertical-offset="330" max-vertical-offset="1905">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bootstrap.min.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/css/bootstrap.min.css">
+      <file leaf-file-name="routes.example.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes.example.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="70" selection-start="33288" selection-end="33293" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="645">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="web2py_bootstrap.css" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/static/css/web2py_bootstrap.css">
+      <file leaf-file-name="tag_handler.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/tag_handler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="0" selection-start="773" selection-end="773" vertical-scroll-proportion="0.44800884" vertical-offset="255" max-vertical-offset="7935">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="3.6" vertical-offset="90" max-vertical-offset="2160">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="db.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/db.py">
+      <file leaf-file-name="ConstantDefinition.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/ConstantDefinition.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="90" column="30" selection-start="3755" selection-end="3768" vertical-scroll-proportion="0.6" vertical-offset="1350" max-vertical-offset="3120">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="180">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="default.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/default.py">
+      <file leaf-file-name="database_handler.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/database_handler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="143" column="59" selection-start="5048" selection-end="5048" vertical-scroll-proportion="-23.4" vertical-offset="1500" max-vertical-offset="4815">
+            <state line="169" column="52" selection-start="5920" selection-end="5920" vertical-scroll-proportion="-17.4" vertical-offset="2040" max-vertical-offset="3720">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user_handler.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/user_handler.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1560">
               <folding />
             </state>
           </provider>
@@ -92,7 +105,7 @@
       <file leaf-file-name="post.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/default/post.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="66" selection-start="1234" selection-end="1234" vertical-scroll-proportion="-10.416667" vertical-offset="425" max-vertical-offset="1530">
+            <state line="45" column="66" selection-start="1234" selection-end="1234" vertical-scroll-proportion="-28.125" vertical-offset="0" max-vertical-offset="1530">
               <folding>
                 <element signature="n#style#0;n#input#0;n#form#1;n#div#1;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#form#1;n#div#1;n#div#0;n#!!top" expanded="true" />
@@ -101,28 +114,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="manage_article_class.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/default/manage_article_class.html">
+      <file leaf-file-name="layout.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="195">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="manage_image.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/default/manage_image.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="24" selection-start="92" selection-end="92" vertical-scroll-proportion="-2.5" vertical-offset="0" max-vertical-offset="195">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="show_image.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/default/show_image.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="-1.25" vertical-offset="0" max-vertical-offset="195">
+            <state line="107" column="29" selection-start="5227" selection-end="5227" vertical-scroll-proportion="-18.75" vertical-offset="1155" max-vertical-offset="3795">
               <folding />
             </state>
           </provider>
@@ -157,15 +152,16 @@
         <option value="$PROJECT_DIR$/models/db.py" />
         <option value="$PROJECT_DIR$/views/default/show_image.html" />
         <option value="$PROJECT_DIR$/views/default/manage_image.html" />
-        <option value="$PROJECT_DIR$/views/default/question_list.html" />
         <option value="$PROJECT_DIR$/static/css/bootstrap.min.css" />
         <option value="$PROJECT_DIR$/static/css/web2py.css" />
         <option value="$PROJECT_DIR$/views/layout.html" />
         <option value="$PROJECT_DIR$/static/css/bootstrap-responsive.min.css" />
         <option value="$PROJECT_DIR$/views/default/post.html" />
-        <option value="$PROJECT_DIR$/controllers/default.py" />
-        <option value="$PROJECT_DIR$/views/default/question.html" />
         <option value="$PROJECT_DIR$/static/css/web2py_bootstrap.css" />
+        <option value="$PROJECT_DIR$/modules/database_handler.py" />
+        <option value="$PROJECT_DIR$/controllers/default.py" />
+        <option value="$PROJECT_DIR$/views/default/question_list.html" />
+        <option value="$PROJECT_DIR$/views/default/question.html" />
       </list>
     </option>
   </component>
@@ -216,116 +212,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="welcome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="welcome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="welcome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="welcome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="welcome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="default" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="welcome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="welcome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="welcome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="welcome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="welcome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="welcome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="welcome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="welcome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="welcome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="welcome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -595,7 +481,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/layout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="181" column="31" selection-start="8264" selection-end="8264" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3765" />
+        <state line="181" column="31" selection-start="8264" selection-end="8264" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3765">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/default/question_list.html">
@@ -656,7 +544,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/layout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="0" selection-start="3516" selection-end="3516" vertical-scroll-proportion="0.0" vertical-offset="1110" max-vertical-offset="3675" />
+        <state line="74" column="0" selection-start="3516" selection-end="3516" vertical-scroll-proportion="0.0" vertical-offset="1110" max-vertical-offset="3675">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/css/web2py_bootstrap.css">
@@ -713,11 +603,6 @@
         <state line="5" column="24" selection-start="115" selection-end="115" vertical-scroll-proportion="-3.125" vertical-offset="0" max-vertical-offset="600" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/layout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="102" column="0" selection-start="4938" selection-end="4938" vertical-scroll-proportion="-6.25" vertical-offset="1380" max-vertical-offset="3795" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/default/show_image.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="-1.25" vertical-offset="0" max-vertical-offset="195">
@@ -760,23 +645,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/db.py">
+    <entry file="file://$PROJECT_DIR$/static/css/web2py_bootstrap.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="30" selection-start="3755" selection-end="3768" vertical-scroll-proportion="0.6" vertical-offset="1350" max-vertical-offset="3120">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/default.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="143" column="59" selection-start="5048" selection-end="5048" vertical-scroll-proportion="-23.4" vertical-offset="1500" max-vertical-offset="4815">
+        <state line="44" column="0" selection-start="773" selection-end="773" vertical-scroll-proportion="0.0" vertical-offset="2640" max-vertical-offset="7935">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/default/post.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="66" selection-start="1234" selection-end="1234" vertical-scroll-proportion="-10.416667" vertical-offset="425" max-vertical-offset="1530">
+        <state line="45" column="66" selection-start="1234" selection-end="1234" vertical-scroll-proportion="-28.125" vertical-offset="0" max-vertical-offset="1530">
           <folding>
             <element signature="n#style#0;n#input#0;n#form#1;n#div#1;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#form#1;n#div#1;n#div#0;n#!!top" expanded="true" />
@@ -784,23 +662,79 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/modules/user_handler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1560">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/tag_handler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="3.6" vertical-offset="90" max-vertical-offset="2160">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="119" column="33" selection-start="4934" selection-end="4934" vertical-scroll-proportion="-24.6" vertical-offset="1155" max-vertical-offset="3120">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/ConstantDefinition.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="904">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/database_handler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="169" column="52" selection-start="5920" selection-end="5920" vertical-scroll-proportion="-17.4" vertical-offset="2040" max-vertical-offset="3720">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/default.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="258" column="30" selection-start="8766" selection-end="8766" vertical-scroll-proportion="0.5496536" vertical-offset="3334" max-vertical-offset="4950">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/errors/127.0.0.1.2014-07-04.16-42-20.cb3df6f5-86d7-4828-bb1d-3a75d36ab842">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="891">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="107" column="29" selection-start="5227" selection-end="5227" vertical-scroll-proportion="-18.75" vertical-offset="1155" max-vertical-offset="3795">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes.example.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="904">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/default/question_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="55" selection-start="1191" selection-end="1191" vertical-scroll-proportion="-13.125" vertical-offset="330" max-vertical-offset="1905">
+        <state line="44" column="19" selection-start="1265" selection-end="1265" vertical-scroll-proportion="-13.75" vertical-offset="330" max-vertical-offset="1905">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/default/question.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="128" column="16" selection-start="3700" selection-end="3700" vertical-scroll-proportion="-23.375" vertical-offset="1359" max-vertical-offset="2250">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/web2py_bootstrap.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="0" selection-start="773" selection-end="773" vertical-scroll-proportion="0.44800884" vertical-offset="255" max-vertical-offset="7935">
+        <state line="25" column="40" selection-start="696" selection-end="696" vertical-scroll-proportion="0.43252596" vertical-offset="0" max-vertical-offset="2445">
           <folding />
         </state>
       </provider>
