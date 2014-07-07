@@ -31,7 +31,7 @@ width: 550px;
 .article_container{
     padding-top:10px;
 }
-.article_container .article_tag{
+.article_tag{
 
     font-size: 18px;
     font-family: 'Roboto Slab', serif;
@@ -43,7 +43,7 @@ width: 550px;
 
 }
 
-.article_container .article_tag td{
+.article_tag td{
 vertical-align: middle;
 text-align:center;
 background-color: lightgrey;
@@ -173,16 +173,26 @@ font-family: 'Roboto Slab', serif;
 
 /* style list of question in main page*/
 .content_list_table{
-margin-top: 10px;
+
+}
+.content_info_table {
+    margin-top:5px;
 }
 
-.content_list_table {
+.article_tag{
+    font-size: 18px;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 300;
+    height:40px;
     margin-top:20px;
+    border-spacing: 7px;
+    border-collapse: separate;
 }
-.content_list_table .header  tr{
-    font-size:20px;
 
+.content_info_table .header  tr{
+    font-size:20px;
 }
+
 #question_header{
  width: 600px;
 height: 40px;
@@ -207,9 +217,17 @@ height: 20px;
 
 /*****user_profile***********/
 .user_brief_info{
-
+    margin-top:40px;
 }
 
+.user_text_info{
+    margin-left: 5px;
+width: 60px;
+height: 20px;
+}
+.popular_info{
+    margin_top:20px;
+}
 
 /********header********/
 .navbar-inverse .navbar-inner-new {

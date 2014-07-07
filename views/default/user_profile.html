@@ -30,34 +30,18 @@ tinymce.init({
  <table class="user_brief_info">
      <tr>
          <td>
-         <h1 class="simple_editable">{{=person_info.first_name}}
-         </h1>
-         </td>
-         <td>
-             <p id ="edit_button" > edit</p>
-             <p id ="save_button" hidden="yes" > save</p>
-
-         </td>
-     </tr>
-     <tr>
-         <td>
-         <div id = "user_sub_info" class = "simple_editable">
-         {{if person_profile:}}
-         {{=XML(person_profile.sub_info)}}
-          {{else:}}
-          {{= 'sub info'}}
-          {{pass}}
-         </div>
-         </td>
-     </tr>
- </table>
- <table>
-     <tr>
-         <td>
              {{img_path =' https://graph.facebook.com/' + person_info.username + '/picture?type=large'}}
              <img border="0" src={{=img_path}} alt="Pulpit rock" width="200" height="200">
          </td>
          <td>
+           <table class="user_text_info">
+               <tr>
+                   <td>
+                   <h1 class="simple_editable">{{=person_info.first_name}}
+                   </td>
+               </tr>
+               <tr>
+                   <td>
            <div id="user_detail_info" class = "editable">
                 {{if person_profile:}}
                {{=XML(person_profile.detail_info)}}
@@ -65,23 +49,31 @@ tinymce.init({
                {{='detail info'}}
                {{pass}}
            </div>
+                   </td>
+               </tr>
+              <tr>
+                  <td>
+                      <p id ="save_button"  > save</p>
+                  </td>
+              </tr>
+           </table>
          </td>
      </tr>
  </table>
 
-{{if not follow_flag :}}
-<button id ="follow_button" value={{=person_info.id}} name="follow"> follow</button>
-{{else:}}
-<button id ="unfollow_button" value={{=person_info.id}} name="follow"> unfollow</button>
- {{pass}}
 
-<table>
+<table class="popular_info">
     <tr>
         <td>
             {{="Quan tam"}}
             {{=len(followed_list)}}
         </td>
+        <td>
+            {{="Duoc quan tam "}}
+            {{=len(following_list)}}
+        </td>
     </tr>
+    <!--
     <tr>
         <td>
             {{for follow_record in followed_list:}}
@@ -106,8 +98,14 @@ tinymce.init({
             {{pass}}
         </td>
     </tr>
+    -->
 </table>
 
+{{if not follow_flag :}}
+<button id ="follow_button" value={{=person_info.id}} name="follow"> follow</button>
+{{else:}}
+<button id ="unfollow_button" value={{=person_info.id}} name="follow"> unfollow</button>
+{{pass}}
 
 
 
@@ -120,6 +118,7 @@ tinymce.init({
         });
 
      $('#save_button').click(function () {
+     alert('save');
          user_sub_info = document.getElementById("user_sub_info");
           user_detail_info = document.getElementById("user_detail_info");
         $.ajax({

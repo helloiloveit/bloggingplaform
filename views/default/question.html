@@ -53,7 +53,8 @@
                   <img border="0" src={{=img_path}} alt="Pulpit rock" width="50" height="50">
                   -->
                   {{pass}}
-                  {{='  by   ' + user_info.first_name}}
+                  {{='  by   '}}
+                  <a id ="user_profile" href='http://localhost:8002/welcome/default/user_profile' onclick="location.href=this.href+'?user_id='+{{=auth.user.id}}; return false;">  {{=user_info.first_name}}</a>
               </td>
 
           </tr>
@@ -99,7 +100,7 @@
             <tr class="user_info">
                  <td>
                 {{user_info = db(db.auth_user.id == comment.author_info).select().first()}}
-                {{=user_info.first_name}}
+                      <a id ="user_profile" href='http://localhost:8002/welcome/default/user_profile' onclick="location.href=this.href+'?user_id='+{{=auth.user.id}}; return false;">  {{=user_info.first_name}}</a>
                </td>
            </tr>
             <tr class="comment_info">
@@ -116,7 +117,9 @@
                   <a id ="like_button" value ={{=comment.id}}> like</a>
                   {{pass}}
                  </td>
+              <!--
               <td>bao cao</td>
+              -->
 
           </tr>
             </table>
@@ -153,6 +156,6 @@ $('#like_button').click(function () {
         alert("hello a ");
          var id = $(this).attr("value");
          alert(id);
-        ajax('http://localhost:8002/question/like_an_answera?answer_id='+ id, [''], 'like_button');
+        ajax('http://localhost:8002/welcome/default/like_an_answer?answer_id='+ id, [''], 'like_button');
 });
 </script>

@@ -162,7 +162,7 @@ def del_an_answer(request):
 
 def user_like_an_answer(request, auth):
     answer_id = request.vars.answer_id
-    record_id = answer_handler().vote_up_an_answer(question_id, auth.user.id)
+    record_id = answer_handler().vote_up_an_answer(answer_id, auth.user.id)
     return record_id
 
 def user_unlike_an_answer(request, auth):
@@ -171,37 +171,32 @@ def user_unlike_an_answer(request, auth):
     return record_id
 
 class answer_handler(object):
-    def __init__(self,
-                 answer_id,
-                 answer_info,
-                 user_id):
-        self.answer_id = answer_id
-        self.answer_info = answer_info
-        self.user_id = user_id
+    def __init__(self):
         self.db = current.db
-    def update_to_answer_tbl(self):
-        db = current.db
+
+    def update_to_answer_tbl(self, answer_id, answer_info):
+        db = self.db
         try:
-            row = db(db.answer_tbl.id == self.answer_id).select().first()
-            row.update_record(answer_info = self.answer_info)
+            row = db(db.answer_tbl.id == answer_id).select().first()
+            row.update_record(answer_info = answer_info)
         except:
             log.error('cant update answer')
         pass
 
-    def add_to_answer_tbl(self, question_id):
-        db = current.db
+    def add_to_answer_tbl(self, question_id, answer_info, user_id):
+        db = self.db
         answer_id = None
         try:
-            answer_id = db.answer_tbl.insert(answer_info = self.answer_info,
+            answer_id = db.answer_tbl.insert(answer_info = answer_info,
                                          question_id = question_id,
-                                         author_info = self.user_id)
+                                         author_info = user_id)
         except:
             log.error("cant create answer record")
         return answer_id
 
-    def del_answer_record_in_tbl(self):
-        db = current.db
-        db(db.answer_tbl.id == self.answer_id).delete()
+    def del_answer_record_in_tbl(self, answer_id):
+        db = self.db
+        db(db.answer_tbl.id == answer_id).delete()
         pass
 
     def vote_up_an_answer(self, answer_id, audience_id):

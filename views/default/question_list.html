@@ -20,12 +20,12 @@
     <!-- end #header --></div>
   <div class = "content">
     <h1>  </h1>
-    <table >
+    <table class="content_list_table">
         {{for item in items:}}
       <tr>
         <td>
-            <table class = "content_list_table"  >
-                <tr class="article_field">
+            <table class = "article_tag"  >
+                <tr >
                 {{question_tag_list = db(db.question_tag_tbl.question_info == item.id).select()}}
                 {{for tag_unit in question_tag_list:}}
                <td>
@@ -37,7 +37,7 @@
                 {{pass}}
                 </tr>
             </table>
-            <table class = "content_list_table"  >
+            <table class = "content_info_table"  >
 
            <tr class="article_header">
                <td>
@@ -54,9 +54,9 @@
               <td >
                   {{like_record = db((db.question_like_tbl.question_id == item.id)&(db.question_like_tbl.user_info == audience_id )).select()}}
                   {{if len(like_record):}}
-                    <button id ="un_like_button" value={{=item.id}} name="status"> unlike</button>
+                    <a id ="unlike_button" value ={{=item.id}} > unlike</a>
                   {{else:}}
-                    <button id ="like_button" value={{=item.id}} name="status"> like</button>
+                     <a id ="like_button" value ={{=item.id}} > like</a>
                   {{pass}}
                   <!--
                   <button id ="report_button" value={{=item.id}} name="report"> report</button>
@@ -65,7 +65,7 @@
                   <!--
                   <button id ="view_answer_button" value={{=item.id}} name="view_answer">{{=str(answer_num)+' tra loi'}} </button>
                   -->
-                  {{=A(" " + str(answer_num) + " asnwer",_href=URL(r=request,f='question',args=[item.id]))}}
+                  {{=A("        " + str(answer_num) + " asnwer",_href=URL(r=request,f='question',args=[item.id]))}}
               </td>
               <td>
                   {{writer = db(db.auth_user.id == item.writer).select().first()}}
