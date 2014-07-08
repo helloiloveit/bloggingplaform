@@ -1,3 +1,5 @@
+{{left_sidebar_enabled = True}}
+{{right_sidebar_enabled=False}}
 {{extend 'layout.html'}}
 <script type="text/javascript">
 tinymce.init({
@@ -36,8 +38,8 @@ tinymce.init({
          <td>
            <table class="user_text_info">
                <tr>
-                   <td>
-                   <h1 class="simple_editable">{{=person_info.first_name}}
+                   <td id="user_fb_name">
+                   {{=person_info.first_name + ' ' + person_info.last_name}}
                    </td>
                </tr>
                <tr>
@@ -53,59 +55,43 @@ tinymce.init({
                </tr>
               <tr>
                   <td>
+                      {{if auth.is_logged_in():}}
+                      {{if auth.user.id == person_info.id:}}
                       <p id ="save_button"  > save</p>
+                      {{pass}}
+                      {{pass}}
                   </td>
               </tr>
            </table>
          </td>
      </tr>
- </table>
-
-
-<table class="popular_info">
-    <tr>
-        <td>
-            {{="Quan tam"}}
+     <tr>
+         <td>
+            <table class="popular_info">
+            <tr>
+            <td>
+            {{="Quan tam:"}}
             {{=len(followed_list)}}
-        </td>
-        <td>
-            {{="Duoc quan tam "}}
+            </td>
+            <td>
+            {{="Duoc quan tam: "}}
             {{=len(following_list)}}
-        </td>
-    </tr>
-    <!--
-    <tr>
-        <td>
-            {{for follow_record in followed_list:}}
-            {{user_info = db(db.auth_user.id == follow_record.followed_user).select().first()}}
-            {{img_path =' https://graph.facebook.com/' + auth.user.username + '/picture'}}
-            <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
-            {{pass}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            {{="Duoc quan tam "}}
-            {{=len(following_list)}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            {{for follow_record in following_list:}}
-            {{user_info = db(db.auth_user.id == follow_record.followed_user).select().first()}}
-            {{img_path =' https://graph.facebook.com/' + auth.user.username + '/picture'}}
-            <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
-            {{pass}}
-        </td>
-    </tr>
-    -->
-</table>
+            </td>
+            </tr>
+            </table>
 
+{{if auth.is_logged_in():}}
 {{if not follow_flag :}}
 <button id ="follow_button" value={{=person_info.id}} name="follow"> follow</button>
 {{else:}}
 <button id ="unfollow_button" value={{=person_info.id}} name="follow"> unfollow</button>
 {{pass}}
+{{pass}}
+
+            </td>
+     </tr>
+ </table>
+
 
 
 

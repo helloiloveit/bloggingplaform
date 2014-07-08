@@ -83,7 +83,13 @@ def user_profile():
         target_person_id = request.vars.user_id
         profile_info = db(db.user_profile.user_info == target_person_id).select().first()
         user_info = db(db.auth_user.id == target_person_id).select().first()
-        follow_record = db((db.follow_info_tbl.followed_user == target_person_id)&(db.follow_info_tbl.following_user == auth.user.id )).select().first()
+        try:
+            #if user is logged in
+            follow_record = db((db.follow_info_tbl.followed_user == target_person_id)&(db.follow_info_tbl.following_user == auth.user.id )).select().first()
+        except:
+            # not login
+            follow_record = False
+            pass
         if follow_record:
             follow_flag = True
         else:
@@ -148,7 +154,7 @@ def question():
                     user_info = user_info,
                     related_question_list = related_question_list)
 
-#@auth.requires_login()
+@auth.requires_login()
 def edit_question():
     """
     Edit blog
@@ -164,7 +170,7 @@ def edit_question():
 
     return dict()
 
-        
+@auth.requires_login()
 def delete_question():
     selection = request.vars
     if selection['selection'] == "YES":

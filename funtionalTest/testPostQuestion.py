@@ -155,9 +155,37 @@ class TestPostNewArticle(unittest.TestCase):
         self.driver.close()
 
 
+class TestUnLogginUserVisitPage(unittest.TestCase):
+    def setUp(self):
+        self.driver = webdriver.Chrome()
+        self.driver.get(BASE_URL)
+    def testVisittingPage(self):
+        import pdb; pdb.set_trace()
+        question_list_button = self.driver.find_element_by_id('logo_site')
+        question_list_button.click()
+        question_one = self.driver.find_element_by_class_name('article_header')
+        link = question_one.find_element_by_link_text(question_one.text)
+        link.click()
+        #go back
+        question_list_button = self.driver.find_element_by_id('logo_site')
+        question_list_button.click()
+        #click on popularity panel
+        user_profile = self.driver.find_element_by_id('user_profile')
+        user_profile.click()
+        #back
+        self.driver.back()
+        popularity_info = self.driver.find_element_by_class_name('article_popularity_info')
+        answer_button = popularity_info.find_elements_by_xpath("//*[contains(text(), 'asnwer')]")
+        answer_button[0].click()
+        self.driver.back()
+        pass
+
+    def tearDown(self):
+        self.driver.close()
 
 suite = unittest.TestSuite()
 #suite.addTest(unittest.makeSuite(TestAuth))
 #suite.addTest(unittest.makeSuite(TestPostNewArticle))
-suite.addTest(unittest.makeSuite(TestUserProfile))
+#suite.addTest(unittest.makeSuite(TestUserProfile))
+suite.addTest(unittest.makeSuite(TestUnLogginUserVisitPage))
 unittest.TextTestRunner(verbosity=2).run(suite)
