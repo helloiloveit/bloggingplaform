@@ -23,7 +23,9 @@
          <table  class="article_header">
            <tr >
                <td>
-                   {{=item.question_info}}
+                   <div class="article_header_text">
+                       {{=item.question_info}}
+                   </div>
                </td>
            </tr>
            </table>
@@ -139,7 +141,7 @@
         <ul id="right_bar_question_list" >
             {{for item in related_question_list:}}
             <li>
-                {{=A(XML(item.question_info),_href=URL(r=request,f='question',args=[item.id]))}}
+                <a id="related_question" _href=URL(r=request,f='question',args=[item.id])>{{=XML(item.question_info)}}</a>
             </li>
             {{pass}}
         </ul>

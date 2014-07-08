@@ -51,11 +51,19 @@ background-color: lightgrey;
 
 
 .article_container .article_header{
-    font-size: 30px;
+    font-size: 26px;
     font-family: 'Roboto Slab', serif;
-    font-weight: 400;
-    margin-top:20px;
+    font-weight: 300;
+    margin-top:0px;
     color:black;
+}
+
+.article_header_text{
+    position: relative;
+}
+.article_container .article_header td{
+    height: 100%;
+
 }
 .article_container .article_introduction{
     font-size: 14px;
@@ -75,7 +83,12 @@ background-color: lightgrey;
     font-weight: 300;
     text-align:left;
 }
-
+/*right side */
+#related_question{
+    font-size: 13px;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 300;
+}
 /* comment */
 .article_comment_container{
 margin-top:30px;
@@ -113,7 +126,8 @@ border-spacing: 0 2em;
 /*article list page */
 .article_list_containter{
     margin-top:10px;
-    margin-left:30px;
+   /* margin-left:30px;
+   */
 }
 
 .article_list_containter .header  tr{
@@ -207,7 +221,6 @@ margin-top:60px;
 
 
 #inputCommentButton{
-    margin-left: 5px;
 width: 60px;
 height: 20px;
 }
