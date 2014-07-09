@@ -28,7 +28,8 @@
         </p>
         <p>
             <input id ="tag_list" type ="hidden"  type="text" name="tag_list"  autocomplete="off" value = tag_list>
-           <input id = "question_header" type="text" name="article_header" value = "what is the date of today?">
+           <input id = "question_header" type="text" name="article_header" value = "bất cứ thứ gì bạn muốn hiểu:
+           ">
         </p>
         <!--
         <p>
@@ -60,6 +61,9 @@
     <script>
         var tag_list = [];
 
+        function test(){
+        alert('test');
+        }
         jQuery("#month").keyup(function(){
             ajax('tag_handler', ['tag_info'], 'suggestions');
             });
@@ -74,11 +78,27 @@
 
       function user_post_new_tag(tag_info, suggestion_box_id){
          $("#" + suggestion_box_id).remove();
+         var request = $.ajax({
+                url: "http://localhost:8002/welcome/default/create_new_tag",
+                type: "POST",
+                data: { tag_info  : tag_info },
+                dataType: "html"
+          });
+
+
+        request.done(function( msg ) {
+            user_select_tag_handler(tag_info, 'suggestion_box');
+        });
+
+        request.fail(function( jqXHR, textStatus ) {
+            alert( "Request failed: " + textStatus );
+        });
+
           alert('post new tag');
       }
 
       function user_select_tag_handler(tag_info, suggestion_box_id){
-         $('#month').val(tag_info);
+         //$('#month').val(tag_info);
          $("#" + suggestion_box_id).remove();
          tag_list[tag_list.length] = tag_info;
 

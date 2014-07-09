@@ -20,6 +20,19 @@ def handle_tag_in_tag_tbl(tag_info):
     rst = question_tag_handler()._handle_new_tag_from_user(tag_info)
     return rst
 
+
+class tag_tbl_handler(object):
+    def __init__(self):
+        self.db = current.db
+    def create_new_tag(self, tag_info):
+        db = self.db
+        record_id = db.tag_tbl.insert( name = tag_info)
+        if record_id:
+            return True
+
+
+
+
 class question_tag_handler(object):
     def __init__(self):
         self.db = current.db

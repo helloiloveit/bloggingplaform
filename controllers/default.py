@@ -29,12 +29,23 @@ from gluon.contrib.login_methods.oauth20_account import OAuthAccount
 
 
 def test_jquery():
+    import pdb; pdb.set_trace()
     return dict()
 def test_tinyMCE():
     return dict()
 
 def test_facebook():
     return dict()
+
+def create_new_tag():
+    if not request.vars.tag_info: return ''
+    tag_info = request.vars.tag_info.capitalize()
+    rst = tag_tbl_handler().create_new_tag(tag_info)
+    if rst:
+        return True
+
+    else:
+        return False
 
 def tag_handler():
     if not request.vars.tag_info: return ''
