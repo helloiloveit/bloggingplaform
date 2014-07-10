@@ -9,19 +9,7 @@
     <h1>  </h1>
     <form action="" method="post">
          <p>
-             Select Class of article
-         </p>
-         <p>
-         <select name="article_class" >
-        {{for item in tag_list:}}
-
-          <option value="{{=item.tag_info}}">{{=item.tag_info}}</option>
-
-        {{pass}}
-        </select>
-        </p>
-         <p>
-           <input id ="question_info" type="text" name="question_info" value = "{{=question.question_info}}">
+           <input id = "question_header" type="text" name="question_info" value = "{{=question.question_info}}">
         </p>
         <p>
            <!-- <textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">-->

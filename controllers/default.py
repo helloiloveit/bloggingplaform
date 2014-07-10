@@ -254,8 +254,6 @@ def post():
 
 @auth.requires_login()
 def post_question():
-    log.info("post")
-    log.info("request.vars = %s",request.vars)
     tag_info = request.vars.tag_list
     tag_list = tag_info.split(',')
     question_id = post_new_question(request, auth, tag_list)

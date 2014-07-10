@@ -3,11 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="00c75d4d-eb10-4fd4-ad89-f0ec7ee5cbd7" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/databases/storage.sqlite" afterPath="$PROJECT_DIR$/databases/storage.sqlite" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sessions/127.0.0.1-801585fd-dd83-4c22-b7fa-9d0255a19d27" afterPath="$PROJECT_DIR$/sessions/127.0.0.1-801585fd-dd83-4c22-b7fa-9d0255a19d27" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/database_handler.py" afterPath="$PROJECT_DIR$/modules/database_handler.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/default.py" afterPath="$PROJECT_DIR$/controllers/default.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.html" afterPath="$PROJECT_DIR$/views/layout.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/default/edit_question.html" afterPath="$PROJECT_DIR$/views/default/edit_question.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/default/post.html" afterPath="$PROJECT_DIR$/views/default/post.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/tag_handler.py" afterPath="$PROJECT_DIR$/modules/tag_handler.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/default/test_jquery.html" afterPath="$PROJECT_DIR$/views/default/test_jquery.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/funtionalTest/testPostQuestion.py" afterPath="$PROJECT_DIR$/funtionalTest/testPostQuestion.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/web2py_bootstrap.css" afterPath="$PROJECT_DIR$/static/css/web2py_bootstrap.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="welcome.iws" />
@@ -31,13 +33,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="post.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="post.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/default/post.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="100" column="10" selection-start="2847" selection-end="2847" vertical-scroll-proportion="-28.75" vertical-offset="810" max-vertical-offset="1830">
-              <folding>
-                <element signature="n#style#0;n#input#0;n#form#1;n#div#1;n#div#0;n#!!top" expanded="true" />
-              </folding>
+            <state line="124" column="11" selection-start="3826" selection-end="3826" vertical-scroll-proportion="0.77840906" vertical-offset="1175" max-vertical-offset="2145">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="web2py_bootstrap.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/css/web2py_bootstrap.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="331" column="15" selection-start="5961" selection-end="5961" vertical-scroll-proportion="0.0" vertical-offset="4455" max-vertical-offset="9225">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -51,19 +60,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testPostQuestion.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/funtionalTest/testPostQuestion.py">
+      <file leaf-file-name="edit_question.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/default/edit_question.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="103" column="28" selection-start="3424" selection-end="3424" vertical-scroll-proportion="0.0" vertical-offset="1545" max-vertical-offset="2955">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="question.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/default/question.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="161" column="25" selection-start="5036" selection-end="5036" vertical-scroll-proportion="-29.25" vertical-offset="1713" max-vertical-offset="2580">
+            <state line="11" column="82" selection-start="271" selection-end="271" vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="630">
               <folding />
             </state>
           </provider>
@@ -72,19 +72,17 @@
       <file leaf-file-name="question_list.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/default/question_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="29" selection-start="2430" selection-end="2430" vertical-scroll-proportion="-3.5416667" vertical-offset="920" max-vertical-offset="1905">
+            <state line="67" column="29" selection-start="2430" selection-end="2430" vertical-scroll-proportion="0.0" vertical-offset="920" max-vertical-offset="1905">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="default.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="default.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/default.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="0" selection-start="1112" selection-end="1112" vertical-scroll-proportion="0.57274824" vertical-offset="104" max-vertical-offset="5265">
-              <folding>
-                <element signature="e#532#543#0" expanded="true" />
-              </folding>
+            <state line="256" column="0" selection-start="8653" selection-end="8653" vertical-scroll-proportion="0.0" vertical-offset="3270" max-vertical-offset="5235">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -101,7 +99,7 @@
       <file leaf-file-name="tag_handler.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/tag_handler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="13" selection-start="442" selection-end="442" vertical-scroll-proportion="-1.8" vertical-offset="255" max-vertical-offset="2355">
+            <state line="23" column="13" selection-start="442" selection-end="442" vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="2400">
               <folding />
             </state>
           </provider>
@@ -110,7 +108,7 @@
       <file leaf-file-name="database_handler.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/database_handler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="205" column="43" selection-start="7072" selection-end="7072" vertical-scroll-proportion="-21.6" vertical-offset="2475" max-vertical-offset="3645">
+            <state line="8" column="0" selection-start="119" selection-end="119" vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="3705">
               <folding />
             </state>
           </provider>
@@ -157,17 +155,18 @@
         <option value="$PROJECT_DIR$/static/css/bootstrap.min.css" />
         <option value="$PROJECT_DIR$/static/css/web2py.css" />
         <option value="$PROJECT_DIR$/static/css/bootstrap-responsive.min.css" />
-        <option value="$PROJECT_DIR$/modules/database_handler.py" />
         <option value="$PROJECT_DIR$/views/default/question_list.html" />
-        <option value="$PROJECT_DIR$/funtionalTest/testPostQuestion.py" />
         <option value="$PROJECT_DIR$/views/default/user_profile.html" />
         <option value="$PROJECT_DIR$/views/default/question.html" />
-        <option value="$PROJECT_DIR$/static/css/web2py_bootstrap.css" />
         <option value="$PROJECT_DIR$/views/layout.html" />
         <option value="$PROJECT_DIR$/views/default/test_jquery.html" />
         <option value="$PROJECT_DIR$/modules/tag_handler.py" />
-        <option value="$PROJECT_DIR$/views/default/post.html" />
+        <option value="$PROJECT_DIR$/modules/database_handler.py" />
         <option value="$PROJECT_DIR$/controllers/default.py" />
+        <option value="$PROJECT_DIR$/views/default/edit_question.html" />
+        <option value="$PROJECT_DIR$/funtionalTest/testPostQuestion.py" />
+        <option value="$PROJECT_DIR$/static/css/web2py_bootstrap.css" />
+        <option value="$PROJECT_DIR$/views/default/post.html" />
       </list>
     </option>
   </component>
@@ -202,7 +201,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -251,6 +249,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -442,13 +441,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/models/db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="119" column="33" selection-start="4934" selection-end="4934" vertical-scroll-proportion="0.0" vertical-offset="1785" max-vertical-offset="3135">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/css/web2py_bootstrap.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="228" column="13" selection-start="3857" selection-end="3857" vertical-scroll-proportion="0.0" vertical-offset="2610" max-vertical-offset="8460">
@@ -458,31 +450,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/layout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="51" selection-start="3394" selection-end="3394" vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="3795">
-          <folding />
-        </state>
+        <state line="69" column="51" selection-start="3394" selection-end="3394" vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="3795" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/funtionalTest/testPostQuestion.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="28" selection-start="3424" selection-end="3424" vertical-scroll-proportion="0.0" vertical-offset="1545" max-vertical-offset="2955">
-          <folding />
-        </state>
+        <state line="103" column="28" selection-start="3424" selection-end="3424" vertical-scroll-proportion="0.0" vertical-offset="1545" max-vertical-offset="2955" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/default/question.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2550">
-          <folding />
-        </state>
+        <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2550" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/default.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="172" column="21" selection-start="6025" selection-end="6025" vertical-scroll-proportion="0.0" vertical-offset="2580" max-vertical-offset="5100">
-          <folding>
-            <element signature="e#532#543#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -550,9 +534,7 @@
     <entry file="file://$PROJECT_DIR$/controllers/default.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="224" column="0" selection-start="7711" selection-end="7711" vertical-scroll-proportion="0.0" vertical-offset="3360" max-vertical-offset="4725">
-          <folding>
-            <element signature="e#532#543#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -594,9 +576,7 @@
     <entry file="file://$PROJECT_DIR$/controllers/default.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="224" column="0" selection-start="7711" selection-end="7711" vertical-scroll-proportion="0.0" vertical-offset="3360" max-vertical-offset="4725">
-          <folding>
-            <element signature="e#532#543#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -655,6 +635,42 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1560" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/user_profile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="23" selection-start="1549" selection-end="1549" vertical-scroll-proportion="0.0" vertical-offset="735" max-vertical-offset="2025" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="119" column="33" selection-start="4934" selection-end="4934" vertical-scroll-proportion="-28.8" vertical-offset="1050" max-vertical-offset="3120" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/question_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="29" selection-start="2430" selection-end="2430" vertical-scroll-proportion="0.0" vertical-offset="920" max-vertical-offset="1905">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/question.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="15" selection-start="188" selection-end="188" vertical-scroll-proportion="-6.875" vertical-offset="0" max-vertical-offset="2580" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/test_jquery.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="0" selection-start="190" selection-end="190" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/tag_handler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="13" selection-start="442" selection-end="442" vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="2400">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/routes.example.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="904">
@@ -662,9 +678,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/funtionalTest/testPostQuestion.py">
+    <entry file="file://$PROJECT_DIR$/modules/database_handler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="28" selection-start="3424" selection-end="3424" vertical-scroll-proportion="0.0" vertical-offset="1545" max-vertical-offset="2955">
+        <state line="8" column="0" selection-start="119" selection-end="119" vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="3705">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/default.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="256" column="0" selection-start="8653" selection-end="8653" vertical-scroll-proportion="0.0" vertical-offset="3270" max-vertical-offset="5235">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="6" selection-start="1095" selection-end="1095" vertical-scroll-proportion="0.29411766" vertical-offset="0" max-vertical-offset="3795" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/default/edit_question.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="82" selection-start="271" selection-end="271" vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="630">
           <folding />
         </state>
       </provider>
@@ -676,82 +711,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/default/user_profile.html">
+    <entry file="file://$PROJECT_DIR$/funtionalTest/testPostQuestion.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="23" selection-start="1549" selection-end="1549" vertical-scroll-proportion="0.0" vertical-offset="735" max-vertical-offset="2025" />
+        <state line="74" column="19" selection-start="2346" selection-end="2346" vertical-scroll-proportion="0.102389075" vertical-offset="1020" max-vertical-offset="3435">
+          <folding>
+            <element signature="e#114#129#0" expanded="false" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/css/web2py_bootstrap.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="19" selection-start="693" selection-end="693" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8655">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/default/test_jquery.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="190" selection-end="190" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="240">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/layout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="148" column="0" selection-start="7277" selection-end="7277" vertical-scroll-proportion="-51.25" vertical-offset="990" max-vertical-offset="3795">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/database_handler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="205" column="43" selection-start="7072" selection-end="7072" vertical-scroll-proportion="-21.6" vertical-offset="2475" max-vertical-offset="3645">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="119" column="33" selection-start="4934" selection-end="4934" vertical-scroll-proportion="-28.8" vertical-offset="1050" max-vertical-offset="3120">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/tag_handler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="13" selection-start="442" selection-end="442" vertical-scroll-proportion="-1.8" vertical-offset="255" max-vertical-offset="2355">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/default/question.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="161" column="25" selection-start="5036" selection-end="5036" vertical-scroll-proportion="-29.25" vertical-offset="1713" max-vertical-offset="2580">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/default/question_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="29" selection-start="2430" selection-end="2430" vertical-scroll-proportion="-3.5416667" vertical-offset="920" max-vertical-offset="1905">
+        <state line="331" column="15" selection-start="5961" selection-end="5961" vertical-scroll-proportion="0.0" vertical-offset="4455" max-vertical-offset="9225">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/default/post.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="100" column="10" selection-start="2847" selection-end="2847" vertical-scroll-proportion="-28.75" vertical-offset="810" max-vertical-offset="1830">
-          <folding>
-            <element signature="n#style#0;n#input#0;n#form#1;n#div#1;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/default.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="0" selection-start="1112" selection-end="1112" vertical-scroll-proportion="0.57274824" vertical-offset="104" max-vertical-offset="5265">
-          <folding>
-            <element signature="e#532#543#0" expanded="true" />
-          </folding>
+        <state line="124" column="11" selection-start="3826" selection-end="3826" vertical-scroll-proportion="0.77840906" vertical-offset="1175" max-vertical-offset="2145">
+          <folding />
         </state>
       </provider>
     </entry>

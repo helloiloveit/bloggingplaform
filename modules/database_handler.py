@@ -13,7 +13,7 @@ log.setLevel(logging.DEBUG)
 
 def post_new_question(request, auth, tag_list):
     question_txt = request.vars.question_info
-    question_detail_txt = request.vars.question_detail_info
+    question_detail_txt = request.vars.editor1
     user_id = auth.user.id
     question_id = question_handler().create_new_record_in_question_tbl(question_txt,
                                                                 question_detail_txt,
