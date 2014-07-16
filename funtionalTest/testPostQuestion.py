@@ -10,7 +10,7 @@ from time import *
 BASE_URL = "http://localhost:8002/"
 LOGIN_URL = "http://localhost:8002/user/login?_next=/"
 LOGOUT_URL = "http://localhost:8002/user/logout?_next=/"
-
+QUESTION_LIST_URL = "http://localhost:8002/welcome/default/question_list"
 
 class TestAuth(unittest.TestCase):
 
@@ -149,6 +149,13 @@ class TestPostNewArticle(unittest.TestCase):
         submit_button = driver.find_element_by_id('submit_button')
         submit_button.click()
 
+    def testLikeUnlikeAtQuestionList(self):
+        driver = self.driver
+        self.post()
+        import pdb; pdb.set_trace()
+        question_list_button = self.driver.find_element_by_id('logo_site')
+        question_list_button.click()
+        question_one = self.driver.find_element_by_class_name('article_header')
 
 
     def testPostEditDelete(self):
@@ -169,16 +176,6 @@ class TestPostNewArticle(unittest.TestCase):
         url_info = driver.current_url
         self.assertIn(url_info, BASE_URL + 'question_list')
         #go to profile
-    """
-    def testEdit(self):
-        import pdb;pdb.set_trace()
-        driver = self.driver
-        self.post()
-        self.edit_post()
-        #confirm the edit result
-        question_info_result = driver.find_element_by_class_name('article_header')
-        self.assertIn(question_info_result.text, self.edit_question_info)
-    """
 
 
 
@@ -191,8 +188,25 @@ class TestUnLogginUserVisitPage(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
         self.driver.get(BASE_URL)
-    def testVisittingPage(self):
+        self.answer_button_text = 'tra loi'
+        self.answer_text   = 'quan diem'
+    def testQuestionPage(self):
+        question_list_button = self.driver.find_element_by_id('logo_site')
+        question_list_button.click()
+        question_one = self.driver.find_element_by_class_name('article_header')
+        link = question_one.find_element_by_link_text(question_one.text)
+        link.click()
+        #check if no answer button is there
         import pdb; pdb.set_trace()
+        self.assertRaises('NoSuchElementException', self.driver.find_element_by_id('inputCommentButton'))
+
+        popularity_info = self.driver.find_element_by_class_name('article_popularity_info')
+        self.assertIn( self.answer_text, popularity_info.text)
+        user_profile = self.driver.find_element_by_id('user_profile')
+        user_profile.click()
+
+
+    def testVisittingPage(self):
         question_list_button = self.driver.find_element_by_id('logo_site')
         question_list_button.click()
         question_one = self.driver.find_element_by_class_name('article_header')
@@ -217,7 +231,7 @@ class TestUnLogginUserVisitPage(unittest.TestCase):
 
 suite = unittest.TestSuite()
 #suite.addTest(unittest.makeSuite(TestAuth))
-suite.addTest(unittest.makeSuite(TestPostNewArticle))
+#suite.addTest(unittest.makeSuite(TestPostNewArticle))
 #suite.addTest(unittest.makeSuite(TestUserProfile))
-#suite.addTest(unittest.makeSuite(TestUnLogginUserVisitPage))
+suite.addTest(unittest.makeSuite(TestUnLogginUserVisitPage))
 unittest.TextTestRunner(verbosity=2).run(suite)

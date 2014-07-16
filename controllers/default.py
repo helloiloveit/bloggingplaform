@@ -29,7 +29,6 @@ from gluon.contrib.login_methods.oauth20_account import OAuthAccount
 
 
 def test_jquery():
-    import pdb; pdb.set_trace()
     return dict()
 def test_tinyMCE():
     return dict()
@@ -116,7 +115,6 @@ def user_profile():
                     followed_list = followed_list)
     return dict()
 def update_profile():
-    import pdb;pdb.set_trace()
     rst = update_self_introduction(request, auth)
     if rst:
         return True
@@ -173,10 +171,11 @@ def edit_question():
     log.info("edit question")
     if request.env.REQUEST_METHOD == 'GET':
         question = db(db.question_tbl.id == request.args[0]).select()[0]
-        tag_list = question_tag_handler()._get_tag_list_of_a_question(request.args[0])
+        tag_list = question_tag_handler().get_tag_name_list_of_a_question(request.args[0])
         return dict(question = question , tag_list = tag_list)
     elif request.env.REQUEST_METHOD == 'POST':
-        update_a_question(request, session.tag_list_store)
+        import pdb; pdb.set_trace()
+        update_a_question(request)
         redirect(URL(r = request, f= 'question', args = [request.args[0]]))
 
     return dict()
@@ -229,7 +228,7 @@ def question_list():
 
     except:
         log.error('cant query data from db')
-    return dict(items= items, audience_id = '1')
+    return dict(items= items)
 
 def get_header(text):
     """
@@ -241,7 +240,8 @@ def get_header(text):
     return header_text
 
 
-
+def mission_info():
+    return dict()
 
 
 @auth.requires_login()
@@ -271,7 +271,6 @@ def user_modify_question():
 ####### answer ######
 @auth.requires_login()
 def like_an_answer():
-    import pdb; pdb.set_trace()
     user_like_an_answer(request, auth)
     return 'unlike'
 
@@ -292,7 +291,6 @@ def user_del_an_answer():
 ##############################
 @auth.requires_login()
 def like_a_question():
-    import pdb; pdb.set_trace()
     user_like_a_question(request, auth)
     return "unlike"
 

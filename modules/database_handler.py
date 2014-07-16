@@ -25,9 +25,9 @@ def delete_a_question(request):
     question_handler().delete_question_in_db(question_id)
     return
 
-def update_a_question(request, tag_list):
+def update_a_question(request):
     question_id = request.args[0]
-    question_handler().update_to_question_tbl(question_id, request.vars.question_info, request.vars.question_detail_info, tag_list)
+    question_handler().update_to_question_tbl(question_id, request.vars.question_info, request.vars.question_detail_info, request.vars.tag_list)
     return
 
 
@@ -147,17 +147,17 @@ class question_handler(object):
 def create_new_answer(request, auth):
     question_id = request.vars.question_id
     answer_info = request.vars.answer_info
-    answer_id = answer_handler(None, answer_info, auth.user.id).add_to_answer_tbl(question_id)
+    answer_id = answer_handler().add_to_answer_tbl(question_id, answer_info, auth.user.id)
     return answer_id
 
 def update_an_answer(request):
     answer_id = request.vars.answer_id
     answer_info = request.vars.answer_info
-    answer_handler(answer_id, answer_info, None).update_to_answer_tbl()
+    answer_handler().update_to_answer_tbl(answer_id, answer_info)
     pass
 def del_an_answer(request):
     answer_id = request.vars.answer_id
-    answer_handler(answer_id, None, None).del_answer_record_in_tbl()
+    answer_handler().del_answer_record_in_tbl(answer_id)
     pass
 
 def user_like_an_answer(request, auth):

@@ -32,12 +32,17 @@
            <table class ="article_introduction">
           <tr >
               <td>
-                {{=XML(item.question_detail_info)}}
+                  {{=SPAN(XML(item.question_detail_info), _class='article_introduction_bigger')}}
               </td>
           </tr>
           </table>
           <table class="article_popularity_info">
             <tr>
+              <td>
+                  {{if auth.is_logged_in():}}
+                   <input id="inputCommentButton" name="question_id" value = "tra loi">
+                  {{pass}}
+              </td>
               <td >
                   {{=len(comment_list)}} quan diem  {{=len(like_list)}} quan tam
               </td>
@@ -71,7 +76,6 @@
 
 
 
-     <input id="inputCommentButton" name="question_id" value = "tra loi">
 
 
     <form id="realEditor"  action="post_comment" method="post">
@@ -141,7 +145,7 @@
         <ul id="right_bar_question_list" >
             {{for item in related_question_list:}}
             <li>
-                <a id="related_question" _href=URL(r=request,f='question',args=[item.id])>{{=XML(item.question_info)}}</a>
+                <a id="related_question" href={{=URL(r=request,f='question',args=[item.id])}}>{{=XML(item.question_info)}}</a>
             </li>
             {{pass}}
         </ul>

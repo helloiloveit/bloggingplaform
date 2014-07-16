@@ -28,8 +28,7 @@
         </p>
         <p>
             <input id ="tag_list" type ="hidden"  type="text" name="tag_list"  autocomplete="off" value = tag_list>
-           <input id = "question_header" type="text" name="question_info" value = "bất cứ thứ gì bạn muốn hiểu:
-           ">
+           <input id = "question_header" type="text" name="question_info" value ="">
         </p>
         <!--
         <p>
@@ -44,13 +43,13 @@
         </p>
     </form>
       <form>
-          <input type="text" id="month" name="tag_info" value = "input tag here" autocomplete="off" style="width: 250px" />
+          <input type="text" id="month" name="tag_info" value = "" autocomplete="off" style="width: 250px" /> <span class="suggest_text">giáo dục, tin học..</span>
           <br />
           <div style="position: absolute;" id="suggestions" class="suggestions">
           </div>
       </form>
       <div id="target"></div>
-      <button id="post_question_button"> post question </button>
+      <button id="post_question_button"> Gửi: </button>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <h2></h2>
@@ -61,10 +60,13 @@
 
     <script>
         var tag_list = [];
+         // set vietnamese text for input
+        $('#question_header').val("câu hỏi của bạn");
+        $('#month').val("nhập phân loại cho câu hỏi");
+        $('#question_header').click(function(){
+            $('#question_header').val("");
+        });
 
-        function test(){
-        alert('test');
-        }
         jQuery("#month").keyup(function(){
             ajax('tag_handler', ['tag_info'], 'suggestions');
             });
@@ -76,15 +78,15 @@
             $( "#question_content_form" ).submit();
             });
         jQuery("#target").on('click', 'span.delete-tag', function() {
-            alert(tag_list);
-            alert('delete' + $(this).attr('value'));
+            //alert(tag_list);
+            //alert('delete' + $(this).attr('value'));
             //remove tag from tag list
             removeItem = $(this).attr('value');
             tag_list = jQuery.grep(tag_list, function(value) {
             return value != removeItem;
             });
-            alert(tag_list);
-            alert($(this).parent().attr('class'));
+            //alert(tag_list);
+            //alert($(this).parent().attr('class'));
             $(this).parent().remove();
             });
 
@@ -92,7 +94,7 @@
       function user_post_new_tag(tag_info, suggestion_box_id){
          $("#" + suggestion_box_id).remove();
          var request = $.ajax({
-                url: "http://localhost:8002/welcome/default/create_new_tag",
+                url: "{{=URL('create_new_tag')}}",
                 type: "POST",
                 data: { tag_info  : tag_info },
                 dataType: "html"
@@ -104,23 +106,24 @@
         });
 
         request.fail(function( jqXHR, textStatus ) {
-            alert( "Request failed: " + textStatus );
+            //alert( "Request failed: " + textStatus );
         });
 
       }
 
       function user_select_tag_handler(tag_info, suggestion_box_id){
          //$('#month').val(tag_info);
+         alert(suggestion_box_id);
          $("#" + suggestion_box_id).remove();
 
          current_tag = $('#target').html();
          //$('#target').html(current_tag+' ' + tag_info);
-         alert(tag_info + tag_list);
+         //alert(tag_info + tag_list);
 
          if ($.inArray(tag_info, tag_list) == -1)
         {
             tag_list[tag_list.length] = tag_info;
-            alert(tag_info);
+            //alert(tag_info);
             var txt1 = "<span class = post-tag>" + tag_info + "<span id = delete_tag value = "+ tag_info + " class = delete-tag title = remove this tag>x</span></span>";
             $('#target').append(txt1);
          }

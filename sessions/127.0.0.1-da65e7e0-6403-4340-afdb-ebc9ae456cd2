@@ -44,7 +44,7 @@ p19
 cdatetime
 datetime
 p20
-(S'\x07\xde\x07\n\x108-\x01 \xf9'
+(S'\x07\xde\x07\n\x11\x19:\n}\xa8'
 tRp21
 sS'user'
 p22
@@ -95,23 +95,23 @@ g1
 (g14
 g3
 (dp43
-S'is_mobile'
+S'os'
 p44
-I00
-sS'is_tablet'
-p45
-I00
-sS'os'
-p46
 g1
 (g14
 g3
-(dp47
+(dp45
 S'name'
-p48
+p46
 S'Macintosh'
+p47
+stRp48
+sS'is_tablet'
 p49
-stRp50
+I00
+sS'is_mobile'
+p50
+I00
 sS'flavor'
 p51
 g1
@@ -122,7 +122,7 @@ S'version'
 p53
 S'X 10.9'
 p54
-sg48
+sg46
 S'MacOS'
 p55
 stRp56
@@ -135,7 +135,7 @@ g3
 g53
 S'26.0'
 p59
-sg48
+sg46
 S'Firefox'
 p60
 stRp61

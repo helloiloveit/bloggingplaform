@@ -40,7 +40,7 @@ class question_tag_handler(object):
     def add_tag_for_question(self,question_id, tag_list):
         db = self.db
 
-        tag_id_list = question_tag_handler()._handle_new_tag_list_from_user(tag_list)
+        tag_id_list = question_tag_handler()._handle_new_tag_data_from_user(tag_list)
         for tag_id in tag_id_list:
             try:
                 id = db.question_tag_tbl.insert(question_info = question_id,
@@ -98,10 +98,15 @@ class question_tag_handler(object):
 
         return False
 
-    def _handle_new_tag_list_from_user(self, tag_list):
+    def _handle_new_tag_data_from_user(self, tag_info):
         id_list = []
-        for tag in tag_list:
-            id_list.append(self._handle_new_tag_from_user(tag))
+        import pdb; pdb.set_trace()
+        if type(tag_info) == list:
+            for tag in tag_info:
+                id_list.append(self._handle_new_tag_from_user(tag))
+        else:
+            id_list.append(self._handle_new_tag_from_user(tag_info))
+
         return id_list
 
 
@@ -115,10 +120,17 @@ class question_tag_handler(object):
 
         return tag_list
 
-    def _get_tag_list_of_a_question(self, question_id):
+    def get_tag_name_list_of_a_question(self, question_id):
         db = self.db
         tag_list = db(db.question_tag_tbl.question_info == question_id).select()
-        return tag_list
+        tag_name_list = []
+        for tag_record in tag_list:
+            try:
+                tag_name = db(db.tag_tbl.id == tag_record.tag_info).select()[0]
+            except:
+                log.error('no record in tag_tbl...mustbe error')
+            tag_name_list.append(tag_name.name)
+        return tag_name_list
 
 
 

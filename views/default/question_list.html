@@ -1,3 +1,5 @@
+{{left_sidebar_enabled = True}}
+{{right_sidebar_enabled=True}}
 {{extend 'layout.html'}}
 {{block center}}
 
@@ -41,22 +43,24 @@
 
            <tr class="article_header">
                <td>
-                   {{=A(XML(item.question_info),_href=URL('welcome','default',f='question',args=[item.id]))}}
+                   {{=A(XML(item.question_info),_class='article_header', _href=URL('welcome','default',f='question',args=[item.id]))}}
                </td>
            </tr>
           <tr class="article_introduction">
               <td>
-                 {{=XML(item.question_detail_info)}}
+                  {{=SPAN(XML(item.question_detail_info), _class='article_introduction')}}
                  <!-- <input type="text" name="article_introduction" value = "quan diem cua ban">-->
                  </td>
           </tr>
           <tr class="article_popularity_info">
               <td >
-                  {{like_record = db((db.question_like_tbl.question_id == item.id)&(db.question_like_tbl.user_info == audience_id )).select()}}
+                  {{if auth.is_logged_in():}}
+                  {{like_record = db((db.question_like_tbl.question_id == item.id)&(db.question_like_tbl.user_info == auth.user.id )).select()}}
                   {{if len(like_record):}}
-                    <a id ="unlike_button" value ={{=item.id}} > unlike</a>
+                    <a id ="like_unlike_button" value ={{=item.id}} >Thich</a>
                   {{else:}}
-                     <a id ="like_button" value ={{=item.id}} > like</a>
+                     <a id ="like_unlike_button" value ={{=item.id}} >Khong thich</a>
+                  {{pass}}
                   {{pass}}
                   <!--
                   <button id ="report_button" value={{=item.id}} name="report"> report</button>
@@ -65,7 +69,7 @@
                   <!--
                   <button id ="view_answer_button" value={{=item.id}} name="view_answer">{{=str(answer_num)+' tra loi'}} </button>
                   -->
-                  {{=A("        " + str(answer_num) + " asnwer",_href=URL(r=request,f='question',args=[item.id]))}}
+                  {{=A("        " + str(answer_num) + " tra loi",_href=URL(r=request,f='question',args=[item.id]))}}
               </td>
               <td>
                   {{writer = db(db.auth_user.id == item.writer).select().first()}}
@@ -95,27 +99,33 @@
          var id = $(this).attr("value");
         });
      $('#report_button').click(function () {
-        alert("hello ");
          var id = $(this).attr("value");
         ajax('report_a_question?question_id='+ id, [''], 'report_button');
         });
-     $('#like_button').click(function () {
-        alert("hello ");
+     $('#like_unlike_button').click(function () {
          var id = $(this).attr("value");
-        ajax('like_a_question?question_id='+ id, [''], 'like_button');
-        });
-     $('#un_like_button').click(function () {
-        alert("hello ");
-         var id = $(this).attr("value");
-        ajax('unlike_a_question?question_id='+ id, [''], 'un_like_button');
+         var like_unlike_val = $(this).html();
+         alert(like_unlike_val);
+         alert(like_unlike_val.length);
+         alert(like_unlike_val.localeCompare("like"));
+
+         if (like_unlike_val == "like")
+         {
+            alert('equal like');
+            ajax('like_a_question?question_id='+ id, [''], 'like_unlike_button');
+         } else
+         {
+           ajax('unlike_a_question?question_id='+ id, [''], 'like_unlike_button');
+         }
         });
       </script>
 {{end}}
 
-<!--
 {{block right_sidebar}}
+        <div id="right_bar_info" >
+            {{=A('Vi sao co chuotnhat.vn',_class='mission_info_link', _href=URL('welcome','default',f='mission_info',args=[]))}}
+            </div>
 {{end}}
--->
 </html>
 
 

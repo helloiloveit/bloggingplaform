@@ -15,7 +15,7 @@
   <!-- Always force latest IE rendering engine
        (even in intranet) & Chrome Frame
        Remove this if you use the .htaccess -->
-	   
+
   <meta charset="utf-8" />
 
   <!-- http://dev.w3.org/html5/markup/meta.name.html -->
@@ -49,12 +49,17 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript">
 tinymce.init({
-    selector: "textarea"
+    selector: "textarea",
+     width: 550,
+      menubar:false,
+    statusbar: false,
+    fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt",
+    content_css : "{{=URL('static', 'css/content.css')}}"
  });
 </script>
 
   <!-- include stylesheets -->
-  {{  
+  {{
   response.files.append(URL('static','css/web2py.css'))
   response.files.append(URL('static','css/bootstrap.min.css'))
   response.files.append(URL('static','css/bootstrap-responsive.min.css'))
@@ -125,11 +130,13 @@ tinymce.init({
                         .gsc-input-box{
                          height: 38px;
                          border: 0px solid #D9D9D9;
+                         width:400px;
                         }
                         input.gsc-input, .gsc-input-box, .gsc-input-box-hover, .gsc-input-box-focus {
                         border:2px red !important;
                         }
-                        .cse input.gsc-input, input.gsc-input {background-image:none !important;
+                        .cse input.gsc-input, input.gsc-input {
+                        //background-image:none !important;
                         }
                     </style>
 <script>
@@ -145,11 +152,11 @@ tinymce.init({
   })();
 
 </script>
-<gcse:searchbox-only resultsUrl="http://localhost:8002/welcome/default/test_jquery"></gcse:searchbox-only>
+<gcse:searchbox-only resultsUrl="http://localhost:8000/welcome/default/test_jquery"></gcse:searchbox-only>
 
                        </a>
                 </li>
-               <li class="web2py-menu-first">   <a id = "post_button" href={{=URL('post')}} rel="nofollow"> Post</a></li>
+               <li class="web2py-menu-first">   <a id = "post_button" href={{=URL('post')}} rel="nofollow"> Đặt câu hỏi</a></li>
                  </ul>
              </div>
           <!--
@@ -211,7 +218,7 @@ tinymce.init({
     <div class="row">
         <footer class="footer span12" id="footer">
             <div class="footer-content">
-                {{block footer}} 
+                {{block footer}}
                 <div class="copyright pull-left">{{=T('Copyright')}} &#169; {{=request.now.year}}</div>
                 <div id="poweredBy" class="pull-right">
                     {{=T('Powered by')}}
@@ -233,12 +240,12 @@ tinymce.init({
       <script src="{{=URL('static','js/dd_belatedpng.js')}}"></script>
       <script> DD_belatedPNG.fix('img, .png_bg'); //fix any <img> or .png_bg background-images </script>
       <![endif]-->
-  
+
   {{if response.google_analytics_id:}}
   <script src="{{=URL('static','js/analytics.min.js')}}"></script>
   <script type="text/javascript">
   analytics.initialize({
-    'Google Analytics':{trackingId:'{{=response.google_analytics_id}}'} 
+    'Google Analytics':{trackingId:'{{=response.google_analytics_id}}'}
   });</script>
   {{pass}}
   <script src="{{=URL('static','js/share.js',vars=dict(static=URL('static','images')))}}"></script>
