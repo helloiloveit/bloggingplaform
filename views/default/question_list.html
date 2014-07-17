@@ -57,9 +57,9 @@
                   {{if auth.is_logged_in():}}
                   {{like_record = db((db.question_like_tbl.question_id == item.id)&(db.question_like_tbl.user_info == auth.user.id )).select()}}
                   {{if len(like_record):}}
-                    <a id ="like_unlike_button" value ={{=item.id}} >Thich</a>
+                    <a id ="like_unlike_button" value ={{=item.id}} >quan tâm</a>
                   {{else:}}
-                     <a id ="like_unlike_button" value ={{=item.id}} >Khong thich</a>
+                     <a id ="like_unlike_button" value ={{=item.id}} >không quan tâm</a>
                   {{pass}}
                   {{pass}}
                   <!--

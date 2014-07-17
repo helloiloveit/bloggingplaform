@@ -105,6 +105,7 @@ tinymce.init({
 
      $('#save_button').click(function () {
      alert('save');
+         user_sub_info = document.getElementById("user_sub_info");
           user_detail_info = document.getElementById("user_detail_info");
         $.ajax({
   type: "POST",
@@ -116,7 +117,6 @@ tinymce.init({
      $("#edit_button").show();
   }
 });
-        alert('lalala');
         });
      $('#follow_button').click(function () {
          var id = $(this).attr("value");

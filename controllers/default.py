@@ -114,6 +114,7 @@ def user_profile():
                     following_list = followed_list,
                     followed_list = followed_list)
     return dict()
+
 def update_profile():
     rst = update_self_introduction(request, auth)
     if rst:
@@ -128,7 +129,13 @@ def index():
     if you need a simple wiki simple replace the two lines below with:
     return auth.wiki()
     """
-    #redirect(URL(r = request, f= 'blog', args = 3))
+    print T.current_languages
+    """
+    T.force('fr')
+    T.set_current_languages('en', 'fr')
+    print T.current_languages
+    """
+    redirect(URL(r = request, f= 'question_list', args = ''))
     return dict()
 
 

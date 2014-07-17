@@ -44,14 +44,14 @@
                   {{pass}}
               </td>
               <td >
-                  {{=len(comment_list)}} quan diem  {{=len(like_list)}} quan tam
+                  {{=len(comment_list)}} trả lời  {{=len(like_list)}}  quan tâm
               </td>
                 {{if auth.is_logged_in():}}
                 <td>
-                    {{=A("edit",_id ='edit_button',_href=URL(r=request,f='edit_question',args=[item.id]))}}
+                    {{=A("sửa",_id ='edit_button',_href=URL(r=request,f='edit_question',args=[item.id]))}}
                 </td>
                 <td>
-                    {{=A("delete",_id='delete_button', _href=URL(r=request,f='delete_question',args=[item.id]))}}
+                    {{=A("xoá",_id='delete_button', _href=URL(r=request,f='delete_question',args=[item.id]))}}
                 </td>
                {{pass}}
               <td>
@@ -62,7 +62,7 @@
                   <img border="0" src={{=img_path}} alt="Pulpit rock" width="50" height="50">
                   -->
                   {{pass}}
-                  {{='  by   '}}
+                  {{=' bởi    '}}
                   <a id ="user_profile" href='http://localhost:8002/welcome/default/user_profile' onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
               </td>
 
@@ -109,6 +109,8 @@
                  <td>
                 {{user_info = db(db.auth_user.id == comment.author_info).select().first()}}
                       <a id ="user_profile" href='http://localhost:8002/welcome/default/user_profile' onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
+                     {{user_profile = db(db.user_profile.user_info == user_info.id).select().first()}}
+                     <span>{{=XML(user_profile.detail_info)}}</span>
                </td>
            </tr>
             <tr class="comment_info">
@@ -121,9 +123,9 @@
                   {{if auth.is_logged_in():}}
                   {{like_record = db((db.answer_like_tbl.answer_id == comment.id)&(db.answer_like_tbl.user_info == auth.user.id )).select()}}
                   {{if len(like_record):}}
-                  <a id ="unlike_button" value ={{=comment.id}}> unlike</a>
+                  <a id ="unlike_button" value ={{=comment.id}}> không thích</a>
                   {{else:}}
-                  <a id ="like_button" value ={{=comment.id}}> like</a>
+                  <a id ="like_button" value ={{=comment.id}}> thích</a>
                   {{pass}}
                   {{pass}}
                  </td>
