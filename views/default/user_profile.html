@@ -44,7 +44,7 @@ tinymce.init({
                </tr>
                <tr>
                    <td>
-           <div id="user_detail_info" class = "editable">
+           <div id="user_detail_info" >
                 {{if person_profile:}}
                {{=XML(person_profile.detail_info)}}
                {{else:}}
@@ -57,7 +57,7 @@ tinymce.init({
                   <td>
                       {{if auth.is_logged_in():}}
                       {{if auth.user.id == person_info.id:}}
-                      <p id ="save_button"  > save</p>
+                      {{=A("sửa",_id ='edit_button',_href=URL('edit_user_profile',   vars=dict(user_id= request.vars.user_id))   )}}
                       {{pass}}
                       {{pass}}
                   </td>

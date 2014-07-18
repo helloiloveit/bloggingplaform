@@ -57,14 +57,17 @@
                   {{if auth.is_logged_in():}}
                   {{like_record = db((db.question_like_tbl.question_id == item.id)&(db.question_like_tbl.user_info == auth.user.id )).select()}}
                   {{if len(like_record):}}
-                    <a id ="like_unlike_button" value ={{=item.id}} >quan tâm</a>
+                    <a class ="like_unlike_button" id ="unlike" value ={{=item.id}} style="color:red;" >quan tâm</a>
                   {{else:}}
-                     <a id ="like_unlike_button" value ={{=item.id}} >không quan tâm</a>
+                     <a class ="like_unlike_button" id ="like" value ={{=item.id}} style="color:grey">quan tâm</a>
                   {{pass}}
                   {{pass}}
                   <!--
                   <button id ="report_button" value={{=item.id}} name="report"> report</button>
                   -->
+                  <a>{{='   '}}&nbsp&nbsp&nbsp </a>
+                  {{like_record = db((db.question_like_tbl.question_id == item.id)).select()}}
+                  <a class="count_like">{{=len(like_record)}}</a><a> quan tâm</a>
                   {{answer_num=len(db(db.answer_tbl.question_id == item.id).select())}}
                   <!--
                   <button id ="view_answer_button" value={{=item.id}} name="view_answer">{{=str(answer_num)+' tra loi'}} </button>
@@ -102,20 +105,43 @@
          var id = $(this).attr("value");
         ajax('report_a_question?question_id='+ id, [''], 'report_button');
         });
-     $('#like_unlike_button').click(function () {
+     $('.like_unlike_button').click(function () {
+         var myThisVariable = $(this);
          var id = $(this).attr("value");
          var like_unlike_val = $(this).html();
-         alert(like_unlike_val);
-         alert(like_unlike_val.length);
-         alert(like_unlike_val.localeCompare("like"));
+         var like_unlike_val = $(this).attr("id");
+         //alert(like_unlike_val);
+         //alert(like_unlike_val.length);
+         //alert(like_unlike_val.localeCompare("quan tâm"));
 
          if (like_unlike_val == "like")
          {
-            alert('equal like');
-            ajax('like_a_question?question_id='+ id, [''], 'like_unlike_button');
+            //alert('equal like');
+             $.ajax({
+            type: "POST",
+            url: "like_a_question",
+            data: {question_id : id},
+            cache: false,
+            success: function(data){
+                myThisVariable.parent().find('.count_like').text(data);
+            }
+            });
+
+           $(this).css('color', 'red');
+           $(this).attr('id', 'unlike');
          } else
          {
-           ajax('unlike_a_question?question_id='+ id, [''], 'like_unlike_button');
+            $.ajax({
+            type: "POST",
+            url: "unlike_a_question",
+            data: {question_id : id},
+            cache: false,
+            success: function(data){
+                myThisVariable.parent().find('.count_like').text(data);
+            }
+            });
+           $(this).attr('id', 'like');
+           $(this).css('color', 'grey');
          }
         });
       </script>

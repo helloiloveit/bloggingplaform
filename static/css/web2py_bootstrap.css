@@ -241,7 +241,10 @@ height: 20px;
     margin-top:6px;
     color: black;
 }
+#like_unlike_button{
+color: red;
 
+}
 /*****user_profile***********/
 #user_fb_name{
 font-size: 30px;

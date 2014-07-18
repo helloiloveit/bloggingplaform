@@ -37,12 +37,16 @@ def update_a_question(request):
 def user_like_a_question(request, auth):
     question_id = request.vars.question_id
     record_id = question_handler().vote_up_a_question(question_id, auth.user.id)
-    return record_id
+    db = current.db
+    count_like = db((db.question_like_tbl.question_id == question_id)).select()
+    return len(count_like)
 
 def user_unlike_a_question(request, auth):
     question_id = request.vars.question_id
     result = question_handler().vote_down_a_question(question_id, auth.user.id)
-    return result
+    db = current.db
+    count_like = db((db.question_like_tbl.question_id == question_id)).select()
+    return len(count_like)
 
 class question_handler(object):
     def __init__(self):
@@ -109,7 +113,12 @@ class question_handler(object):
         db = self.db
         question_like_id =None
         try:
-            question_like_id = db.question_like_tbl.insert( question_id = question_id,
+            #check if user did like this question or not
+            like_record = db((db.question_like_tbl.question_id == question_id)&(db.question_like_tbl.user_info == audience_id )).select()
+            if len(like_record):
+                return SUCCESS_RESULT
+            else:
+                question_like_id = db.question_like_tbl.insert( question_id = question_id,
                                                             user_info = audience_id)
         except:
             log.error('cant create tbl')
@@ -167,7 +176,7 @@ def user_like_an_answer(request, auth):
 
 def user_unlike_an_answer(request, auth):
     answer_id = request.vars.answer_id
-    record_id = answer_handler().vote_down_an_answer(question_id, auth.user.id)
+    record_id = answer_handler().vote_down_an_answer(answer_id, auth.user.id)
     return record_id
 
 class answer_handler(object):
@@ -201,9 +210,14 @@ class answer_handler(object):
 
     def vote_up_an_answer(self, answer_id, audience_id):
         db = self.db
-        question_like_id =None
+        answer_like_id =None
         try:
-            answer_like_id = db.answer_like_tbl.insert( answer_id = answer_id,
+            # check if this user already like it
+            like_record = db((db.answer_like_tbl.answer_id == answer_id)&(db.answer_like_tbl.user_info == audience_id )).select()
+            if len(like_record):
+                return True
+            else:
+                answer_like_id = db.answer_like_tbl.insert( answer_id = answer_id,
                                                             user_info = audience_id)
         except:
             log.error('cant create tbl')
@@ -215,9 +229,9 @@ class answer_handler(object):
             #check if user did like this question or not
             # if yes . delete this record
             # if no   return flag  0: success 1: db failed 2: user already not like it
-            like_record = db((db.answer_like_tbl.answer_id == question_id)&(db.answer_like_tbl.user_info == audience_id )).select()
-            if len(like_record):
-                db(db.answer_like_tbl.id == like_record[0].id).delete()
+            like_record = db((db.answer_like_tbl.answer_id == answer_id)&(db.answer_like_tbl.user_info == audience_id )).select().first()
+            if like_record:
+                db(db.answer_like_tbl.id == like_record.id).delete()
                 return SUCCESS_RESULT
             else:
                 return DB_IS_UPDATED_ALREADY

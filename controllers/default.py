@@ -115,6 +115,38 @@ def user_profile():
                     followed_list = followed_list)
     return dict()
 
+def edit_user_profile():
+    if request.env.REQUEST_METHOD =='POST':
+        rst = update_self_introduction(request, auth)
+        redirect(URL('user_profile', vars=dict(user_id=request.vars.user_id)))
+        return dict()
+    elif request.env.REQUEST_METHOD =='GET':
+        target_person_id = request.vars.user_id
+        profile_info = db(db.user_profile.user_info == target_person_id).select().first()
+        user_info = db(db.auth_user.id == target_person_id).select().first()
+        try:
+            #if user is logged in
+            follow_record = db((db.follow_info_tbl.followed_user == target_person_id)&(db.follow_info_tbl.following_user == auth.user.id )).select().first()
+        except:
+            # not login
+            follow_record = False
+            pass
+        if follow_record:
+            follow_flag = True
+        else:
+            follow_flag = False
+        #following
+        following_list = db(db.follow_info_tbl.followed_user == target_person_id).select()
+        #followed
+        followed_list = db(db.follow_info_tbl.following_user == target_person_id).select()
+        return dict(person_profile = profile_info,
+                    person_info= user_info,
+                    follow_flag = follow_flag,
+                    following_list = followed_list,
+                    followed_list = followed_list)
+
+    return dict()
+
 def update_profile():
     rst = update_self_introduction(request, auth)
     if rst:
@@ -278,12 +310,14 @@ def user_modify_question():
 ####### answer ######
 @auth.requires_login()
 def like_an_answer():
-    user_like_an_answer(request, auth)
-    return 'unlike'
+    rst= user_like_an_answer(request, auth)
+    like_record = db((db.answer_like_tbl.answer_id == request.vars.answer_id)).select()
+    return len(like_record)
 
 def unlike_an_answer():
-    user_unlike_an_answer(request, auth)
-    return True
+    rst = user_unlike_an_answer(request, auth)
+    like_record = db((db.answer_like_tbl.answer_id == request.vars.answer_id)).select()
+    return len(like_record)
 
 @auth.requires_login()
 def user_update_an_answer():
@@ -298,13 +332,13 @@ def user_del_an_answer():
 ##############################
 @auth.requires_login()
 def like_a_question():
-    user_like_a_question(request, auth)
-    return "unlike"
+    count_like = user_like_a_question(request, auth)
+    return count_like
 
 @auth.requires_login()
 def unlike_a_question():
-    user_unlike_a_question(request, auth)
-    return "like"
+    count_like = user_unlike_a_question(request, auth)
+    return count_like
 
 def report_a_question():
     #user_report_a_question(request, auth)
