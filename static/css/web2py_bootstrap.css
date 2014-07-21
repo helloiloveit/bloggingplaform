@@ -368,12 +368,20 @@ color: grey;
     border-width: 1px;
 }
 .mission_info_link{
+    font-family: 'Roboto Slab', serif;
+    font-weight: 300;
     margin-left:50px;
     font-size: 16px;
 color: red;
 }
 #mission_info{
     margin-top: 100px;
+}
+.term_of_use{
+    font-family: 'Roboto Slab', serif;
+    font-weight: 300;
+    margin-left:50px;
+    font-size: 16px;
 }
 /* end add by huy */
 a{}

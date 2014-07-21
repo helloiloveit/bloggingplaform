@@ -26,9 +26,10 @@ except ImportError:
 from facebook import GraphAPI, GraphAPIError
 from gluon.contrib.login_methods.oauth20_account import OAuthAccount
 
+def term_of_use():
+    return dict()
 
-
-def test_jquery():
+def search_box():
     return dict()
 def test_tinyMCE():
     return dict()
