@@ -28,6 +28,7 @@
         <td>
             <table class = "article_tag"  >
                 <tr >
+                    {{try:}}
                 {{question_tag_list = db(db.question_tag_tbl.question_info == item.id).select()}}
                 {{for tag_unit in question_tag_list:}}
                <td>
@@ -37,13 +38,18 @@
 
                </td>
                 {{pass}}
+                    {{except:}}
+                    {{pass}}
                 </tr>
             </table>
             <table class = "content_info_table"  >
 
            <tr class="article_header">
                <td>
-                   {{=A(XML(item.question_info),_class='article_header', _href=URL('welcome','default',f='question',args=[item.id]))}}
+                   {{try:}}
+                   {{=A(item.question_info,_class='article_header', _href=URL(f='question',args=[item.id]))}}
+                   {{except:}}
+                   {{pass}}
                </td>
            </tr>
           <tr class="article_introduction">
@@ -54,9 +60,10 @@
           </tr>
           <tr class="article_popularity_info">
               <td >
+                  {{try:}}
                   {{if auth.is_logged_in():}}
-                  {{like_record = db((db.question_like_tbl.question_id == item.id)&(db.question_like_tbl.user_info == auth.user.id )).select()}}
-                  {{if len(like_record):}}
+                  {{like_record = db((db.question_like_tbl.question_id == item.id)&(db.question_like_tbl.user_info == auth.user.id )).select().first()}}
+                  {{if like_record:}}
                     <a class ="like_unlike_button" id ="unlike" value ={{=item.id}} style="color:red;" >quan tâm</a>
                   {{else:}}
                      <a class ="like_unlike_button" id ="like" value ={{=item.id}} style="color:grey">quan tâm</a>
@@ -79,6 +86,8 @@
                   <a id ="user_profile" href={{=URL(r=request,f='user_profile',args=[])}} onclick="location.href=this.href+'?user_id='+{{=item.writer}}; return false;">
                       {{=writer.last_name}}
                    </a>
+                  {{except:}}
+                  {{pass}}
 
               </td>
           </tr>
@@ -93,7 +102,6 @@
     <p></p>
     <!-- end #mainContent --></div>
   <div id="footer">
-    <p>xem thêm....</p>
   <!-- end #footer --></div>
 <!-- end #container --></div>
      <script>
@@ -149,7 +157,7 @@
 
 {{block right_sidebar}}
         <div id="right_bar_info" >
-            {{=A('Vi sao co chuotnhat.vn',_class='mission_info_link', _href=URL('welcome','default',f='mission_info',args=[]))}}
+            {{=A('Vi sao co chuotnhat.vn',_class='mission_info_link', _href=URL(f='mission_info',args=[]))}}
             </div>
 {{end}}
 </html>

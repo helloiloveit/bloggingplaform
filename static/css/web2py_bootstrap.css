@@ -17,7 +17,14 @@ margin-right: auto;
 margin-top:20px;
 width: 1022px;
 }
-
+#beta_version{
+color: rgba(2, 12, 7, 1);
+font-style: italic;
+margin-left: 80px;
+    font-size: 18px;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 300;
+}
 
 #kaka{
 width: 450px;
@@ -27,6 +34,9 @@ width: 450px;
 /* article page */
 .gsc-search-button{
 
+}
+.edit_button{
+    color:grey;
 }
 .article_container{
     padding-top:10px;

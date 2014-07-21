@@ -53,9 +53,10 @@ def tag_handler():
     selected = question_tag_handler().search_for_related_tag_in_tbl(tag_info)
     #selected =['tag1','tag2', 'tag3','tag4']
     #selected = [m for m in tag_list if m.name.startswith(tag_info)]
+    log.info('selected = %s', selected)
     div_id = "suggestion_box"
 
-    if not len(selected):
+    if not selected:
         temp = [DIV('tạo tag moi',
                     _onclick="user_post_new_tag('%s','%s');" %(tag_info, div_id),
                     _onmouseover="this.style.backgroundColor='yellow'",
@@ -90,10 +91,16 @@ def user():
     return dict(form = auth())
 
 def user_profile():
+    response.title ='user_profile'
     if request.env.REQUEST_METHOD =='GET':
         target_person_id = request.vars.user_id
-        profile_info = db(db.user_profile.user_info == target_person_id).select().first()
         user_info = db(db.auth_user.id == target_person_id).select().first()
+        profile_info = db(db.user_profile.user_info == target_person_id).select().first()
+        if not profile_info:
+            profile_id = create_basis_user_profile(target_person_id)
+            if profile_id:
+                profile_info = db(db.user_profile.id == profile_id).select().first()
+
         try:
             #if user is logged in
             follow_record = db((db.follow_info_tbl.followed_user == target_person_id)&(db.follow_info_tbl.following_user == auth.user.id )).select().first()
@@ -109,6 +116,7 @@ def user_profile():
         following_list = db(db.follow_info_tbl.followed_user == target_person_id).select()
         #followed
         followed_list = db(db.follow_info_tbl.following_user == target_person_id).select()
+        response.title = user_info.first_name
         return dict(person_profile = profile_info,
                     person_info= user_info,
                     follow_flag = follow_flag,
@@ -162,13 +170,7 @@ def index():
     if you need a simple wiki simple replace the two lines below with:
     return auth.wiki()
     """
-    print T.current_languages
-    """
-    T.force('fr')
-    T.set_current_languages('en', 'fr')
-    print T.current_languages
-    """
-    redirect(URL(r = request, f= 'question_list', args = ''))
+    redirect(URL(f= 'question_list', args = ''))
     return dict()
 
 
@@ -197,6 +199,7 @@ def question():
         like_list = db(db.question_like_tbl.question_id==question.id).select()
         #related question list
         related_question_list = db(db.question_tbl).select()
+        response.title = question.question_info
         return dict(item = question,
                     like_list = like_list,
                     comment_list = answer_list,
@@ -251,6 +254,7 @@ def question_list():
     """
     test data
     """
+    response.title = 'Chuot Nhat'
     record = db(db.auth_user).select()
 
     question_list = db(db.question_tbl).select()

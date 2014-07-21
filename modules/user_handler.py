@@ -11,6 +11,14 @@ log = logging.getLogger("h")
 log.setLevel(logging.DEBUG)
 
 
+def create_basis_user_profile(user_id):
+    default_info =""
+    db = current.db
+    profile_id = db.user_profile.insert(user_info = user_id,
+                                        detail_info = default_info)
+    return profile_id
+
+
 def update_self_introduction(request, auth):
     user_detail_info = request.vars['user_info']
     user_id = auth.user.id

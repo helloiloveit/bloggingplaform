@@ -83,7 +83,7 @@
 
       function user_select_tag_handler(tag_info, suggestion_box_id){
          //$('#month').val(tag_info);
-         alert(tag_list);
+         //alert(tag_list);
          $("#" + suggestion_box_id).remove();
 
          current_tag = $('#target').html();
@@ -117,7 +117,25 @@
             $(this).parent().remove();
             });
 
+      function user_post_new_tag(tag_info, suggestion_box_id){
+         $("#" + suggestion_box_id).remove();
+         var request = $.ajax({
+                url: "{{=URL('create_new_tag')}}",
+                type: "POST",
+                data: { tag_info  : tag_info },
+                dataType: "html"
+          });
 
+
+        request.done(function( msg ) {
+            user_select_tag_handler(tag_info, 'suggestion_box');
+        });
+
+        request.fail(function( jqXHR, textStatus ) {
+            //alert( "Request failed: " + textStatus );
+        });
+
+      }
 
         jQuery("#month").click(function(){
             $("#month").val("");

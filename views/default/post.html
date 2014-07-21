@@ -7,8 +7,6 @@
 
 
 <div class="post_article">
-  <div>
-    <!-- end #header --></div>
   <div id="mainContent">
     <h1>  </h1>
 
@@ -49,14 +47,7 @@
           </div>
       </form>
       <div id="target"></div>
-      <button id="post_question_button"> Gửi: </button>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <h2></h2>
-    <p></p>
-    <!-- end #mainContent --></div>
-  <!-- end #footer --></div>
-<!-- end #container --></div>
+      <button id="post_question_button"> Gửi đi </button>
 
     <script>
         var tag_list = [];
@@ -113,7 +104,7 @@
 
       function user_select_tag_handler(tag_info, suggestion_box_id){
          //$('#month').val(tag_info);
-         alert(suggestion_box_id);
+         //alert(suggestion_box_id);
          $("#" + suggestion_box_id).remove();
 
          current_tag = $('#target').html();

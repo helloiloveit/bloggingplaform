@@ -90,7 +90,6 @@ tinymce.init({
   <!-- Navbar ================================================== -->
   <!-- Navbar ================================================== -->
   <div class="navbar navbar-inverse">
-    <div class="flash">{{=response.flash or ''}}</div>
     <div class="navbar-inner-new">
       <div class="container">
         {{is_mobile=request.user_agent().is_mobile}}
@@ -120,7 +119,9 @@ tinymce.init({
         </ul>
          <div class = "nav">
              <ul class = "nav">
-        <li class="web2py-menu-first"><a  id = "logo_site" href="/welcome/default/question_list">Chuot nhat </a></li>
+        <li class="web2py-menu-first"><a  id = "logo_site" href="{{=URL(f='question_list')}}">Chuot nhat </a>
+            <span id="beta_version">beta</span>
+        </li>
       <!--  <li class="web2py-menu-first"><input type="text" name="" style="height:30px;font-size:16pt;size=80; width: 500px"  value = "search " ></li>-->
                 <li class="web2py-menu-first"><a id="kaka">
                     <style type="text/css">

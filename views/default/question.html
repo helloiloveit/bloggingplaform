@@ -2,6 +2,7 @@
 {{right_sidebar_enabled=True}}
 {{extend 'layout.html'}}
 
+{{response.title = item.question_info}}
 
 
 <div class="article_container">
@@ -95,7 +96,7 @@
             </textarea>
 
         <p>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Gửi">
         </p>
     </form>
   </div>
@@ -108,7 +109,7 @@
             <tr class="user_info">
                  <td>
                 {{user_info = db(db.auth_user.id == comment.author_info).select().first()}}
-                      <a id ="user_profile" href='http://localhost:8002/welcome/default/user_profile' onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
+                      <a id ="user_profile" href="{{=URL(f='user_profile')}}"  onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
                      {{user_profile = db(db.user_profile.user_info == user_info.id).select().first()}}
                      <span>{{=XML(user_profile.detail_info)}}</span>
                </td>
@@ -143,7 +144,6 @@
       {{pass}}
     </table>
    </div>
-{{=URL(f='like_an_answer')}}
 
 </div>
 {{block right_sidebar}}

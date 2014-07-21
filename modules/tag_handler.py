@@ -100,7 +100,6 @@ class question_tag_handler(object):
 
     def _handle_new_tag_data_from_user(self, tag_info):
         id_list = []
-        import pdb; pdb.set_trace()
         if type(tag_info) == list:
             for tag in tag_info:
                 id_list.append(self._handle_new_tag_from_user(tag))
