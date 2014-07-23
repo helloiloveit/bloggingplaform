@@ -49,7 +49,7 @@ auth_table = db.define_table(
     Field('username', length=128, default=""),
     Field('password', 'password', length=256,
           readable=False, label='Password'),
-    Field('registration_key', length=128, default= "",
+    Field('registration_id', length=128, default= "",
           writable=False, readable=False))
 
 auth_table.username.requires = IS_NOT_IN_DB(db, auth_table.username)
@@ -74,7 +74,8 @@ current.auth = auth
 #extend information for auth_user
 db.define_table('user_profile',
     Field('user_info', 'reference auth_user'),
-    Field('self_introduction','text'))
+    Field('sub_info','text'),
+    Field('detail_info','text'))
 
 db.define_table('question_tbl',
     Field('question_info', 'text'),

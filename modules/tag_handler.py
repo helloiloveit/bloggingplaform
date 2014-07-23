@@ -109,7 +109,6 @@ class question_tag_handler(object):
             select tag_list to delete
             update new tag_list to db
         """
-        import pdb; pdb.set_trace()
         db = self.db
         try:
             self.delete_question_tag(question_id)

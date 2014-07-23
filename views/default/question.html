@@ -78,11 +78,11 @@
     </form>
   </div>
     <div>
-      {{=A("edit",_href=URL(r=request,f='edit_question',args=[item.id]))}}
+      {{=A("edit",_id ='edit_button',_href=URL(r=request,f='edit_question',args=[item.id]))}}
     </div>
 
     <div>
-      {{=A("delete",_href=URL(r=request,f='delete_question',args=[item.id]))}}
+      {{=A("delete",_id='delete_button', _href=URL(r=request,f='delete_question',args=[item.id]))}}
     </div>
    <div class="article_comment_container">
     <table>

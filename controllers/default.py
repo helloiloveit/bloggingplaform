@@ -65,10 +65,6 @@ def user():
     return dict(form = auth())
 
 def user_profile():
-    if request.env.REQUEST_METHOD =='POST':
-        #save self introduction to db
-        update_self_introduction(request, auth)
-        redirect(URL(r = request, f= 'user_profile', args = ''))
     if request.env.REQUEST_METHOD =='GET':
         target_person_id = request.vars.user_id
         profile_info = db(db.user_profile.user_info == target_person_id).select().first()
@@ -78,9 +74,23 @@ def user_profile():
             follow_flag = True
         else:
             follow_flag = False
-        return dict(person_profile = profile_info, person_info= user_info, follow_flag = follow_flag)
+        #following
+        following_list = db(db.follow_info_tbl.followed_user == target_person_id).select()
+        #followed
+        followed_list = db(db.follow_info_tbl.following_user == target_person_id).select()
+        return dict(person_profile = profile_info,
+                    person_info= user_info,
+                    follow_flag = follow_flag,
+                    following_list = followed_list,
+                    followed_list = followed_list)
     return dict()
-
+def update_profile():
+    import pdb;pdb.set_trace()
+    rst = update_self_introduction(request, auth)
+    if rst:
+        return True
+    else:
+        return False
 def index():
     """
     example action using the internationalization operator T and flash
@@ -122,7 +132,6 @@ def edit_question():
     Edit blog
     """
     log.info("edit question")
-    import pdb; pdb.set_trace()
     if request.env.REQUEST_METHOD == 'GET':
         question = db(db.question_tbl.id == request.args[0]).select()[0]
         tag_list = question_tag_handler().get_tag_list_of_a_question(request.args[0])
@@ -215,7 +224,6 @@ def post_tag():
 def post_question():
     log.info("post")
     log.info("request.vars = %s",request.vars)
-    import pdb;pdb.set_trace()
     question_id = post_new_question(request, auth, session)
     if question_id:
         redirect(URL(r = request, f= 'question', args = question_id))

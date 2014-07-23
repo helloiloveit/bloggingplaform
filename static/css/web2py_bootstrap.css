@@ -173,6 +173,9 @@ margin-top: 10px;
 width: 550px;
 height: 40px;
 }
+#post_button{
+    margin-top:6px;
+}
 
 /*****user_profile***********/
 .user_brief_info{
