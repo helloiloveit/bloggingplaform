@@ -27,7 +27,8 @@ def delete_a_question(request):
 
 def update_a_question(request):
     question_id = request.args[0]
-    question_handler().update_to_question_tbl(question_id, request.vars.question_info, request.vars.question_detail_info, request.vars.tag_list)
+    tag_list = request.vars.tag_list.split(',')
+    question_handler().update_to_question_tbl(question_id, request.vars.question_info, request.vars.question_detail_info, tag_list)
     return
 
 

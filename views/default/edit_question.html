@@ -7,9 +7,6 @@
 
 
 <div id="container">
-  <div id="header">
-
-    <!-- end #header --></div>
   <div id="mainContent">
     <h1>  </h1>
  <form id ="question_content_form2" action="" method="post">
@@ -42,7 +39,6 @@
     <h2></h2>
     <p></p>
     <!-- end #mainContent --></div>
-  <!-- end #footer --></div>
 <!-- end #container --></div>
     <script>
         var tag_list = [];
@@ -55,7 +51,6 @@
         });
 
         jQuery("#post_question_button").click(function(){
-            alert('post');
             $( "#question_content_form2" ).submit();
             });
         jQuery("#month").keyup(function(){
@@ -82,18 +77,18 @@
             });
 
       function user_select_tag_handler(tag_info, suggestion_box_id){
-         //$('#month').val(tag_info);
+         $('#month').val(tag_info);
          //alert(tag_list);
          $("#" + suggestion_box_id).remove();
 
          current_tag = $('#target').html();
          //$('#target').html(current_tag+' ' + tag_info);
-         //alert(tag_info + tag_list);
 
          if ($.inArray(tag_info, tag_list) == -1)
         {
             tag_list[tag_list.length] = tag_info;
             //alert(tag_info);
+            //alert(tag_list);
             var txt1 = "<span class = post-tag>" + tag_info + "<span id = delete_tag value = "+ tag_info + " class = delete-tag title = remove this tag>x</span></span>";
             $('#target').append(txt1);
          }

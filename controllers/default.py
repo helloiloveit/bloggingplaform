@@ -86,12 +86,13 @@ def user():
         if request.args[0] == 'login':
             return dict(form = auth())
         profile_info = db(db.user_profile.user_info == auth.user.id).select().first()
-        return dict(user_profile = profile_info)
+        return dict(user_profile = profile_infoimport pdb; pdb.set_trace())
     """
     return dict(form = auth())
 
 def user_profile():
     response.title ='user_profile'
+    import pdb; pdb.set_trace()
     if request.env.REQUEST_METHOD =='GET':
         target_person_id = request.vars.user_id
         user_info = db(db.auth_user.id == target_person_id).select().first()
@@ -217,7 +218,6 @@ def edit_question():
         tag_list = question_tag_handler().get_tag_name_list_of_a_question(request.args[0])
         return dict(question = question , tag_list = tag_list)
     elif request.env.REQUEST_METHOD == 'POST':
-        import pdb; pdb.set_trace()
         update_a_question(request)
         redirect(URL(r = request, f= 'question', args = [request.args[0]]))
 
@@ -352,6 +352,7 @@ def report_a_question():
 ##############follow##########
 @auth.requires_login()
 def follow_a_person():
+    import pdb; pdb.set_trace()
     rst = user_follow_a_person(request, auth)
     if rst:
         return "followed"

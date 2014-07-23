@@ -1,9 +1,10 @@
 __author__ = 'huyheo'
 
-#python web2py.py -S welcome -M -R applications/welcome/funtionalTest/testPostQuestion.py
+#python applications/chuotnhat/funtionalTest/testPostQuestion.py
 
 import unittest
 from selenium import webdriver
+from selenium.common.exceptions import *
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from time import *
@@ -114,7 +115,7 @@ class TestPostNewArticle(unittest.TestCase):
         #add tag
         tag_info= driver.find_element_by_id('month')
         tag_info.click()
-        tag_info.send_keys('tag1')
+        tag_info.send_keys('c')
         temp = driver.find_element_by_id('suggestion_box')
         tag_suggess = temp.find_element_by_xpath('div')
         tag_suggess.click()
@@ -149,6 +150,7 @@ class TestPostNewArticle(unittest.TestCase):
         submit_button = driver.find_element_by_id('submit_button')
         submit_button.click()
 
+    """
     def testLikeUnlikeAtQuestionList(self):
         driver = self.driver
         self.post()
@@ -156,17 +158,18 @@ class TestPostNewArticle(unittest.TestCase):
         question_list_button = self.driver.find_element_by_id('logo_site')
         question_list_button.click()
         question_one = self.driver.find_element_by_class_name('article_header')
+        """
 
 
     def testPostEditDelete(self):
         """
          write more in one testcase to reduce the login activity
         """
-        import pdb;pdb.set_trace()
         driver = self.driver
         self.post()
         #confirm the posted question
         question_info_result = driver.find_element_by_class_name('article_header')
+        import pdb;pdb.set_trace()
         self.assertIn(question_info_result.text, self.question_info)
         self.edit_post()
         question_info_result = driver.find_element_by_class_name('article_header')
@@ -197,21 +200,22 @@ class TestUnLogginUserVisitPage(unittest.TestCase):
         link = question_one.find_element_by_link_text(question_one.text)
         link.click()
         #check if no answer button is there
-        import pdb; pdb.set_trace()
-        self.assertRaises('NoSuchElementException', self.driver.find_element_by_id('inputCommentButton'))
-
-        popularity_info = self.driver.find_element_by_class_name('article_popularity_info')
-        self.assertIn( self.answer_text, popularity_info.text)
+        try:
+            self.driver.find_element_by_id('inputCommentButton')
+            return True
+        except NoSuchElementException:
+            pass
+        #click on writer of question
         user_profile = self.driver.find_element_by_id('user_profile')
         user_profile.click()
+        self.driver.back()
+        #click on  question on right side bar
+        side_bar_questions = self.driver.find_element_by_id('right_bar_question_list')
+        question = side_bar_questions.find_element_by_id('related_question')
+        question.click()
 
 
-    def testVisittingPage(self):
-        question_list_button = self.driver.find_element_by_id('logo_site')
-        question_list_button.click()
-        question_one = self.driver.find_element_by_class_name('article_header')
-        link = question_one.find_element_by_link_text(question_one.text)
-        link.click()
+    def testVisitUserProfile(self):
         #go back
         question_list_button = self.driver.find_element_by_id('logo_site')
         question_list_button.click()
@@ -220,18 +224,23 @@ class TestUnLogginUserVisitPage(unittest.TestCase):
         user_profile.click()
         #back
         self.driver.back()
+    """
+    def testPopularityInfoOfQuestionInQuestionList(self):
         popularity_info = self.driver.find_element_by_class_name('article_popularity_info')
-        answer_button = popularity_info.find_elements_by_xpath("//*[contains(text(), 'asnwer')]")
+        answer_button = popularity_info.find_elements_by_xpath("//*[contains(text(), 'tra loi')]")
         answer_button[0].click()
         self.driver.back()
         pass
+    """
+
+
 
     def tearDown(self):
         self.driver.close()
 
 suite = unittest.TestSuite()
 #suite.addTest(unittest.makeSuite(TestAuth))
-#suite.addTest(unittest.makeSuite(TestPostNewArticle))
+suite.addTest(unittest.makeSuite(TestPostNewArticle))
 #suite.addTest(unittest.makeSuite(TestUserProfile))
 suite.addTest(unittest.makeSuite(TestUnLogginUserVisitPage))
 unittest.TextTestRunner(verbosity=2).run(suite)

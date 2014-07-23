@@ -74,12 +74,12 @@
                   -->
                   <a>{{='   '}}&nbsp&nbsp&nbsp </a>
                   {{like_record = db((db.question_like_tbl.question_id == item.id)).select()}}
-                  <a class="count_like">{{=len(like_record)}}</a><a> quan tâm</a>
+                  <a class="count_like">{{=len(like_record)}}</a><span> quan tâm</span>
                   {{answer_num=len(db(db.answer_tbl.question_id == item.id).select())}}
                   <!--
                   <button id ="view_answer_button" value={{=item.id}} name="view_answer">{{=str(answer_num)+' tra loi'}} </button>
                   -->
-                  {{=A("        " + str(answer_num) + " tra loi",_href=URL(r=request,f='question',args=[item.id]))}}
+                  {{=A("        " + str(answer_num) + " trả lời",_href=URL(r=request,f='question',args=[item.id]))}}
               </td>
               <td>
                   {{writer = db(db.auth_user.id == item.writer).select().first()}}

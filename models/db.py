@@ -167,7 +167,6 @@ class FaceBookAccount(OAuthAccount):
             self.session.token = None
             self.graph = None
 
-
         if user:
 
             first_name = user['first_name']
