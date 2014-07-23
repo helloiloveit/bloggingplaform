@@ -5,11 +5,7 @@
 body{height:auto;} /* to avoid vertical scroll bar */
 /* add by huy */
 #logo_site{
-    margin-top: 6px;
-background-color: red;
-padding-top: 10px;
-padding-bottom: 10px;
-color:white;
+    margin-top:6px;
 }
 #logo{
 margin-left: auto;
@@ -17,17 +13,10 @@ margin-right: auto;
 margin-top:20px;
 width: 1022px;
 }
-#beta_version{
-color: rgba(2, 12, 7, 1);
-font-style: italic;
-margin-left: 80px;
-    font-size: 18px;
-    font-family: 'Roboto Slab', serif;
-    font-weight: 300;
-}
+
 
 #kaka{
-width: 450px;
+width: 550px;
 }
 
 /****************/
@@ -35,65 +24,40 @@ width: 450px;
 .gsc-search-button{
 
 }
-.edit_button{
-    color:grey;
-}
 .article_container{
     padding-top:10px;
 }
-.article_tag{
+.article_container .article_tag{
 
     font-size: 18px;
     font-family: 'Roboto Slab', serif;
     font-weight: 300;
+    width: 400px;
     height:40px;
-    margin-top:20px;
-    border-spacing: 7px;
-    border-collapse: separate;
+    background-color: lightgrey;
 
 }
 
-.article_tag td{
+.article_container .article_tag td{
 vertical-align: middle;
 text-align:center;
-background-color: lightgrey;
 }
 
 
 .article_container .article_header{
-    font-size: 26px;
+    font-size: 16px;
     font-family: 'Roboto Slab', serif;
-    font-weight: 300;
-    margin-top:0px;
-    color:rgb(19, 19, 219);
-}
-
-.article_header_text{
-    position: relative;
-    color: black;
-    font-size: 36px;
-}
-.article_container .article_header td{
-    height: 100%;
-
+    font-weight: 400;
 }
 .article_container .article_introduction{
     font-size: 14px;
+
     font-weight: 300;
-    margin-top:20px;
-    width:80%;
-}
-.article_container .article_introduction_bigger{
-//    font-size: 16px;
- //   font-weight: 300;
-  //  margin-top:20px;
 }
 .article_container .article_popularity_info{
     font-size: 14px;
 
     font-weight: 300;
-    width: 600px;
-    margin-top:20px;
 }
 .article_container .article_popularity_info td{
     font-size: 14px;
@@ -101,25 +65,11 @@ background-color: lightgrey;
     font-weight: 300;
     text-align:left;
 }
-/*right side */
-#related_question{
-    font-size: 14px;
-    font-family: 'Roboto Slab', serif;
-    font-weight: 300;
-}
-/* comment */
-.article_comment_container{
-margin-top:30px;
-width:80%;
-}
-.article_comment_container  {
-border-collapse:separate;
-border-spacing: 0 2em;
-}
 
+/* comment */
 .article_comment_container .comment_info{
 
-    font-size: 14px;
+    font-size: 16px;
     font-family: 'Roboto Slab', serif;
     font-weight: 300;
     width: 400px;
@@ -137,7 +87,6 @@ border-spacing: 0 2em;
 
     font-weight: 300;
 }
-
 /****************/
 
 
@@ -145,8 +94,7 @@ border-spacing: 0 2em;
 /*article list page */
 .article_list_containter{
     margin-top:10px;
-   /* margin-left:30px;
-   */
+    margin-left:30px;
 }
 
 .article_list_containter .header  tr{
@@ -183,7 +131,6 @@ text-align:center;
     font-size: 16px;
     font-family: 'Roboto Slab', serif;
     font-weight: 400;
-    color:rgb(19, 19, 219);
 }
 .article_list_containter .article_introduction{
     font-size: 14px;
@@ -208,191 +155,30 @@ font-family: 'Roboto Slab', serif;
 
 /* style list of question in main page*/
 .content_list_table{
-
-}
-.content_info_table {
- /*
-    margin-top:5px;
-    */
+margin-top: 10px;
 }
 
-.article_tag{
-    font-size: 14px;
-    font-family: 'Roboto Slab', serif;
-    font-weight: 300;
-    height:40px;
+.content_list_table {
     margin-top:20px;
-    border-spacing: 7px;
-    border-collapse: separate;
 }
-
-.content_info_table .header  tr{
+.content_list_table .header  tr{
     font-size:20px;
-}
 
-#question_header{
- width: 540px;
-height: 40px;
-font-size: 24px;
-font-family: "Roboto Slab",serif;
-font-weight: 100;
-border: none;
-border-color: transparent;
-margin-top:60px;
 }
 
 
 
 #inputCommentButton{
-width: 60px;
-height: 20px;
-}
-#post_button{
-    margin-top:6px;
-    color: black;
-}
-#like_unlike_button{
-color: red;
-
-}
-/*****user_profile***********/
-#user_fb_name{
-font-size: 30px;
-font-family: 'Roboto Slab', serif;
-font-weight: 400;
-padding-bottom:30px;
-}
-#user_detail_info{
-font-size: 24px;
-font-family: 'Roboto Slab', serif;
-font-weight: 300;
-padding-bottom:30px;
-}
-
-.user_brief_info{
-    margin-top:40px;
-    margin-left:30px;
-    width:100%;
-
-}
-
-.user_text_info{
     margin-left: 5px;
-width: 100%;
-height: 20px;
-}
-.popular_info{
-   margin-top:20px;
+width: 550px;
+height: 40px;
 }
 
-/********header********/
-.navbar-inverse .navbar-inner-new {
-/*
-background-color: #1b1b1b;
-background-image: -moz-linear-gradient(top,#222,#111);
-background-image: -webkit-gradient(linear,0 0,0 100%,from(#222),to(#111));
-background-image: -webkit-linear-gradient(top,#222,#111);
-background-image: -o-linear-gradient(top,#222,#111);
-background-image: linear-gradient(to bottom,#FF3A3A,#FF3A3A);
-background-repeat: repeat-x;
-border-color: none;
-*/
-}
-.navbar-inner-new {
--webkit-border-radius: 0;
--moz-border-radius: 0;
-border-radius: 0;
-}
-.navbar-inner-new {
-min-height: 40px;
-padding-right: 20px;
-/*padding-left: 20px;
-*/
-/*
-background-color: #fafafa;
-background-image: -moz-linear-gradient(top,#fff,#f2f2f2);
-background-image: -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#f2f2f2));
-background-image: -webkit-linear-gradient(top,#fff,#f2f2f2);
-background-image: -o-linear-gradient(top,#fff,#f2f2f2);
-background-image: linear-gradient(to bottom,#fff,#f2f2f2);
-background-repeat: repeat-x;
-border: 1px solid #d4d4d4;
--webkit-border-radius: 4px;
--moz-border-radius: 4px;
-border-radius: 4px;
-*/
-}
-/*******tag *******/
-.post-tag, .post-text .post-tag, .wmd-preview a.post-tag {
-color: #3e6d8e;
-background-color: #e0eaf1;
-border-bottom: 1px solid #b3cee1;
-border-right: 1px solid #b3cee1;
-padding: 3px 4px 3px 4px;
-margin: 2px 2px 2px 0;
-text-decoration: none;
-font-size: 90%;
-line-height: 1.4;
-white-space: nowrap;
-display: inline-block;
+/*****user_profile***********/
+.user_brief_info{
+
 }
 
-
-.delete-tag {
-vertical-align: top;
-background-position: 0 -690px;
-width: 14px;
-height: 14px;
-display: inline-block;
-margin-left:20px;
-}
-
-.delete-tag:hover
-{
-font-family: san-serif;
-color: red;
-}
-
-
-#post_question_button{
-margin-top:20px;
-}
-
-/******etc*****/
-.suggest_text{
-color: grey;
-}
-
-
-/******rightbar******/
-#right_bar_question_list{
-    float:left;
-    margin-top:200px;
-    margin-left:60px;
-}
-#right_bar_info{
-    float:left;
-    margin-top:100px;
-    margin-left:60px;
-       border-left-style: solid;
-    border-width: 1px;
-}
-.mission_info_link{
-    font-family: 'Roboto Slab', serif;
-    font-weight: 300;
-    margin-left:50px;
-    font-size: 16px;
-color: red;
-}
-#mission_info{
-    margin-top: 100px;
-}
-.term_of_use{
-    font-family: 'Roboto Slab', serif;
-    font-weight: 300;
-    margin-left:50px;
-    font-size: 16px;
-}
 /* end add by huy */
 a{}
 a:visited{}
@@ -485,7 +271,6 @@ div.controls select +.error_wrapper {margin-left:5px;}
 .navbar {margin-bottom:0;
         margin-left:auto;
         margin-right:auto;
-        margin-top:10px;
         width:1022px;
         }
 .navbar-inverse .brand{color:#white;}
@@ -502,7 +287,7 @@ span.highlighted{color:#d8d800;}
 
 /* reset to default */
 a{white-space:normal;}
-li{margin-bottom:0;margin-top:0px;  list-style-type: none;}
+li{margin-bottom:0;margin-top:0px;}
 textarea,button{display:block;}
 /*reset ul padding */
 ul#navbar{padding:0;}

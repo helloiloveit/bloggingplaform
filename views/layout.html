@@ -15,7 +15,7 @@
   <!-- Always force latest IE rendering engine
        (even in intranet) & Chrome Frame
        Remove this if you use the .htaccess -->
-
+	   
   <meta charset="utf-8" />
 
   <!-- http://dev.w3.org/html5/markup/meta.name.html -->
@@ -49,17 +49,12 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript">
 tinymce.init({
-    selector: "textarea",
-     width: 550,
-      menubar:false,
-    statusbar: false,
-    fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt",
-    content_css : "{{=URL('static', 'css/content.css')}}"
+    selector: "textarea"
  });
 </script>
 
   <!-- include stylesheets -->
-  {{
+  {{  
   response.files.append(URL('static','css/web2py.css'))
   response.files.append(URL('static','css/bootstrap.min.css'))
   response.files.append(URL('static','css/bootstrap-responsive.min.css'))
@@ -75,7 +70,6 @@ tinymce.init({
   middle_columns = {0:'span12',1:'span9',2:'span6'}[
     (left_sidebar_enabled and 1 or 0)+(right_sidebar_enabled and 1 or 0)]
   }}
-    {{left_sidebar_enabled = False}}
 
   <!-- uncomment here to load jquery-ui
        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all" />
@@ -90,7 +84,8 @@ tinymce.init({
   <!-- Navbar ================================================== -->
   <!-- Navbar ================================================== -->
   <div class="navbar navbar-inverse">
-    <div class="navbar-inner-new">
+    <div class="flash">{{=response.flash or ''}}</div>
+    <div class="navbar-inner">
       <div class="container">
         {{is_mobile=request.user_agent().is_mobile}}
         <!-- the next tag is necessary for bootstrap menus, do not remove -->
@@ -102,6 +97,15 @@ tinymce.init({
        <!-- {{=response.logo }}-->
           <!-- bug of not update db when login second time with fb-->
           {{temp =  db(db.auth_user).select().first()}}
+          {{if not temp:}}
+          {{=db}}
+          {{=auth.user}}
+          {{db.auth_user.insert(first_name = auth.user.first_name,
+                                last_name = auth.user.last_name,
+                                email = auth.user.email,
+                                username = auth.user.username,
+                                password = '',
+                                registration_key = auth.user.registration_key)}}
           {{pass}}
 
         <ul id="navbar" class="nav pull-right">
@@ -109,37 +113,26 @@ tinymce.init({
             {{img_path =' https://graph.facebook.com/' + auth.user.username + '/picture'}}
             <li>
                 <!--<a href={{=URL( 'welcome/default/user_profile')}}>-->
-                <a id ="user_profile" href="{{=URL(f='user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=auth.user.id}}; return false;">
+                <a href='http://localhost:8002/welcome/default/user_profile' onclick="location.href=this.href+'?user_id='+{{=auth.user.id}}; return false;">
                 <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
                 </a>
             </li>
             {{pass}}
-            {{T.force('vn')}}
             {{='auth' in globals() and auth.navbar(mode="dropdown") or ''}}
         </ul>
          <div class = "nav">
              <ul class = "nav">
-        <li class="web2py-menu-first"><a  id = "logo_site" href="{{=URL(f='question_list')}}">Chuot nhat </a>
-            <span id="beta_version">beta</span>
-        </li>
+        <li class="web2py-menu-first"><a  id = "logo_site" href="/welcome/default/question_list">Chuot nhat </a></li>
       <!--  <li class="web2py-menu-first"><input type="text" name="" style="height:30px;font-size:16pt;size=80; width: 500px"  value = "search " ></li>-->
                 <li class="web2py-menu-first"><a id="kaka">
                     <style type="text/css">
                             td.gsc-search-button { display: none !important; }
                             #gsc-i-id1{
-                                height:2em !important;
                             }
                         .gsc-input-box{
-                         height: 38px;
-                         border: 0px solid #D9D9D9;
-                         width:400px;
+                         height: 30px;
                         }
-                        input.gsc-input, .gsc-input-box, .gsc-input-box-hover, .gsc-input-box-focus {
-                        border:2px red !important;
-                        }
-                        .cse input.gsc-input, input.gsc-input {
-                        //background-image:none !important;
-                        }
+
                     </style>
 <script>
   (function() {
@@ -154,11 +147,11 @@ tinymce.init({
   })();
 
 </script>
-<gcse:searchbox-only resultsUrl="{{=URL(f='search_box')}}"></gcte:searchbox-only>
+<gcse:searchbox-only resultsUrl="http://localhost:8000/welcome/default/test_jquery"></gcse:searchbox-only>
 
                        </a>
                 </li>
-               <li class="web2py-menu-first">   <a id = "post_button" href={{=URL('post')}} rel="nofollow"> Đặt câu hỏi</a></li>
+               <li class="web2py-menu-first">   <a id = "logo_site" href={{=URL('post')}} rel="nofollow"> Post</a></li>
                  </ul>
              </div>
           <!--
@@ -187,13 +180,12 @@ tinymce.init({
 
     <section id="main" class="main row">
 
-        {{if left_sidebar_enabled:}}
+
         <div class="span3 left-sidebar">
             {{block left_sidebar}}
-            aaa
+            <!--<h3>Left Sidebar</h3>-->
             {{end}}
         </div>
-        {{pass}}
 
         <div class="{{=middle_columns}}">
             {{block center}}
@@ -216,21 +208,21 @@ tinymce.init({
     </section><!--/main-->
 
     <!-- Footer ================================================== -->
+    <!--
     <div class="row">
         <footer class="footer span12" id="footer">
             <div class="footer-content">
-                {{block footer}}
-                <div class="copyright pull-left">
-                    {{=A("Điều khoản sử dụng",_id ='',_href=URL(r=request,f='term_of_use',args=[]))}}
-                     &#169; {{=request.now.year}}</div>
+                {{block footer}} 
+                <div class="copyright pull-left">{{=T('Copyright')}} &#169; {{=request.now.year}}</div>
                 <div id="poweredBy" class="pull-right">
-                    Power by
+                    {{=T('Powered by')}}
                     <a href="http://www.web2py.com/">web2py</a>
                 </div>
                 {{end}}
             </div>
         </footer>
     </div>
+    -->
 
   </div> <!-- /container -->
 
@@ -242,14 +234,15 @@ tinymce.init({
       <script src="{{=URL('static','js/dd_belatedpng.js')}}"></script>
       <script> DD_belatedPNG.fix('img, .png_bg'); //fix any <img> or .png_bg background-images </script>
       <![endif]-->
-
+  
   {{if response.google_analytics_id:}}
   <script src="{{=URL('static','js/analytics.min.js')}}"></script>
   <script type="text/javascript">
   analytics.initialize({
-    'Google Analytics':{trackingId:'{{=response.google_analytics_id}}'}
+    'Google Analytics':{trackingId:'{{=response.google_analytics_id}}'} 
   });</script>
   {{pass}}
+  <script src="{{=URL('static','js/share.js',vars=dict(static=URL('static','images')))}}"></script>
 </body>
 </html>
 

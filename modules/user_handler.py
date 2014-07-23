@@ -11,18 +11,10 @@ log = logging.getLogger("h")
 log.setLevel(logging.DEBUG)
 
 
-def create_basis_user_profile(user_id):
-    default_info =""
-    db = current.db
-    profile_id = db.user_profile.insert(user_info = user_id,
-                                        detail_info = default_info)
-    return profile_id
-
-
 def update_self_introduction(request, auth):
-    user_detail_info = request.vars['user_info']
+    introduction_info = request.vars.self_introduction
     user_id = auth.user.id
-    user_profile_id = user_profile_handler().update_self_introduction( user_detail_info, auth.user.id)
+    user_profile_id = user_profile_handler().update_self_introduction(introduction_info, auth.user.id)
     return user_profile_id
 
 
@@ -49,16 +41,17 @@ class user_profile_handler(object):
     def __init__(self):
         self.db = current.db
 
-    def update_self_introduction(self, user_detail_info, user_id):
+    def update_self_introduction(self, introduction_info, user_id):
         db = self.db
         try:
             row = db(db.user_profile.user_info == user_id).select().first()
             if not row:
                 profile_id = db.user_profile.insert(user_info = user_id,
-                                                detail_info = user_detail_info)
+                                                self_introduction = introduction_info)
                 return profile_id
             else:
-                row.update_record(detail_info = user_detail_info)
+                row.update_record(question_info = question_info,
+                              question_detail_info = question_detail_info)
                 return row.id
         except:
             log.error(" error updating db")

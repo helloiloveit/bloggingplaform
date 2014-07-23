@@ -1,16 +1,13 @@
-{{left_sidebar_enabled = True}}
-{{right_sidebar_enabled=True}}
 {{extend 'layout.html'}}
 
-{{response.title = item.question_info}}
 
 
 <div class="article_container">
   <div>
 
 
-            <table class="article_tag">
-            <tr>
+     <table  >
+            <tr class="article_tag">
                 {{question_tag_list = db(db.question_tag_tbl.question_info == item.id).select()}}
                 {{for tag_unit in question_tag_list:}}
                <td>
@@ -21,50 +18,29 @@
                 {{pass}}
            </tr>
          </table>
-         <table  class="article_header">
-           <tr >
+         <table  >
+           <tr class="article_header">
                <td>
-                   <div class="article_header_text">
-                       {{=item.question_info}}
-                   </div>
+                   {{=A(XML(item.question_info),_href=URL(r=request,f='article',args=[item.id]))}}
                </td>
            </tr>
-           </table>
-           <table class ="article_introduction">
-          <tr >
+          <tr class="article_introduction">
               <td>
-                  {{=SPAN(XML(item.question_detail_info), _class='article_introduction_bigger')}}
+                {{=XML(item.question_detail_info)}}
               </td>
           </tr>
           </table>
-          <table class="article_popularity_info">
-            <tr>
-              <td>
-                  {{if auth.is_logged_in():}}
-                   <input id="inputCommentButton" name="question_id" value = "tra loi">
-                  {{pass}}
-              </td>
+          <table>
+          <tr class="article_popularity_info">
               <td >
-                  {{=len(comment_list)}} trả lời  {{=len(like_list)}} thích
-              </td>
-                {{if auth.is_logged_in():}}
-                <td>
-                    {{=A("sửa",_id ='edit_button',_href=URL(r=request,f='edit_question',args=[item.id]))}}
-                </td>
-                <td>
-                    {{=A("xoá",_id='delete_button', _href=URL(r=request,f='delete_question',args=[item.id]))}}
-                </td>
-               {{pass}}
+                  {{=len(comment_list)}} quan diem  quan tam
+                 </td>
               <td>
              <!-- <img border="0" src=https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/p50x50/524680_10151914256443389_1087551412_n.jpg alt="Pulpit rock" width="150" height="150"> -->
                   {{if user_info:}}
                   {{img_path =' https://graph.facebook.com/' + user_info.username + '/picture'}}
-                  <!--
                   <img border="0" src={{=img_path}} alt="Pulpit rock" width="50" height="50">
-                  -->
                   {{pass}}
-                  {{=' bởi    '}}
-                  <a id ="user_profile" href="{{=URL(f='user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
               </td>
 
           </tr>
@@ -77,6 +53,7 @@
 
 
 
+     <input id="inputCommentButton" name="question_id" value = "nhap comment here">
 
 
     <form id="realEditor"  action="post_comment" method="post">
@@ -96,24 +73,27 @@
             </textarea>
 
         <p>
-            <input type="submit" value="Gửi">
+            <input type="submit" value="Submit">
         </p>
     </form>
   </div>
-   <div >
-       <table class="article_comment_container">
+    <div>
+      {{=A("edit",_href=URL(r=request,f='edit_question',args=[item.id]))}}
+    </div>
+
+    <div>
+      {{=A("delete",_href=URL(r=request,f='delete_question',args=[item.id]))}}
+    </div>
+   <div class="article_comment_container">
+    <table>
         {{for comment in comment_list:}}
       <tr>
         <td>
-            <table class="user_comment" >
+            <table  >
             <tr class="user_info">
                  <td>
                 {{user_info = db(db.auth_user.id == comment.author_info).select().first()}}
-                      <a id ="user_profile" href="{{=URL(f='user_profile')}}"  onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
-                     {{user_profile = db(db.user_profile.user_info == user_info.id).select().first()}}
-                     {{if user_profile:}}
-                     <span>{{=XML(user_profile.detail_info)}}</span>
-                     {{pass}}
+                {{=user_info.first_name}}
                </td>
            </tr>
             <tr class="comment_info">
@@ -123,21 +103,8 @@
            </tr>
           <tr class="article_popularity_info">
               <td >
-                  {{if auth.is_logged_in():}}
-                  {{like_record = db((db.answer_like_tbl.answer_id == comment.id)&(db.answer_like_tbl.user_info == auth.user.id )).select()}}
-                  {{if len(like_record):}}
-                  <a class ="like_unlike_button" id ="unlike" value ={{=comment.id}} style="color:red;" >thích</a>
-                  {{else:}}
-                  <a class ="like_unlike_button" id ="like" value ={{=comment.id}} style="color:grey">thích</a>
-                  {{pass}}
-                  {{pass}}
-                  <a>{{='   '}}&nbsp&nbsp&nbsp </a>
-                  {{like_record = db((db.answer_like_tbl.answer_id == comment.id)).select()}}
-                  <a class="count_like">{{=len(like_record)}}</a><a> thích</a>
+                  thich   binh luan  bao cao
                  </td>
-              <!--
-              <td>bao cao</td>
-              -->
 
           </tr>
             </table>
@@ -147,16 +114,10 @@
     </table>
    </div>
 
+
 </div>
-{{block right_sidebar}}
-        <ul id="right_bar_question_list" >
-            {{for item in related_question_list:}}
-            <li>
-                <a id="related_question" href={{=URL(r=request,f='question',args=[item.id])}}>{{=XML(item.question_info)}}</a>
-            </li>
-            {{pass}}
-        </ul>
-{{end}}
+
+
 
 
 
@@ -168,53 +129,4 @@ $( '#inputCommentButton' ).click(function() {
     $( '#realEditor' ).show(  );
 
 });
-
-$('#like_button').click(function () {
-        alert("hello a ");
-         var id = $(this).attr("value");
-         alert(id);
-        ajax('http://localhost:8002/welcome/default/like_an_answer?answer_id='+ id, [''], 'like_button');
-});
-
-
-     $('.like_unlike_button').click(function () {
-         var myThisVariable = $(this);
-         var id = $(this).attr("value");
-         var like_unlike_val = $(this).html();
-         var like_unlike_val = $(this).attr("id");
-         //alert(like_unlike_val);
-         //alert(like_unlike_val.length);
-         //alert(like_unlike_val.localeCompare("quan tâm"));
-
-         if (like_unlike_val == "like")
-         {
-            //alert('equal like');
-             $.ajax({
-            type: "POST",
-            url: '{{=URL(f='like_an_answer')}}',
-            data: {answer_id : id},
-            cache: false,
-            success: function(data){
-                myThisVariable.parent().find('.count_like').text(data);
-            }
-            });
-
-           $(this).css('color', 'red');
-           $(this).attr('id', 'unlike');
-         } else
-         {
-            $.ajax({
-            type: "POST",
-            url: '{{=URL(f='unlike_an_answer')}}',
-            data: {answer_id : id},
-            cache: false,
-            success: function(data){
-                myThisVariable.parent().find('.count_like').text(data);
-            }
-            });
-           $(this).attr('id', 'like');
-           $(this).css('color', 'grey');
-         }
-        });
-
 </script>
