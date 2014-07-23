@@ -26,9 +26,10 @@ except ImportError:
 from facebook import GraphAPI, GraphAPIError
 from gluon.contrib.login_methods.oauth20_account import OAuthAccount
 
+def term_of_use():
+    return dict()
 
-
-def test_jquery():
+def search_box():
     return dict()
 def test_tinyMCE():
     return dict()
@@ -36,17 +37,42 @@ def test_tinyMCE():
 def test_facebook():
     return dict()
 
+def create_new_tag():
+    if not request.vars.tag_info: return ''
+    tag_info = request.vars.tag_info.capitalize()
+    rst = tag_tbl_handler().create_new_tag(tag_info)
+    if rst:
+        return True
+
+    else:
+        return False
+
 def tag_handler():
     if not request.vars.tag_info: return ''
-    tag_list = question_tag_handler().get_all_tag_info_from_db()
     tag_info = request.vars.tag_info.capitalize()
-    handle_tag_in_tag_tbl(tag_info)
-    selected = [m for m in tag_list if m.startswith(tag_info)]
-    return DIV(*[DIV(k,
-                     _onclick="jQuery('#month').val('%s')" % k,
-                     _onmouseover="this.style.backgroundColor='yellow'",
-                     _onmouseout="this.style.backgroundColor='white'"
-                     ) for k in selected])
+    selected = question_tag_handler().search_for_related_tag_in_tbl(tag_info)
+    #selected =['tag1','tag2', 'tag3','tag4']
+    #selected = [m for m in tag_list if m.name.startswith(tag_info)]
+    log.info('selected = %s', selected)
+    div_id = "suggestion_box"
+
+    if not selected:
+        temp = [DIV('tạo tag moi',
+                    _onclick="user_post_new_tag('%s','%s');" %(tag_info, div_id),
+                    _onmouseover="this.style.backgroundColor='yellow'",
+                    _onmouseout="this.style.backgroundColor='white'"
+        )]
+    else:
+        temp = [DIV(k,
+                    _onclick="user_select_tag_handler('%s','%s');" %(k,div_id),
+                    _onmouseover="this.style.backgroundColor='yellow'",
+                    _onmouseout="this.style.backgroundColor='white'"
+        ) for k in selected]
+
+
+    return DIV(
+                temp, _id ="%s" % div_id
+                )
 
 
 
@@ -60,16 +86,61 @@ def user():
         if request.args[0] == 'login':
             return dict(form = auth())
         profile_info = db(db.user_profile.user_info == auth.user.id).select().first()
-        return dict(user_profile = profile_info)
+        return dict(user_profile = profile_infoimport pdb; pdb.set_trace())
     """
     return dict(form = auth())
 
 def user_profile():
+    response.title ='user_profile'
+    import pdb; pdb.set_trace()
     if request.env.REQUEST_METHOD =='GET':
+        target_person_id = request.vars.user_id
+        user_info = db(db.auth_user.id == target_person_id).select().first()
+        profile_info = db(db.user_profile.user_info == target_person_id).select().first()
+        if not profile_info:
+            profile_id = create_basis_user_profile(target_person_id)
+            if profile_id:
+                profile_info = db(db.user_profile.id == profile_id).select().first()
+
+        try:
+            #if user is logged in
+            follow_record = db((db.follow_info_tbl.followed_user == target_person_id)&(db.follow_info_tbl.following_user == auth.user.id )).select().first()
+        except:
+            # not login
+            follow_record = False
+            pass
+        if follow_record:
+            follow_flag = True
+        else:
+            follow_flag = False
+        #following
+        following_list = db(db.follow_info_tbl.followed_user == target_person_id).select()
+        #followed
+        followed_list = db(db.follow_info_tbl.following_user == target_person_id).select()
+        response.title = user_info.first_name
+        return dict(person_profile = profile_info,
+                    person_info= user_info,
+                    follow_flag = follow_flag,
+                    following_list = followed_list,
+                    followed_list = followed_list)
+    return dict()
+
+def edit_user_profile():
+    if request.env.REQUEST_METHOD =='POST':
+        rst = update_self_introduction(request, auth)
+        redirect(URL('user_profile', vars=dict(user_id=request.vars.user_id)))
+        return dict()
+    elif request.env.REQUEST_METHOD =='GET':
         target_person_id = request.vars.user_id
         profile_info = db(db.user_profile.user_info == target_person_id).select().first()
         user_info = db(db.auth_user.id == target_person_id).select().first()
-        follow_record = db((db.follow_info_tbl.followed_user == target_person_id)&(db.follow_info_tbl.following_user == auth.user.id )).select().first()
+        try:
+            #if user is logged in
+            follow_record = db((db.follow_info_tbl.followed_user == target_person_id)&(db.follow_info_tbl.following_user == auth.user.id )).select().first()
+        except:
+            # not login
+            follow_record = False
+            pass
         if follow_record:
             follow_flag = True
         else:
@@ -83,9 +154,10 @@ def user_profile():
                     follow_flag = follow_flag,
                     following_list = followed_list,
                     followed_list = followed_list)
+
     return dict()
+
 def update_profile():
-    import pdb;pdb.set_trace()
     rst = update_self_introduction(request, auth)
     if rst:
         return True
@@ -99,7 +171,7 @@ def index():
     if you need a simple wiki simple replace the two lines below with:
     return auth.wiki()
     """
-    #redirect(URL(r = request, f= 'blog', args = 3))
+    redirect(URL(f= 'question_list', args = ''))
     return dict()
 
 
@@ -124,9 +196,18 @@ def question():
         except:
             log.error('cant query a question from db')
             question = None
-        return dict(item = question, comment_list = answer_list, user_info = user_info)
+        #like list
+        like_list = db(db.question_like_tbl.question_id==question.id).select()
+        #related question list
+        related_question_list = db(db.question_tbl).select()
+        response.title = question.question_info
+        return dict(item = question,
+                    like_list = like_list,
+                    comment_list = answer_list,
+                    user_info = user_info,
+                    related_question_list = related_question_list)
 
-#@auth.requires_login()
+@auth.requires_login()
 def edit_question():
     """
     Edit blog
@@ -134,15 +215,15 @@ def edit_question():
     log.info("edit question")
     if request.env.REQUEST_METHOD == 'GET':
         question = db(db.question_tbl.id == request.args[0]).select()[0]
-        tag_list = question_tag_handler().get_tag_list_of_a_question(request.args[0])
+        tag_list = question_tag_handler().get_tag_name_list_of_a_question(request.args[0])
         return dict(question = question , tag_list = tag_list)
     elif request.env.REQUEST_METHOD == 'POST':
-        update_a_question(request, session.tag_list_store)
+        update_a_question(request)
         redirect(URL(r = request, f= 'question', args = [request.args[0]]))
 
     return dict()
 
-        
+@auth.requires_login()
 def delete_question():
     selection = request.vars
     if selection['selection'] == "YES":
@@ -173,6 +254,7 @@ def question_list():
     """
     test data
     """
+    response.title = 'Chuot Nhat'
     record = db(db.auth_user).select()
 
     question_list = db(db.question_tbl).select()
@@ -190,7 +272,7 @@ def question_list():
 
     except:
         log.error('cant query data from db')
-    return dict(items= items, audience_id = '1')
+    return dict(items= items)
 
 def get_header(text):
     """
@@ -202,29 +284,23 @@ def get_header(text):
     return header_text
 
 
-
+def mission_info():
+    return dict()
 
 
 @auth.requires_login()
 def post():
     log.info("request.vars = %s",request.vars)
-    session.tag_list_store = []
     return dict(article_tag_list ="" )
 
 
-@auth.requires_login()
-def post_tag():
-    session.tag_list_store.append(request.vars.tag_info)
-    log.info("session.tag list = %s", session.tag_list_store)
-    #return json.dumps(request.vars.tag_info)
-    return "var x=$('#target'); x.html(x.html()+' %s');" % request.vars.tag_info.replace("'","\\'")
 
 
 @auth.requires_login()
 def post_question():
-    log.info("post")
-    log.info("request.vars = %s",request.vars)
-    question_id = post_new_question(request, auth, session)
+    tag_info = request.vars.tag_list
+    tag_list = tag_info.split(',')
+    question_id = post_new_question(request, auth, tag_list)
     if question_id:
         redirect(URL(r = request, f= 'question', args = question_id))
     return dict()
@@ -237,6 +313,16 @@ def user_modify_question():
 
 
 ####### answer ######
+@auth.requires_login()
+def like_an_answer():
+    rst= user_like_an_answer(request, auth)
+    like_record = db((db.answer_like_tbl.answer_id == request.vars.answer_id)).select()
+    return len(like_record)
+
+def unlike_an_answer():
+    rst = user_unlike_an_answer(request, auth)
+    like_record = db((db.answer_like_tbl.answer_id == request.vars.answer_id)).select()
+    return len(like_record)
 
 @auth.requires_login()
 def user_update_an_answer():
@@ -251,14 +337,13 @@ def user_del_an_answer():
 ##############################
 @auth.requires_login()
 def like_a_question():
-    import pdb; pdb.set_trace()
-    user_like_a_question(request, auth)
-    return "unlike"
+    count_like = user_like_a_question(request, auth)
+    return count_like
 
 @auth.requires_login()
 def unlike_a_question():
-    user_unlike_a_question(request, auth)
-    return "like"
+    count_like = user_unlike_a_question(request, auth)
+    return count_like
 
 def report_a_question():
     #user_report_a_question(request, auth)
@@ -267,6 +352,7 @@ def report_a_question():
 ##############follow##########
 @auth.requires_login()
 def follow_a_person():
+    import pdb; pdb.set_trace()
     rst = user_follow_a_person(request, auth)
     if rst:
         return "followed"

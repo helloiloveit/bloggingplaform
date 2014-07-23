@@ -1,5 +1,6 @@
-# coding: utf8
+# coding: utf-8
 {
+'': '',
 '!=': '!=',
 '!langcode!': 'fr',
 '!langname!': 'Français',

@@ -11,22 +11,23 @@ log = logging.getLogger("h")
 log.setLevel(logging.DEBUG)
 
 
-def post_new_question(request, auth, session):
+def post_new_question(request, auth, tag_list):
     question_txt = request.vars.question_info
-    question_detail_txt = request.vars.question_detail_info
+    question_detail_txt = request.vars.editor1
     user_id = auth.user.id
     question_id = question_handler().create_new_record_in_question_tbl(question_txt,
                                                                 question_detail_txt,
                                                                 user_id,
-                                                            session.tag_list_store)
+                                                            tag_list)
     return question_id
 def delete_a_question(request):
     question_id = request.args[0]
     question_handler().delete_question_in_db(question_id)
     return
 
-def update_a_question(request, tag_list):
+def update_a_question(request):
     question_id = request.args[0]
+    tag_list = request.vars.tag_list.split(',')
     question_handler().update_to_question_tbl(question_id, request.vars.question_info, request.vars.question_detail_info, tag_list)
     return
 
@@ -37,12 +38,16 @@ def update_a_question(request, tag_list):
 def user_like_a_question(request, auth):
     question_id = request.vars.question_id
     record_id = question_handler().vote_up_a_question(question_id, auth.user.id)
-    return record_id
+    db = current.db
+    count_like = db((db.question_like_tbl.question_id == question_id)).select()
+    return len(count_like)
 
 def user_unlike_a_question(request, auth):
     question_id = request.vars.question_id
     result = question_handler().vote_down_a_question(question_id, auth.user.id)
-    return result
+    db = current.db
+    count_like = db((db.question_like_tbl.question_id == question_id)).select()
+    return len(count_like)
 
 class question_handler(object):
     def __init__(self):
@@ -109,7 +114,12 @@ class question_handler(object):
         db = self.db
         question_like_id =None
         try:
-            question_like_id = db.question_like_tbl.insert( question_id = question_id,
+            #check if user did like this question or not
+            like_record = db((db.question_like_tbl.question_id == question_id)&(db.question_like_tbl.user_info == audience_id )).select()
+            if len(like_record):
+                return SUCCESS_RESULT
+            else:
+                question_like_id = db.question_like_tbl.insert( question_id = question_id,
                                                             user_info = audience_id)
         except:
             log.error('cant create tbl')
@@ -147,50 +157,100 @@ class question_handler(object):
 def create_new_answer(request, auth):
     question_id = request.vars.question_id
     answer_info = request.vars.answer_info
-    answer_id = answer_handler(None, answer_info, auth.user.id).add_to_answer_tbl(question_id)
+    answer_id = answer_handler().add_to_answer_tbl(question_id, answer_info, auth.user.id)
     return answer_id
 
 def update_an_answer(request):
     answer_id = request.vars.answer_id
     answer_info = request.vars.answer_info
-    answer_handler(answer_id, answer_info, None).update_to_answer_tbl()
+    answer_handler().update_to_answer_tbl(answer_id, answer_info)
     pass
 def del_an_answer(request):
     answer_id = request.vars.answer_id
-    answer_handler(answer_id, None, None).del_answer_record_in_tbl()
+    answer_handler().del_answer_record_in_tbl(answer_id)
     pass
 
+def user_like_an_answer(request, auth):
+    answer_id = request.vars.answer_id
+    record_id = answer_handler().vote_up_an_answer(answer_id, auth.user.id)
+    return record_id
+
+def user_unlike_an_answer(request, auth):
+    answer_id = request.vars.answer_id
+    record_id = answer_handler().vote_down_an_answer(answer_id, auth.user.id)
+    return record_id
 
 class answer_handler(object):
-    def __init__(self,
-                 answer_id,
-                 answer_info,
-                 user_id):
-        self.answer_id = answer_id
-        self.answer_info = answer_info
-        self.user_id = user_id
+    def __init__(self):
         self.db = current.db
-    def update_to_answer_tbl(self):
-        db = current.db
+
+    def update_to_answer_tbl(self, answer_id, answer_info):
+        db = self.db
         try:
-            row = db(db.answer_tbl.id == self.answer_id).select().first()
-            row.update_record(answer_info = self.answer_info)
+            row = db(db.answer_tbl.id == answer_id).select().first()
+            row.update_record(answer_info = answer_info)
         except:
             log.error('cant update answer')
         pass
 
-    def add_to_answer_tbl(self, question_id):
-        db = current.db
+    def add_to_answer_tbl(self, question_id, answer_info, user_id):
+        db = self.db
         answer_id = None
         try:
-            answer_id = db.answer_tbl.insert(answer_info = self.answer_info,
+            answer_id = db.answer_tbl.insert(answer_info = answer_info,
                                          question_id = question_id,
-                                         author_info = self.user_id)
+                                         author_info = user_id)
         except:
             log.error("cant create answer record")
         return answer_id
 
-    def del_answer_record_in_tbl(self):
-        db = current.db
-        db(db.answer_tbl.id == self.answer_id).delete()
+    def del_answer_record_in_tbl(self, answer_id):
+        db = self.db
+        db(db.answer_tbl.id == answer_id).delete()
         pass
+
+    def vote_up_an_answer(self, answer_id, audience_id):
+        db = self.db
+        answer_like_id =None
+        try:
+            # check if this user already like it
+            like_record = db((db.answer_like_tbl.answer_id == answer_id)&(db.answer_like_tbl.user_info == audience_id )).select()
+            if len(like_record):
+                return True
+            else:
+                answer_like_id = db.answer_like_tbl.insert( answer_id = answer_id,
+                                                            user_info = audience_id)
+        except:
+            log.error('cant create tbl')
+        return answer_like_id
+
+    def vote_down_an_answer(self, answer_id, audience_id):
+        db = self.db
+        try:
+            #check if user did like this question or not
+            # if yes . delete this record
+            # if no   return flag  0: success 1: db failed 2: user already not like it
+            like_record = db((db.answer_like_tbl.answer_id == answer_id)&(db.answer_like_tbl.user_info == audience_id )).select().first()
+            if like_record:
+                db(db.answer_like_tbl.id == like_record.id).delete()
+                return SUCCESS_RESULT
+            else:
+                return DB_IS_UPDATED_ALREADY
+
+        except:
+            log.error('cant update db')
+            return DB_FAILED
+        return DB_FAILED
+
+    def report_an_answer(self, answer_id, audience):
+        db  = self.db
+        answer_report_id =None
+        try:
+            answer_report_id = db.answer_report_tbl.insert(answer_id = question_id,
+                                                               user_info = audience)
+        except:
+            log.error('cant create tbl')
+        return answer_report_id
+
+
+

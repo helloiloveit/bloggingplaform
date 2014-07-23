@@ -1,27 +1,18 @@
 {{extend 'layout.html'}}
+<style>
+#suggestions { position: relative; }
+.suggestions { background: white; border: solid 1px #55A6C8; }
+.suggestions DIV { padding: 2px 4px 2px 4px; }
+</style>
 
 
 <div id="container">
-  <div id="header">
-
-    <!-- end #header --></div>
   <div id="mainContent">
     <h1>  </h1>
-    <form action="" method="post">
+ <form id ="question_content_form2" action="" method="post">
          <p>
-             Select Class of article
-         </p>
-         <p>
-         <select name="article_class" >
-        {{for item in tag_list:}}
-
-          <option value="{{=item.tag_info}}">{{=item.tag_info}}</option>
-
-        {{pass}}
-        </select>
-        </p>
-         <p>
-           <input id ="question_info" type="text" name="question_info" value = "{{=question.question_info}}">
+            <input id ="tag_list" type ="hidden"  type="text" name="tag_list"  autocomplete="off" value = tag_list>
+           <input id = "question_header" type="text" name="question_info" value = "{{=question.question_info}}">
         </p>
         <p>
            <!-- <textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">-->
@@ -29,20 +20,122 @@
                 {{=question.question_detail_info}}
             </textarea>
         </p>
-        <p>
-            <input id="submit_button" type="submit" value="Submit">
-        </p>
     </form>
+
+      <form>
+          <input type="text" id="month" name="tag_info" value = "" autocomplete="off" style="width: 250px" /> <span class="suggest_text">giáo dục, tin học..</span>
+          <br />
+          <div style="position: absolute;" id="suggestions" class="suggestions">
+          </div>
+      </form>
+      <div id="target">
+          {{for tag in tag_list:}}
+          <span class="post-tag" value="{{=tag}}">{{=tag}}<span id="delete_tag" value="{{=tag}}" class="delete-tag" title="remove" this="" tag="">x</span></span>
+          {{pass}}
+      </div>
+      <button id="post_question_button"> Lưu lại  </button>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <h2></h2>
     <p></p>
     <!-- end #mainContent --></div>
-  <div id="footer">
-    <p>xem thêm....</p>
-  <!-- end #footer --></div>
 <!-- end #container --></div>
+    <script>
+        var tag_list = [];
+        $(".post-tag").each(function( index ) {
+            //alert(index);
+            //alert( $(this).text());
+            var tag_info = $(this).text().slice(0,-1);
+            //alert(tag_info);
+            tag_list[tag_list.length] = tag_info;
+        });
 
+        jQuery("#post_question_button").click(function(){
+            $( "#question_content_form2" ).submit();
+            });
+        jQuery("#month").keyup(function(){
+
+            var tag_info = $(this).val();
+                     var request = $.ajax({
+                url: "{{=URL('tag_handler')}}",
+                type: "POST",
+                data: { tag_info  : tag_info },
+                dataType: "html"
+          });
+
+
+        request.done(function( msg ) {
+            $("#suggestions").html(msg);
+        });
+
+        request.fail(function( jqXHR, textStatus ) {
+            //alert( "Request failed: " + textStatus );
+        });
+
+
+
+            });
+
+      function user_select_tag_handler(tag_info, suggestion_box_id){
+         $('#month').val(tag_info);
+         //alert(tag_list);
+         $("#" + suggestion_box_id).remove();
+
+         current_tag = $('#target').html();
+         //$('#target').html(current_tag+' ' + tag_info);
+
+         if ($.inArray(tag_info, tag_list) == -1)
+        {
+            tag_list[tag_list.length] = tag_info;
+            //alert(tag_info);
+            //alert(tag_list);
+            var txt1 = "<span class = post-tag>" + tag_info + "<span id = delete_tag value = "+ tag_info + " class = delete-tag title = remove this tag>x</span></span>";
+            $('#target').append(txt1);
+         }
+
+         $('#tag_list').val(tag_list);
+
+      }
+
+
+        // delete tag
+        jQuery("#target").on('click', 'span.delete-tag', function() {
+            //alert(tag_list);
+            //alert('delete' + $(this).attr('value'));
+            //remove tag from tag list
+            removeItem = $(this).attr('value');
+            tag_list = jQuery.grep(tag_list, function(value) {
+            return value != removeItem;
+            });
+            //alert(tag_list);
+            //alert($(this).parent().attr('class'));
+            $(this).parent().remove();
+            });
+
+      function user_post_new_tag(tag_info, suggestion_box_id){
+         $("#" + suggestion_box_id).remove();
+         var request = $.ajax({
+                url: "{{=URL('create_new_tag')}}",
+                type: "POST",
+                data: { tag_info  : tag_info },
+                dataType: "html"
+          });
+
+
+        request.done(function( msg ) {
+            user_select_tag_handler(tag_info, 'suggestion_box');
+        });
+
+        request.fail(function( jqXHR, textStatus ) {
+            //alert( "Request failed: " + textStatus );
+        });
+
+      }
+
+        jQuery("#month").click(function(){
+            $("#month").val("");
+            });
+   </script>
 </html>
 
 
