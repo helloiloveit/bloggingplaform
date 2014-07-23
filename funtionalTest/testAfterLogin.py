@@ -1,6 +1,6 @@
 __author__ = 'huyheo'
 
-#python applications/chuotnhat/funtionalTest/testPostQuestion.py
+#python applications/chuotnhat/funtionalTest/testUnloginUser.py
 
 import unittest
 from selenium import webdriver
@@ -80,9 +80,8 @@ class TestQuestionListPage(unittest.TestCase):
 
 class TestPostNewArticle(unittest.TestCase):
     def setUp(self):
-        import pdb;pdb.set_trace()
-        #self.driver = webdriver.Firefox()
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Firefox()
+        #self.driver = webdriver.Chrome()
         self.user_login()
         self.question_info = 'this is a question'
         self.edit_question_info = 'this is a edited question'
@@ -103,11 +102,12 @@ class TestPostNewArticle(unittest.TestCase):
 
     def post(self):
         driver = self.driver
-        import pdb; pdb.set_trace()
         try:
             post_button = driver.find_element_by_id("post_button")
             post_button.click()
         except:
+            import pdb; pdb.set_trace()
+
             sleep(2)
             post_button = driver.find_element_by_id("post_button")
             post_button.click()
@@ -116,7 +116,13 @@ class TestPostNewArticle(unittest.TestCase):
         tag_info= driver.find_element_by_id('month')
         tag_info.click()
         tag_info.send_keys('c')
-        temp = driver.find_element_by_id('suggestion_box')
+        try:
+            temp = driver.find_element_by_id('suggestion_box')
+        except:
+            #wait for ajax call to finish
+            print 'cant receive suggestion box'
+            sleep(3)
+            temp = driver.find_element_by_id('suggestion_box')
         tag_suggess = temp.find_element_by_xpath('div')
         tag_suggess.click()
         #post_tag_button = driver.find_element_by_id('submit1')
@@ -145,9 +151,11 @@ class TestPostNewArticle(unittest.TestCase):
         question_info = driver.find_element_by_id('question_header')
         question_info.clear()
         question_info.send_keys(self.edit_question_info)
+        #wait a bit for javascript to load to use tinymce api
+        sleep(5)
         driver.execute_script("tinymce.get('{0}').focus()".format('editor1'))
         driver.execute_script("tinyMCE.activeEditor.setContent('{0}')".format(self.edited_question_info_detail))
-        submit_button = driver.find_element_by_id('submit_button')
+        submit_button = driver.find_element_by_id('post_question_button')
         submit_button.click()
 
     """
@@ -169,7 +177,6 @@ class TestPostNewArticle(unittest.TestCase):
         self.post()
         #confirm the posted question
         question_info_result = driver.find_element_by_class_name('article_header')
-        import pdb;pdb.set_trace()
         self.assertIn(question_info_result.text, self.question_info)
         self.edit_post()
         question_info_result = driver.find_element_by_class_name('article_header')
@@ -177,7 +184,7 @@ class TestPostNewArticle(unittest.TestCase):
         self.delete_post()
         #check the url
         url_info = driver.current_url
-        self.assertIn(url_info, BASE_URL + 'question_list')
+        self.assertIn( BASE_URL + 'question_list',url_info)
         #go to profile
 
 
@@ -187,60 +194,12 @@ class TestPostNewArticle(unittest.TestCase):
         self.driver.close()
 
 
-class TestUnLogginUserVisitPage(unittest.TestCase):
-    def setUp(self):
-        self.driver = webdriver.Chrome()
-        self.driver.get(BASE_URL)
-        self.answer_button_text = 'tra loi'
-        self.answer_text   = 'quan diem'
-    def testQuestionPage(self):
-        question_list_button = self.driver.find_element_by_id('logo_site')
-        question_list_button.click()
-        question_one = self.driver.find_element_by_class_name('article_header')
-        link = question_one.find_element_by_link_text(question_one.text)
-        link.click()
-        #check if no answer button is there
-        try:
-            self.driver.find_element_by_id('inputCommentButton')
-            return True
-        except NoSuchElementException:
-            pass
-        #click on writer of question
-        user_profile = self.driver.find_element_by_id('user_profile')
-        user_profile.click()
-        self.driver.back()
-        #click on  question on right side bar
-        side_bar_questions = self.driver.find_element_by_id('right_bar_question_list')
-        question = side_bar_questions.find_element_by_id('related_question')
-        question.click()
-
-
-    def testVisitUserProfile(self):
-        #go back
-        question_list_button = self.driver.find_element_by_id('logo_site')
-        question_list_button.click()
-        #click on popularity panel
-        user_profile = self.driver.find_element_by_id('user_profile')
-        user_profile.click()
-        #back
-        self.driver.back()
-    """
-    def testPopularityInfoOfQuestionInQuestionList(self):
-        popularity_info = self.driver.find_element_by_class_name('article_popularity_info')
-        answer_button = popularity_info.find_elements_by_xpath("//*[contains(text(), 'tra loi')]")
-        answer_button[0].click()
-        self.driver.back()
-        pass
-    """
 
 
 
-    def tearDown(self):
-        self.driver.close()
 
 suite = unittest.TestSuite()
 #suite.addTest(unittest.makeSuite(TestAuth))
 suite.addTest(unittest.makeSuite(TestPostNewArticle))
 #suite.addTest(unittest.makeSuite(TestUserProfile))
-suite.addTest(unittest.makeSuite(TestUnLogginUserVisitPage))
 unittest.TextTestRunner(verbosity=2).run(suite)

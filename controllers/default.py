@@ -92,7 +92,6 @@ def user():
 
 def user_profile():
     response.title ='user_profile'
-    import pdb; pdb.set_trace()
     if request.env.REQUEST_METHOD =='GET':
         target_person_id = request.vars.user_id
         user_info = db(db.auth_user.id == target_person_id).select().first()
@@ -121,7 +120,7 @@ def user_profile():
         return dict(person_profile = profile_info,
                     person_info= user_info,
                     follow_flag = follow_flag,
-                    following_list = followed_list,
+                    following_list = following_list,
                     followed_list = followed_list)
     return dict()
 
@@ -343,6 +342,7 @@ def like_a_question():
 @auth.requires_login()
 def unlike_a_question():
     count_like = user_unlike_a_question(request, auth)
+    import pdb; pdb.set_trace()
     return count_like
 
 def report_a_question():

@@ -39,11 +39,11 @@
           </table>
           <table class="article_popularity_info">
             <tr>
-              <td>
                   {{if auth.is_logged_in():}}
+                <td>
                    <input id="inputCommentButton" name="question_id" value = "tra loi">
+                </td>
                   {{pass}}
-              </td>
               <td >
                   {{=len(comment_list)}} trả lời  {{=len(like_list)}} thích
               </td>
@@ -126,14 +126,13 @@
                   {{if auth.is_logged_in():}}
                   {{like_record = db((db.answer_like_tbl.answer_id == comment.id)&(db.answer_like_tbl.user_info == auth.user.id )).select()}}
                   {{if len(like_record):}}
-                  <a class ="like_unlike_button" id ="unlike" value ={{=comment.id}} style="color:red;" >thích</a>
+                  <span class ="like_unlike_button" id ="unlike" value ={{=comment.id}} style="color:red;" >thích</span>
                   {{else:}}
                   <a class ="like_unlike_button" id ="like" value ={{=comment.id}} style="color:grey">thích</a>
                   {{pass}}
                   {{pass}}
-                  <a>{{='   '}}&nbsp&nbsp&nbsp </a>
                   {{like_record = db((db.answer_like_tbl.answer_id == comment.id)).select()}}
-                  <a class="count_like">{{=len(like_record)}}</a><a> thích</a>
+                  <span class="count_like">{{=len(like_record)}}</span><span> thích</span>
                  </td>
               <!--
               <td>bao cao</td>
@@ -149,6 +148,7 @@
 
 </div>
 {{block right_sidebar}}
+        <!--
         <ul id="right_bar_question_list" >
             {{for item in related_question_list:}}
             <li>
@@ -156,6 +156,7 @@
             </li>
             {{pass}}
         </ul>
+        -->
 {{end}}
 
 

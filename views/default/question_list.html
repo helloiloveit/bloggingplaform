@@ -59,32 +59,34 @@
                  </td>
           </tr>
           <tr class="article_popularity_info">
-              <td >
                   {{try:}}
                   {{if auth.is_logged_in():}}
                   {{like_record = db((db.question_like_tbl.question_id == item.id)&(db.question_like_tbl.user_info == auth.user.id )).select().first()}}
+                    <td>
                   {{if like_record:}}
                     <a class ="like_unlike_button" id ="unlike" value ={{=item.id}} style="color:red;" >quan tâm</a>
                   {{else:}}
                      <a class ="like_unlike_button" id ="like" value ={{=item.id}} style="color:grey">quan tâm</a>
+                    </td>
                   {{pass}}
                   {{pass}}
                   <!--
                   <button id ="report_button" value={{=item.id}} name="report"> report</button>
                   -->
-                  <a>{{='   '}}&nbsp&nbsp&nbsp </a>
+              <td>
                   {{like_record = db((db.question_like_tbl.question_id == item.id)).select()}}
-                  <a class="count_like">{{=len(like_record)}}</a><span> quan tâm</span>
+                  <span class="count_like">{{=len(like_record)}}</span><span> quan tâm</span>
                   {{answer_num=len(db(db.answer_tbl.question_id == item.id).select())}}
                   <!--
                   <button id ="view_answer_button" value={{=item.id}} name="view_answer">{{=str(answer_num)+' tra loi'}} </button>
                   -->
-                  {{=A("        " + str(answer_num) + " trả lời",_href=URL(r=request,f='question',args=[item.id]))}}
+                  {{=A("        " + str(answer_num) + " trả lời", _class="popularity_a_tag_text",_href=URL(r=request,f='question',args=[item.id]))}}
               </td>
               <td>
                   {{writer = db(db.auth_user.id == item.writer).select().first()}}
+                   &nbsp&nbsp {{=' đăng bởi '}}
                   <a id ="user_profile" href={{=URL(r=request,f='user_profile',args=[])}} onclick="location.href=this.href+'?user_id='+{{=item.writer}}; return false;">
-                      {{=writer.last_name}}
+                     {{=writer.last_name}}
                    </a>
                   {{except:}}
                   {{pass}}

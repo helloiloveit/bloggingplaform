@@ -67,18 +67,39 @@ tinymce.init({
      </tr>
      <tr>
          <td>
-            <table class="popular_info">
-            <tr>
-            <td>
-            {{="Quan tam:"}}
+ <table id = "user_popular_info">
+    <tr>
+        <td>
+            {{="Quan tam"}}
             {{=len(followed_list)}}
-            </td>
-            <td>
-            {{="Duoc quan tam: "}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {{for follow_record in followed_list:}}
+            {{user_info = db(db.auth_user.id == follow_record.followed_user).select().first()}}
+            {{img_path =' https://graph.facebook.com/' + user_info.username + '/picture'}}
+            <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
+            {{pass}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {{="Được theo dõi bởi "}}
             {{=len(following_list)}}
-            </td>
-            </tr>
-            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {{for follow_record in following_list:}}
+            {{user_info = db(db.auth_user.id == follow_record.following_user).select().first()}}
+            {{img_path =' https://graph.facebook.com/' + user_info.username + '/picture'}}
+            <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
+            {{pass}}
+        </td>
+    </tr>
+</table>
+
             <br></br>
         {{if auth.is_logged_in():}}
         {{if not follow_flag :}}
