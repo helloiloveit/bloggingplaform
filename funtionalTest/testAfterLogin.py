@@ -11,7 +11,37 @@ from time import *
 BASE_URL = "http://localhost:8002/"
 LOGIN_URL = "http://localhost:8002/user/login?_next=/"
 LOGOUT_URL = "http://localhost:8002/user/logout?_next=/"
-QUESTION_LIST_URL = "http://localhost:8002/welcome/default/question_list"
+QUESTION_LIST_URL = "http://localhost:8002/chuotnhat/default/question_list"
+
+
+def user_login(driver):
+    driver.get(LOGIN_URL)
+    email = driver.find_elements_by_id('email')
+    email[0].send_keys('mhuy82gnr@yahoo.com')
+    pass_word = driver.find_elements_by_id('pass')
+    pass_word[0].send_keys('lockcapsscroll2304')
+    button_login = driver.find_elements_by_id('u_0_1')
+    button_login[0].click()
+    button_check_point = driver.find_elements_by_id('checkpointSubmitButton')
+    button_check_point[0].click()
+
+def compare_color_of_like_unlike_button(like_button):
+    color = like_button.value_of_css_property('color')
+    if color =='rgba(128, 128, 128, 1)':
+    #not like this button yet
+        like_button.click()
+        sleep(2)
+        color = like_button.value_of_css_property('color')
+        if color == 'rgba(255, 0, 0, 1)':
+            return True
+    elif color == 'rgba(255, 0, 0, 1)':
+        # already liked
+        like_button.click()
+        sleep(2)
+        color = like_button.value_of_css_property('color')
+        if color == 'rgba(128, 128, 128, 1)':
+            return True
+    return false
 
 class TestAuth(unittest.TestCase):
 
@@ -78,7 +108,76 @@ class TestQuestionListPage(unittest.TestCase):
     def testViewQuestionByTag(self):
         pass
 
-class TestPostNewArticle(unittest.TestCase):
+
+class TestRattingQuestion(unittest.TestCase):
+    def setUp(self):
+        self.driver = webdriver.Chrome()
+        user_login(self.driver)
+        self.driver.get(QUESTION_LIST_URL)
+
+    def testLikeaQuestion(self):
+        """
+        view each question in question_list once by onec
+        """
+        def like_unlike_question(question_list,i):
+            question_unit = question_list[i].find_element_by_class_name('article_popularity_info')
+            like_button = question_unit.find_element_by_class_name('like_unlike_button')
+            #check if its clicked or not using color
+            rst = compare_color_of_like_unlike_button(like_button)
+            self.assertTrue(rst)
+
+        question_list = self.driver.find_elements_by_xpath('//table[@class="content_list_table"]//tbody//tr[@class="article_unit"]')
+        for i in range(0, len(question_list),1):
+            like_unlike_question(question_list,i)
+
+
+    def tearDown(self):
+        self.driver.close()
+
+
+class TestRattingAnswer(unittest.TestCase):
+    def setUp(self):
+        self.driver = webdriver.Chrome()
+        user_login(self.driver)
+        self.answer_info = 'this is an answer'
+        self.driver.get(QUESTION_LIST_URL)
+        question_one = self.driver.find_element_by_class_name('article_header')
+        link = question_one.find_element_by_link_text(question_one.text)
+        link.click()
+
+    def postAnswer(self):
+        import pdb;pdb.set_trace()
+        popularity_info = self.driver.find_element_by_class_name('article_popularity_info')
+        answer_button = popularity_info.find_element_by_id('inputCommentButton')
+        answer_button.click()
+        self.driver.execute_script("tinymce.get('{0}').focus()".format('editor1'))
+        self.driver.execute_script("tinyMCE.activeEditor.setContent('{0}')".format(self.answer_info))
+        submit_button = self.driver.find_element_by_id('post_answer_button')
+        submit_button.click()
+
+    def testRattingAnswer(self):
+        import pdb;pdb.set_trace()
+        popularity_info = self.driver.find_element_by_class_name('article_popularity_info')
+        info = popularity_info.text.split(' ')
+        if info[0] == '0':
+            #no answer
+            self.postAnswer()
+
+        answer_area = self.driver.find_element_by_class_name("article_comment_container")
+        temp = answer_area.find_element_by_class_name('article_popularity_info')
+        like_button = temp.find_element_by_class_name('like_unlike_button')
+        rst = compare_color_of_like_unlike_button(like_button)
+        self.assertTrue(rst)
+        pass
+
+
+    def tearDown(self):
+        self.driver.close()
+
+
+
+
+class TestPostEditDelete(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         #self.driver = webdriver.Chrome()
@@ -158,15 +257,6 @@ class TestPostNewArticle(unittest.TestCase):
         submit_button = driver.find_element_by_id('post_question_button')
         submit_button.click()
 
-    """
-    def testLikeUnlikeAtQuestionList(self):
-        driver = self.driver
-        self.post()
-        import pdb; pdb.set_trace()
-        question_list_button = self.driver.find_element_by_id('logo_site')
-        question_list_button.click()
-        question_one = self.driver.find_element_by_class_name('article_header')
-        """
 
 
     def testPostEditDelete(self):
@@ -197,9 +287,10 @@ class TestPostNewArticle(unittest.TestCase):
 
 
 
-
 suite = unittest.TestSuite()
 #suite.addTest(unittest.makeSuite(TestAuth))
-suite.addTest(unittest.makeSuite(TestPostNewArticle))
+#suite.addTest(unittest.makeSuite(TestPostEditDelete))
+suite.addTest(unittest.makeSuite(TestRattingAnswer))
+#suite.addTest(unittest.makeSuite(TestRattingQuestion))
 #suite.addTest(unittest.makeSuite(TestUserProfile))
 unittest.TextTestRunner(verbosity=2).run(suite)

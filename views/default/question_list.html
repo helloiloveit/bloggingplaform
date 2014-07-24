@@ -24,7 +24,7 @@
     <h1>  </h1>
     <table class="content_list_table">
         {{for item in items:}}
-      <tr>
+      <tr class="article_unit">
         <td>
             <table class = "article_tag"  >
                 <tr >
@@ -75,7 +75,7 @@
                   -->
               <td>
                   {{like_record = db((db.question_like_tbl.question_id == item.id)).select()}}
-                  <span class="count_like">{{=len(like_record)}}</span><span> quan tâm</span>
+                  <a class="count_like">{{=len(like_record)}}</a><span> quan tâm</span>
                   {{answer_num=len(db(db.answer_tbl.question_id == item.id).select())}}
                   <!--
                   <button id ="view_answer_button" value={{=item.id}} name="view_answer">{{=str(answer_num)+' tra loi'}} </button>
@@ -126,14 +126,13 @@
 
          if (like_unlike_val == "like")
          {
-            //alert('equal like');
              $.ajax({
             type: "POST",
             url: "like_a_question",
             data: {question_id : id},
             cache: false,
             success: function(data){
-                myThisVariable.parent().find('.count_like').text(data);
+                myThisVariable.parent().next('td').find('.count_like').text(data);
             }
             });
 
@@ -147,7 +146,7 @@
             data: {question_id : id},
             cache: false,
             success: function(data){
-                myThisVariable.parent().find('.count_like').text(data);
+                myThisVariable.parent().next('td').find('.count_like').text(data);
             }
             });
            $(this).attr('id', 'like');

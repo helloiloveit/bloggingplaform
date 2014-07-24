@@ -342,7 +342,6 @@ def like_a_question():
 @auth.requires_login()
 def unlike_a_question():
     count_like = user_unlike_a_question(request, auth)
-    import pdb; pdb.set_trace()
     return count_like
 
 def report_a_question():
