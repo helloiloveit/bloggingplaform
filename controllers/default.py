@@ -225,13 +225,52 @@ def edit_question():
 @auth.requires_login()
 def delete_question():
     selection = request.vars
-    if selection['selection'] == "YES":
-        delete_a_question(request)
-        redirect(URL(r = request, f= 'question_list'))
-    elif selection['selection'] == "NO":
-        redirect(URL(r = request, f= 'question', args = [request.args[0]]))
+    if request.env.REQUEST_METHOD == 'GET':
+        return dict()
+    elif request.env.REQUEST_METHOD == 'POST':
+        if selection['selection'] == "YES":
+            delete_a_question(request)
+            redirect(URL(r = request, f= 'question_list'))
+        elif selection['selection'] == "NO":
+            redirect(URL(r = request, f= 'question', args = [request.args[0]]))
     return dict()
 
+@auth.requires_login()
+def edit_answer():
+    """
+    edit answer
+    """
+    if request.env.REQUEST_METHOD == 'GET':
+        answer_id = request.args[0]
+        answer = db(db.answer_tbl.id == answer_id).select().first()
+        return dict(answer = answer)
+    elif request.env.REQUEST_METHOD == 'POST':
+        update_an_answer(request)
+        answer_id = request.vars.answer_id
+        answer = db(db.answer_tbl.id == answer_id).select().first()
+        question_id = answer.question_id
+        redirect(URL(r = request, f= 'question', args = [question_id]))
+
+    return dict()
+
+@auth.requires_login()
+def delete_answer():
+    selection = request.vars
+    if request.env.REQUEST_METHOD == 'GET':
+        answer_id = request.args[0]
+        return dict(answer_id = answer_id)
+    elif request.env.REQUEST_METHOD == 'POST':
+        answer_id = selection['answer_id']
+        answer = db(db.answer_tbl.id == answer_id).select().first()
+        question_id = answer.question_id
+        if selection['selection'] == "YES":
+            delete_a_answer(request)
+        elif selection['selection'] == "NO":
+            pass
+        redirect(URL(r = request, f= 'question', args = [question_id]))
+    return dict()
+
+    return dict()
 
 def create_data_for_question_list_for_test():
     import pdb; pdb.set_trace()

@@ -135,11 +135,12 @@ class TestRattingQuestion(unittest.TestCase):
         self.driver.close()
 
 
-class TestRattingAnswer(unittest.TestCase):
+class TestHandlingAnswer(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
         user_login(self.driver)
         self.answer_info = 'this is an answer'
+        self.answer_edit_info = 'this is an answer'
         self.driver.get(QUESTION_LIST_URL)
         question_one = self.driver.find_element_by_class_name('article_header')
         link = question_one.find_element_by_link_text(question_one.text)
@@ -155,6 +156,23 @@ class TestRattingAnswer(unittest.TestCase):
         submit_button = self.driver.find_element_by_id('post_answer_button')
         submit_button.click()
 
+    def deleteAnswer(self, handling_info):
+        delete_button = handling_info.find_element_by_id('delete_answer_button')
+        delete_button.click()
+        yes_selection = self.driver.find_element_by_id('yes_selection')
+        yes_selection.click()
+        pass
+    def editAnswer(self, handling_info):
+        import pdb; pdb.set_trace()
+        edit_button = handling_info.find_element_by_id('edit_answer_button')
+        edit_button.click()
+        sleep(3)
+        self.driver.execute_script("tinymce.get('{0}').focus()".format('editor1'))
+        self.driver.execute_script("tinyMCE.activeEditor.setContent('{0}')".format(self.answer_edit_info))
+        submit_button= self.driver.find_element_by_id('post_answer_button')
+        submit_button.click()
+        pass
+
     def testRattingAnswer(self):
         import pdb;pdb.set_trace()
         popularity_info = self.driver.find_element_by_class_name('article_popularity_info')
@@ -164,11 +182,16 @@ class TestRattingAnswer(unittest.TestCase):
             self.postAnswer()
 
         answer_area = self.driver.find_element_by_class_name("article_comment_container")
-        temp = answer_area.find_element_by_class_name('article_popularity_info')
-        like_button = temp.find_element_by_class_name('like_unlike_button')
+        handling_info = answer_area.find_element_by_class_name('article_popularity_info')
+        like_button = handling_info.find_element_by_class_name('like_unlike_button')
         rst = compare_color_of_like_unlike_button(like_button)
         self.assertTrue(rst)
+        self.editAnswer(handling_info)
+        answer_area = self.driver.find_element_by_class_name("article_comment_container")
+        handling_info = answer_area.find_element_by_class_name('article_popularity_info')
+        self.deleteAnswer(handling_info)
         pass
+
 
 
     def tearDown(self):
@@ -177,7 +200,7 @@ class TestRattingAnswer(unittest.TestCase):
 
 
 
-class TestPostEditDelete(unittest.TestCase):
+class TestHandlingQuestion(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         #self.driver = webdriver.Chrome()
@@ -290,7 +313,7 @@ class TestPostEditDelete(unittest.TestCase):
 suite = unittest.TestSuite()
 #suite.addTest(unittest.makeSuite(TestAuth))
 #suite.addTest(unittest.makeSuite(TestPostEditDelete))
-suite.addTest(unittest.makeSuite(TestRattingAnswer))
+suite.addTest(unittest.makeSuite(TestHandlingAnswer))
 #suite.addTest(unittest.makeSuite(TestRattingQuestion))
 #suite.addTest(unittest.makeSuite(TestUserProfile))
 unittest.TextTestRunner(verbosity=2).run(suite)

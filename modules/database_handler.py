@@ -165,8 +165,8 @@ def update_an_answer(request):
     answer_info = request.vars.answer_info
     answer_handler().update_to_answer_tbl(answer_id, answer_info)
     pass
-def del_an_answer(request):
-    answer_id = request.vars.answer_id
+def delete_a_answer(request):
+    answer_id = request.vars['answer_id']
     answer_handler().del_answer_record_in_tbl(answer_id)
     pass
 
