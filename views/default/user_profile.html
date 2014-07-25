@@ -57,7 +57,7 @@ tinymce.init({
                   <td class="edit_button">
                       {{if auth.is_logged_in():}}
                       {{if auth.user.id == person_info.id:}}
-                      {{=A("sửa",_id ='edit_button',_href=URL('edit_user_profile',   vars=dict(user_id= request.vars.user_id))   )}}
+                      {{=A("sửa",_id ='edit_button',_class='handling_button', _href=URL('edit_user_profile',   vars=dict(user_id= request.vars.user_id))   )}}
                       {{pass}}
                       {{pass}}
                   </td>
@@ -102,10 +102,12 @@ tinymce.init({
 
             <br></br>
         {{if auth.is_logged_in():}}
-        {{if not follow_flag :}}
+        {{if not view_my_profile:}}
+        {{if not follow_flag  :}}
         <button id ="follow_button" value={{=person_info.id}} name="follow"> Theo dõi</button>
         {{else:}}
         <button id ="unfollow_button" value={{=person_info.id}} name="follow"> Huỷ Theo dõi</button>
+        {{pass}}
         {{pass}}
         {{pass}}
 

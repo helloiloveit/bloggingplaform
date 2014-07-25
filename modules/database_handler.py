@@ -10,11 +10,21 @@ from tag_handler import *
 log = logging.getLogger("h")
 log.setLevel(logging.DEBUG)
 
+def get_tag_list(tag_info):
+    tag_list = False
+    if len(tag_info):
+        tag_list = tag_info.split(',')
+    else:
+        tag_list = False
+    return tag_list
 
-def post_new_question(request, auth, tag_list):
+
+def post_new_question(request, auth):
     question_txt = request.vars.question_info
     question_detail_txt = request.vars.editor1
     user_id = auth.user.id
+    tag_info = request.vars.tag_list
+    tag_list = get_tag_list(tag_info)
     question_id = question_handler().create_new_record_in_question_tbl(question_txt,
                                                                 question_detail_txt,
                                                                 user_id,
@@ -27,7 +37,9 @@ def delete_a_question(request):
 
 def update_a_question(request):
     question_id = request.args[0]
-    tag_list = request.vars.tag_list.split(',')
+    tag_info = request.vars.tag_list
+    tag_list = get_tag_list(tag_info)
+
     question_handler().update_to_question_tbl(question_id, request.vars.question_info, request.vars.question_detail_info, tag_list)
     return
 
@@ -71,9 +83,13 @@ class question_handler(object):
         log.info("question_id = %s",question_id)
 
         #tag list
-        rst = question_tag_handler().add_tag_for_question(question_id, tag_list)
-        if not rst:
-            return False
+        if tag_list:
+            rst = question_tag_handler().add_tag_for_question(question_id, tag_list)
+            if not rst:
+                log.error('problem create tag infor for question')
+                return False
+        else:
+            log.info('this question doesnt have any tag yet')
 
         return question_id
 

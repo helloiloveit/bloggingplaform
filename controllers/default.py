@@ -91,7 +91,11 @@ def user():
     return dict(form = auth())
 
 def user_profile():
+    print 'allala'
     response.title ='user_profile'
+    follow_flag = False
+    view_my_profile= False
+
     if request.env.REQUEST_METHOD =='GET':
         target_person_id = request.vars.user_id
         user_info = db(db.auth_user.id == target_person_id).select().first()
@@ -100,7 +104,11 @@ def user_profile():
             profile_id = create_basis_user_profile(target_person_id)
             if profile_id:
                 profile_info = db(db.user_profile.id == profile_id).select().first()
-
+        #check if user view its own profile
+        if auth.is_logged_in():
+            if target_person_id == str(auth.user.id):
+                # view my profile
+                view_my_profile = True
         try:
             #if user is logged in
             follow_record = db((db.follow_info_tbl.followed_user == target_person_id)&(db.follow_info_tbl.following_user == auth.user.id )).select().first()
@@ -120,6 +128,7 @@ def user_profile():
         return dict(person_profile = profile_info,
                     person_info= user_info,
                     follow_flag = follow_flag,
+                    view_my_profile=view_my_profile,
                     following_list = following_list,
                     followed_list = followed_list)
     return dict()
@@ -336,18 +345,11 @@ def post():
 
 @auth.requires_login()
 def post_question():
-    tag_info = request.vars.tag_list
-    tag_list = tag_info.split(',')
-    question_id = post_new_question(request, auth, tag_list)
+    question_id = post_new_question(request, auth)
     if question_id:
         redirect(URL(r = request, f= 'question', args = question_id))
     return dict()
 
-
-@auth.requires_login()
-def user_modify_question():
-    update_a_question(request, session.tag_list_store)
-    return dict()
 
 
 ####### answer ######
@@ -390,7 +392,6 @@ def report_a_question():
 ##############follow##########
 @auth.requires_login()
 def follow_a_person():
-    import pdb; pdb.set_trace()
     rst = user_follow_a_person(request, auth)
     if rst:
         return "followed"

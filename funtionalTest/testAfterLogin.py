@@ -86,17 +86,15 @@ class TestAuth(unittest.TestCase):
 class TestUserProfile(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
-    """
-    def testUnRegisterGuestCheckUserProfile(self):
-        driver = self.driver
-        driver.get(BASE_URL)
-        import pdb;pdb.set_trace()
-    """
-    def registeredUser_visit_his_Profile(self):
-        driver = self.driver
-        #click profile image
-        profile_button = driver.find_element_by_id('user_profile')
+        user_login(self.driver)
+        self.driver.get(QUESTION_LIST_URL)
+
+    def testFollowFeature(self):
+        question_list = self.driver.find_elements_by_xpath('//table[@class="content_list_table"]//tbody//tr[@class="article_unit"]')
+        first_question = question_list[0].find_element_by_class_name('article_popularity_info')
+        profile_button = first_question.find_element_by_id('user_profile')
         profile_button.click()
+        import pdb;pdb.set_trace()
 
 
     def tearDown(self):
@@ -312,8 +310,8 @@ class TestHandlingQuestion(unittest.TestCase):
 
 suite = unittest.TestSuite()
 #suite.addTest(unittest.makeSuite(TestAuth))
-#suite.addTest(unittest.makeSuite(TestPostEditDelete))
-suite.addTest(unittest.makeSuite(TestHandlingAnswer))
+suite.addTest(unittest.makeSuite(TestHandlingQuestion))
+#suite.addTest(unittest.makeSuite(TestHandlingAnswer))
 #suite.addTest(unittest.makeSuite(TestRattingQuestion))
 #suite.addTest(unittest.makeSuite(TestUserProfile))
 unittest.TextTestRunner(verbosity=2).run(suite)
