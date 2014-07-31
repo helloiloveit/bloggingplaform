@@ -26,6 +26,8 @@ except ImportError:
 from facebook import GraphAPI, GraphAPIError
 from gluon.contrib.login_methods.oauth20_account import OAuthAccount
 
+#global variable for page number
+#end global var
 def term_of_use():
     return dict()
 
@@ -125,12 +127,19 @@ def user_profile():
         #followed
         followed_list = db(db.follow_info_tbl.following_user == target_person_id).select()
         response.title = user_info.first_name
+        #answer list
+        answer_list = db(db.answer_tbl.author_info == user_info.id).select()
+        answer_list, page_num, view_more_flag = _handle_page_num(request, answer_list)
+
         return dict(person_profile = profile_info,
                     person_info= user_info,
                     follow_flag = follow_flag,
                     view_my_profile=view_my_profile,
                     following_list = following_list,
-                    followed_list = followed_list)
+                    followed_list = followed_list,
+                    answer_list = answer_list,
+                    page_num = page_num,
+                    view_more_flag = view_more_flag)
     return dict()
 
 def edit_user_profile():
@@ -179,7 +188,7 @@ def index():
     if you need a simple wiki simple replace the two lines below with:
     return auth.wiki()
     """
-    redirect(URL(f= 'question_list', args = ''))
+    redirect(URL(f= 'question_list'))
     return dict()
 
 
@@ -297,29 +306,36 @@ def create_data_for_question_list_for_test():
         tag_list = ["tag1","tag2","tag3"]
         question_id = question_handler().create_new_record_in_question_tbl(question, question_detail_info, user_id, tag_list)
 
+def _handle_page_num(request, items):
+    view_more_flag= False
+    page_num_request = request.vars.page_num
+    page_num = 0
+    if page_num_request == None:
+        page_num = 0
+    else:
+        page_num = page_num_request
+    try:
+        if len(items):
+            display_list = items[int(page_num)*12:int(page_num)*12+12]
+        else:
+            display_list =[]
+        if len(items) > (int(page_num)*12 + 12):
+            view_more_flag = True
+
+    except:
+        log.error('cant query data from db')
+        display_list = []
+    return display_list, page_num, view_more_flag
+
 def question_list():
     """
     test data
     """
     response.title = 'Chuot Nhat'
-    record = db(db.auth_user).select()
+    items = db(db.question_tbl).select()
+    display_list, page_num, view_more_flag= _handle_page_num(request, items)
 
-    question_list = db(db.question_tbl).select()
-    if not len(question_list):
-        pass
-        #create_data_for_question_list_for_test()
-    """
-    end test data
-    """
-    items= []
-
-
-    try:
-        items = db(db.question_tbl).select()
-
-    except:
-        log.error('cant query data from db')
-    return dict(items= items)
+    return dict(items= display_list, page_num = page_num, view_more_flag=view_more_flag)
 
 def get_header(text):
     """

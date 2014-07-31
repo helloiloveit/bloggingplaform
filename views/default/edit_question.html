@@ -28,7 +28,6 @@
           </div>
       </form>
       <div id="target">
-          {{= len(tag_list)}}
           {{if len(tag_list):}}
           {{for tag in tag_list:}}
           <span class="post-tag" value="{{=tag}}">{{=tag}}<span id="delete_tag" value="{{=tag}}" class="delete-tag" title="remove" this="" tag="">x</span></span>

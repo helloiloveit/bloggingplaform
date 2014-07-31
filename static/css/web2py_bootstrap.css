@@ -5,10 +5,6 @@
 body{height:auto;} /* to avoid vertical scroll bar */
 /* add by huy */
 #logo_site{
-    margin-top: 6px;
-background-color: red;
-padding-top: 10px;
-padding-bottom: 10px;
 color:white;
 }
 #logo{
@@ -22,7 +18,7 @@ color: rgba(2, 12, 7, 1);
 font-style: italic;
 margin-left: 80px;
     font-size: 18px;
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 300;
 }
 
@@ -43,6 +39,7 @@ color: rgb(173, 165, 165);
 font-family: 'Roboto Slab', serif;
 font-weight: 300;
 padding-bottom: 30px;
+padding-left: 20px;
 }
 .article_container{
     padding-top:10px;
@@ -66,9 +63,9 @@ background-color: lightgrey;
 }
 
 
-.article_container .article_header{
+.article_header{
     font-size: 26px;
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 300;
     margin-top:0px;
     color:rgb(19, 19, 219);
@@ -112,7 +109,7 @@ background-color: lightgrey;
 /*right side */
 #related_question{
     font-size: 14px;
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 300;
 }
 /* comment */
@@ -170,7 +167,7 @@ text-align:center;
 .article_list_containter .header_option{
 
     font-size: 18px;
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 300;
     width: 400px;
     height:30px;
@@ -188,9 +185,9 @@ text-align:center;
     background-color: lightgray;
 }
 .article_list_containter .article_header{
-    font-size: 16px;
-    font-family: 'Roboto Slab', serif;
-    font-weight: 400;
+    font-size: 24px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
     color:rgb(19, 19, 219);
 }
 .article_list_containter .article_introduction{
@@ -202,6 +199,7 @@ text-align:center;
     font-size: 14px;
 
     font-weight: 300;
+    color:grey;
 }
 .article_list_containter .article_popularity_info td{
     font-size: 14px;
@@ -259,9 +257,15 @@ height: 20px;
     margin-top:6px;
     color: black;
 }
-#like_unlike_button{
+.like_unlike_button{
 color: red;
 
+}
+.like_button_space{
+    width:200px;
+}
+.count_like{
+    color:grey;
 }
 /*****user_profile***********/
 #user_fb_name{
@@ -269,6 +273,9 @@ font-size: 24px;
 font-family: 'Roboto Slab', serif;
 font-weight: 400;
 padding-bottom:30px;
+}
+#user_profile{
+
 }
 #user_detail_info{
 font-size: 18px;
@@ -283,6 +290,29 @@ padding-bottom:30px;
     width:100%;
 
 }
+.recent_activity_notice{
+    margin-top:40px;
+    margin-left:30px;
+    width:100%;
+
+}
+.user_activity_info{
+    margin-top:40px;
+    margin-left:30px;
+    width:100%;
+}
+.question_info{
+    font-size: 26px;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 300;
+    margin-top:0px;
+    color:rgb(19, 19, 219);
+}
+.user_answer_info{
+    font-size: 14px;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 300;
+}
 
 .user_text_info{
     margin-left: 5px;
@@ -293,6 +323,14 @@ height: 20px;
     margin-top:20px;
     font-family: 'Roboto Slab', serif;
     font-weight: 300;
+}
+#view_more_question{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    margin-top: 40px;
+margin-left: 30px;
+width: 100%;
+
 }
 
 /********header********/
@@ -503,6 +541,9 @@ div.controls select +.error_wrapper {margin-left:5px;}
         margin-right:auto;
         margin-top:10px;
         width:1022px;
+        border-bottom-style: solid;
+border-width: 1px;
+border-bottom-color: lightgray;
         }
 .navbar-inverse .brand{color:#white;}
 .navbar-inverse .brand b{display:inline-block;margin-top:-1px;}

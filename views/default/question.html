@@ -64,7 +64,7 @@
                   -->
                   {{pass}}
                   {{=' bởi    '}}
-                  <a id ="user_profile" href="{{=URL(f='user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
+                  <a id ="user_profile" href="{{=URL(f='user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.last_name}}</a>
               </td>
 
           </tr>
@@ -112,7 +112,7 @@
                       <a id ="user_profile" href="{{=URL(f='user_profile')}}"  onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
                      {{user_profile = db(db.user_profile.user_info == user_info.id).select().first()}}
                      {{if user_profile:}}
-                     <span>{{=XML(user_profile.detail_info)}}</span>
+                     <span class="user_detail_info">{{=XML(user_profile.detail_info)}}</span>
                      {{pass}}
                </td>
            </tr>
@@ -126,11 +126,17 @@
                   {{if auth.is_logged_in():}}
                   {{like_record = db((db.answer_like_tbl.answer_id == comment.id)&(db.answer_like_tbl.user_info == auth.user.id )).select()}}
                   {{if len(like_record):}}
-                  <span class ="like_unlike_button" id ="unlike" value ={{=comment.id}} style="color:red;" >thích</span>
+                  <span class ="like_unlike_button" id ="unlike" value ={{=comment.id}} style="color: rgb(207, 9, 9);" >
+                      <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon.png')}} alt="Pulpit rock" width="20" height="20">
+                      thích</span>
                   {{else:}}
-                  <a class ="like_unlike_button" id ="like" value ={{=comment.id}} style="color:grey">thích</a>
+                  <a class ="like_unlike_button" id ="like" value ={{=comment.id}} style="color:grey">
+                      <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon_grey.png')}} alt="Pulpit rock" width="20" height="20">
+                      thích</a>
                   {{pass}}
                   {{pass}}
+                  </td>
+                  <td>
                   {{like_record = db((db.answer_like_tbl.answer_id == comment.id)).select()}}
                   <span class="count_like">{{=len(like_record)}}</span><span> thích</span>
                  </td>
@@ -178,14 +184,6 @@ $( '#inputCommentButton' ).click(function() {
 
 });
 
-$('#like_button').click(function () {
-        alert("hello a ");
-         var id = $(this).attr("value");
-         alert(id);
-        ajax('http://localhost:8002/welcome/default/like_an_answer?answer_id='+ id, [''], 'like_button');
-});
-
-
      $('.like_unlike_button').click(function () {
          var myThisVariable = $(this);
          var id = $(this).attr("value");
@@ -204,11 +202,13 @@ $('#like_button').click(function () {
             data: {answer_id : id},
             cache: false,
             success: function(data){
-                myThisVariable.parent().find('.count_like').text(data);
+                //myThisVariable.parent().find('.count_like').text(data);
+                myThisVariable.parent().next('td').find('.count_like').text(data);
+                myThisVariable.find("#heart_img").attr("src","/chuotnhat/static/images/heart_icon.png");
             }
             });
 
-           $(this).css('color', 'red');
+           $(this).css('color', 'rgb(207, 9, 9)');
            $(this).attr('id', 'unlike');
          } else
          {
@@ -218,7 +218,9 @@ $('#like_button').click(function () {
             data: {answer_id : id},
             cache: false,
             success: function(data){
-                myThisVariable.parent().find('.count_like').text(data);
+                //myThisVariable.parent().find('.count_like').text(data);
+                myThisVariable.parent().next('td').find('.count_like').text(data);
+                myThisVariable.find("#heart_img").attr("src","/chuotnhat/static/images/heart_icon_grey.png");
             }
             });
            $(this).attr('id', 'like');

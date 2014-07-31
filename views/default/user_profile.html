@@ -33,7 +33,7 @@ tinymce.init({
      <tr>
          <td>
              {{img_path =' https://graph.facebook.com/' + person_info.username + '/picture?type=large'}}
-             <img border="0" src={{=img_path}} alt="Pulpit rock" width="200" height="200">
+             <img border="0" src={{=img_path}} alt="Pulpit rock" width="150" height="150">
          </td>
          <td>
            <table class="user_text_info">
@@ -115,8 +115,41 @@ tinymce.init({
      </tr>
  </table>
 
+<table class="recent_activity_notice">
+    <tr>
+        <td class="handling_button">
+            Các trả lời gần đây:
+        </td>
+    </tr>
+</table>
+<table class="user_activity_info">
+    {{for answer in answer_list:}}
+    {{question = db(db.question_tbl.id ==answer.question_id).select().first()}}
+    <tr class="question_unit" >
+        <td>
+            <table class="content_info_table">
+                <tr>
+                    <td class="article_header">
+                        {{=A(question.question_info,_class='article_header', _href=URL(f='question',args=[question.id]))}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="user_answer_info">
+                        {{=XML(answer.answer_info)}}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    {{pass}}
 
-
+</table>
+ <br></br>
+{{if view_more_flag:}}
+    <a id ="view_more_question" href={{=URL(r=request,f='question_list',args=[])}} onclick="location.href=this.href+'?page_num='+{{=int(page_num) + 1}}; return false;">
+        xem thêm
+    </a>
+{{pass}}
 
 <script language="javascript"><!--
      $('#edit_button').click(function () {

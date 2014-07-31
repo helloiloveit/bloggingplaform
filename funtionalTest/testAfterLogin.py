@@ -13,66 +13,67 @@ LOGIN_URL = "http://localhost:8002/user/login?_next=/"
 LOGOUT_URL = "http://localhost:8002/user/logout?_next=/"
 QUESTION_LIST_URL = "http://localhost:8002/chuotnhat/default/question_list"
 
+#test user
+EMAIL_TEST_USER_1='hrgohvb_bushakstein_1406709821@tfbnw.net'
+PASS_TEST_USER_1='maiphuong'
+"""
+def user_login_real_user(self):
+    self.driver.get(LOGIN_URL)
+    email = self.driver.find_elements_by_id('email')
+    email[0].send_keys('mhuy82gnr@yahoo.com')
+    pass_word = self.driver.find_elements_by_id('pass')
+    pass_word[0].send_keys('lockcapsscroll2304')
+    button_login = self.driver.find_elements_by_id('u_0_1')
+    button_login[0].click()
+    button_check_point = self.driver.find_elements_by_id('checkpointSubmitButton')
+    button_check_point[0].click()
+"""
 
 def user_login(driver):
     driver.get(LOGIN_URL)
     email = driver.find_elements_by_id('email')
-    email[0].send_keys('mhuy82gnr@yahoo.com')
+    email[0].send_keys(EMAIL_TEST_USER_1)
     pass_word = driver.find_elements_by_id('pass')
-    pass_word[0].send_keys('lockcapsscroll2304')
+    pass_word[0].send_keys(PASS_TEST_USER_1)
     button_login = driver.find_elements_by_id('u_0_1')
     button_login[0].click()
-    button_check_point = driver.find_elements_by_id('checkpointSubmitButton')
-    button_check_point[0].click()
 
-def compare_color_of_like_unlike_button(like_button):
+def user_logout(driver):
+    driver.get(LOGOUT_URL)
+
+def click_like_unlike_button(like_button):
     color = like_button.value_of_css_property('color')
+    import pdb; pdb.set_trace()
     if color =='rgba(128, 128, 128, 1)':
     #not like this button yet
         like_button.click()
         sleep(2)
         color = like_button.value_of_css_property('color')
-        if color == 'rgba(255, 0, 0, 1)':
+        if color == 'rgba(207, 9, 9, 1)':
             return True
-    elif color == 'rgba(255, 0, 0, 1)':
+    elif color == 'rgba(207, 9, 9, 1)':
         # already liked
         like_button.click()
         sleep(2)
         color = like_button.value_of_css_property('color')
         if color == 'rgba(128, 128, 128, 1)':
             return True
-    return false
+    return False
 
 class TestAuth(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Firefox()
 
-    def user_login(self):
-        self.driver.get(LOGIN_URL)
-        email = self.driver.find_elements_by_id('email')
-        temp[0].send_keys('mhuy82gnr@yahoo.com')
-
-        pass_word = self.driver.tempfind_elements_by_id('pass')
-        pass_word[0].send_keys('lockcapsscroll2304')
-        button_login = self.driver.find_elements_by_id('u_0_1')
-        button_login[0].click()
-        button_check_point = self.driver.find_elements_by_id('checkpointSubmitButton')
-        button_check_point[0].click()
-    def user_logout(self):
-        self.driver.get(LOGOUT_URL)
 
     def testUserLogin(self):
-        self.user_login()
+        user_login(self.driver)
         driver = self.driver
-        import pdb;pdb.set_trace()
-        user_info = driver.find_element_by_class_name("dropdown")
-        self.assertIn("Nguyen", user_info.text)
+        #user_info = driver.find_element_by_class_name("dropdown")
+        #self.assertIn("Nguyen", user_info.text)
     def testUserLogout(self):
-        self.user_login()
-        self.user_logout()
-        user_info = self.driver.find_element_by_class_name("dropdown")
-        self.assertIn("Login", user_info.text)
+        user_login(self.driver)
+        user_logout(self.driver)
 
         """
         elem = driver.find_element(by='id', value="logo_site")
@@ -94,7 +95,6 @@ class TestUserProfile(unittest.TestCase):
         first_question = question_list[0].find_element_by_class_name('article_popularity_info')
         profile_button = first_question.find_element_by_id('user_profile')
         profile_button.click()
-        import pdb;pdb.set_trace()
 
 
     def tearDown(self):
@@ -121,7 +121,7 @@ class TestRattingQuestion(unittest.TestCase):
             question_unit = question_list[i].find_element_by_class_name('article_popularity_info')
             like_button = question_unit.find_element_by_class_name('like_unlike_button')
             #check if its clicked or not using color
-            rst = compare_color_of_like_unlike_button(like_button)
+            rst = click_like_unlike_button(like_button)
             self.assertTrue(rst)
 
         question_list = self.driver.find_elements_by_xpath('//table[@class="content_list_table"]//tbody//tr[@class="article_unit"]')
@@ -171,8 +171,29 @@ class TestHandlingAnswer(unittest.TestCase):
         submit_button.click()
         pass
 
-    def testRattingAnswer(self):
-        import pdb;pdb.set_trace()
+    def AnswerElement(self, answer_info):
+        import pdb; pdb.set_trace()
+        user_profile = answer_info.find_element_by_id('user_profile')
+        user_info = answer_info.find_element_by_class_name('user_detail_info')
+        answer_text = answer_info.find_element_by_class_name('comment_info')
+        handling_info = answer_info.find_element_by_class_name('article_popularity_info')
+        try:
+            like_button = handling_info.find_element_by_class_name('like_unlike_button')
+            count_like_info = handling_info.find_element_by_class_name('count_like')
+        except:
+            self.assertTrue(false)
+        pass
+
+    def LikeUnLikeFunction(self, answer_info):
+        handling_info = answer_info.find_element_by_class_name('article_popularity_info')
+        like_button = handling_info.find_element_by_class_name('like_unlike_button')
+        rst = click_like_unlike_button(like_button)
+        self.assertTrue(rst)
+
+
+    def testHandlingAnswer(self):
+        # check number of answer available
+        # to do : user another test user to create answer then test with it.  onwer of answer and not owner of answer
         popularity_info = self.driver.find_element_by_class_name('article_popularity_info')
         info = popularity_info.text.split(' ')
         if info[0] == '0':
@@ -180,14 +201,14 @@ class TestHandlingAnswer(unittest.TestCase):
             self.postAnswer()
 
         answer_area = self.driver.find_element_by_class_name("article_comment_container")
-        handling_info = answer_area.find_element_by_class_name('article_popularity_info')
-        like_button = handling_info.find_element_by_class_name('like_unlike_button')
-        rst = compare_color_of_like_unlike_button(like_button)
-        self.assertTrue(rst)
+        self.AnswerElement(answer_area)
+        self.LikeUnLikeFunction(answer_area)
+        """
         self.editAnswer(handling_info)
         answer_area = self.driver.find_element_by_class_name("article_comment_container")
         handling_info = answer_area.find_element_by_class_name('article_popularity_info')
         self.deleteAnswer(handling_info)
+        """
         pass
 
 
@@ -202,23 +223,12 @@ class TestHandlingQuestion(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         #self.driver = webdriver.Chrome()
-        self.user_login()
+        user_login(self.driver)
         self.question_info = 'this is a question'
         self.edit_question_info = 'this is a edited question'
         self.question_info_detail = ' this is a detail of question'
         self.edited_question_info_detail = ' this is a detail of question'
 
-    def user_login(self):
-        self.driver.get(LOGIN_URL)
-        email = self.driver.find_elements_by_id('email')
-        email[0].send_keys('mhuy82gnr@yahoo.com')
-
-        pass_word = self.driver.find_elements_by_id('pass')
-        pass_word[0].send_keys('lockcapsscroll2304')
-        button_login = self.driver.find_elements_by_id('u_0_1')
-        button_login[0].click()
-        button_check_point = self.driver.find_elements_by_id('checkpointSubmitButton')
-        button_check_point[0].click()
 
     def post(self):
         driver = self.driver
@@ -233,6 +243,7 @@ class TestHandlingQuestion(unittest.TestCase):
             post_button.click()
 
         #add tag
+        sleep(2)
         tag_info= driver.find_element_by_id('month')
         tag_info.click()
         tag_info.send_keys('c')
@@ -310,8 +321,8 @@ class TestHandlingQuestion(unittest.TestCase):
 
 suite = unittest.TestSuite()
 #suite.addTest(unittest.makeSuite(TestAuth))
-suite.addTest(unittest.makeSuite(TestHandlingQuestion))
-#suite.addTest(unittest.makeSuite(TestHandlingAnswer))
+#suite.addTest(unittest.makeSuite(TestHandlingQuestion))
+suite.addTest(unittest.makeSuite(TestHandlingAnswer))
 #suite.addTest(unittest.makeSuite(TestRattingQuestion))
 #suite.addTest(unittest.makeSuite(TestUserProfile))
 unittest.TextTestRunner(verbosity=2).run(suite)

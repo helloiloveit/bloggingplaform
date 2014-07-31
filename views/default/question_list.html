@@ -58,15 +58,21 @@
                  <!-- <input type="text" name="article_introduction" value = "quan diem cua ban">-->
                  </td>
           </tr>
+         </table>
+        <table>
           <tr class="article_popularity_info">
                   {{try:}}
                   {{if auth.is_logged_in():}}
                   {{like_record = db((db.question_like_tbl.question_id == item.id)&(db.question_like_tbl.user_info == auth.user.id )).select().first()}}
-                    <td>
+                    <td class="like_button_space">
                   {{if like_record:}}
-                    <a class ="like_unlike_button" id ="unlike" value ={{=item.id}} style="color:red;" >quan tâm</a>
+                    <a class ="like_unlike_button" id ="unlike" value ={{=item.id}} style="color: rgb(207, 9, 9);" >
+                        <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon.png')}} alt="Pulpit rock" width="20" height="20">
+                        quan tâm</a>
                   {{else:}}
-                     <a class ="like_unlike_button" id ="like" value ={{=item.id}} style="color:grey">quan tâm</a>
+                     <a class ="like_unlike_button" id ="like" value ={{=item.id}} style="color:grey">
+                         <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon_grey.png')}} alt="Pulpit rock" width="20" height="20">
+                         quan tâm</a>
                     </td>
                   {{pass}}
                   {{pass}}
@@ -98,6 +104,14 @@
       </tr>
         {{pass}}
     </table>
+    {{if view_more_flag:}}
+    <div>
+        <br></br>
+    <a id ="view_more_question" href={{=URL(r=request,f='question_list',args=[])}} onclick="location.href=this.href+'?page_num='+{{=int(page_num) + 1}}; return false;">
+        xem thêm
+        </a>
+        </div>
+     {{pass}}
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <h2></h2>
@@ -133,9 +147,10 @@
             cache: false,
             success: function(data){
                 myThisVariable.parent().next('td').find('.count_like').text(data);
+                myThisVariable.find("#heart_img").attr("src","/chuotnhat/static/images/heart_icon.png");
             }
             });
-
+           $("#heart_img").attr("src","/chuotnhat/static/images/heart_icon.png");
            $(this).css('color', 'red');
            $(this).attr('id', 'unlike');
          } else
@@ -147,6 +162,7 @@
             cache: false,
             success: function(data){
                 myThisVariable.parent().next('td').find('.count_like').text(data);
+                myThisVariable.find("#heart_img").attr("src","/chuotnhat/static/images/heart_icon_grey.png");
             }
             });
            $(this).attr('id', 'like');
