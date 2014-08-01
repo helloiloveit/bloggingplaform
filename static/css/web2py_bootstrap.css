@@ -31,15 +31,25 @@ width: 450px;
 .gsc-search-button{
 
 }
+.question_answer_info{
+padding-left:100px
+}
+.question_like_info{
+padding-left:50px
+}
 #edit_button{
 padding-bottom: 30px;
+}
+#edit_answer_button{
+padding-left: 20px;
+}
+#delete_answer_button{
+padding-left:20px;
 }
 .handling_button{
 color: rgb(173, 165, 165);
 font-family: 'Roboto Slab', serif;
 font-weight: 300;
-padding-bottom: 30px;
-padding-left: 20px;
 }
 .article_container{
     padding-top:10px;
@@ -94,7 +104,6 @@ background-color: lightgrey;
 .article_container .article_popularity_info{
     font-size: 14px;
     font-weight: 300;
-    width: 600px;
     margin-top:20px;
 }
 .article_container .article_popularity_info td{
@@ -266,6 +275,7 @@ color: red;
 }
 .count_like{
     color:grey;
+    padding-left:100px;
 }
 /*****user_profile***********/
 #user_fb_name{
@@ -299,7 +309,7 @@ padding-bottom:30px;
 .user_activity_info{
     margin-top:40px;
     margin-left:30px;
-    width:100%;
+    width:650px;
 }
 .question_info{
     font-size: 26px;

@@ -45,7 +45,8 @@
                 </td>
                   {{pass}}
               <td >
-                  {{=len(comment_list)}} trả lời  {{=len(like_list)}} thích
+                  <span class="question_answer_info">{{=len(comment_list)}} trả lời </span>
+                  <span class="question_like_info">{{=len(like_list)}} thích </span>
               </td>
                 {{if auth.is_logged_in():}}
                 <td>
@@ -121,6 +122,8 @@
                 {{=XML(comment.answer_info)}}
                </td>
            </tr>
+             </table>
+           <table>
           <tr class="article_popularity_info">
               <td >
                   {{if auth.is_logged_in():}}
@@ -134,6 +137,10 @@
                       <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon_grey.png')}} alt="Pulpit rock" width="20" height="20">
                       thích</a>
                   {{pass}}
+                  {{else:}}
+                  <a  class ="register_to_like" value ={{=''}} style="color:grey" href={{=URL( f='user/login',vars=dict(_next=URL(f='question', args=[request.args[0]] ))  )}}>
+                      <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon_grey.png')}} alt="Pulpit rock" width="20" height="20">
+                      thích</a>
                   {{pass}}
                   </td>
                   <td>

@@ -320,9 +320,9 @@ class TestHandlingQuestion(unittest.TestCase):
 
 
 suite = unittest.TestSuite()
-#suite.addTest(unittest.makeSuite(TestAuth))
-#suite.addTest(unittest.makeSuite(TestHandlingQuestion))
+suite.addTest(unittest.makeSuite(TestAuth))
+suite.addTest(unittest.makeSuite(TestHandlingQuestion))
 suite.addTest(unittest.makeSuite(TestHandlingAnswer))
-#suite.addTest(unittest.makeSuite(TestRattingQuestion))
-#suite.addTest(unittest.makeSuite(TestUserProfile))
+suite.addTest(unittest.makeSuite(TestRattingQuestion))
+suite.addTest(unittest.makeSuite(TestUserProfile))
 unittest.TextTestRunner(verbosity=2).run(suite)

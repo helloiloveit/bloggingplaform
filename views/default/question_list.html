@@ -75,6 +75,13 @@
                          quan tâm</a>
                     </td>
                   {{pass}}
+                  {{else:}}
+                    <td class="like_button_space">
+                        <a class ="register_to_like"  value ={{''}} style="color:grey" href={{=URL(f='user/login' ,vars=dict(_next=URL(f='question_list')) )}}>
+                            <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon_grey.png')}} alt="Pulpit rock" width="20" height="20">
+                            quan tâm</a>
+                     </td>
+
                   {{pass}}
                   <!--
                   <button id ="report_button" value={{=item.id}} name="report"> report</button>
