@@ -1,6 +1,6 @@
 __author__ = 'huyheo'
 
-#python applications/chuotnhat/funtionalTest/testAfterLogin.py
+#python applications/chuotnhat/funtionalTest/AfterLogin.py
 
 import unittest
 from selenium import webdriver
@@ -8,10 +8,16 @@ from selenium.common.exceptions import *
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from time import *
-BASE_URL = "http://localhost:8002/"
-LOGIN_URL = "http://localhost:8002/user/login?_next=/"
-LOGOUT_URL = "http://localhost:8002/user/logout?_next=/"
-QUESTION_LIST_URL = "http://localhost:8002/chuotnhat/default/question_list"
+import os
+import sys
+
+LOCAL_TEST = "http://localhost:8002"
+REAL_TEST ="http://chuotnhat.vn"
+#BASE_URL = REAL_TEST
+BASE_URL = LOCAL_TEST
+LOGIN_URL = os.path.join(BASE_URL, 'user/login?_next=/')
+LOGOUT_URL = os.path.join(BASE_URL, 'user/logout?_next=/')
+QUESTION_LIST_URL = os.path.join(BASE_URL, 'question_list')
 
 NUM_OF_QUESTION_PER_PAGE = 12
 
@@ -71,10 +77,10 @@ class TestUserProfile(unittest.TestCase):
         for i in range(0, number_of_question,1):
             sleep(4)
             print'click on question number %d' %i
-            import pdb; pdb.set_trace()
             question_list = driver.find_elements_by_xpath('//table[@class="user_activity_info"]//tbody//tr[@class="question_unit"]')
             rst =TestUserProfile.questionElement(question_list[i], driver)
-            self.assertTrue(rst)
+            return rst
+        return False
 
 
 
@@ -205,7 +211,7 @@ class TestQuestionPage(unittest.TestCase):
             #no answer
             pass
         else:
-            answer_list = self.driver.find_elements_by_xpath('//table[@class="article_comment_container"]//tbody//tr//td//table[@class="user_comment"]')
+            answer_list = self.driver.find_elements_by_xpath('//table[@class="article_comment_container"]//tbody//tr[@class="answer_unit"]')
             number_of_answer = len(answer_list)
             for i in range(0, number_of_answer, 1):
                 sleep(3)
@@ -243,11 +249,17 @@ class TestAnswer(unittest.TestCase):
     def tearDown(self):
         self.driver.close()
 
+if sys.argv[1] == 'local':
+    BASE_URL = LOCAL_TEST
+    print '...start testing in local machine'
+else:
+    BASE_URL = REAL_TEST
+    print'...start testing in real version'
 
 suite = unittest.TestSuite()
-suite.addTest(unittest.makeSuite(TestUserProfile))
+#suite.addTest(unittest.makeSuite(TestUserProfile))
 suite.addTest(unittest.makeSuite(TestQuestionPage))
-suite.addTest(unittest.makeSuite(TestAnswer))
-suite.addTest(unittest.makeSuite(TestQuestionListPage))
-suite.addTest(unittest.makeSuite(TestUserProfile))
+#suite.addTest(unittest.makeSuite(TestAnswer))
+#suite.addTest(unittest.makeSuite(TestQuestionListPage))
+#suite.addTest(unittest.makeSuite(TestUserProfile))
 unittest.TextTestRunner(verbosity=2).run(suite)

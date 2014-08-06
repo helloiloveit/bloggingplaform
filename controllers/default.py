@@ -93,11 +93,9 @@ def user():
     return dict(form = auth())
 
 def user_profile():
-    print 'allala'
     response.title ='user_profile'
     follow_flag = False
     view_my_profile= False
-
     if request.env.REQUEST_METHOD =='GET':
         target_person_id = request.vars.user_id
         user_info = db(db.auth_user.id == target_person_id).select().first()
@@ -260,6 +258,8 @@ def edit_answer():
     """
     if request.env.REQUEST_METHOD == 'GET':
         answer_id = request.args[0]
+        origin_url = request.vars.origin
+        session.EDIT_ANSWER_ORIGIN_URL = origin_url
         answer = db(db.answer_tbl.id == answer_id).select().first()
         return dict(answer = answer)
     elif request.env.REQUEST_METHOD == 'POST':
@@ -267,7 +267,10 @@ def edit_answer():
         answer_id = request.vars.answer_id
         answer = db(db.answer_tbl.id == answer_id).select().first()
         question_id = answer.question_id
-        redirect(URL(r = request, f= 'question', args = [question_id]))
+        if session.EDIT_ANSWER_ORIGIN_URL == 'user_profile':
+            redirect(URL(r = request, f= 'user_profile', vars = {'user_id':auth.user.id}))
+        elif session.EDIT_ANSWER_ORIGIN_URL == 'question':
+            redirect(URL(r = request, f= 'question', args = [question_id]))
 
     return dict()
 
@@ -331,6 +334,7 @@ def question_list():
     """
     test data
     """
+    import pdb; pdb.set_trace()
     response.title = 'Chuot Nhat'
     items = db(db.question_tbl).select()
     display_list, page_num, view_more_flag= _handle_page_num(request, items)
@@ -361,6 +365,9 @@ def post():
 
 @auth.requires_login()
 def post_question():
+    import pdb; pdb.set_trace()
+    user_list = db(db.auth_user).select()
+    print user_list
     question_id = post_new_question(request, auth)
     if question_id:
         redirect(URL(r = request, f= 'question', args = question_id))

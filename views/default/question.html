@@ -104,12 +104,19 @@
    <div >
        <table class="article_comment_container">
         {{for comment in comment_list:}}
-      <tr>
-        <td>
+      <tr class="answer_unit">
+        <td class="answer_unit_td">
             <table class="user_comment" >
             <tr class="user_info">
-                 <td>
                 {{user_info = db(db.auth_user.id == comment.author_info).select().first()}}
+                {{img_path =' https://graph.facebook.com/' + user_info.username + '/picture'}}
+                <td>
+                    <a id ="user_profile" href="{{=URL(f='user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">
+                        <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
+                    </a>
+
+                </td>
+                 <td class="user_profile_text">
                       <a id ="user_profile" href="{{=URL(f='user_profile')}}"  onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
                      {{user_profile = db(db.user_profile.user_info == user_info.id).select().first()}}
                      {{if user_profile:}}
@@ -117,6 +124,8 @@
                      {{pass}}
                </td>
            </tr>
+            </table>
+            <table>
             <tr class="comment_info">
                  <td>
                 {{=XML(comment.answer_info)}}
@@ -149,7 +158,7 @@
                  </td>
               {{if (auth.is_logged_in() and (auth.user.id == comment.author_info)):}}
               <td>
-                  {{=A("sửa",_id ='edit_answer_button', _class='handling_button', _href=URL(r=request,f='edit_answer',args=[comment.id]))}}
+                  {{=A("sửa",_id ='edit_answer_button', _class='handling_button', _href=URL(r=request,f='edit_answer',args=[comment.id], vars={'origin':'question'}))}}
               </td>
               <td>
                   {{=A("xoá",_id='delete_answer_button', _class='handling_button', _href=URL(r=request,f='delete_answer',args=[comment.id]))}}

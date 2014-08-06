@@ -152,7 +152,7 @@ class FaceBookAccount(OAuthAccount):
     def get_user(self):
         '''Returns the user using the Graph API.
         '''
-        #import pdb;pdb.set_trace()
+        import pdb;pdb.set_trace()
         if not self.accessToken():
             print' return none'
             return None

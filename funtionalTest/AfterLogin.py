@@ -8,11 +8,11 @@ from selenium.common.exceptions import *
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from time import *
-BASE_URL = "http://localhost:8002/"
-LOGIN_URL = "http://localhost:8002/user/login?_next=/"
-LOGOUT_URL = "http://localhost:8002/user/logout?_next=/"
-QUESTION_LIST_URL = "http://localhost:8002/chuotnhat/default/question_list"
+import os, sys
 
+LOCAL_TEST = "http://localhost:8002"
+REAL_TEST ="http://www.chuotnhat.vn"
+BASE_URL = REAL_TEST
 #test user
 EMAIL_TEST_USER_1='hrgohvb_bushakstein_1406709821@tfbnw.net'
 PASS_TEST_USER_1='maiphuong'
@@ -41,20 +41,38 @@ def user_login(driver):
 def user_logout(driver):
     driver.get(LOGOUT_URL)
 
+def click_like_unlike_button2(like_button, count_like):
+    color = like_button.value_of_css_property('color')
+    if color =='rgba(128, 128, 128, 1)':
+        #not like this button yet
+        like_button.click()
+        sleep(4)
+        color = like_button.value_of_css_property('color')
+        if color == 'rgba(207, 9, 9, 1)':
+            return  count_like + 1
+    elif color == 'rgba(207, 9, 9, 1)':
+        # already liked
+        like_button.click()
+        sleep(4)
+        color = like_button.value_of_css_property('color')
+        if color == 'rgba(128, 128, 128, 1)':
+            return  count_like -1
+    return None
+
+
 def click_like_unlike_button(like_button):
     color = like_button.value_of_css_property('color')
-    import pdb; pdb.set_trace()
     if color =='rgba(128, 128, 128, 1)':
     #not like this button yet
         like_button.click()
-        sleep(2)
+        sleep(4)
         color = like_button.value_of_css_property('color')
         if color == 'rgba(207, 9, 9, 1)':
             return True
     elif color == 'rgba(207, 9, 9, 1)':
         # already liked
         like_button.click()
-        sleep(2)
+        sleep(4)
         color = like_button.value_of_css_property('color')
         if color == 'rgba(128, 128, 128, 1)':
             return True
@@ -107,9 +125,10 @@ class TestQuestionListPage(unittest.TestCase):
         pass
 
 
-class TestRattingQuestion(unittest.TestCase):
+class TestQuestionList(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
+        #self.driver = webdriver.Firefox()
         user_login(self.driver)
         self.driver.get(QUESTION_LIST_URL)
 
@@ -117,16 +136,20 @@ class TestRattingQuestion(unittest.TestCase):
         """
         view each question in question_list once by onec
         """
-        def like_unlike_question(question_list,i):
-            question_unit = question_list[i].find_element_by_class_name('article_popularity_info')
+        def like_unlike_question(question_info):
+            question_unit = question_info.find_element_by_class_name('article_popularity_info')
             like_button = question_unit.find_element_by_class_name('like_unlike_button')
+            count_like_info = question_info.find_element_by_class_name('count_like')
+            before_click_count = int(count_like_info.text)
             #check if its clicked or not using color
-            rst = click_like_unlike_button(like_button)
-            self.assertTrue(rst)
+            count_like = click_like_unlike_button2(like_button, before_click_count)
+            after_click_count = int(count_like_info.text)
+            self.assertTrue(count_like != None)
+            self.assertTrue(count_like == after_click_count )
 
         question_list = self.driver.find_elements_by_xpath('//table[@class="content_list_table"]//tbody//tr[@class="article_unit"]')
         for i in range(0, len(question_list),1):
-            like_unlike_question(question_list,i)
+            like_unlike_question(question_list[i])
 
 
     def tearDown(self):
@@ -138,14 +161,13 @@ class TestHandlingAnswer(unittest.TestCase):
         self.driver = webdriver.Chrome()
         user_login(self.driver)
         self.answer_info = 'this is an answer'
-        self.answer_edit_info = 'this is an answer'
+        self.answer_edit_info = 'this is an edited answer'
         self.driver.get(QUESTION_LIST_URL)
         question_one = self.driver.find_element_by_class_name('article_header')
         link = question_one.find_element_by_link_text(question_one.text)
         link.click()
 
     def postAnswer(self):
-        import pdb;pdb.set_trace()
         popularity_info = self.driver.find_element_by_class_name('article_popularity_info')
         answer_button = popularity_info.find_element_by_id('inputCommentButton')
         answer_button.click()
@@ -161,7 +183,6 @@ class TestHandlingAnswer(unittest.TestCase):
         yes_selection.click()
         pass
     def editAnswer(self, handling_info):
-        import pdb; pdb.set_trace()
         edit_button = handling_info.find_element_by_id('edit_answer_button')
         edit_button.click()
         sleep(3)
@@ -172,7 +193,6 @@ class TestHandlingAnswer(unittest.TestCase):
         pass
 
     def AnswerElement(self, answer_info):
-        import pdb; pdb.set_trace()
         user_profile = answer_info.find_element_by_id('user_profile')
         user_info = answer_info.find_element_by_class_name('user_detail_info')
         answer_text = answer_info.find_element_by_class_name('comment_info')
@@ -184,11 +204,23 @@ class TestHandlingAnswer(unittest.TestCase):
             self.assertTrue(false)
         pass
 
+    def check_authority(self, answer_info):
+        try:
+            edit_button = answer_info.find_element_by_id('edit_answer_button')
+            return True
+        except NoSuchElementException:
+            return False
+
+
     def LikeUnLikeFunction(self, answer_info):
         handling_info = answer_info.find_element_by_class_name('article_popularity_info')
         like_button = handling_info.find_element_by_class_name('like_unlike_button')
-        rst = click_like_unlike_button(like_button)
-        self.assertTrue(rst)
+        count_like_info = handling_info.find_element_by_class_name('count_like')
+        before_click_count = int(count_like_info.text)
+        count_number = click_like_unlike_button2(like_button, before_click_count)
+        after_click_count = int(count_like_info.text)
+        self.assertTrue(count_number!= None)
+        self.assertTrue(after_click_count == count_number)
 
 
     def testHandlingAnswer(self):
@@ -200,15 +232,22 @@ class TestHandlingAnswer(unittest.TestCase):
             #no answer
             self.postAnswer()
 
-        answer_area = self.driver.find_element_by_class_name("article_comment_container")
-        self.AnswerElement(answer_area)
-        self.LikeUnLikeFunction(answer_area)
-        """
-        self.editAnswer(handling_info)
-        answer_area = self.driver.find_element_by_class_name("article_comment_container")
-        handling_info = answer_area.find_element_by_class_name('article_popularity_info')
-        self.deleteAnswer(handling_info)
-        """
+        answer_list = self.driver.find_elements_by_xpath('//table[@class="article_comment_container"]//tbody//tr[@class="answer_unit"]')
+        for i in range(0, len(answer_list),1):
+            self.AnswerElement(answer_list[i])
+            self.LikeUnLikeFunction(answer_list[i])
+            if self.check_authority(answer_list[i]):
+                self.editAnswer(answer_list[i])
+            answer_list = self.driver.find_elements_by_xpath('//table[@class="article_comment_container"]//tbody//tr[@class="answer_unit"]')
+
+        #delete question in loop
+        answer_list = self.driver.find_elements_by_xpath('//table[@class="article_comment_container"]//tbody//tr[@class="answer_unit"]')
+        i =0
+        while i < len(answer_list):
+            if self.check_authority(answer_list[i]):
+                self.deleteAnswer(answer_list[i])
+            answer_list = self.driver.find_elements_by_xpath('//table[@class="article_comment_container"]//tbody//tr[@class="answer_unit"]')
+            i = i+1
         pass
 
 
@@ -236,7 +275,6 @@ class TestHandlingQuestion(unittest.TestCase):
             post_button = driver.find_element_by_id("post_button")
             post_button.click()
         except:
-            import pdb; pdb.set_trace()
 
             sleep(2)
             post_button = driver.find_element_by_id("post_button")
@@ -252,7 +290,7 @@ class TestHandlingQuestion(unittest.TestCase):
         except:
             #wait for ajax call to finish
             print 'cant receive suggestion box'
-            sleep(3)
+            sleep(6)
             temp = driver.find_element_by_id('suggestion_box')
         tag_suggess = temp.find_element_by_xpath('div')
         tag_suggess.click()
@@ -306,7 +344,7 @@ class TestHandlingQuestion(unittest.TestCase):
         self.delete_post()
         #check the url
         url_info = driver.current_url
-        self.assertIn( BASE_URL + 'question_list',url_info)
+        self.assertIn( os.path.join(BASE_URL , 'question_list'),url_info)
         #go to profile
 
 
@@ -317,12 +355,20 @@ class TestHandlingQuestion(unittest.TestCase):
 
 
 
-
+if sys.argv[1] == 'local':
+    BASE_URL = LOCAL_TEST
+    print '...start testing in local machine'
+else:
+    BASE_URL = REAL_TEST
+    print'...start testing in real version'
+LOGIN_URL = os.path.join(BASE_URL, 'user/login?_next=/')
+LOGOUT_URL = os.path.join(BASE_URL, 'user/logout?_next=/')
+QUESTION_LIST_URL = os.path.join(BASE_URL, 'question_list')
 
 suite = unittest.TestSuite()
 suite.addTest(unittest.makeSuite(TestAuth))
 suite.addTest(unittest.makeSuite(TestHandlingQuestion))
 suite.addTest(unittest.makeSuite(TestHandlingAnswer))
-suite.addTest(unittest.makeSuite(TestRattingQuestion))
+suite.addTest(unittest.makeSuite(TestQuestionList))
 suite.addTest(unittest.makeSuite(TestUserProfile))
 unittest.TextTestRunner(verbosity=2).run(suite)
