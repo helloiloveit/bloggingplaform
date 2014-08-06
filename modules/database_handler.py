@@ -10,21 +10,11 @@ from tag_handler import *
 log = logging.getLogger("h")
 log.setLevel(logging.DEBUG)
 
-def get_tag_list(tag_info):
-    tag_list = False
-    if len(tag_info):
-        tag_list = tag_info.split(',')
-    else:
-        tag_list = False
-    return tag_list
 
-
-def post_new_question(request, auth):
+def post_new_question(request, auth, tag_list):
     question_txt = request.vars.question_info
     question_detail_txt = request.vars.editor1
     user_id = auth.user.id
-    tag_info = request.vars.tag_list
-    tag_list = get_tag_list(tag_info)
     question_id = question_handler().create_new_record_in_question_tbl(question_txt,
                                                                 question_detail_txt,
                                                                 user_id,
@@ -37,10 +27,7 @@ def delete_a_question(request):
 
 def update_a_question(request):
     question_id = request.args[0]
-    tag_info = request.vars.tag_list
-    tag_list = get_tag_list(tag_info)
-
-    question_handler().update_to_question_tbl(question_id, request.vars.question_info, request.vars.question_detail_info, tag_list)
+    question_handler().update_to_question_tbl(question_id, request.vars.question_info, request.vars.question_detail_info, request.vars.tag_list)
     return
 
 
@@ -50,16 +37,12 @@ def update_a_question(request):
 def user_like_a_question(request, auth):
     question_id = request.vars.question_id
     record_id = question_handler().vote_up_a_question(question_id, auth.user.id)
-    db = current.db
-    count_like = db((db.question_like_tbl.question_id == question_id)).select()
-    return len(count_like)
+    return record_id
 
 def user_unlike_a_question(request, auth):
     question_id = request.vars.question_id
     result = question_handler().vote_down_a_question(question_id, auth.user.id)
-    db = current.db
-    count_like = db((db.question_like_tbl.question_id == question_id)).select()
-    return len(count_like)
+    return result
 
 class question_handler(object):
     def __init__(self):
@@ -83,13 +66,9 @@ class question_handler(object):
         log.info("question_id = %s",question_id)
 
         #tag list
-        if tag_list:
-            rst = question_tag_handler().add_tag_for_question(question_id, tag_list)
-            if not rst:
-                log.error('problem create tag infor for question')
-                return False
-        else:
-            log.info('this question doesnt have any tag yet')
+        rst = question_tag_handler().add_tag_for_question(question_id, tag_list)
+        if not rst:
+            return False
 
         return question_id
 
@@ -130,12 +109,7 @@ class question_handler(object):
         db = self.db
         question_like_id =None
         try:
-            #check if user did like this question or not
-            like_record = db((db.question_like_tbl.question_id == question_id)&(db.question_like_tbl.user_info == audience_id )).select()
-            if len(like_record):
-                return SUCCESS_RESULT
-            else:
-                question_like_id = db.question_like_tbl.insert( question_id = question_id,
+            question_like_id = db.question_like_tbl.insert( question_id = question_id,
                                                             user_info = audience_id)
         except:
             log.error('cant create tbl')
@@ -181,8 +155,8 @@ def update_an_answer(request):
     answer_info = request.vars.answer_info
     answer_handler().update_to_answer_tbl(answer_id, answer_info)
     pass
-def delete_a_answer(request):
-    answer_id = request.vars['answer_id']
+def del_an_answer(request):
+    answer_id = request.vars.answer_id
     answer_handler().del_answer_record_in_tbl(answer_id)
     pass
 
@@ -193,7 +167,7 @@ def user_like_an_answer(request, auth):
 
 def user_unlike_an_answer(request, auth):
     answer_id = request.vars.answer_id
-    record_id = answer_handler().vote_down_an_answer(answer_id, auth.user.id)
+    record_id = answer_handler().vote_down_an_answer(question_id, auth.user.id)
     return record_id
 
 class answer_handler(object):
@@ -227,14 +201,9 @@ class answer_handler(object):
 
     def vote_up_an_answer(self, answer_id, audience_id):
         db = self.db
-        answer_like_id =None
+        question_like_id =None
         try:
-            # check if this user already like it
-            like_record = db((db.answer_like_tbl.answer_id == answer_id)&(db.answer_like_tbl.user_info == audience_id )).select()
-            if len(like_record):
-                return True
-            else:
-                answer_like_id = db.answer_like_tbl.insert( answer_id = answer_id,
+            answer_like_id = db.answer_like_tbl.insert( answer_id = answer_id,
                                                             user_info = audience_id)
         except:
             log.error('cant create tbl')
@@ -246,9 +215,9 @@ class answer_handler(object):
             #check if user did like this question or not
             # if yes . delete this record
             # if no   return flag  0: success 1: db failed 2: user already not like it
-            like_record = db((db.answer_like_tbl.answer_id == answer_id)&(db.answer_like_tbl.user_info == audience_id )).select().first()
-            if like_record:
-                db(db.answer_like_tbl.id == like_record.id).delete()
+            like_record = db((db.answer_like_tbl.answer_id == question_id)&(db.answer_like_tbl.user_info == audience_id )).select()
+            if len(like_record):
+                db(db.answer_like_tbl.id == like_record[0].id).delete()
                 return SUCCESS_RESULT
             else:
                 return DB_IS_UPDATED_ALREADY

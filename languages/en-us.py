@@ -79,7 +79,7 @@
 'Controller': 'Kontrolér (Controller)',
 'Controllers': 'Kontroléry',
 'controllers': 'kontroléry',
-'Copyright': 'aaaaa',
+'Copyright': 'Copyright',
 'Count': 'Počet',
 'Create': 'Vytvořit',
 'create file with filename:': 'vytvořit soubor s názvem:',

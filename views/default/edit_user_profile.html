@@ -29,7 +29,6 @@ tinymce.init({
 </script>
 
 
-
  <table class="user_brief_info">
      <tr>
          <td>
@@ -45,15 +44,22 @@ tinymce.init({
                </tr>
                <tr>
                    <td>
-                        <form id ="question_content_form2" action="" method="post">
-                            <textarea type="text" name="user_info">{{=person_profile.detail_info}}</textarea>
-        <input type="submit" value="lưu lại">
-    </form>
+           <div id="user_detail_info" class = "editable">
+                {{if person_profile:}}
+               {{=XML(person_profile.detail_info)}}
+               {{else:}}
+               {{='detail info'}}
+               {{pass}}
            </div>
                    </td>
                </tr>
               <tr>
                   <td>
+                      {{if auth.is_logged_in():}}
+                      {{if auth.user.id == person_info.id:}}
+                      <p id ="save_button"  > save</p>
+                      {{pass}}
+                      {{pass}}
                   </td>
               </tr>
            </table>
@@ -63,9 +69,24 @@ tinymce.init({
          <td>
             <table class="popular_info">
             <tr>
+            <td>
+            {{="Quan tam:"}}
+            {{=len(followed_list)}}
+            </td>
+            <td>
+            {{="Duoc quan tam: "}}
+            {{=len(following_list)}}
+            </td>
             </tr>
             </table>
 
+{{if auth.is_logged_in():}}
+{{if not follow_flag :}}
+<button id ="follow_button" value={{=person_info.id}} name="follow"> follow</button>
+{{else:}}
+<button id ="unfollow_button" value={{=person_info.id}} name="follow"> unfollow</button>
+{{pass}}
+{{pass}}
 
             </td>
      </tr>

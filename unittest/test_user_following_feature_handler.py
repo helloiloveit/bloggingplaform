@@ -1,6 +1,6 @@
 __author__ = 'huyheo'
 import os
-file_path = os.path.join(os.getcwd(),'applications','chuotnhat','unittest','setup_test.py')
+file_path = os.path.join(os.getcwd(),'applications','welcome','unittest','setup_test.py')
 execfile(file_path, globals())
 
 

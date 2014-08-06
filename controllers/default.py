@@ -26,12 +26,9 @@ except ImportError:
 from facebook import GraphAPI, GraphAPIError
 from gluon.contrib.login_methods.oauth20_account import OAuthAccount
 
-#global variable for page number
-#end global var
-def term_of_use():
-    return dict()
 
-def search_box():
+
+def test_jquery():
     return dict()
 def test_tinyMCE():
     return dict()
@@ -55,10 +52,9 @@ def tag_handler():
     selected = question_tag_handler().search_for_related_tag_in_tbl(tag_info)
     #selected =['tag1','tag2', 'tag3','tag4']
     #selected = [m for m in tag_list if m.name.startswith(tag_info)]
-    log.info('selected = %s', selected)
     div_id = "suggestion_box"
 
-    if not selected:
+    if not len(selected):
         temp = [DIV('tạo tag moi',
                     _onclick="user_post_new_tag('%s','%s');" %(tag_info, div_id),
                     _onmouseover="this.style.backgroundColor='yellow'",
@@ -88,64 +84,12 @@ def user():
         if request.args[0] == 'login':
             return dict(form = auth())
         profile_info = db(db.user_profile.user_info == auth.user.id).select().first()
-        return dict(user_profile = profile_infoimport pdb; pdb.set_trace())
+        return dict(user_profile = profile_info)
     """
     return dict(form = auth())
 
 def user_profile():
-    response.title ='user_profile'
-    follow_flag = False
-    view_my_profile= False
     if request.env.REQUEST_METHOD =='GET':
-        target_person_id = request.vars.user_id
-        user_info = db(db.auth_user.id == target_person_id).select().first()
-        profile_info = db(db.user_profile.user_info == target_person_id).select().first()
-        if not profile_info:
-            profile_id = create_basis_user_profile(target_person_id)
-            if profile_id:
-                profile_info = db(db.user_profile.id == profile_id).select().first()
-        #check if user view its own profile
-        if auth.is_logged_in():
-            if target_person_id == str(auth.user.id):
-                # view my profile
-                view_my_profile = True
-        try:
-            #if user is logged in
-            follow_record = db((db.follow_info_tbl.followed_user == target_person_id)&(db.follow_info_tbl.following_user == auth.user.id )).select().first()
-        except:
-            # not login
-            follow_record = False
-            pass
-        if follow_record:
-            follow_flag = True
-        else:
-            follow_flag = False
-        #following
-        following_list = db(db.follow_info_tbl.followed_user == target_person_id).select()
-        #followed
-        followed_list = db(db.follow_info_tbl.following_user == target_person_id).select()
-        response.title = user_info.first_name
-        #answer list
-        answer_list = db(db.answer_tbl.author_info == user_info.id).select()
-        answer_list, page_num, view_more_flag = _handle_page_num(request, answer_list)
-
-        return dict(person_profile = profile_info,
-                    person_info= user_info,
-                    follow_flag = follow_flag,
-                    view_my_profile=view_my_profile,
-                    following_list = following_list,
-                    followed_list = followed_list,
-                    answer_list = answer_list,
-                    page_num = page_num,
-                    view_more_flag = view_more_flag)
-    return dict()
-
-def edit_user_profile():
-    if request.env.REQUEST_METHOD =='POST':
-        rst = update_self_introduction(request, auth)
-        redirect(URL('user_profile', vars=dict(user_id=request.vars.user_id)))
-        return dict()
-    elif request.env.REQUEST_METHOD =='GET':
         target_person_id = request.vars.user_id
         profile_info = db(db.user_profile.user_info == target_person_id).select().first()
         user_info = db(db.auth_user.id == target_person_id).select().first()
@@ -169,7 +113,6 @@ def edit_user_profile():
                     follow_flag = follow_flag,
                     following_list = followed_list,
                     followed_list = followed_list)
-
     return dict()
 
 def update_profile():
@@ -186,7 +129,13 @@ def index():
     if you need a simple wiki simple replace the two lines below with:
     return auth.wiki()
     """
-    redirect(URL(f= 'question_list'))
+    print T.current_languages
+    """
+    T.force('fr')
+    T.set_current_languages('en', 'fr')
+    print T.current_languages
+    """
+    redirect(URL(r = request, f= 'question_list', args = ''))
     return dict()
 
 
@@ -215,7 +164,6 @@ def question():
         like_list = db(db.question_like_tbl.question_id==question.id).select()
         #related question list
         related_question_list = db(db.question_tbl).select()
-        response.title = question.question_info
         return dict(item = question,
                     like_list = like_list,
                     comment_list = answer_list,
@@ -233,6 +181,7 @@ def edit_question():
         tag_list = question_tag_handler().get_tag_name_list_of_a_question(request.args[0])
         return dict(question = question , tag_list = tag_list)
     elif request.env.REQUEST_METHOD == 'POST':
+        import pdb; pdb.set_trace()
         update_a_question(request)
         redirect(URL(r = request, f= 'question', args = [request.args[0]]))
 
@@ -241,57 +190,13 @@ def edit_question():
 @auth.requires_login()
 def delete_question():
     selection = request.vars
-    if request.env.REQUEST_METHOD == 'GET':
-        return dict()
-    elif request.env.REQUEST_METHOD == 'POST':
-        if selection['selection'] == "YES":
-            delete_a_question(request)
-            redirect(URL(r = request, f= 'question_list'))
-        elif selection['selection'] == "NO":
-            redirect(URL(r = request, f= 'question', args = [request.args[0]]))
+    if selection['selection'] == "YES":
+        delete_a_question(request)
+        redirect(URL(r = request, f= 'question_list'))
+    elif selection['selection'] == "NO":
+        redirect(URL(r = request, f= 'question', args = [request.args[0]]))
     return dict()
 
-@auth.requires_login()
-def edit_answer():
-    """
-    edit answer
-    """
-    if request.env.REQUEST_METHOD == 'GET':
-        answer_id = request.args[0]
-        origin_url = request.vars.origin
-        session.EDIT_ANSWER_ORIGIN_URL = origin_url
-        answer = db(db.answer_tbl.id == answer_id).select().first()
-        return dict(answer = answer)
-    elif request.env.REQUEST_METHOD == 'POST':
-        update_an_answer(request)
-        answer_id = request.vars.answer_id
-        answer = db(db.answer_tbl.id == answer_id).select().first()
-        question_id = answer.question_id
-        if session.EDIT_ANSWER_ORIGIN_URL == 'user_profile':
-            redirect(URL(r = request, f= 'user_profile', vars = {'user_id':auth.user.id}))
-        elif session.EDIT_ANSWER_ORIGIN_URL == 'question':
-            redirect(URL(r = request, f= 'question', args = [question_id]))
-
-    return dict()
-
-@auth.requires_login()
-def delete_answer():
-    selection = request.vars
-    if request.env.REQUEST_METHOD == 'GET':
-        answer_id = request.args[0]
-        return dict(answer_id = answer_id)
-    elif request.env.REQUEST_METHOD == 'POST':
-        answer_id = selection['answer_id']
-        answer = db(db.answer_tbl.id == answer_id).select().first()
-        question_id = answer.question_id
-        if selection['selection'] == "YES":
-            delete_a_answer(request)
-        elif selection['selection'] == "NO":
-            pass
-        redirect(URL(r = request, f= 'question', args = [question_id]))
-    return dict()
-
-    return dict()
 
 def create_data_for_question_list_for_test():
     import pdb; pdb.set_trace()
@@ -309,37 +214,29 @@ def create_data_for_question_list_for_test():
         tag_list = ["tag1","tag2","tag3"]
         question_id = question_handler().create_new_record_in_question_tbl(question, question_detail_info, user_id, tag_list)
 
-def _handle_page_num(request, items):
-    view_more_flag= False
-    page_num_request = request.vars.page_num
-    page_num = 0
-    if page_num_request == None:
-        page_num = 0
-    else:
-        page_num = page_num_request
-    try:
-        if len(items):
-            display_list = items[int(page_num)*12:int(page_num)*12+12]
-        else:
-            display_list =[]
-        if len(items) > (int(page_num)*12 + 12):
-            view_more_flag = True
-
-    except:
-        log.error('cant query data from db')
-        display_list = []
-    return display_list, page_num, view_more_flag
-
 def question_list():
     """
     test data
     """
+    record = db(db.auth_user).select()
+    user_list=db(db.auth_user).select()
     import pdb; pdb.set_trace()
-    response.title = 'Chuot Nhat'
-    items = db(db.question_tbl).select()
-    display_list, page_num, view_more_flag= _handle_page_num(request, items)
+    question_list = db(db.question_tbl).select()
+    if not len(question_list):
+        pass
+        #create_data_for_question_list_for_test()
+    """
+    end test data
+    """
+    items= []
 
-    return dict(items= display_list, page_num = page_num, view_more_flag=view_more_flag)
+
+    try:
+        items = db(db.question_tbl).select()
+
+    except:
+        log.error('cant query data from db')
+    return dict(items= items)
 
 def get_header(text):
     """
@@ -365,27 +262,29 @@ def post():
 
 @auth.requires_login()
 def post_question():
-    import pdb; pdb.set_trace()
-    user_list = db(db.auth_user).select()
-    print user_list
-    question_id = post_new_question(request, auth)
+    tag_info = request.vars.tag_list
+    tag_list = tag_info.split(',')
+    question_id = post_new_question(request, auth, tag_list)
     if question_id:
         redirect(URL(r = request, f= 'question', args = question_id))
     return dict()
 
 
+@auth.requires_login()
+def user_modify_question():
+    update_a_question(request, session.tag_list_store)
+    return dict()
+
 
 ####### answer ######
 @auth.requires_login()
 def like_an_answer():
-    rst= user_like_an_answer(request, auth)
-    like_record = db((db.answer_like_tbl.answer_id == request.vars.answer_id)).select()
-    return len(like_record)
+    user_like_an_answer(request, auth)
+    return 'unlike'
 
 def unlike_an_answer():
-    rst = user_unlike_an_answer(request, auth)
-    like_record = db((db.answer_like_tbl.answer_id == request.vars.answer_id)).select()
-    return len(like_record)
+    user_unlike_an_answer(request, auth)
+    return True
 
 @auth.requires_login()
 def user_update_an_answer():
@@ -400,13 +299,13 @@ def user_del_an_answer():
 ##############################
 @auth.requires_login()
 def like_a_question():
-    count_like = user_like_a_question(request, auth)
-    return count_like
+    user_like_a_question(request, auth)
+    return "unlike"
 
 @auth.requires_login()
 def unlike_a_question():
-    count_like = user_unlike_a_question(request, auth)
-    return count_like
+    user_unlike_a_question(request, auth)
+    return "like"
 
 def report_a_question():
     #user_report_a_question(request, auth)

@@ -2,7 +2,6 @@
 {{right_sidebar_enabled=True}}
 {{extend 'layout.html'}}
 
-{{response.title = item.question_info}}
 
 
 <div class="article_container">
@@ -39,21 +38,20 @@
           </table>
           <table class="article_popularity_info">
             <tr>
+              <td>
                   {{if auth.is_logged_in():}}
-                <td>
                    <input id="inputCommentButton" name="question_id" value = "tra loi">
-                </td>
                   {{pass}}
+              </td>
               <td >
-                  <span class="question_answer_info">{{=len(comment_list)}} trả lời </span>
-                  <span class="question_like_info">{{=len(like_list)}} thích </span>
+                  {{=len(comment_list)}} trả lời  {{=len(like_list)}}  quan tâm
               </td>
                 {{if auth.is_logged_in():}}
                 <td>
-                    {{=A("sửa",_id ='edit_button', _class='handling_button',_href=URL(r=request,f='edit_question',args=[item.id]))}}
+                    {{=A("sửa",_id ='edit_button',_href=URL(r=request,f='edit_question',args=[item.id]))}}
                 </td>
                 <td>
-                    {{=A("xoá",_id='delete_button',_class='handling_button', _href=URL(r=request,f='delete_question',args=[item.id]))}}
+                    {{=A("xoá",_id='delete_button', _href=URL(r=request,f='delete_question',args=[item.id]))}}
                 </td>
                {{pass}}
               <td>
@@ -65,7 +63,7 @@
                   -->
                   {{pass}}
                   {{=' bởi    '}}
-                  <a id ="user_profile" href="{{=URL(f='user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.last_name}}</a>
+                  <a id ="user_profile" href='http://localhost:8002/welcome/default/user_profile' onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
               </td>
 
           </tr>
@@ -97,73 +95,40 @@
             </textarea>
 
         <p>
-            <input id="post_answer_button" type="submit" value="Gửi">
+            <input type="submit" value="Submit">
         </p>
     </form>
   </div>
    <div >
        <table class="article_comment_container">
         {{for comment in comment_list:}}
-      <tr class="answer_unit">
-        <td class="answer_unit_td">
+      <tr>
+        <td>
             <table class="user_comment" >
             <tr class="user_info">
+                 <td>
                 {{user_info = db(db.auth_user.id == comment.author_info).select().first()}}
-                {{img_path =' https://graph.facebook.com/' + user_info.username + '/picture'}}
-                <td>
-                    <a id ="user_profile" href="{{=URL(f='user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">
-                        <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
-                    </a>
-
-                </td>
-                 <td class="user_profile_text">
-                      <a id ="user_profile" href="{{=URL(f='user_profile')}}"  onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
+                      <a id ="user_profile" href='http://localhost:8002/welcome/default/user_profile' onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
                      {{user_profile = db(db.user_profile.user_info == user_info.id).select().first()}}
-                     {{if user_profile:}}
-                     <span class="user_detail_info">{{=XML(user_profile.detail_info)}}</span>
-                     {{pass}}
+                     <span>{{=XML(user_profile.detail_info)}}</span>
                </td>
            </tr>
-            </table>
-            <table>
             <tr class="comment_info">
                  <td>
                 {{=XML(comment.answer_info)}}
                </td>
            </tr>
-             </table>
-           <table>
           <tr class="article_popularity_info">
               <td >
                   {{if auth.is_logged_in():}}
                   {{like_record = db((db.answer_like_tbl.answer_id == comment.id)&(db.answer_like_tbl.user_info == auth.user.id )).select()}}
                   {{if len(like_record):}}
-                  <span class ="like_unlike_button" id ="unlike" value ={{=comment.id}} style="color: rgb(207, 9, 9);" >
-                      <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon.png')}} alt="Pulpit rock" width="20" height="20">
-                      thích</span>
+                  <a id ="unlike_button" value ={{=comment.id}}> không thích</a>
                   {{else:}}
-                  <a class ="like_unlike_button" id ="like" value ={{=comment.id}} style="color:grey">
-                      <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon_grey.png')}} alt="Pulpit rock" width="20" height="20">
-                      thích</a>
+                  <a id ="like_button" value ={{=comment.id}}> thích</a>
                   {{pass}}
-                  {{else:}}
-                  <a  class ="register_to_like" value ={{=''}} style="color:grey" href={{=URL( f='user/login',vars=dict(_next=URL(f='question', args=[request.args[0]] ))  )}}>
-                      <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon_grey.png')}} alt="Pulpit rock" width="20" height="20">
-                      thích</a>
                   {{pass}}
-                  </td>
-                  <td>
-                  {{like_record = db((db.answer_like_tbl.answer_id == comment.id)).select()}}
-                  <span class="count_like">{{=len(like_record)}}</span><span> thích</span>
                  </td>
-              {{if (auth.is_logged_in() and (auth.user.id == comment.author_info)):}}
-              <td>
-                  {{=A("sửa",_id ='edit_answer_button', _class='handling_button', _href=URL(r=request,f='edit_answer',args=[comment.id], vars={'origin':'question'}))}}
-              </td>
-              <td>
-                  {{=A("xoá",_id='delete_answer_button', _class='handling_button', _href=URL(r=request,f='delete_answer',args=[comment.id]))}}
-              </td>
-              {{pass}}
               <!--
               <td>bao cao</td>
               -->
@@ -176,9 +141,9 @@
     </table>
    </div>
 
+
 </div>
 {{block right_sidebar}}
-        <!--
         <ul id="right_bar_question_list" >
             {{for item in related_question_list:}}
             <li>
@@ -186,7 +151,6 @@
             </li>
             {{pass}}
         </ul>
-        -->
 {{end}}
 
 
@@ -200,48 +164,10 @@ $( '#inputCommentButton' ).click(function() {
 
 });
 
-     $('.like_unlike_button').click(function () {
-         var myThisVariable = $(this);
+$('#like_button').click(function () {
+        alert("hello a ");
          var id = $(this).attr("value");
-         var like_unlike_val = $(this).html();
-         var like_unlike_val = $(this).attr("id");
-         //alert(like_unlike_val);
-         //alert(like_unlike_val.length);
-         //alert(like_unlike_val.localeCompare("quan tâm"));
-
-         if (like_unlike_val == "like")
-         {
-            //alert('equal like');
-             $.ajax({
-            type: "POST",
-            url: '{{=URL(f='like_an_answer')}}',
-            data: {answer_id : id},
-            cache: false,
-            success: function(data){
-                //myThisVariable.parent().find('.count_like').text(data);
-                myThisVariable.parent().next('td').find('.count_like').text(data);
-                myThisVariable.find("#heart_img").attr("src","/chuotnhat/static/images/heart_icon.png");
-            }
-            });
-
-           $(this).css('color', 'rgb(207, 9, 9)');
-           $(this).attr('id', 'unlike');
-         } else
-         {
-            $.ajax({
-            type: "POST",
-            url: '{{=URL(f='unlike_an_answer')}}',
-            data: {answer_id : id},
-            cache: false,
-            success: function(data){
-                //myThisVariable.parent().find('.count_like').text(data);
-                myThisVariable.parent().next('td').find('.count_like').text(data);
-                myThisVariable.find("#heart_img").attr("src","/chuotnhat/static/images/heart_icon_grey.png");
-            }
-            });
-           $(this).attr('id', 'like');
-           $(this).css('color', 'grey');
-         }
-        });
-
+         alert(id);
+        ajax('http://localhost:8002/welcome/default/like_an_answer?answer_id='+ id, [''], 'like_button');
+});
 </script>

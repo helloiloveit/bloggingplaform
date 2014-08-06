@@ -5,6 +5,10 @@
 body{height:auto;} /* to avoid vertical scroll bar */
 /* add by huy */
 #logo_site{
+    margin-top: 6px;
+background-color: red;
+padding-top: 10px;
+padding-bottom: 10px;
 color:white;
 }
 #logo{
@@ -13,14 +17,7 @@ margin-right: auto;
 margin-top:20px;
 width: 1022px;
 }
-#beta_version{
-color: rgba(2, 12, 7, 1);
-font-style: italic;
-margin-left: 80px;
-    font-size: 18px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 300;
-}
+
 
 #kaka{
 width: 450px;
@@ -30,26 +27,6 @@ width: 450px;
 /* article page */
 .gsc-search-button{
 
-}
-.question_answer_info{
-padding-left:100px
-}
-.question_like_info{
-padding-left:50px
-}
-#edit_button{
-padding-bottom: 30px;
-}
-#edit_answer_button{
-padding-left: 20px;
-}
-#delete_answer_button{
-padding-left:20px;
-}
-.handling_button{
-color: rgb(173, 165, 165);
-font-family: 'Open Sans', sans-serif;
-font-weight: 300;
 }
 .article_container{
     padding-top:10px;
@@ -73,9 +50,9 @@ background-color: lightgrey;
 }
 
 
-.article_header{
+.article_container .article_header{
     font-size: 26px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto Slab', serif;
     font-weight: 300;
     margin-top:0px;
     color:rgb(19, 19, 219);
@@ -103,22 +80,21 @@ background-color: lightgrey;
 }
 .article_container .article_popularity_info{
     font-size: 14px;
+
     font-weight: 300;
+    width: 600px;
     margin-top:20px;
 }
 .article_container .article_popularity_info td{
     font-size: 14px;
+
     font-weight: 300;
     text-align:left;
-    color:grey;
-}
-.popularity_a_tag_text{
-    color:grey;
 }
 /*right side */
 #related_question{
     font-size: 14px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto Slab', serif;
     font-weight: 300;
 }
 /* comment */
@@ -134,8 +110,8 @@ border-spacing: 0 2em;
 .article_comment_container .comment_info{
 
     font-size: 14px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 300;
     width: 400px;
 }
 .article_comment_container .user_info{
@@ -176,7 +152,7 @@ text-align:center;
 .article_list_containter .header_option{
 
     font-size: 18px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto Slab', serif;
     font-weight: 300;
     width: 400px;
     height:30px;
@@ -189,14 +165,14 @@ text-align:center;
 
 .article_list_containter .article_field{
     font-size: 16px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto Slab', serif;
     font-weight: 400;
     background-color: lightgray;
 }
 .article_list_containter .article_header{
-    font-size: 24px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 300;
+    font-size: 16px;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 400;
     color:rgb(19, 19, 219);
 }
 .article_list_containter .article_introduction{
@@ -208,7 +184,6 @@ text-align:center;
     font-size: 14px;
 
     font-weight: 300;
-    color:grey;
 }
 .article_list_containter .article_popularity_info td{
     font-size: 14px;
@@ -233,7 +208,7 @@ font-family: 'Roboto Slab', serif;
 
 .article_tag{
     font-size: 14px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto Slab', serif;
     font-weight: 300;
     height:40px;
     margin-top:20px;
@@ -247,9 +222,9 @@ font-family: 'Roboto Slab', serif;
 
 #question_header{
  width: 540px;
-height: 30px;
+height: 40px;
 font-size: 24px;
-font-family: 'Open Sans', sans-serif;
+font-family: "Roboto Slab",serif;
 font-weight: 100;
 border: none;
 border-color: transparent;
@@ -266,32 +241,16 @@ height: 20px;
     margin-top:6px;
     color: black;
 }
-.like_unlike_button{
-color: red;
 
-}
-.like_button_space{
-    width:200px;
-}
-.count_like{
-    color:grey;
-    padding-left:100px;
-}
 /*****user_profile***********/
 #user_fb_name{
-font-size: 24px;
+font-size: 30px;
 font-family: 'Roboto Slab', serif;
 font-weight: 400;
 padding-bottom:30px;
 }
-#user_profile{
-
-}
-.user_profile_text{
-    padding-left:10px;
-}
 #user_detail_info{
-font-size: 18px;
+font-size: 24px;
 font-family: 'Roboto Slab', serif;
 font-weight: 300;
 padding-bottom:30px;
@@ -303,59 +262,15 @@ padding-bottom:30px;
     width:100%;
 
 }
-.recent_activity_notice{
-    margin-top:40px;
-    margin-left:30px;
-    width:100%;
-
-}
-.user_activity_info{
-    margin-top:40px;
-    margin-left:30px;
-    width:650px;
-}
-.question_info{
-    font-size: 26px;
-    font-family: 'Roboto Slab', serif;
-    font-weight: 300;
-    margin-top:0px;
-    color:rgb(19, 19, 219);
-}
-.user_answer_info{
-    font-size: 14px;
-    font-family: 'Roboto Slab', serif;
-    font-weight: 300;
-}
 
 .user_text_info{
     margin-left: 5px;
 width: 100%;
 height: 20px;
 }
-#user_popular_info{
-    margin-top:20px;
-    font-weight: 300;
+.popular_info{
+   margin-top:20px;
 }
-#view_more_question{
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 300;
-    margin-top: 40px;
-margin-left: 30px;
-width: 100%;
-
-}
-
-
-/********answer class****/
-.answer_unit_td{
-border-top-style: outset;
-border-width: 1px;
-border-bottom-color: lightgray;
-/* border: 1px gray; */
-padding-top: 10px;
-}
-/*** end answer classs ***/
-
 
 /********header********/
 .navbar-inverse .navbar-inner-new {
@@ -425,12 +340,6 @@ font-family: san-serif;
 color: red;
 }
 
-.delete_window_container{
-
-}
-.delete_window_container h3{
-
-}
 
 #post_question_button{
 margin-top:20px;
@@ -456,20 +365,12 @@ color: grey;
     border-width: 1px;
 }
 .mission_info_link{
-    font-family: 'Roboto Slab', serif;
-    font-weight: 300;
     margin-left:50px;
     font-size: 16px;
 color: red;
 }
 #mission_info{
     margin-top: 100px;
-}
-.term_of_use{
-    font-family: 'Roboto Slab', serif;
-    font-weight: 300;
-    margin-left:50px;
-    font-size: 16px;
 }
 /* end add by huy */
 a{}
@@ -564,13 +465,7 @@ div.controls select +.error_wrapper {margin-left:5px;}
         margin-left:auto;
         margin-right:auto;
         margin-top:10px;
-        /*
         width:1022px;
-        */
-        padding-bottom:5px;
-        border-bottom-style: solid;
-border-width: 1px;
-border-bottom-color: lightgray;
         }
 .navbar-inverse .brand{color:#white;}
 .navbar-inverse .brand b{display:inline-block;margin-top:-1px;}

@@ -4,7 +4,7 @@ import gluon
 from gluon.globals import Request
 
 import os
-file_path = os.path.join(os.getcwd(),'applications','chuotnhat')
+file_path = os.path.join(os.getcwd(),'applications','welcome')
 execfile(os.path.join(file_path,'models','db.py'), globals())
 execfile(os.path.join(file_path,'controllers','default.py'), globals())
 
