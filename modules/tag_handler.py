@@ -100,7 +100,6 @@ class question_tag_handler(object):
 
     def _handle_new_tag_data_from_user(self, tag_info):
         id_list = []
-        import pdb; pdb.set_trace()
         if type(tag_info) == list:
             for tag in tag_info:
                 id_list.append(self._handle_new_tag_from_user(tag))
@@ -152,7 +151,8 @@ class question_tag_handler(object):
         db = self.db
         try:
             self.delete_question_tag(question_id)
-            self.add_tag_for_question(question_id, new_tag_list)
+            if new_tag_list:
+                self.add_tag_for_question(question_id, new_tag_list)
             return True
         except:
             log.error("fail update tag")

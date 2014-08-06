@@ -7,9 +7,6 @@
 
 
 <div id="container">
-  <div id="header">
-
-    <!-- end #header --></div>
   <div id="mainContent">
     <h1>  </h1>
  <form id ="question_content_form2" action="" method="post">
@@ -18,7 +15,6 @@
            <input id = "question_header" type="text" name="question_info" value = "{{=question.question_info}}">
         </p>
         <p>
-           <!-- <textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">-->
             <textarea  cols="80" id="editor1" name="question_detail_info" rows="10">
                 {{=question.question_detail_info}}
             </textarea>
@@ -32,8 +28,10 @@
           </div>
       </form>
       <div id="target">
+          {{if len(tag_list):}}
           {{for tag in tag_list:}}
           <span class="post-tag" value="{{=tag}}">{{=tag}}<span id="delete_tag" value="{{=tag}}" class="delete-tag" title="remove" this="" tag="">x</span></span>
+          {{pass}}
           {{pass}}
       </div>
       <button id="post_question_button"> Lưu lại  </button>
@@ -42,10 +40,10 @@
     <h2></h2>
     <p></p>
     <!-- end #mainContent --></div>
-  <!-- end #footer --></div>
 <!-- end #container --></div>
     <script>
         var tag_list = [];
+        // initialize value for tag_list when page is loaded
         $(".post-tag").each(function( index ) {
             //alert(index);
             //alert( $(this).text());
@@ -55,7 +53,6 @@
         });
 
         jQuery("#post_question_button").click(function(){
-            alert('post');
             $( "#question_content_form2" ).submit();
             });
         jQuery("#month").keyup(function(){
@@ -82,29 +79,31 @@
             });
 
       function user_select_tag_handler(tag_info, suggestion_box_id){
-         //$('#month').val(tag_info);
-         alert(tag_list);
+         $('#month').val(tag_info);
+         //alert(tag_list);
          $("#" + suggestion_box_id).remove();
 
          current_tag = $('#target').html();
          //$('#target').html(current_tag+' ' + tag_info);
-         //alert(tag_info + tag_list);
 
          if ($.inArray(tag_info, tag_list) == -1)
         {
             tag_list[tag_list.length] = tag_info;
             //alert(tag_info);
+            //alert(tag_list);
             var txt1 = "<span class = post-tag>" + tag_info + "<span id = delete_tag value = "+ tag_info + " class = delete-tag title = remove this tag>x</span></span>";
             $('#target').append(txt1);
          }
-
+        //alert('tag list in input');
          $('#tag_list').val(tag_list);
+         //alert($('#tag_list').val());
 
       }
 
 
         // delete tag
         jQuery("#target").on('click', 'span.delete-tag', function() {
+            // delete tag in showned tag list
             //alert(tag_list);
             //alert('delete' + $(this).attr('value'));
             //remove tag from tag list
@@ -115,9 +114,30 @@
             //alert(tag_list);
             //alert($(this).parent().attr('class'));
             $(this).parent().remove();
+            //alert('tag_list in input')
+            $('#tag_list').val(tag_list);
+            //alert($('#tag_list').val());
             });
 
+      function user_post_new_tag(tag_info, suggestion_box_id){
+         $("#" + suggestion_box_id).remove();
+         var request = $.ajax({
+                url: "{{=URL('create_new_tag')}}",
+                type: "POST",
+                data: { tag_info  : tag_info },
+                dataType: "html"
+          });
 
+
+        request.done(function( msg ) {
+            user_select_tag_handler(tag_info, 'suggestion_box');
+        });
+
+        request.fail(function( jqXHR, textStatus ) {
+            //alert( "Request failed: " + textStatus );
+        });
+
+      }
 
         jQuery("#month").click(function(){
             $("#month").val("");
