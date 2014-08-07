@@ -35,7 +35,7 @@ width: 450px;
 padding-left:100px
 }
 .question_like_info{
-padding-left:50px
+padding-left:10px
 }
 #edit_button{
 padding-bottom: 30px;
@@ -47,6 +47,12 @@ padding-left: 20px;
 padding-left:20px;
 }
 .handling_button{
+color: rgb(173, 165, 165);
+font-family: 'Open Sans', sans-serif;
+font-weight: 300;
+padding-left:20px;
+}
+.profile_handling_button{
 color: rgb(173, 165, 165);
 font-family: 'Open Sans', sans-serif;
 font-weight: 300;
@@ -69,7 +75,7 @@ font-weight: 300;
 .article_tag td{
 vertical-align: middle;
 text-align:center;
-background-color: lightgrey;
+background-color: rgb(245, 242, 242);
 }
 
 
@@ -92,7 +98,7 @@ background-color: lightgrey;
 }
 .article_container .article_introduction{
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 400;
     margin-top:20px;
     width:80%;
 }
@@ -202,7 +208,7 @@ text-align:center;
 .article_list_containter .article_introduction{
     font-size: 14px;
 
-    font-weight: 300;
+    font-weight: 400;
 }
 .article_list_containter .article_popularity_info{
     font-size: 14px;
@@ -290,9 +296,11 @@ padding-bottom:30px;
 .user_profile_text{
     padding-left:10px;
 }
+.user_detail_info{
+
+}
 #user_detail_info{
 font-size: 18px;
-font-family: 'Roboto Slab', serif;
 font-weight: 300;
 padding-bottom:30px;
 }

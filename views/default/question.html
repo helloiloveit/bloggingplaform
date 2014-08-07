@@ -64,8 +64,7 @@
                   <img border="0" src={{=img_path}} alt="Pulpit rock" width="50" height="50">
                   -->
                   {{pass}}
-                  {{=' bởi    '}}
-                  <a id ="user_profile" href="{{=URL(f='user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.last_name}}</a>
+                  <a id ="user_profile" href="{{=URL(f='user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">&nbsp;&nbsp; {{=' bởi    '}} {{=user_info.last_name}}</a>
               </td>
 
           </tr>

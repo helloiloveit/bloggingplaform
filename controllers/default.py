@@ -334,7 +334,6 @@ def question_list():
     """
     test data
     """
-    import pdb; pdb.set_trace()
     response.title = 'Chuot Nhat'
     items = db(db.question_tbl).select()
     display_list, page_num, view_more_flag= _handle_page_num(request, items)
@@ -365,7 +364,6 @@ def post():
 
 @auth.requires_login()
 def post_question():
-    import pdb; pdb.set_trace()
     user_list = db(db.auth_user).select()
     print user_list
     question_id = post_new_question(request, auth)

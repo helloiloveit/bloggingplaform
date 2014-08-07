@@ -50,6 +50,9 @@
             var tag_info = $(this).text().slice(0,-1);
             //alert(tag_info);
             tag_list[tag_list.length] = tag_info;
+            //alert($('#tag_list').val());
+            $('#tag_list').val(tag_list);
+            //alert($('#tag_list').val());
         });
 
         jQuery("#post_question_button").click(function(){
@@ -121,6 +124,7 @@
 
       function user_post_new_tag(tag_info, suggestion_box_id){
          $("#" + suggestion_box_id).remove();
+         //alert(tag_info);
          var request = $.ajax({
                 url: "{{=URL('create_new_tag')}}",
                 type: "POST",
