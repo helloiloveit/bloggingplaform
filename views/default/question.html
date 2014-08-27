@@ -68,28 +68,6 @@
               </td>
 
           </tr>
-          <tr>
-              <td>
-                  <!--
-                  <a  id = "logo_site" href="http://www.facebook.com/dialog/send?
-  app_id=123050457758183
-  &link=http://localhost:8002/user_profile?user_id=1
-  &redirect_uri=http://localhost:8002/question?question_id=2">
-  -->
-                      <a id="ask_friend_button"  href=
-                          "http://www.facebook.com/dialog/send?
-  app_id=123050457758183
-  &link=http://www.chuotnhat.vn/question/6494983494303744
-  &redirect_uri=http://localhost:8002/question?question_id=2"
-                              >
-                          <!--
-            <img border="0" src={{=URL('static', 'images/chuotnhat.jpg')}} alt="Pulpit rock" width="95" height="45">
-            -->
-                          {{='hỏi bạn bè'}}
-             </a>
-
-              </td>
-             </tr>
 
           </table>
 
@@ -168,7 +146,7 @@
                       thích</a>
                   {{pass}}
                   {{else:}}
-                  <a  class ="register_to_like" value ={{=''}} style="color:grey" href={{=URL( f='user/login',vars=dict(_next=URL(f='question', vars={'question_id':request.vars.question_id} ))  )}}>
+                  <a  class ="register_to_like" value ={{=''}} style="color:grey" href={{=URL( f='user/login',vars=dict(_next=URL(f='question', args=[request.args[0]] ))  )}}>
                       <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon_grey.png')}} alt="Pulpit rock" width="20" height="20">
                       thích</a>
                   {{pass}}
