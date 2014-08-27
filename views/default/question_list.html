@@ -47,7 +47,7 @@
            <tr class="article_header">
                <td>
                    {{try:}}
-                   {{=A(item.question_info,_class='article_header', _href=URL(f='question',args=[item.id]))}}
+                   {{=A(item.question_info,_class='article_header', _href=URL(f='question',vars={'question_id':item.id}))}}
                    {{except:}}
                    {{pass}}
                </td>

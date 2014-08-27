@@ -202,7 +202,7 @@ def question():
         answer_list = []
         user_id =''
         try:
-            question = db(db.question_tbl.id == int(request.args[0])).select()[0]
+            question = db(db.question_tbl.id == int(request.vars.question_id)).select()[0]
             user_info = db(db.auth_user.id == question.writer).select().first()
             try:
                 answer_list = db(db.answer_tbl.question_id == question.id).select()

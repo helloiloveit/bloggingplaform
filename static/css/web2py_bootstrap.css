@@ -32,7 +32,8 @@ width: 450px;
 
 }
 .question_answer_info{
-padding-left:100px
+/*padding-left:100px
+*/
 }
 .question_like_info{
 padding-left:10px
@@ -350,6 +351,10 @@ height: 20px;
     margin-top: 40px;
 margin-left: 30px;
 width: 100%;
+
+}
+
+#ask_friend_button{
 
 }
 
