@@ -39,11 +39,6 @@
           </table>
           <table class="article_popularity_info">
             <tr>
-                  {{if auth.is_logged_in():}}
-                <td>
-                   <input id="inputCommentButton" name="question_id" value = "tra loi">
-                </td>
-                  {{pass}}
               <td >
                   <span class="question_answer_info">{{=len(comment_list)}} trả lời </span>
                   <span class="question_like_info">{{=len(like_list)}} thích </span>
@@ -68,6 +63,19 @@
               </td>
 
           </tr>
+          <tr>
+                  {{if auth.is_logged_in():}}
+              <td>
+                  <div id="inputCommentButton" name="question_id" >
+                      <a id="reply_question_button">
+                      <img border="0" src={{=URL('static', 'images/reply.png')}} alt="Pulpit rock" width="45" height="45">
+                      trả lời
+                         </a>
+
+                  </div>
+              </td>
+              {{pass}}
+             </tr>
 
           </table>
 
@@ -83,18 +91,8 @@
         <p>
            <input type="hidden" name="question_id" value = {{=item.id}}>
         </p>
-        <!--
-        <p>
-            <textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">
-
+            <textarea  id="editor1" name="answer_info" rows="10" >
             </textarea>
-        </p>
-        -->
-
-                <textarea  id="editor1" name="answer_info" rows="10" >
-
-            </textarea>
-
         <p>
             <input id="post_answer_button" type="submit" value="Gửi">
         </p>
@@ -177,6 +175,17 @@
 
 </div>
 {{block right_sidebar}}
+        <div class="ask_friend_area">
+                      <a id="ask_friend_button"  href=
+                          "http://www.facebook.com/dialog/send?
+  app_id=123050457758183
+  &link=http://www.chuotnhat.vn/question/6494983494303744
+  &redirect_uri=http://localhost:8002/question/2"
+                              >
+            <img border="0" src={{=URL('static', 'images/ask_friend.png')}} alt="Pulpit rock" width="45" height="45">
+                          hỏi bạn bè
+             </a>
+            </div>
         <!--
         <ul id="right_bar_question_list" >
             {{for item in related_question_list:}}
@@ -196,7 +205,7 @@ $( '#inputCommentButton' ).click(function() {
   $( this ).hide( );
   <!--$( this ).slideUp();-->
     $( '#realEditor' ).show(  );
-
+tinymce.execCommand('mceFocus',false,'editor1');
 });
 
      $('.like_unlike_button').click(function () {
