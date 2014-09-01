@@ -199,8 +199,10 @@ def set_meta_data(question):
     response.meta.author
     """
     response.meta.author =''
-    temp = strip_tags(question.question_detail_info)
-    response.meta.description =temp
+    input_str = question.question_detail_info
+    input_str = input_str.decode('utf-8')
+    temp = html_to_text(input_str)
+    response.meta.description =temp.encode('utf8')
     response.title = question.question_info
     return
 
