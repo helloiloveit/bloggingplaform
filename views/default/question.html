@@ -3,8 +3,12 @@
 {{extend 'layout.html'}}
 
 {{response.title = item.question_info}}
-
-
+        {{block head}}
+        <meta property="og:image" content= "{{='http://' + request.env['HTTP_HOST'] + URL('static', 'images/chuotnhatIcon.jpg')}}">
+        <meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="3523">
+<meta property="og:image:height" content="2372">
+        {{end}}
 <div class="article_container">
   <div>
 
@@ -59,7 +63,10 @@
                   <img border="0" src={{=img_path}} alt="Pulpit rock" width="50" height="50">
                   -->
                   {{pass}}
-                  <span id ="user_profile" href="{{=URL(f='user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">&nbsp;&nbsp; {{=' bởi    '}} {{=user_info.last_name}}</span>
+                  <span> {{=' bởi    '}}</span>
+                  <a id ="user_profile" href={{=URL(r=request,f='user_profile',args=[])}} onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">
+                      {{=user_info.last_name}}
+                  </a>
               </td>
 
           </tr>
@@ -175,12 +182,13 @@
 
 </div>
 {{block right_sidebar}}
+        {{url_root = 'www.chuotnhat.vn'}}
         <div class="ask_friend_area">
                       <a id="ask_friend_button"  href=
                           "http://www.facebook.com/dialog/send?
   app_id=123050457758183
-  &link=http://www.chuotnhat.vn/question/6494983494303744
-  &redirect_uri=http://localhost:8002/question/2"
+  &link={{=url_root+ URL(r=request, f='question', args=[request.args[0]] )}}
+  &redirect_uri={{=url_root + URL(r=request, f='question', args=[request.args[0]] )}}"
                               >
             <img border="0" src={{=URL('static', 'images/ask_friend.png')}} alt="Pulpit rock" width="45" height="45">
                           hỏi bạn bè

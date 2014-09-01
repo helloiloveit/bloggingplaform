@@ -14,6 +14,8 @@ import logging
 from database_handler import *
 from tag_handler import *
 from user_handler import *
+from text_handler import *
+import xml.etree.ElementTree as ET
 
 log = logging.getLogger("h")
 log.setLevel(logging.DEBUG)
@@ -189,11 +191,24 @@ def index():
     redirect(URL(f= 'question_list'))
     return dict()
 
+def set_meta_data(question):
+    """
+    response.meta.keywords
+    response.meta.description
+    response.meta.generator
+    response.meta.author
+    """
+    response.meta.author =''
+    temp = strip_tags(question.question_detail_info)
+    response.meta.description =temp
+    response.title = question.question_info
+    return
 
 def question():
     """
     Display blog by id
     """
+
     if request.env.REQUEST_METHOD == 'POST':
         create_new_answer(request, auth)
         redirect(URL(r = request, f= 'question', args = request.vars.question_id))
@@ -215,7 +230,8 @@ def question():
         like_list = db(db.question_like_tbl.question_id==question.id).select()
         #related question list
         related_question_list = db(db.question_tbl).select()
-        response.title = question.question_info
+        #set meta
+        set_meta_data(question)
         return dict(item = question,
                     like_list = like_list,
                     comment_list = answer_list,
