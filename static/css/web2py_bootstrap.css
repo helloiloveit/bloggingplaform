@@ -39,6 +39,7 @@ width: 450px;
 padding-left:10px
 }
 #edit_button{
+margin-left:100px;
 padding-bottom: 30px;
 }
 #edit_answer_button{
@@ -48,7 +49,9 @@ padding-left: 20px;
 padding-left:20px;
 }
 .handling_button{
+/*
 color: rgb(173, 165, 165);
+*/
 font-family: 'Open Sans', sans-serif;
 font-weight: 300;
 /*padding-left:20px;
