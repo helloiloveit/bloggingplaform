@@ -142,7 +142,6 @@ class FaceBookAccount(OAuthAccount):
 
     def __init__(self, g):
 
-        #import pdb;pdb.set_trace()
         OAuthAccount.__init__(self, g, "228859397308903", "650209bd438e288908309751aae01b5d",
                               self.AUTH_URL, self.TOKEN_URL,
                               scope='user_photos,friends_photos')

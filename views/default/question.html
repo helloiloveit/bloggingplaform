@@ -52,12 +52,12 @@
                   <span class="question_answer_info">{{=len(comment_list)}} trả lời </span>
                   <span class="question_like_info">{{=len(like_list)}} thích </span>
               </td>
-                {{if auth.is_logged_in():}}
+                {{if (auth.is_logged_in() and auth.user.id == user_info.id):}}
                 <td>
-                    {{=SPAN("sửa",_id ='edit_button', _class='handling_button',_href=URL(r=request,f='edit_question',args=[item.id]))}}
+                    {{=A("sửa",_id ='edit_button', _class='handling_button',_href=URL(r=request,f='edit_question',args=[item.id]))}}
                 </td>
                 <td>
-                    {{=SPAN("xoá",_id='delete_button',_class='handling_button', _href=URL(r=request,f='delete_question',args=[item.id]))}}
+                    {{=A("xoá",_id='delete_button',_class='handling_button', _href=URL(r=request,f='delete_question',args=[item.id]))}}
                 </td>
                {{pass}}
               <td>
@@ -68,9 +68,8 @@
                   <img border="0" src={{=img_path}} alt="Pulpit rock" width="50" height="50">
                   -->
                   {{pass}}
-                  <span> {{=' bởi    '}}</span>
-                  <a id ="user_profile" href={{=URL(r=request,f='user_profile',args=[])}} onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">
-                      {{=user_info.last_name}}
+                  <a id ="author_profile" href={{=URL(r=request,f='user_profile',args=[])}} onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">
+                      {{='  bởi   ' + user_info.last_name}}
                   </a>
               </td>
 
@@ -83,9 +82,8 @@
                       <img border="0" src={{=URL('static', 'images/reply.png')}} alt="Pulpit rock" width="45" height="45">
                       trả lời
                          </a>
-
                   </div>
-              </td>
+              </t>
               {{pass}}
              </tr>
 
