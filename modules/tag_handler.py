@@ -59,11 +59,8 @@ class question_tag_handler(object):
         tag_list =''
         db = self.db
         all_tag_list = self. _get_all_tag_info_from_db()
-
         if len(all_tag_list):
-            tag_list_start_with = [m for m in all_tag_list if m.startswith(tag_info.capitalize())]
-            tag_list_include = [m for m in all_tag_list if (tag_info in m)]
-            tag_list = list(set(tag_list_start_with + tag_list_include))
+            tag_list = [m for m in all_tag_list if m.startswith(tag_info)]
         else:
             return False
         return tag_list

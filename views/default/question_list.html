@@ -96,15 +96,11 @@
                   {{=A("        " + str(answer_num) + " trả lời", _class="popularity_a_tag_text",_href=URL(r=request,f='question',args=[item.id]))}}
               </td>
               <td>
-                   {{if not item.privacy_mode:}}
                   {{writer = db(db.auth_user.id == item.writer).select().first()}}
                    &nbsp&nbsp {{=' đăng bởi '}}
                   <a id ="user_profile" href={{=URL(r=request,f='user_profile',args=[])}} onclick="location.href=this.href+'?user_id='+{{=item.writer}}; return false;">
                      {{=writer.last_name}}
                    </a>
-                  {{else:}}
-                  {{=A("   bởi   nặc danh", _id = 'author_profile')}}
-                  {{pass}}
                   {{except:}}
                   {{pass}}
 
@@ -184,11 +180,9 @@
 {{end}}
 
 {{block right_sidebar}}
-  <!--
         <div id="right_bar_info" >
             {{=A('Vi sao co chuotnhat.vn',_class='mission_info_link', _href=URL(f='mission_info',args=[]))}}
             </div>
-            -->
 {{end}}
 </html>
 

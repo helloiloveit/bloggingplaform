@@ -131,6 +131,3 @@ CREATE TABLE follow_info_tbl(
     following_user INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-09-24T19:59:25.852915
-ALTER TABLE question_tbl ADD privacy_mode CHAR(1);
-success!
