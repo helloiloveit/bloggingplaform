@@ -53,7 +53,7 @@ def create_new_tag():
 
 def tag_handler():
     if not request.vars.tag_info: return ''
-    tag_info = request.vars.tag_info.capitalize()
+    tag_info = request.vars.tag_info
     selected = question_tag_handler().search_for_related_tag_in_tbl(tag_info)
     #selected =['tag1','tag2', 'tag3','tag4']
     #selected = [m for m in tag_list if m.name.startswith(tag_info)]

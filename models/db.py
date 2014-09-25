@@ -80,6 +80,7 @@ db.define_table('user_profile',
 db.define_table('question_tbl',
     Field('question_info', 'text'),
     Field('question_detail_info', 'text'),
+    Field('privacy_mode', 'boolean'),
     Field('writer', 'reference auth_user'))
 
 db.define_table('question_like_tbl',

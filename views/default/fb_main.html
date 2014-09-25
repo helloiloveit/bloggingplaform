@@ -1,128 +1,42 @@
-{{left_sidebar_enabled = True}}
-{{right_sidebar_enabled=True}}
-{{extend 'layout.html'}}
+{{left_sidebar_enabled = False}}
+{{right_sidebar_enabled=False}}
+{{extend 'fb_layout.html'}}
 {{block center}}
 
 
 
 
-<div class="article_list_containter">
+<div class="fb_article_list_containter">
   <div class="header">
       <!--
-      <table class="header_option">
-          <tr >
-              <td>Dang Hot</td>
-              <td>Cho tra loi</td>
-          </tr>
-      </table>
-    <!--
-    <h1><img src="../avarta.jpg" width="110" height="102" /></h1>
-    <h2 >suy nghĩ của một cô  gái nhỏ</h2>
-    -->
     <!-- end #header --></div>
   <div class = "content">
-    <h1>  </h1>
-    <table class="content_list_table">
-        {{for item in items:}}
-      <tr class="article_unit">
-        <td>
-            <table class = "article_tag"  >
-                <tr >
-                    {{try:}}
-                {{question_tag_list = db(db.question_tag_tbl.question_info == item.id).select()}}
-                {{for tag_unit in question_tag_list:}}
-               <td>
-                   {{tag_record = db(db.tag_tbl.id == tag_unit.tag_info).select().first()}}
-                   {{=tag_record.name}}
-
-
-               </td>
-                {{pass}}
-                    {{except:}}
-                    {{pass}}
-                </tr>
-            </table>
-            <table class = "content_info_table"  >
-
-           <tr class="article_header">
-               <td>
-                   {{try:}}
-                   {{=A(item.question_info,_class='article_header', _href=URL(f='question',args=[item.id]))}}
-                   {{except:}}
-                   {{pass}}
-               </td>
-           </tr>
-          <tr class="article_introduction">
-              <td>
-                  {{=SPAN(XML(item.question_detail_info), _class='article_introduction')}}
-                 <!-- <input type="text" name="article_introduction" value = "quan diem cua ban">-->
-                 </td>
-          </tr>
-         </table>
-        <table>
-          <tr class="article_popularity_info">
-                  {{try:}}
-                  {{if auth.is_logged_in():}}
-                  {{like_record = db((db.question_like_tbl.question_id == item.id)&(db.question_like_tbl.user_info == auth.user.id )).select().first()}}
-                    <td class="like_button_space">
-                  {{if like_record:}}
-                    <a class ="like_unlike_button" id ="unlike" value ={{=item.id}} style="color: rgba(207, 9, 9, 1);" >
-                        <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon.png')}} alt="Pulpit rock" width="20" height="20">
-                        thích</a>
-                  {{else:}}
-                     <a class ="like_unlike_button" id ="like" value ={{=item.id}} style="color:grey">
-                         <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon_grey.png')}} alt="Pulpit rock" width="20" height="20">
-                         thích</a>
-                    </td>
-                  {{pass}}
-                  {{else:}}
-                    <td class="like_button_space">
-                        <a class ="register_to_like"  value ={{''}} style="color:grey" href={{=URL(f='user/login' ,vars=dict(_next=URL(f='question_list')) )}}>
-                            <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon_grey.png')}} alt="Pulpit rock" width="20" height="20">
-                            thích </a>
-                     </td>
-
-                  {{pass}}
-                  <!--
-                  <button id ="report_button" value={{=item.id}} name="report"> report</button>
-                  -->
-              <td>
-                  {{like_record = db((db.question_like_tbl.question_id == item.id)).select()}}
-                  <a class="count_like">{{=len(like_record)}}</a><span> thích</span>
-                  {{answer_num=len(db(db.answer_tbl.question_id == item.id).select())}}
-                  <!--
-                  <button id ="view_answer_button" value={{=item.id}} name="view_answer">{{=str(answer_num)+' tra loi'}} </button>
-                  -->
-                  {{=A("        " + str(answer_num) + " trả lời", _class="popularity_a_tag_text",_href=URL(r=request,f='question',args=[item.id]))}}
-              </td>
-              <td>
-                  {{writer = db(db.auth_user.id == item.writer).select().first()}}
-                   &nbsp&nbsp {{=' đăng bởi '}}
-                  <a id ="user_profile" href={{=URL(r=request,f='user_profile',args=[])}} onclick="location.href=this.href+'?user_id='+{{=item.writer}}; return false;">
-                     {{=writer.last_name}}
-                   </a>
-                  {{except:}}
-                  {{pass}}
-
-              </td>
-          </tr>
-          </table>
-        </td>
-      </tr>
-        {{pass}}
-    </table>
-    {{if view_more_flag:}}
-    <div>
-        <br></br>
-    <a id ="view_more_question" href={{=URL(r=request,f='question_list',args=[])}} onclick="location.href=this.href+'?page_num='+{{=int(page_num) + 1}}; return false;">
-        xem thêm
-        </a>
-        </div>
-     {{pass}}
+   <table class="fb_content_list_table">
+       <tr class="article_header" >
+           <td>
+                     <a id = "fb_post_button" href={{=URL('fb_post')}} rel="nofollow"> Đặt câu hỏi</a>
+           </td>
+       </tr>
+       <tr class="detail_info">
+           <td>
+               <a class="">bat cu thu gi dang lam ban ban tam</a>
+           </td>
+       </tr>
+   </table>
+   <table class="fb_content_list_table">
+       <tr class="article_header" >
+           <td>
+                     <a id = "fb_post_button" href={{=URL('fb_post')}} rel="nofollow"> Chia sẻ kinh nghiệm</a>
+           </td>
+       </tr>
+       <tr class="detail_info">
+           <td>
+               <a class="">Chọn lĩnh vực bạn quan tâm</a>
+           </td>
+       </tr>
+   </table>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
-    <h2></h2>
-    <p></p>
     <!-- end #mainContent --></div>
   <div id="footer">
   <!-- end #footer --></div>

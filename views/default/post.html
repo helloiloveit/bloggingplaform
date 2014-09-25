@@ -17,13 +17,14 @@
         </p>
         <p>
                 <textarea  id="editor1" name="editor1" rows="10" >
-
+                    giải thích chi tiết
             </textarea>
         </p>
         <input type="checkbox" name="mode" value="private"> hỏi nặc danh<br>
     </form>
       <form>
-          <input type="text" id="month" name="tag_info" value = "" autocomplete="off" style="width: 250px" /> <span class="suggest_text">giáo dục, tin học..</span>
+          <input type="text" id="month" name="tag_info" value = "" autocomplete="off" style="width: 150px" />
+          <!--<span class="suggest_text"> học tiếng anh..</span>-->
           <br />
           <div style="position: absolute;" id="suggestions" class="suggestions">
           </div>
@@ -34,8 +35,8 @@
     <script>
         var tag_list = [];
          // set vietnamese text for input
-        $('#question_header').val("câu hỏi của bạn");
-        $('#month').val("nhập phân loại cho câu hỏi");
+        $('#question_header').val("tiêu đề câu hỏi");
+        $('#month').val("phân loại cho câu hỏi");
         $('#question_header').click(function(){
             $('#question_header').val("");
         });
@@ -46,21 +47,27 @@
         jQuery("#month").click(function(){
             $("#month").val("");
             });
+        $('#month').keypress(function (e){
+            if(e.keyCode == 13){
+             e.preventDefault();
+            }
+        });
 
         jQuery("#post_question_button").click(function(){
             $( "#question_content_form" ).submit();
             });
         jQuery("#target").on('click', 'span.delete-tag', function() {
-            //alert(tag_list);
-            //alert('delete' + $(this).attr('value'));
+            alert(tag_list);
+            alert('delete' + $(this).attr('value'));
             //remove tag from tag list
             removeItem = $(this).attr('value');
             tag_list = jQuery.grep(tag_list, function(value) {
             return value != removeItem;
             });
-            //alert(tag_list);
-            //alert($(this).parent().attr('class'));
+            alert(tag_list);
+            alert($(this).parent().attr('class'));
             $(this).parent().remove();
+            alert(tag_list);
             });
 
 
@@ -85,18 +92,18 @@
       }
 
       function user_select_tag_handler(tag_info, suggestion_box_id){
-         //$('#month').val(tag_info);
-         //alert(suggestion_box_id);
+         $('#month').val(tag_info);
+         alert(suggestion_box_id);
          $("#" + suggestion_box_id).remove();
 
          current_tag = $('#target').html();
          //$('#target').html(current_tag+' ' + tag_info);
-         //alert(tag_info + tag_list);
+         alert(tag_info + tag_list);
 
          if ($.inArray(tag_info, tag_list) == -1)
         {
             tag_list[tag_list.length] = tag_info;
-            //alert(tag_info);
+            alert(tag_info);
             var txt1 = "<span class = post-tag>" + tag_info + "<span id = delete_tag value = "+ tag_info + " class = delete-tag title = remove this tag>x</span></span>";
             $('#target').append(txt1);
          }

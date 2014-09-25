@@ -22,12 +22,18 @@ def get_tag_list(tag_info):
 def post_new_question(request, auth):
     question_txt = request.vars.question_info
     question_detail_txt = request.vars.editor1
+    if request.vars.mode == 'private':
+        anonymous_info  = True;
+    else:
+        anonymous_info = False
+
     user_id = auth.user.id
     tag_info = request.vars.tag_list
     tag_list = get_tag_list(tag_info)
     question_id = question_handler().create_new_record_in_question_tbl(question_txt,
                                                                 question_detail_txt,
                                                                 user_id,
+                                                                anonymous_info,
                                                             tag_list)
     return question_id
 def delete_a_question(request):
@@ -65,7 +71,7 @@ class question_handler(object):
     def __init__(self):
         self.db = current.db
 
-    def create_new_record_in_question_tbl(self,question_info, question_detail_info, user_id, tag_list):
+    def create_new_record_in_question_tbl(self,question_info, question_detail_info, user_id, anonymous_info,tag_list):
         """
             create new question record
             create new tag for this question
@@ -76,6 +82,7 @@ class question_handler(object):
         try:
             question_id = db.question_tbl.insert( question_info = question_info,
                                                 question_detail_info = question_detail_info,
+                                                privacy_mode = anonymous_info,
                                                 writer = user_id)
             log.info(" successful create a tbl")
         except:
