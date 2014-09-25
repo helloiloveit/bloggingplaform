@@ -80,6 +80,7 @@ db.define_table('user_profile',
 db.define_table('question_tbl',
     Field('question_info', 'text'),
     Field('question_detail_info', 'text'),
+    Field('privacy_mode', 'boolean'),
     Field('writer', 'reference auth_user'))
 
 db.define_table('question_like_tbl',
@@ -142,7 +143,6 @@ class FaceBookAccount(OAuthAccount):
 
     def __init__(self, g):
 
-        #import pdb;pdb.set_trace()
         OAuthAccount.__init__(self, g, "228859397308903", "650209bd438e288908309751aae01b5d",
                               self.AUTH_URL, self.TOKEN_URL,
                               scope='user_photos,friends_photos')

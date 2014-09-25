@@ -53,7 +53,7 @@ def create_new_tag():
 
 def tag_handler():
     if not request.vars.tag_info: return ''
-    tag_info = request.vars.tag_info.capitalize()
+    tag_info = request.vars.tag_info
     selected = question_tag_handler().search_for_related_tag_in_tbl(tag_info)
     #selected =['tag1','tag2', 'tag3','tag4']
     #selected = [m for m in tag_list if m.name.startswith(tag_info)]
@@ -188,8 +188,28 @@ def index():
     if you need a simple wiki simple replace the two lines below with:
     return auth.wiki()
     """
+    log.info('index')
     redirect(URL(f= 'question_list'))
     return dict()
+
+def fb_noti():
+    data = {
+    "access_token": session.token['access_token'],
+    "href": "www.chuotnhat.vn",
+    "template":"you have to be in the game"
+    }
+    import urllib
+    import urllib2
+    import pdb; pdb.set_trace()
+    data = urllib.urlencode(data)
+    url = 'http://www.facebook.com/' + str(auth.user.username) +  '/notifications'
+    html = urllib2.urlopen(url)
+    print html
+    """
+    from gluon.tools import fetch
+    page = fetch('http://www.facebook.com/' + str(auth.user.username) +  '/notifications', data)
+    log.info(page);
+    """
 
 def set_meta_data(question):
     """
@@ -352,6 +372,8 @@ def question_list():
     """
     test data
     """
+    log.info('question list')
+    log.info(request.env.REQUEST_METHOD)
     response.title = 'Chuot Nhat'
     items = db(db.question_tbl).select()
     display_list, page_num, view_more_flag= _handle_page_num(request, items)
@@ -444,24 +466,26 @@ def unfollow_a_person():
         return "error"
 
 
-#those code is for manage meta data not using right now
-# using flickr for photo uploading
-@auth.requires_login()
-def show_image():
 
-    image_data = db(db.pic_store).select()
-    #image = image_data.pic
 
-    form = SQLFORM(db.pic_store)
-    if form.process().accepted:
-        response.flash = 'movie info is posted'
-    return dict(form = form)
-@auth.requires_login()
-def manage_image():
-    grid = SQLFORM.smartgrid(db.pic_store)
-    return dict(grid=grid)
+############################################
+################facebook####################
+############################################
+
+def fb_main():
+    """
+    test data
+    """
+    log.info('question list')
+    log.info(request.env.REQUEST_METHOD)
+    response.title = 'Chuot Nhat'
+    items = db(db.question_tbl).select()
+    display_list, page_num, view_more_flag= _handle_page_num(request, items)
+
+    return dict(items= display_list, page_num = page_num, view_more_flag=view_more_flag)
+
 
 @auth.requires_login()
-def manage_article_tag():
-    grid = SQLFORM.smartgrid(db.article_tag)
-    return dict(grid=grid)
+def fb_post():
+    log.info("request.vars = %s",request.vars)
+    return dict(article_tag_list ="" )
