@@ -484,12 +484,6 @@ def fb_main():
 
     return dict(items= display_list, page_num = page_num, view_more_flag=view_more_flag)
 
-def fb_save_tag_list():
-    tag_list = request.vars['tag_list']
-    #import pdb; pdb.set_trace()
-    # save tag list to db for generating question
-    return 1
-
 
 @auth.requires_login()
 def fb_post():

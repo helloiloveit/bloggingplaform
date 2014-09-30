@@ -1,0 +1,52 @@
+<html>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<head>
+
+  <meta charset="utf-8">
+  <title>QUnit Example</title>
+  <link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.15.0.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="//code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+  <script src="{{=URL('static','js/default/post_question.js')}}"></script>
+
+
+<script>
+suggestion_box_id = 'suggestion_box';
+QUnit.test( "User select tag value from suggestion list", function( assert ) {
+  // user add a tag in tag suggestion list
+  var tag_value1="a";
+  user_select_tag_handler(tag_value1,suggestion_box_id);
+  assert.equal( tag_list, [tag_value1], "Passed!" );
+  var tag_value2 = "learning";
+  user_select_tag_handler(tag_value2,suggestion_box_id);
+  assert.equal( tag_list, [tag_value1, tag_value2], "Passed!" );
+
+  var tag_value3 = "learning is fun";
+  user_select_tag_handler(tag_value3,suggestion_box_id);
+  assert.equal( tag_list, [tag_value1, tag_value2, tag_value3], "Passed!" );
+});
+
+QUnit.test( "a basic test example 4", function(assert) {
+  var tag_value1="a";
+  var tag_value2 = "learning";
+  var tag_value3 = "learning is fun";
+  user_select_tag_handler(tag_value1,suggestion_box_id);
+  user_select_tag_handler(tag_value2,suggestion_box_id);
+  user_select_tag_handler(tag_value3,suggestion_box_id);
+  assert.equal( tag_list, [tag_value1, tag_value2, tag_value3], "Passed!" );
+  user_remove_tag(tag_value1);
+  assert.equal( tag_list, [ tag_value2, tag_value3], "Passed!" );
+  user_remove_tag(tag_value2);
+  assert.equal( tag_list, [tag_value3], "Passed!" );
+  user_remove_tag(tag_value3);
+  assert.equal( tag_list, [], "Passed!" );
+
+
+});
+</script>
+</body>
+</html>
