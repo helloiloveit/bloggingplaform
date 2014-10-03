@@ -490,6 +490,8 @@ def fb_save_tag_list():
     # save tag list to db for generating question
     return 1
 
+def fb_test():
+    return dict()
 
 @auth.requires_login()
 def fb_post():
