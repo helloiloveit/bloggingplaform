@@ -9,10 +9,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from time import *
 import os, sys
+import string, random
+from option_handler import *
 
-LOCAL_TEST = "http://localhost:8002"
-REAL_TEST ="http://www.chuotnhat.vn"
-BASE_URL = REAL_TEST
 #test user
 EMAIL_TEST_USER_1='hrgohvb_bushakstein_1406709821@tfbnw.net'
 PASS_TEST_USER_1='maiphuong'
@@ -30,6 +29,7 @@ def user_login_real_user(self):
 """
 
 def user_login(driver):
+    import pdb; pdb.set_trace()
     driver.get(LOGIN_URL)
     email = driver.find_elements_by_id('email')
     email[0].send_keys(EMAIL_TEST_USER_1)
@@ -260,8 +260,8 @@ class TestHandlingAnswer(unittest.TestCase):
 
 class TestHandlingQuestion(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
-        #self.driver = webdriver.Chrome()
+        #self.driver = webdriver.Firefox()
+        self.driver = webdriver.Chrome()
         user_login(self.driver)
         self.question_info = 'this is a question'
         self.edit_question_info = 'this is a edited question'
@@ -355,20 +355,71 @@ class TestHandlingQuestion(unittest.TestCase):
 
 
 
-if sys.argv[1] == 'local':
-    BASE_URL = LOCAL_TEST
-    print '...start testing in local machine'
-else:
-    BASE_URL = REAL_TEST
-    print'...start testing in real version'
-LOGIN_URL = os.path.join(BASE_URL, 'user/login?_next=/')
-LOGOUT_URL = os.path.join(BASE_URL, 'user/logout?_next=/')
-QUESTION_LIST_URL = os.path.join(BASE_URL, 'question_list')
+class TestTagHandling(unittest.TestCase):
+    def setUp(self):
+        #self.driver = webdriver.Firefox()
+        self.driver = webdriver.Chrome()
+        user_login(self.driver)
+
+    def random_tag_generator(self, size=6, chars=string.ascii_uppercase + string.digits):
+        return ''.join(random.choice(chars) for _ in range(size))
+
+    def post(self):
+        driver = self.driver
+        try:
+            post_button = driver.find_element_by_id("post_button")
+            post_button.click()
+        except:
+
+            sleep(2)
+            post_button = driver.find_element_by_id("post_button")
+            post_button.click()
+
+        #add tag
+        sleep(2)
+        import pdb; pdb.set_trace()
+        tag_info= driver.find_element_by_id('month')
+        tag_info.click()
+        random_string= self.random_tag_generator(6)
+        tag_info.send_keys(random_string)
+        try:
+            temp = driver.find_element_by_id('suggestion_box')
+        except:
+            #wait for ajax call to finish
+            print 'cant receive suggestion box'
+            sleep(6)
+            temp = driver.find_element_by_id('suggestion_box')
+        tag_suggess = temp.find_element_by_xpath('div')
+        tag_suggess.click()
+        #post_tag_button = driver.find_element_by_id('submit1')
+        #post_tag_button.click()
+        #add question title
+
+
+
+
+    def testTagHandling(self):
+        """
+         write more in one testcase to reduce the login activity
+        """
+        driver = self.driver
+        self.post()
+        #confirm the posted question
+
+
+
+
+    def tearDown(self):
+        self.driver.close()
+
+BASE_URL = option_handler(sys)
+
 
 suite = unittest.TestSuite()
-suite.addTest(unittest.makeSuite(TestAuth))
-suite.addTest(unittest.makeSuite(TestHandlingQuestion))
-suite.addTest(unittest.makeSuite(TestHandlingAnswer))
-suite.addTest(unittest.makeSuite(TestQuestionList))
-suite.addTest(unittest.makeSuite(TestUserProfile))
+#suite.addTest(unittest.makeSuite(TestAuth))
+#suite.addTest(unittest.makeSuite(TestHandlingQuestion))
+#suite.addTest(unittest.makeSuite(TestHandlingAnswer))
+#suite.addTest(unittest.makeSuite(TestQuestionList))
+#suite.addTest(unittest.makeSuite(TestUserProfile))
+suite.addTest(unittest.makeSuite(TestTagHandling))
 unittest.TextTestRunner(verbosity=2).run(suite)

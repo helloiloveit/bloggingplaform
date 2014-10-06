@@ -64,9 +64,45 @@
             }
         });
 
+
         jQuery("#post_question_button").click(function(){
             $( "#question_content_form" ).submit();
             });
+
+
+
+
+        jQuery("#" + RESULT_BOX).on('click', 'span.delete-tag', function() {
+            //remove tag from tag list
+            removeItem = $(this).parent().text();
+            removeItem = removeItem.substring(0, removeItem.length - 1);
+            user_remove_tag(removeItem);
+            $(this).parent().remove();
+            });
+
+
+
+        // leave this code here for using URL
+      function user_post_new_tag(tag_info, suggestion_box_id){
+         $("#" + suggestion_box_id).remove();
+         var request = $.ajax({
+                url: "{{=URL('create_new_tag')}}",
+                type: "POST",
+                data: { tag_info  : tag_info },
+                dataType: "html"
+          });
+
+
+        request.done(function( msg ) {
+            user_select_tag_handler(tag_info, 'suggestion_box');
+        });
+
+        request.fail(function( jqXHR, textStatus ) {
+            //alert( "Request failed: " + textStatus );
+        });
+
+      }
+
     </script>
 
 </html>
