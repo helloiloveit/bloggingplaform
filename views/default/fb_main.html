@@ -44,7 +44,14 @@
           <br />
                   </td>
                   <td>
-                      <div id="target"></div>
+                      <div id="target">
+                                    {{if len(tag_list):}}
+          {{for tag in tag_list:}}
+          <span class="post-tag" value="{{=tag}}">{{=tag}}<span id="delete_tag" value="{{=tag}}" class="delete-tag" title="remove" this="" tag="">x</span></span>
+          {{pass}}
+          {{pass}}
+
+                      </div>
                   </td>
               </tr>
              </table>
@@ -89,7 +96,7 @@
             }
         });
 
-        jQuery("#save_tag_list_button").click(function(){
+        jQuery("#" + SAVE_TAG_LIST_BUTTON).click(function(){
                      var request = $.ajax({
                 url: "{{=URL('fb_save_tag_list')}}",
                 type: "POST",
@@ -107,6 +114,37 @@
         });
 
             });
+
+        jQuery("#" + RESULT_BOX).on('click', 'span.delete-tag', function() {
+            //remove tag from tag list
+            removeItem = $(this).parent().text();
+            removeItem = removeItem.substring(0, removeItem.length - 1);
+            user_remove_tag(removeItem);
+            $(this).parent().remove();
+            });
+
+
+
+            // leave this code here for using URL
+      function user_post_new_tag(tag_info, suggestion_box_id){
+         $("#" + suggestion_box_id).remove();
+         var request = $.ajax({
+                url: "{{=URL('create_new_tag')}}",
+                type: "POST",
+                data: { tag_info  : tag_info },
+                dataType: "html"
+          });
+
+
+        request.done(function( msg ) {
+            user_select_tag_handler(tag_info, 'suggestion_box');
+        });
+
+        request.fail(function( jqXHR, textStatus ) {
+            //alert( "Request failed: " + textStatus );
+        });
+
+      }
     </script>
 {{end}}
 

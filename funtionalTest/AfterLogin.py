@@ -29,7 +29,6 @@ def user_login_real_user(self):
 """
 
 def user_login(driver):
-    import pdb; pdb.set_trace()
     driver.get(LOGIN_URL)
     email = driver.find_elements_by_id('email')
     email[0].send_keys(EMAIL_TEST_USER_1)
@@ -364,7 +363,7 @@ class TestTagHandling(unittest.TestCase):
     def random_tag_generator(self, size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
 
-    def post(self):
+    def testUserManageTag(self):
         driver = self.driver
         try:
             post_button = driver.find_element_by_id("post_button")
@@ -377,36 +376,38 @@ class TestTagHandling(unittest.TestCase):
 
         #add tag
         sleep(2)
+        def post_new_tag(driver):
+            tag_info= driver.find_element_by_id('month')
+            tag_info.click()
+            random_string= self.random_tag_generator(6)
+            tag_info.send_keys(random_string)
+            sleep(1)
+            #select option in tag suggestion box
+            try:
+                temp = driver.find_element_by_id('suggestion_box')
+            except:
+                #wait for ajax call to finish
+                print 'cant receive suggestion box'
+                sleep(6)
+                temp = driver.find_element_by_id('suggestion_box')
+            tag_suggess = temp.find_element_by_xpath('div')
+            tag_suggess.click()
+            return random_string
+        def post_a_tag(driver, tag_name):
+            tag_info= driver.find_element_by_id('month')
+            tag_info.click()
+            tag_info.send_keys(tag_name)
+
+
         import pdb; pdb.set_trace()
-        tag_info= driver.find_element_by_id('month')
-        tag_info.click()
-        random_string= self.random_tag_generator(6)
-        tag_info.send_keys(random_string)
-        try:
-            temp = driver.find_element_by_id('suggestion_box')
-        except:
-            #wait for ajax call to finish
-            print 'cant receive suggestion box'
-            sleep(6)
-            temp = driver.find_element_by_id('suggestion_box')
-        tag_suggess = temp.find_element_by_xpath('div')
-        tag_suggess.click()
-        #post_tag_button = driver.find_element_by_id('submit1')
-        #post_tag_button.click()
-        #add question title
-
-
-
-
-    def testTagHandling(self):
-        """
-         write more in one testcase to reduce the login activity
-        """
-        driver = self.driver
-        self.post()
-        #confirm the posted question
-
-
+        post_new_tag(driver)
+        delete_point = driver.find_element_by_id('delete_tag')
+        delete_point.click()
+        # User post same tag
+        posted_tag = post_new_tag(driver)
+        post_a_tag(driver, posted_tag)
+        delete_point = driver.find_elements_by_id('delete_tag')
+        delete_point.click()
 
 
     def tearDown(self):

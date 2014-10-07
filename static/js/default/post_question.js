@@ -19,7 +19,6 @@
 
       function user_select_tag_handler(tag_info, suggestion_box_id){
          $("#" + TYPING_BOX).val(tag_info);
-         alert(suggestion_box_id);
          $("#" + suggestion_box_id).remove();
 
          current_tag = $("#" + RESULT_BOX).html();

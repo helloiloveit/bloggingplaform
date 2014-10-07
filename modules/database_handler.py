@@ -30,6 +30,7 @@ def post_new_question(request, auth):
     user_id = auth.user.id
     tag_info = request.vars.tag_list
     tag_list = get_tag_list(tag_info)
+    import pdb; pdb.set_trace()
     question_id = question_handler().create_new_record_in_question_tbl(question_txt,
                                                                 question_detail_txt,
                                                                 user_id,

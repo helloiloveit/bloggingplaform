@@ -22,18 +22,27 @@
     </form>
 
       <form>
-          <input type="text" id="month" name="tag_info" value = "" autocomplete="off" style="width: 250px" /> <span class="suggest_text">giáo dục, tin học..</span>
+             <table>
+              <tr>
+                  <td>
+          <input type="text" id="month" name="tag_info" value = "" autocomplete="off" style="width: 150px" />
           <br />
-          <div style="position: absolute;" id="suggestions" class="suggestions">
-          </div>
-      </form>
-      <div id="target">
+                      </td>
+                 <td>
+                           <div id="target">
           {{if len(tag_list):}}
           {{for tag in tag_list:}}
           <span class="post-tag" value="{{=tag}}">{{=tag}}<span id="delete_tag" value="{{=tag}}" class="delete-tag" title="remove" this="" tag="">x</span></span>
           {{pass}}
           {{pass}}
       </div>
+
+                     </td>
+                 </tr>
+                 </table>
+          <div style="position: absolute;" id="suggestions" class="suggestions">
+          </div>
+      </form>
       <button id="post_question_button"> Lưu lại  </button>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
@@ -41,8 +50,12 @@
     <p></p>
     <!-- end #mainContent --></div>
 <!-- end #container --></div>
+    <script src="{{=URL('static','js/default/post_question.js')}}"></script>
     <script>
-        var tag_list = [];
+
+        var TYPING_BOX = "month";
+        var RESULT_BOX = "target";
+
         // initialize value for tag_list when page is loaded
         $(".post-tag").each(function( index ) {
             //alert(index);
@@ -81,46 +94,15 @@
 
             });
 
-      function user_select_tag_handler(tag_info, suggestion_box_id){
-         $('#month').val(tag_info);
-         //alert(tag_list);
-         $("#" + suggestion_box_id).remove();
 
-         current_tag = $('#target').html();
-         //$('#target').html(current_tag+' ' + tag_info);
-
-         if ($.inArray(tag_info, tag_list) == -1)
-        {
-            tag_list[tag_list.length] = tag_info;
-            //alert(tag_info);
-            //alert(tag_list);
-            var txt1 = "<span class = post-tag>" + tag_info + "<span id = delete_tag value = "+ tag_info + " class = delete-tag title = remove this tag>x</span></span>";
-            $('#target').append(txt1);
-         }
-        //alert('tag list in input');
-         $('#tag_list').val(tag_list);
-         //alert($('#tag_list').val());
-
-      }
-
-
-        // delete tag
-        jQuery("#target").on('click', 'span.delete-tag', function() {
-            // delete tag in showned tag list
-            //alert(tag_list);
-            //alert('delete' + $(this).attr('value'));
+      jQuery("#" + RESULT_BOX).on('click', 'span.delete-tag', function() {
             //remove tag from tag list
-            removeItem = $(this).attr('value');
-            tag_list = jQuery.grep(tag_list, function(value) {
-            return value != removeItem;
-            });
-            //alert(tag_list);
-            //alert($(this).parent().attr('class'));
+            removeItem = $(this).parent().text();
+            removeItem = removeItem.substring(0, removeItem.length - 1);
+            user_remove_tag(removeItem);
             $(this).parent().remove();
-            //alert('tag_list in input')
-            $('#tag_list').val(tag_list);
-            //alert($('#tag_list').val());
             });
+
 
       function user_post_new_tag(tag_info, suggestion_box_id){
          $("#" + suggestion_box_id).remove();

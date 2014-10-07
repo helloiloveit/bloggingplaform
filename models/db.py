@@ -106,6 +106,10 @@ db.define_table('question_tag_tbl',
     Field('question_info',db.question_tbl),
     Field('tag_info', db.tag_tbl))
 
+## user tag info
+db.define_table('user_tag_tbl',
+    Field('user_info','reference auth_user'),
+    Field('tag_info', db.tag_tbl))
 
 
 # answer tables

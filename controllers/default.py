@@ -481,13 +481,18 @@ def fb_main():
     response.title = 'Chuot Nhat'
     items = db(db.question_tbl).select()
     display_list, page_num, view_more_flag= _handle_page_num(request, items)
-
-    return dict(items= display_list, page_num = page_num, view_more_flag=view_more_flag)
+    if auth.is_logged_in():
+        tag_info = user_tag_handler(auth).get_tag_info()
+    else:
+        tag_info = []
+    return dict(items= display_list, page_num = page_num, view_more_flag=view_more_flag, tag_list = tag_info)
 
 def fb_save_tag_list():
-    tag_list = request.vars['tag_list']
-    #import pdb; pdb.set_trace()
+    tag_list = request.vars['tag_info[]']
+    save_tag_info_for_user(tag_list, auth)
     # save tag list to db for generating question
+    if not rst:
+        return 0
     return 1
 
 def fb_test():

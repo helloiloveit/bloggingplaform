@@ -1,4 +1,4 @@
-timestamp: 2014-08-06T16:36:11.405730
+timestamp: 2014-10-07T15:58:20.922050
 CREATE TABLE auth_user(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name CHAR(128),
@@ -9,21 +9,21 @@ CREATE TABLE auth_user(
     registration_id CHAR(128)
 );
 success!
-timestamp: 2014-08-06T16:36:11.420167
+timestamp: 2014-10-07T15:58:20.925205
 CREATE TABLE auth_group(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role CHAR(512),
     description TEXT
 );
 success!
-timestamp: 2014-08-06T16:36:11.422511
+timestamp: 2014-10-07T15:58:20.927876
 CREATE TABLE auth_membership(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-08-06T16:36:11.424947
+timestamp: 2014-10-07T15:58:20.930423
 CREATE TABLE auth_permission(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE,
@@ -32,7 +32,7 @@ CREATE TABLE auth_permission(
     record_id INTEGER
 );
 success!
-timestamp: 2014-08-06T16:36:11.427391
+timestamp: 2014-10-07T15:58:20.933630
 CREATE TABLE auth_event(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp TIMESTAMP,
@@ -42,7 +42,7 @@ CREATE TABLE auth_event(
     description TEXT
 );
 success!
-timestamp: 2014-08-06T16:36:11.429970
+timestamp: 2014-10-07T15:58:20.936184
 CREATE TABLE auth_cas(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
@@ -52,7 +52,7 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
-timestamp: 2014-08-06T16:36:11.433322
+timestamp: 2014-10-07T15:58:20.938775
 CREATE TABLE user_profile(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
@@ -60,49 +60,57 @@ CREATE TABLE user_profile(
     detail_info TEXT
 );
 success!
-timestamp: 2014-08-06T16:36:11.435712
+timestamp: 2014-10-07T15:58:20.942103
 CREATE TABLE question_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_info TEXT,
     question_detail_info TEXT,
+    privacy_mode CHAR(1),
     writer INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-08-06T16:36:11.438751
+timestamp: 2014-10-07T15:58:20.944477
 CREATE TABLE question_like_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_id INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-08-06T16:36:11.441869
+timestamp: 2014-10-07T15:58:20.946819
 CREATE TABLE question_follow_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_id INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-08-06T16:36:11.444590
+timestamp: 2014-10-07T15:58:20.949519
 CREATE TABLE question_report_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_id INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-08-06T16:36:11.464280
+timestamp: 2014-10-07T15:58:20.951798
 CREATE TABLE tag_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(512)
 );
 success!
-timestamp: 2014-08-06T16:36:11.467217
+timestamp: 2014-10-07T15:58:20.954184
 CREATE TABLE question_tag_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_info INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
     tag_info INTEGER REFERENCES tag_tbl (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-08-06T16:36:11.470327
+timestamp: 2014-10-07T15:58:20.956571
+CREATE TABLE user_tag_tbl(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    tag_info INTEGER REFERENCES tag_tbl (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2014-10-07T15:58:20.959458
 CREATE TABLE answer_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     answer_info TEXT,
@@ -110,27 +118,60 @@ CREATE TABLE answer_tbl(
     author_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-08-06T16:36:11.474389
+timestamp: 2014-10-07T15:58:20.961908
 CREATE TABLE answer_like_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     answer_id INTEGER REFERENCES answer_tbl (id) ON DELETE CASCADE,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-08-06T16:36:11.477119
+timestamp: 2014-10-07T15:58:20.982332
 CREATE TABLE answer_report_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     answer_id INTEGER REFERENCES answer_tbl (id) ON DELETE CASCADE,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-08-06T16:36:11.480334
+timestamp: 2014-10-07T15:58:20.985795
 CREATE TABLE follow_info_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     followed_user INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
     following_user INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-09-24T19:59:25.852915
-ALTER TABLE question_tbl ADD privacy_mode CHAR(1);
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
 success!
