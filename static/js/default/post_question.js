@@ -4,10 +4,6 @@
         var RESULT_BOX ;
         var SAVE_TAG_LIST_BUTTON;
 
-         // set vietnamese text for input
-
-
-
 
 
 

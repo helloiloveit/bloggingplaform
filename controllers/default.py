@@ -495,7 +495,21 @@ def fb_save_tag_list():
         return 0
     return 1
 
+def add_gae_queue():
+    log.info("huy_test_queue")
+    question_id = params['question_id']
+    send_fb_noti("540428388","huyheo", " test notification ")
+
+
 def fb_test():
+    log.info('lalal')
+    send_fb_noti("540428388", " test notification ")
+    return dict()
+
+def fb_test_queue():
+    from google.appengine.api import taskqueue
+    log.info('lalal')
+    taskqueue.add(url='/add_gae_queue', params={'key': ''})
     return dict()
 
 @auth.requires_login()

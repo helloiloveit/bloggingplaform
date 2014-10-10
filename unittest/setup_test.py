@@ -21,6 +21,7 @@ def set_up_basic_environment():
     db.question_tbl.truncate()
     db.tag_tbl.truncate()
     db.user_tag_tbl.truncate()
+    db.question_tag_tbl.truncate()
     db.commit()
 
     #set up user

@@ -160,6 +160,7 @@ class question_tag_handler(object):
         find tag start with tag_info
         """
         tag_list =''
+        tag_info = tag_info.strip().lstrip()
         db = self.db
         all_tag_list = tag_tbl_handler().get_all_tag_info_from_db()
 

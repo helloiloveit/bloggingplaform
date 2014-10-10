@@ -399,7 +399,6 @@ class TestTagHandling(unittest.TestCase):
             tag_info.send_keys(tag_name)
 
 
-        import pdb; pdb.set_trace()
         post_new_tag(driver)
         delete_point = driver.find_element_by_id('delete_tag')
         delete_point.click()

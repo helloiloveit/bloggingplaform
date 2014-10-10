@@ -6,6 +6,7 @@ from gluon import *
 
 from ConstantDefinition import *
 from tag_handler import *
+from noti_handler import *
 
 log = logging.getLogger("h")
 log.setLevel(logging.DEBUG)
@@ -21,7 +22,7 @@ def get_tag_list(tag_info):
 
 def post_new_question(request, auth):
     question_txt = request.vars.question_info
-    question_detail_txt = request.vars.editor1
+    question_detail_txt = request.vars.question_detail_info
     if request.vars.mode == 'private':
         anonymous_info  = True;
     else:
@@ -30,12 +31,14 @@ def post_new_question(request, auth):
     user_id = auth.user.id
     tag_info = request.vars.tag_list
     tag_list = get_tag_list(tag_info)
-    import pdb; pdb.set_trace()
     question_id = question_handler().create_new_record_in_question_tbl(question_txt,
                                                                 question_detail_txt,
                                                                 user_id,
                                                                 anonymous_info,
                                                             tag_list)
+
+    # notification handler
+    #noti_handler(question_id).add_to_gae_task_queue()
     return question_id
 def delete_a_question(request):
     question_id = request.args[0]
@@ -85,10 +88,8 @@ class question_handler(object):
                                                 question_detail_info = question_detail_info,
                                                 privacy_mode = anonymous_info,
                                                 writer = user_id)
-            log.info(" successful create a tbl")
         except:
             log.error(' cant create tbl')
-        log.info("question_id = %s",question_id)
 
         #tag list
         if tag_list:

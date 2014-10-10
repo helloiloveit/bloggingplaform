@@ -21,13 +21,16 @@ class TestUserProfile(unittest.TestCase, ProfilePage):
 
     def getToUserProfile(self, driver):
         driver.get(QUESTION_LIST_URL)
-        question_one = driver.find_element_by_class_name('article_header')
-        link = question_one.find_element_by_link_text(question_one.text)
-        link.click()
-        #click on writer of question
-        user_profile = driver.find_element_by_id('user_profile')
-        import pdb; pdb.set_trace()
-        user_profile.click()
+        try:
+            question_one = driver.find_element_by_class_name('article_header')
+            link = question_one.find_element_by_link_text(question_one.text)
+            link.click()
+            #click on writer of question
+            user_profile = driver.find_element_by_id('user_profile')
+            user_profile.click()
+        except:
+            print'Error: check question list '
+            return False
 
     def testClickableFirstPage(self):
         self.getToUserProfile(self.driver)
@@ -59,7 +62,7 @@ class TestUserProfile(unittest.TestCase, ProfilePage):
             question_list = driver.find_elements_by_xpath('//table[@class="user_activity_info"]//tbody//tr[@class="question_unit"]')
             rst =self.questionElement(question_list[i], driver)
             return rst
-        return False
+        return Falsed
 
 
 

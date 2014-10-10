@@ -16,7 +16,7 @@
            <input id = "question_header" type="text" name="question_info" value ="">
         </p>
         <p>
-                <textarea  id="editor1" name="editor1" rows="10" >
+                <textarea  id="editor1" name="question_detail_info" rows="10" >
                     giải thích chi tiết
             </textarea>
         </p>
@@ -45,6 +45,8 @@
         //set value for id
         var TYPING_BOX = "month";
         var RESULT_BOX = "target";
+        //set init value for input tag_list
+       $('#tag_list').val('');
 
         $('#question_header').val("tiêu đề câu hỏi");
         $("#" + TYPING_BOX).val("phân loại cho câu hỏi");
