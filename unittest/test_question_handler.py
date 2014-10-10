@@ -32,7 +32,6 @@ class QuestionHandlingUtility(object):
         request.vars.tag_list = self.tag_list
 
     def create_a_question(self):
-        import pdb; pdb.set_trace()
         self.add_value_of_question_to_request(None)
         question_id = post_new_question(request, auth)
 
@@ -49,8 +48,7 @@ class TestQuestionHandling(unittest.TestCase, QuestionHandlingUtility):
 
     def testPostNewQuestion(self):
         #set variable for the test
-        QuestionHandlingUtility(self.question, self.question_detail_info, self.tag_list).add_value_of_question_to_request(None)
-
+        self.add_value_of_question_to_request(None)
         question_id = post_new_question(request, auth)
         question_record = db(db.question_tbl.id == question_id).select().first()
         def get_tag_name_list_from_record_list(record_list):
@@ -84,13 +82,7 @@ class TestQuestionHandling(unittest.TestCase, QuestionHandlingUtility):
         self.tag_list = "tag1,tag2,tag3,tag4"
         self.tag_list_list = self.tag_list.split(',')
 
-        #QuestionHandlingUtility(self.question, self.question_detail_info, self.tag_list).add_value_of_question_to_request(question_id)
-        import pdb; pdb.set_trace()
-        request.vars.question_detail_info = self.question_detail_info
-        request.vars.question_id = question_id
-        request.vars.question_info = self.question
-        request.vars.tag_list = self.tag_list
-        #QuestionHandlingUtility().add_value_of_question_to_request(question_id)
+        self.add_value_of_question_to_request(question_id)
         update_a_question(request)
         #get the question
         question_record = db(db.question_tbl.id == question_id).select()[0]
