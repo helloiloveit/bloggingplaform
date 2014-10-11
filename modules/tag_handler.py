@@ -39,19 +39,29 @@ class user_tag_handler(object):
             tag_id = tag_tbl_handler().create_new_tag(tag_info)
         return tag_id
 
+    def create_tag(self, tag_info):
+        db = self.db
+        tag_id = self.verify_tag(tag_info)
+        id = db.user_tag_tbl.insert(user_info = self.auth.user.id,
+                                    tag_info = tag_id)
+        return True
+
     def create_tag_list(self, tag_list):
         db = self.db
         for tag in tag_list:
             tag_id = self.verify_tag(tag)
-            id = db.user_tag_tbl.insert(user_info = auth.user.id,
+            id = db.user_tag_tbl.insert(user_info = self.auth.user.id,
                                         tag_info = tag_id)
             if not id:
                 return False
         return True
-    def update_new_tag_list(self, tag_list):
+    def update_new_tag_list(self, tag_data):
         db = self.db
         db(db.user_tag_tbl.user_info == self.auth.user.id).delete()
-        rst = self.create_tag_list(tag_list)
+        if type(tag_data) == 'list':
+            rst = self.create_tag_list(tag_data)
+        else:
+            rst = self.create_tag(tag_data)
         if not rst:
             return False
         return True
@@ -140,6 +150,7 @@ class question_tag_handler(object):
     def __init__(self):
         self.db = current.db
 
+
     def add_tag_for_question(self,question_id, tag_list):
         db = self.db
 
@@ -172,6 +183,13 @@ class question_tag_handler(object):
             return False
         return tag_list
 
+    def get_tag_id_list_of_a_question(self, question_id):
+        db = self.db
+        tag_list = db(db.question_tag_tbl.question_info == question_id).select()
+        tag_id_list = []
+        for tag_record in tag_list:
+            tag_id_list.append(tag_record.tag_info)
+        return tag_id_list
 
 
     def get_tag_name_list_of_a_question(self, question_id):

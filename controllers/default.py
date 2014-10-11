@@ -13,6 +13,7 @@ import json
 import logging
 from database_handler import *
 from tag_handler import *
+from noti_handler import *
 from user_handler import *
 from text_handler import *
 import xml.etree.ElementTree as ET
@@ -408,6 +409,8 @@ def post_question():
     print user_list
     question_id = post_new_question(request, auth)
     if question_id:
+        #add to queue
+        noti_handler(question_id).add_to_gae_task_queue()
         redirect(URL(r = request, f= 'question', args = question_id))
     return dict()
 
@@ -497,8 +500,11 @@ def fb_save_tag_list():
 
 def add_gae_queue():
     log.info("huy_test_queue")
-    question_id = params['question_id']
-    send_fb_noti("540428388","huyheo", " test notification ")
+    log.info('var= %s', request.vars)
+    log.info('var question_id= %s', request.vars['question_id'])
+    question_id = request.vars['question_id']
+    # get user list to send noti
+    noti_handler(question_id).send_fb_noti("540428388","huyheo", " test notification ")
 
 
 def fb_test():
@@ -509,7 +515,7 @@ def fb_test():
 def fb_test_queue():
     from google.appengine.api import taskqueue
     log.info('lalal')
-    taskqueue.add(url='/add_gae_queue', params={'key': ''})
+    taskqueue.add(url='/add_gae_queue', params={'question_id': '123'})
     return dict()
 
 @auth.requires_login()

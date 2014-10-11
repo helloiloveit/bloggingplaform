@@ -37,8 +37,6 @@ def post_new_question(request, auth):
                                                                 anonymous_info,
                                                             tag_list)
 
-    # notification handler
-    #noti_handler(question_id).add_to_gae_task_queue()
     return question_id
 def delete_a_question(request):
     question_id = request.args[0]
