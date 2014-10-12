@@ -47,48 +47,44 @@ class TestTagHandling(unittest.TestCase):
         """
         request.vars.tag_info = self.tag_info
         return_info = tag_handler()
-        import pdb; pdb.set_trace()
         #self.assertEqual(return_info, self.createReturnHtmlForAddingNewTag())
 
 
-class TestTagInfoOfUserHandling(unittest.TestCase):
+class TestUserTagHandler(unittest.TestCase):
     def setUp(self):
         set_up_basic_environment()
         self.tag_list = ['tag1','tag2','tag3']
         self.tag_list2 = ['tag4', 'tag5', 'tag6']
 
-    def record_list_2_name_list(self, record):
-        tag_name_list = []
-        for data in record:
-            tag_info = db(db.tag_tbl.id == data.tag_info).select()[0]
-            tag_name_list.append(tag_info.name)
-        return tag_name_list
 
-    def testSaveNewTagList(self):
+    def testCreateTagList(self):
         user_tag_handler(auth).create_tag_list(self.tag_list)
         record = db(db.user_tag_tbl.user_info == auth.user.id).select()
-        tag_name_list = self.record_list_2_name_list(record)
+        tag_name_list = tag_tbl_handler().get_name_list_from_record_list(record)
         self.assertEqual(tag_name_list, self.tag_list)
 
     def testUpdateNewTagList(self):
-        self.testSaveNewTagList()
+        self.testCreateTagList()
         user_tag_handler(auth).update_new_tag_list(self.tag_list2)
         record = db(db.user_tag_tbl.user_info == auth.user.id).select()
-        tag_name_list = self.record_list_2_name_list(record)
+        tag_name_list = tag_tbl_handler().get_name_list_from_record_list(record)
         self.assertEqual(tag_name_list, self.tag_list2)
 
-    def testUserSaveNewTagList(self):
+
+
+class UserActivity(unittest.TestCase):
+    def setUp(self):
+        set_up_basic_environment()
+        self.tag_list = ['tag1','tag2','tag3']
+        self.tag_list2 = ['tag4', 'tag5', 'tag6']
+
+    def testUserUpdateNewTagInfo(self):
         #request.vars = {'tag_info[]': self.tag_list}
         #fb_save_tag_list()
         save_tag_info_for_user(self.tag_list, auth)
         record = db(db.user_tag_tbl.user_info == auth.user.id).select()
-        tag_name_list = self.record_list_2_name_list(record)
+        tag_name_list = tag_tbl_handler().get_name_list_from_record_list(record)
         self.assertEqual(tag_name_list, self.tag_list)
-
-
-
-
-
 
 
 
@@ -100,7 +96,8 @@ class TestTagInfoOfUserHandling(unittest.TestCase):
 
 suite = unittest.TestSuite()
 #suite.addTest(unittest.makeSuite(TestTagHandling))
-suite.addTest(unittest.makeSuite(TestTagInfoOfUserHandling))
+suite.addTest(unittest.makeSuite(TestUserTagHandler))
+suite.addTest(unittest.makeSuite(UserActivity))
 unittest.TextTestRunner(verbosity=2).run(suite)
 
 

@@ -96,8 +96,12 @@ class TestQuestionRattingHandler(unittest.TestCase):
         set_up_basic_environment()
         #create second user as audience
         user_id =  db.auth_user.insert(first_name = 'audience', email = 'audienceemail@gmail.com')
-        self._question_id = create_a_question("question info", "question detail", user_id, ['tag1','tag2'])
         self._audience = db(db.auth_user.id == user_id).select()[0]
+        auth.user = self._audience
+        self.question = "question info"
+        self.question_detail_info = "question detail"
+        self.tag_list = "tag1,tag2"
+        self._question_id = QuestionHandlingUtility(self.question, self.question_detail_info, self.tag_list).create_a_question()
 
 
 

@@ -9,9 +9,30 @@ execfile(file_path, globals())
 execfile(os.path.join(file_path,'modules','noti_handler.py'), globals())
 
 
-class noti_handler( noti_handler):
+class noti_handler_fake_queue( noti_handler):
     def add_to_gae_task_queue(self):
-        return
+        request.vars['question_id'] = self.question_id
+        add_gae_queue()
+
+class QuestionHandlingUtilityTestNoti(QuestionHandlingUtility):
+    def create_a_question(self):
+        self.add_value_of_question_to_request(None)
+        question_id = post_new_question(request, auth)
+        if question_id:
+            noti_handler_fake_queue(question_id).add_to_gae_task_queue()
+        return question_id
+
+class TestPostQuestionNoti(unittest.TestCase):
+    def setUp(self):
+        set_up_basic_environment()
+        # question info
+        self.question = "this is a new question"
+        self.question_detail_info = "more detail of this question"
+        self.tag_list = "tag1"
+    def testPostQuestion(self):
+        QuestionHandlingUtilityTestNoti(self.question, self.question_detail_info, self.tag_list).create_a_question()
+
+
 
 
 
@@ -27,7 +48,7 @@ class TestNotiHandler(unittest.TestCase):
         self.tag_list = "tag1"
     """
     def testSendFbNoti(self):
-        noti_handler("question_id").send_fb_noti(self.user_id, self.href, self.message)
+        fb_noti_handler(self.user_id, self.href, self.message).send()
     """
 
     def testAddToGaeTaskQueue(self):
@@ -78,9 +99,8 @@ class TestNotiHandler(unittest.TestCase):
         test_with_level(self.tag_list, user_list)
 
         # 3 tags
-        self.tag_list = "tag1,tag2,ta g3"
+        self.tag_list = "tag1,tag2,tag3"
         user_list = [user_record_1.username, user_record_2.username, user_record_3.username]
-        import pdb; pdb.set_trace()
         test_with_level(self.tag_list, user_list)
         pass
 

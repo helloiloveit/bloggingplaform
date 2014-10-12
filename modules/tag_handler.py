@@ -58,7 +58,7 @@ class user_tag_handler(object):
     def update_new_tag_list(self, tag_data):
         db = self.db
         db(db.user_tag_tbl.user_info == self.auth.user.id).delete()
-        if type(tag_data) == 'list':
+        if type(tag_data) == list:
             rst = self.create_tag_list(tag_data)
         else:
             rst = self.create_tag(tag_data)
@@ -102,7 +102,7 @@ class tag_tbl_handler(object):
         else:
             return tag_rslt.id
 
-    def get_id_if_tag_exist_if_not_update_new(self, tag_name):
+    def get_id_by_name_if_not_exist_update_new(self, tag_name):
         tag_id = self.get_id_by_name(tag_name)
         if tag_id:
             return tag_id
@@ -129,9 +129,9 @@ class tag_tbl_handler(object):
         id_list = []
         if type(tag_info) == list:
             for tag in tag_info:
-                id_list.append(self.get_id_if_tag_exist_if_not_update_new(tag))
+                id_list.append(self.get_id_by_name_if_not_exist_update_new(tag))
         else:
-            id_list.append(self.get_id_if_tag_exist_if_not_update_new(tag_info))
+            id_list.append(self.get_id_by_name_if_not_exist_update_new(tag_info))
 
         return id_list
 
@@ -144,6 +144,14 @@ class tag_tbl_handler(object):
 
 
         return tag_list
+
+    def get_name_list_from_record_list(self, record):
+        tag_name_list = []
+        for data in record:
+            tag_info = db(db.tag_tbl.id == data.tag_info).select()[0]
+            tag_name_list.append(tag_info.name)
+        return tag_name_list
+
 
 
 class question_tag_handler(object):

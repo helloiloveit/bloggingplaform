@@ -59,7 +59,13 @@ class QuestionHandlingUtility(object):
     def create_a_question(self):
         self.add_value_of_question_to_request(None)
         question_id = post_new_question(request, auth)
+        return question_id
 
+    def create_a_question_skip_add_queue(self):
+        self.add_value_of_question_to_request(None)
+        question_id = post_new_question(request, auth)
+        if question_id:
+            noti_handler(question_id).add_to_gae_task_queue()
         return question_id
 
     def create_a_question_by_user(self,auth):

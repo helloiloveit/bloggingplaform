@@ -405,8 +405,6 @@ def post():
 
 @auth.requires_login()
 def post_question():
-    user_list = db(db.auth_user).select()
-    print user_list
     question_id = post_new_question(request, auth)
     if question_id:
         #add to queue
@@ -504,7 +502,7 @@ def add_gae_queue():
     log.info('var question_id= %s', request.vars['question_id'])
     question_id = request.vars['question_id']
     # get user list to send noti
-    noti_handler(question_id).send_fb_noti("540428388","huyheo", " test notification ")
+    fb_noti_handler("540428388","huyheo", " test notification ").send()
 
 
 def fb_test():

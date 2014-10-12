@@ -10,7 +10,18 @@ log = logging.getLogger("h")
 log.setLevel(logging.DEBUG)
 
 
+class fb_noti_handler(object):
+    def __init__(self, user_id, href_link, noti_mess):
+        self.user_id = user_id
+        self.href_link = href_link
+        self.noti_mess = noti_mess
 
+    def send(self):
+        from gluon.tools import fetch
+        url_2 = "https://graph.facebook.com/"+ self.user_id + "/notifications"
+        values =   { 'access_token': APP_ACCESS_TOKEN, 'href':self.href_link, 'template':self.noti_mess}
+        rsp = fetch(url_2, values)
+        return rsp
 
 
 class noti_handler(object):
@@ -29,12 +40,14 @@ class noti_handler(object):
     def create_message(self):
         return "this is test message"
 
+    """
     def send_fb_noti(self, user_id, href_link, noti_mess):
         from gluon.tools import fetch
         url_2 = "https://graph.facebook.com/"+ user_id + "/notifications"
         values =   { 'access_token': APP_ACCESS_TOKEN, 'href':href_link, 'template':noti_mess}
         rsp = fetch(url_2, values)
         return rsp
+    """
 
     def get_targeted_user(self):
         """
@@ -52,5 +65,6 @@ class noti_handler(object):
     def send_noti_to_user(self):
         user_list = self.get_targeted_user()
         for user_id in user_list:
-            noti_handler(question_id).send_fb_noti(user_id, "huyheo", " test notification ")
+            fb_noti_handler(user_id, "huyheo", "test notification").send()
+            #noti_handler(question_id).send_fb_noti(user_id, "huyheo", " test notification ")
 
