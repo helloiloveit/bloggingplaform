@@ -25,7 +25,7 @@ def save_tag_info_for_user(tag_list, auth):
     save tag info in to tag user tbl
     """
     rst = user_tag_handler(auth).update_new_tag_list(tag_list)
-    return 1
+    return rst
 
 
 

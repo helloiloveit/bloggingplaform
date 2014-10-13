@@ -76,15 +76,25 @@ class UserActivity(unittest.TestCase):
     def setUp(self):
         set_up_basic_environment()
         self.tag_list = ['tag1','tag2','tag3']
-        self.tag_list2 = ['tag4', 'tag5', 'tag6']
+        self.tag_list2 = ['tag4']
 
     def testUserUpdateNewTagInfo(self):
-        #request.vars = {'tag_info[]': self.tag_list}
-        #fb_save_tag_list()
-        save_tag_info_for_user(self.tag_list, auth)
+        request.vars.update({'tag_info[]': self.tag_list})
+        fb_save_tag_list()
         record = db(db.user_tag_tbl.user_info == auth.user.id).select()
         tag_name_list = tag_tbl_handler().get_name_list_from_record_list(record)
         self.assertEqual(tag_name_list, self.tag_list)
+
+        request.vars.update({'tag_info[]': self.tag_list2})
+        fb_save_tag_list()
+        record = db(db.user_tag_tbl.user_info == auth.user.id).select()
+        tag_name_list = tag_tbl_handler().get_name_list_from_record_list(record)
+        self.assertEqual(tag_name_list, self.tag_list2)
+
+    def testUserUpdateEmptyTag(self):
+        self.tag_list = []
+        self.testUserUpdateNewTagInfo()
+
 
 
 

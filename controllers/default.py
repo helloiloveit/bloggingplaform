@@ -490,20 +490,14 @@ def fb_main():
 
 def fb_save_tag_list():
     tag_list = request.vars['tag_info[]']
-    save_tag_info_for_user(tag_list, auth)
+    rst = save_tag_info_for_user(tag_list, auth)
     # save tag list to db for generating question
     if not rst:
         return 0
     return 1
 
 def add_gae_queue():
-    log.info("huy_test_queue")
-    log.info('var= %s', request.vars)
-    log.info('var question_id= %s', request.vars['question_id'])
-    question_id = request.vars['question_id']
-    # get user list to send noti
-    fb_noti_handler("540428388","huyheo", " test notification ").send()
-
+    handler_fb_noti(request)
 
 def fb_test():
     log.info('lalal')

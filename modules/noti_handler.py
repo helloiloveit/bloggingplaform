@@ -5,9 +5,24 @@ import logging
 from gluon import *
 
 from ConstantDefinition import *
+from tag_handler import *
 
 log = logging.getLogger("h")
 log.setLevel(logging.DEBUG)
+
+
+def handler_fb_noti(request):
+    """
+        call fb_noti_handler indirectly to make test easier
+    """
+    question_id = request.vars['question_id']
+    noti_data = noti_handler(question_id)
+    user_data = noti_data.get_targeted_user()
+    db = current.db
+    for temp in user_data:
+        user_record = db(db.auth_user.id == temp.user_info).select()[0]
+        # get user list to send noti
+        fb_noti_handler(user_record.username,"huyheo", noti_data.create_message()).send()
 
 
 class fb_noti_handler(object):
@@ -22,6 +37,10 @@ class fb_noti_handler(object):
         values =   { 'access_token': APP_ACCESS_TOKEN, 'href':self.href_link, 'template':self.noti_mess}
         rsp = fetch(url_2, values)
         return rsp
+
+    def __call__(self, *args, **kwargs):
+        print 'call fb noti'
+
 
 
 class noti_handler(object):
@@ -38,7 +57,9 @@ class noti_handler(object):
         return "huyheo"
 
     def create_message(self):
-        return "this is test message"
+        db = self.db
+        question_record = db(db.question_tbl.id == self.question_id).select().first()
+        return question_record.question_info
 
     """
     def send_fb_noti(self, user_id, href_link, noti_mess):
@@ -58,8 +79,10 @@ class noti_handler(object):
         tag_id_list = question_tag_handler().get_tag_id_list_of_a_question(self.question_id)
         user_list = []
         for tag_id in tag_id_list:
-            user_info = db(db.user_tag_tbl.tag_info == tag_id).select()
-            user_list.append(user_info)
+            user_data = db(db.user_tag_tbl.tag_info == tag_id).select()
+            if len(user_data):
+                for user_info in user_data:
+                    user_list.append(user_info)
         return user_list
 
     def send_noti_to_user(self):
