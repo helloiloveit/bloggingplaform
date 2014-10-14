@@ -4,22 +4,25 @@
         var RESULT_BOX ;
         var SAVE_TAG_LIST_BUTTON;
 
-
+      function capitaliseFirstLetter(string)
+        {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
 
 
       function user_remove_tag(tag_info ){
             tag_list = jQuery.grep(tag_list, function(value) {
             return value != tag_info;
             });
+
       }
 
       function user_select_tag_handler(tag_info, suggestion_box_id){
+         tag_info =  capitaliseFirstLetter(tag_info);
          $("#" + TYPING_BOX).val(tag_info);
          $("#" + suggestion_box_id).remove();
 
          current_tag = $("#" + RESULT_BOX).html();
-         //$('#target').html(current_tag+' ' + tag_info);
-         //alert(tag_info + tag_list);
 
          if ($.inArray(tag_info, tag_list) == -1)
         {

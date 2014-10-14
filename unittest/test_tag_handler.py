@@ -70,30 +70,61 @@ class TestUserTagHandler(unittest.TestCase):
         tag_name_list = tag_tbl_handler().get_name_list_from_record_list(record)
         self.assertEqual(tag_name_list, self.tag_list2)
 
+    def testGetTagInfo(self):
+        self.tag_list = ['tag1']
+        user_tag_handler(auth).create_tag_list(self.tag_list)
+        query_tag_list = user_tag_handler(auth).get_tag_info()
+        self.assertEqual(self.tag_list, query_tag_list)
+
+    def testGetTagInfo2(self):
+        self.tag_list = ['tag1', 'tag2']
+        user_tag_handler(auth).create_tag_list(self.tag_list)
+        query_tag_list = user_tag_handler(auth).get_tag_info()
+        self.assertEqual(self.tag_list, query_tag_list)
+
+    def testGetTagInfo3(self):
+        self.tag_list = ['tag1','tag2', 'tag3']
+        user_tag_handler(auth).create_tag_list(self.tag_list)
+        query_tag_list = user_tag_handler(auth).get_tag_info()
+        self.assertEqual(self.tag_list, query_tag_list)
 
 
 class UserActivity(unittest.TestCase):
     def setUp(self):
         set_up_basic_environment()
-        self.tag_list = ['tag1','tag2','tag3']
-        self.tag_list2 = ['tag4']
 
-    def testUserUpdateNewTagInfo(self):
-        request.vars.update({'tag_info[]': self.tag_list})
+    def check_update_tag_list(self, tag_info):
+        for tag in tag_info:
+            request.vars.tag_info = tag
+            create_new_tag()
+        request.vars.update({'tag_info[]': tag_info})
         fb_save_tag_list()
-        record = db(db.user_tag_tbl.user_info == auth.user.id).select()
-        tag_name_list = tag_tbl_handler().get_name_list_from_record_list(record)
-        self.assertEqual(tag_name_list, self.tag_list)
+        html_return = fb_main()
+        self.assertEqual(html_return['tag_list'], tag_info)
 
-        request.vars.update({'tag_info[]': self.tag_list2})
-        fb_save_tag_list()
-        record = db(db.user_tag_tbl.user_info == auth.user.id).select()
-        tag_name_list = tag_tbl_handler().get_name_list_from_record_list(record)
-        self.assertEqual(tag_name_list, self.tag_list2)
+
+    def testUserUpdateNewTagInfo1(self):
+        tag_info = ['Tag1', 'Tag2']
+        self.check_update_tag_list(tag_info)
+        tag_info = ['Tag1']
+        self.check_update_tag_list(tag_info)
+
+    def testUserUpdateNewTagInfo2(self):
+        tag_info = ['Tag1', 'Tag2']
+        self.check_update_tag_list(tag_info)
+        tag_info = ['Tag1', 'Tag2', 'Tag3']
+        self.check_update_tag_list(tag_info)
+
+    def testUserUpdateNewTagInfo3(self):
+        tag_info = []
+        self.check_update_tag_list(tag_info)
+        tag_info = ['Tag1', 'Tag2', 'Tag3']
+        self.check_update_tag_list(tag_info)
+
 
     def testUserUpdateEmptyTag(self):
-        self.tag_list = []
-        self.testUserUpdateNewTagInfo()
+        tag_info = []
+        self.check_update_tag_list(tag_info)
 
 
 

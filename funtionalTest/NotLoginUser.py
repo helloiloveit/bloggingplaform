@@ -62,7 +62,7 @@ class TestUserProfile(unittest.TestCase, ProfilePage):
             question_list = driver.find_elements_by_xpath('//table[@class="user_activity_info"]//tbody//tr[@class="question_unit"]')
             rst =self.questionElement(question_list[i], driver)
             return rst
-        return Falsed
+        return False
 
 
 

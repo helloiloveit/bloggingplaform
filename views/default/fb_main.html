@@ -96,7 +96,24 @@
             }
         });
 
+        // initialize value for tag_list when page is loaded
+        $(".post-tag").each(function( index ) {
+            alert(index);
+            //alert( $(this).text());
+            var tag_info = $(this).text().slice(0,-1);
+            //alert(tag_info);
+            tag_list[tag_list.length] = tag_info;
+            //alert($('#tag_list').val());
+            $('#tag_list').val(tag_list);
+            alert($('#tag_list').val());
+        });
+
+
+
         jQuery("#" + SAVE_TAG_LIST_BUTTON).click(function(){
+            alert('save ');
+            alert($('#tag_list').val());
+
                      var request = $.ajax({
                 url: "{{=URL('fb_save_tag_list')}}",
                 type: "POST",
@@ -106,7 +123,6 @@
 
 
         request.done(function( msg ) {
-            alert('success');
         });
 
         request.fail(function( jqXHR, textStatus ) {
@@ -117,10 +133,16 @@
 
         jQuery("#" + RESULT_BOX).on('click', 'span.delete-tag', function() {
             //remove tag from tag list
+            alert('tag list value = ');
+            alert(tag_list);
             removeItem = $(this).parent().text();
             removeItem = removeItem.substring(0, removeItem.length - 1);
             user_remove_tag(removeItem);
+            alert('tag list value = ');
+            alert(tag_list);
             $(this).parent().remove();
+            $( "#save_tag_list_button" ).show();
+
             });
 
 

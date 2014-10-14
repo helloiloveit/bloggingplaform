@@ -408,7 +408,8 @@ def post_question():
     question_id = post_new_question(request, auth)
     if question_id:
         #add to queue
-        noti_handler(question_id).add_to_gae_task_queue()
+        import pdb; pdb.set_trace()
+        noti_handler(question_id).add_to_gae_task_queue(request)
         redirect(URL(r = request, f= 'question', args = question_id))
     return dict()
 
@@ -477,16 +478,11 @@ def fb_main():
     """
     test data
     """
-    log.info('question list')
-    log.info(request.env.REQUEST_METHOD)
-    response.title = 'Chuot Nhat'
-    items = db(db.question_tbl).select()
-    display_list, page_num, view_more_flag= _handle_page_num(request, items)
     if auth.is_logged_in():
         tag_info = user_tag_handler(auth).get_tag_info()
     else:
         tag_info = []
-    return dict(items= display_list, page_num = page_num, view_more_flag=view_more_flag, tag_list = tag_info)
+    return dict(tag_list = tag_info)
 
 def fb_save_tag_list():
     tag_list = request.vars['tag_info[]']

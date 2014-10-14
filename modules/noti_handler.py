@@ -49,9 +49,17 @@ class noti_handler(object):
         self.db = current.db
         # add to task queue
 
-    def add_to_gae_task_queue(self):
-        from google.appengine.api import taskqueue
-        taskqueue.add(url='/add_gae_queue', params={'question_id': self.question_id})
+    def add_to_gae_task_queue(self, request):
+        """
+        add request parameter for the ease of testing without gae
+        """
+        try:
+            from google.appengine.api import taskqueue
+            taskqueue.add(url='/add_gae_queue', params={'question_id': self.question_id})
+        except:
+            request.vars.update({'question_id': self.question_id})
+            handler_fb_noti(request)
+
 
     def create_href(self):
         return "huyheo"
@@ -61,14 +69,6 @@ class noti_handler(object):
         question_record = db(db.question_tbl.id == self.question_id).select().first()
         return question_record.question_info
 
-    """
-    def send_fb_noti(self, user_id, href_link, noti_mess):
-        from gluon.tools import fetch
-        url_2 = "https://graph.facebook.com/"+ user_id + "/notifications"
-        values =   { 'access_token': APP_ACCESS_TOKEN, 'href':href_link, 'template':noti_mess}
-        rsp = fetch(url_2, values)
-        return rsp
-    """
 
     def get_targeted_user(self):
         """
