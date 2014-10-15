@@ -16,25 +16,33 @@
            <input id = "question_header" type="text" name="question_info" value ="">
         </p>
         <p>
-                <textarea  id="editor1" name="editor1" rows="10" >
-
+                <textarea  id="editor1" name="question_detail_info" rows="10" >
+                     giải thích chi tiết
             </textarea>
         </p>
     </form>
       <form>
-          <input type="text" id="month" name="tag_info" value = "" autocomplete="off" style="width: 250px" /> <span class="suggest_text">giáo dục, tin học..</span>
+          <table>
+              <tr>
+                  <td>
+          <input type="text" id="month" class="tag_box" name="tag_info" value = "" autocomplete="off" style="width: 150px; height:30px" /> <span class="suggest_text"></span>
           <br />
+                      </td>
+              <td>
+                    <div id="target"></div>
+                  </td>
+              </tr>
+              </table>
           <div style="position: absolute;" id="suggestions" class="suggestions">
           </div>
       </form>
-      <div id="target"></div>
       <button id="post_question_button"> Gửi đi </button>
 
     <script>
         var tag_list = [];
          // set vietnamese text for input
         $('#question_header').val("câu hỏi của bạn");
-        $('#month').val("nhập phân loại cho câu hỏi");
+        $('#month').val("phân loại cho câu hỏi");
         $('#question_header').click(function(){
             $('#question_header').val("");
         });

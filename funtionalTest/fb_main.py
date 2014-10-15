@@ -43,12 +43,14 @@ def user_logout(driver):
     driver.get(LOGOUT_URL)
 
 
+
 class TagUtility(object):
     """
     tool for handling user tag info
     """
     def __init__(self, driver):
         self.driver = driver
+
 
     def delete_user_tag_info(self):
         tag_list = self.driver.find_elements_by_class_name('post-tag')
@@ -59,6 +61,33 @@ class TagUtility(object):
             save_button = self.driver.find_element_by_id('save_tag_list_button')
             save_button.click()
 
+    def add_new_tag(self, tag_name):
+        tag_info= self.driver.find_element_by_id('typing_box')
+        tag_info.click()
+        tag_info.send_keys(tag_name)
+        sleep(2)
+        temp = self.driver.find_element_by_id('suggestion_box')
+        temp.click()
+
+    def add_new_tags(self, tag_list):
+        for tag_info in tag_list:
+            self.add_new_tag(tag_info)
+
+    def get_tag_suggestion(self, input_tag):
+        tag_info= self.driver.find_element_by_id('typing_box')
+        tag_info.click()
+        sleep(1)
+        tag_info.send_keys(input_tag)
+        sleep(2)
+        temp = self.driver.find_element_by_id('suggestion_box')
+        tag_suggess = temp.find_elements_by_xpath('div')
+        tag_suggess_list = []
+        for data in tag_suggess:
+            tag_suggess_list.append(data.text)
+        return tag_suggess_list
+
+
+
 
 class TestMainPage(unittest.TestCase):
     def setUp(self):
@@ -66,31 +95,50 @@ class TestMainPage(unittest.TestCase):
         user_login(self.driver)
         self.driver.get(FB_PAGE)
 
+
     def testDisplay(self):
-        print 'llaa'
         question_button = self.driver.find_element_by_id('fb_post_button')
         question_button.click()
         self.driver.back()
-        share_tag_button = self.driver.find_element_by_id('share_knownledge_header')
+        sleep(2)
+        tag_info= self.driver.find_element_by_id('typing_box')
+        tag_info.click()
 
-    def testShareTag(self):
-        import pdb; pdb.set_trace()
-        #check tag ..delete if there's any existing one.
-        TagUtility(self.driver).delete_user_tag_info()
-
-        #update new tag
-
-
-
+        #share_tag_button = self.driver.find_element_by_id('share_knownledge_header')
+        pass
 
     def tearDown(self):
         self.driver.close()
 
-class TestQuestionListPage(unittest.TestCase):
+class TestShareTag(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
-    def testViewQuestionByTag(self):
-        pass
+        user_login(self.driver)
+        self.driver.get(FB_PAGE)
+
+    def check_tag_suggesstion(self, Tag_handler,  tag_search_letter, existed_tag_list):
+        tag_suggestion_list = Tag_handler.get_tag_suggestion(tag_search_letter)
+        self.assertEqual(len(tag_suggestion_list),len(existed_tag_list))
+        self.assertEqual( existed_tag_list, tag_suggestion_list)
+
+
+    def testNewTag(self):
+
+        Tag_handler = TagUtility(self.driver)
+        tag_list = ['Tag1','Tag2']
+        tag_search_letter = 't'
+        Tag_handler.add_new_tags(tag_list)
+
+        self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list)
+
+        new_tag = 'Tag3'
+        Tag_handler.add_new_tag(new_tag)
+
+        self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list.append(new_tag))
+
+
+    def tearDown(self):
+        self.driver.close()
 
 
 
@@ -98,10 +146,6 @@ BASE_URL = option_handler(sys)
 
 
 suite = unittest.TestSuite()
-#suite.addTest(unittest.makeSuite(TestAuth))
-#suite.addTest(unittest.makeSuite(TestHandlingQuestion))
-#suite.addTest(unittest.makeSuite(TestHandlingAnswer))
-#suite.addTest(unittest.makeSuite(TestQuestionList))
-#suite.addTest(unittest.makeSuite(TestUserProfile))
-suite.addTest(unittest.makeSuite(TestMainPage))
+#suite.addTest(unittest.makeSuite(TestMainPage))
+suite.addTest(unittest.makeSuite(TestShareTag))
 unittest.TextTestRunner(verbosity=2).run(suite)

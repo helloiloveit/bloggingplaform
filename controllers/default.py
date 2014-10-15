@@ -408,7 +408,6 @@ def post_question():
     question_id = post_new_question(request, auth)
     if question_id:
         #add to queue
-        import pdb; pdb.set_trace()
         noti_handler(question_id).add_to_gae_task_queue(request)
         redirect(URL(r = request, f= 'question', args = question_id))
     return dict()
