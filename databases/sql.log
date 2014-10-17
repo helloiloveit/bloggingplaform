@@ -1,4 +1,4 @@
-timestamp: 2014-10-15T10:17:08.902088
+timestamp: 2014-10-16T20:22:58.007635
 CREATE TABLE auth_user(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name CHAR(128),
@@ -9,21 +9,21 @@ CREATE TABLE auth_user(
     registration_id CHAR(128)
 );
 success!
-timestamp: 2014-10-15T10:17:08.905416
+timestamp: 2014-10-16T20:22:58.011080
 CREATE TABLE auth_group(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role CHAR(512),
     description TEXT
 );
 success!
-timestamp: 2014-10-15T10:17:08.907735
+timestamp: 2014-10-16T20:22:58.013673
 CREATE TABLE auth_membership(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-10-15T10:17:08.910353
+timestamp: 2014-10-16T20:22:58.016268
 CREATE TABLE auth_permission(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE,
@@ -32,7 +32,7 @@ CREATE TABLE auth_permission(
     record_id INTEGER
 );
 success!
-timestamp: 2014-10-15T10:17:08.913043
+timestamp: 2014-10-16T20:22:58.019038
 CREATE TABLE auth_event(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp TIMESTAMP,
@@ -42,7 +42,7 @@ CREATE TABLE auth_event(
     description TEXT
 );
 success!
-timestamp: 2014-10-15T10:17:08.915884
+timestamp: 2014-10-16T20:22:58.047011
 CREATE TABLE auth_cas(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
@@ -52,7 +52,7 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
-timestamp: 2014-10-15T10:17:08.918594
+timestamp: 2014-10-16T20:22:58.089391
 CREATE TABLE user_profile(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
@@ -60,7 +60,7 @@ CREATE TABLE user_profile(
     detail_info TEXT
 );
 success!
-timestamp: 2014-10-15T10:17:08.920836
+timestamp: 2014-10-16T20:22:58.094201
 CREATE TABLE question_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_info TEXT,
@@ -69,48 +69,48 @@ CREATE TABLE question_tbl(
     writer INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-10-15T10:17:08.923297
+timestamp: 2014-10-16T20:22:58.097216
 CREATE TABLE question_like_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_id INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-10-15T10:17:08.925399
+timestamp: 2014-10-16T20:22:58.100108
 CREATE TABLE question_follow_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_id INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-10-15T10:17:08.928015
+timestamp: 2014-10-16T20:22:58.105208
 CREATE TABLE question_report_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_id INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-10-15T10:17:08.931277
+timestamp: 2014-10-16T20:22:58.125699
 CREATE TABLE tag_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(512)
 );
 success!
-timestamp: 2014-10-15T10:17:08.933888
+timestamp: 2014-10-16T20:22:58.129944
 CREATE TABLE question_tag_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_info INTEGER REFERENCES question_tbl (id) ON DELETE CASCADE,
     tag_info INTEGER REFERENCES tag_tbl (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-10-15T10:17:08.936364
+timestamp: 2014-10-16T20:22:58.132890
 CREATE TABLE user_tag_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
     tag_info INTEGER REFERENCES tag_tbl (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-10-15T10:17:08.938941
+timestamp: 2014-10-16T20:22:58.135508
 CREATE TABLE answer_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     answer_info TEXT,
@@ -118,24 +118,864 @@ CREATE TABLE answer_tbl(
     author_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-10-15T10:17:08.942287
+timestamp: 2014-10-16T20:22:58.138102
 CREATE TABLE answer_like_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     answer_id INTEGER REFERENCES answer_tbl (id) ON DELETE CASCADE,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-10-15T10:17:09.015765
+timestamp: 2014-10-16T20:22:58.140603
 CREATE TABLE answer_report_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     answer_id INTEGER REFERENCES answer_tbl (id) ON DELETE CASCADE,
     user_info INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
-timestamp: 2014-10-15T10:17:09.019341
+timestamp: 2014-10-16T20:22:58.143864
 CREATE TABLE follow_info_tbl(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     followed_user INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
     following_user INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
+success!
+DELETE FROM auth_user;
+DELETE FROM sqlite_sequence WHERE name='auth_user';
+success!
+DELETE FROM question_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tbl';
+success!
+DELETE FROM tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='tag_tbl';
+success!
+DELETE FROM user_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='user_tag_tbl';
+success!
+DELETE FROM question_tag_tbl;
+DELETE FROM sqlite_sequence WHERE name='question_tag_tbl';
 success!

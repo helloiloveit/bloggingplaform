@@ -122,6 +122,12 @@ background-color: rgb(245, 242, 242);
     text-align:left;
     color:grey;
 }
+
+.article_container .user_answer_option {
+ margin-top:20px;
+}
+
+
 .popularity_a_tag_text{
     color:grey;
 }
@@ -161,7 +167,6 @@ border-spacing: 0 2em;
 
     font-weight: 300;
 }
-
 .ask_friend_area{
     margin-top:150px;
     /*
@@ -174,13 +179,15 @@ padding-bottom:10px;
 
 }
 #ask_friend_button{
- /*   margin-top:200px;
- */
+ margin-left: 30px;
 }
 #reply_question_button{
 
 }
 
+#save_tag_list_button{
+    font-size:10px;
+}
 /****************/
 
 
@@ -296,7 +303,6 @@ margin-top:60px;
 
 
 #inputCommentButton{
-margin-top:20px;
 height: 20px;
 }
 #post_button{

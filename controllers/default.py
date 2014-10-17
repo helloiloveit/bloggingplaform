@@ -477,10 +477,12 @@ def fb_main():
     """
     test data
     """
+    tag_info = []
     if auth.is_logged_in():
-        tag_info = user_tag_handler(auth).get_tag_info()
-    else:
-        tag_info = []
+        try:
+            tag_info = user_tag_handler(auth).get_tag_info()
+        except:
+            pass
     return dict(tag_list = tag_info)
 
 def fb_save_tag_list():
