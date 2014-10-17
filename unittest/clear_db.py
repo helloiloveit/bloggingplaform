@@ -38,5 +38,5 @@ def set_up_basic_environment():
     user_record_1 = db(db.auth_user.id == user_id_1).select()[0]
     auth.user = user_record_1
 
-
-
+print 'lala'
+set_up_basic_environment()
