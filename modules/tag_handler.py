@@ -28,20 +28,19 @@ def save_tag_info_for_user(tag_list, auth):
     return rst
 
 
+def user_create_new_tag(tag_info):
+    rst = tag_tbl_handler().get_id_by_name_if_not_exist_update_new(tag_info)
+    return rst
+
 
 class user_tag_handler(object):
     def __init__(self, auth):
         self.db = current.db
         self.auth = auth
-    def verify_tag(self, tag_info):
-        tag_id = tag_tbl_handler().get_id_by_name(tag_info)
-        if not tag_id:
-            tag_id = tag_tbl_handler().create_new_tag(tag_info)
-        return tag_id
 
     def create_tag(self, tag_info):
         db = self.db
-        tag_id = self.verify_tag(tag_info)
+        tag_id = tag_tbl_handler().get_id_by_name_if_not_exist_update_new(tag_info)
         id = db.user_tag_tbl.insert(user_info = self.auth.user.id,
                                     tag_info = tag_id)
         return True
@@ -49,7 +48,7 @@ class user_tag_handler(object):
     def create_tag_list(self, tag_list):
         db = self.db
         for tag in tag_list:
-            tag_id = self.verify_tag(tag)
+            tag_id = tag_tbl_handler().get_id_by_name_if_not_exist_update_new(tag)
             id = db.user_tag_tbl.insert(user_info = self.auth.user.id,
                                         tag_info = tag_id)
             if not id:
@@ -84,6 +83,8 @@ class user_tag_handler(object):
 class tag_tbl_handler(object):
     def __init__(self):
         self.db = current.db
+
+
     def create_new_tag(self, tag_info):
         db = self.db
         try:
@@ -239,6 +240,15 @@ class question_tag_handler(object):
             log.error("fail update tag")
             return False
 
+    def get_question_by_tag(self, tag_id):
+        question_list = db(db.question_tag_tbl.tag_info == tag_id).select()
+        return question_list
+
+    def get_question_by_tag_list(self, tag_list):
+        question_list = []
+        for tag in tag_list:
+            question_list += self.get_question_by_tag(tag)
+        return question_list
 
 
 

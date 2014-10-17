@@ -345,7 +345,7 @@ def create_data_for_question_list_for_test():
         Đối với một lập trình viên trong thế giới công nghệ, có một thứ mà có thể kéo chúng ta ra khỏi nhà và đến nơi làm việc, đó là niềm vui và đam mê trong việc lập trình. Nhưng để khiến cho công việc thực sự vui vẻ và có thể tạo ra một niềm hứng khởi vĩnh cửu, chúng ta cần phải biết những điều căn bản để giúp trở thành một nhà lập trình viên giỏi. - See more at: http://toancauxanh.vn/news/technology/10-cach-hay-de-tro-thanh-mot-lap-trinh-vien-gioi#sthash.ZZ4aV4xY.dpufb
          """+ str(i)
         tag_list = ["tag1","tag2","tag3"]
-        question_id = question_handler().create_new_record_in_question_tbl(question, question_detail_info, user_id, tag_list)
+        question_id = question_handler().create_new(question, question_detail_info, user_id, tag_list)
 
 def _handle_page_num(request, items):
     view_more_flag= False

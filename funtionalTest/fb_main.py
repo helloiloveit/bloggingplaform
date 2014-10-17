@@ -127,10 +127,8 @@ class TestShareTag(unittest.TestCase):
     def setUp(self):
 
         import os, subprocess
-        """
         os.chdir('/Users/mac/Documents/PyUnitTest')
         subprocess.Popen(['python','clear_database.py'])
-        """
 
 
         self.driver = webdriver.Chrome()
@@ -146,7 +144,7 @@ class TestShareTag(unittest.TestCase):
     def check_added_tag(self , tag_list):
         tag_added_list = self.Tag_handler.get_added_tag()
         self.assertItemsEqual(tag_added_list, tag_list )
-        """
+
     def testNewTag(self):
 
         Tag_handler = self.Tag_handler
@@ -160,7 +158,6 @@ class TestShareTag(unittest.TestCase):
         self.check_added_tag( tag_list)
 
         self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list)
-    """
     def testUserAddManyTag(self):
 
         Tag_handler = self.Tag_handler
@@ -178,12 +175,11 @@ class TestShareTag(unittest.TestCase):
         self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list)
 
         #delte all tags
-        import pdb; pdb.set_trace()
         Tag_handler.delete_all_user_tag_info()
 
         self.check_added_tag( [])
         self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list)
-    """
+
     def testUncapitalTag(self):
         tag_list = ['Tag1','Tag2','Tag3','Tag4','Tag5','Tag6']
         self.Tag_handler.add_new_tags(tag_list)
@@ -191,7 +187,6 @@ class TestShareTag(unittest.TestCase):
         self.Tag_handler.add_new_tag(new_tag)
         self.check_added_tag( tag_list)
         self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list)
-    """
 
 
 

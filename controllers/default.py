@@ -42,10 +42,11 @@ def test_tinyMCE():
 def test_facebook():
     return dict()
 
+@auth.requires_login()
 def create_new_tag():
     if not request.vars.tag_info: return ''
     tag_info = request.vars.tag_info.capitalize()
-    rst = tag_tbl_handler().create_new_tag(tag_info)
+    rst = user_create_new_tag(tag_info)
     if rst:
         return True
 
@@ -346,7 +347,7 @@ def create_data_for_question_list_for_test():
         Đối với một lập trình viên trong thế giới công nghệ, có một thứ mà có thể kéo chúng ta ra khỏi nhà và đến nơi làm việc, đó là niềm vui và đam mê trong việc lập trình. Nhưng để khiến cho công việc thực sự vui vẻ và có thể tạo ra một niềm hứng khởi vĩnh cửu, chúng ta cần phải biết những điều căn bản để giúp trở thành một nhà lập trình viên giỏi. - See more at: http://toancauxanh.vn/news/technology/10-cach-hay-de-tro-thanh-mot-lap-trinh-vien-gioi#sthash.ZZ4aV4xY.dpufb
          """+ str(i)
         tag_list = ["tag1","tag2","tag3"]
-        question_id = question_handler().create_new_record_in_question_tbl(question, question_detail_info, user_id, tag_list)
+        question_id = question_handler().create_new(question, question_detail_info, user_id, tag_list)
 
 def _handle_page_num(request, items):
     view_more_flag= False
@@ -380,6 +381,26 @@ def question_list():
     display_list, page_num, view_more_flag= _handle_page_num(request, items)
 
     return dict(items= display_list, page_num = page_num, view_more_flag=view_more_flag)
+
+def fb_question_list():
+    """
+    test data
+    """
+    log.info('question list')
+    log.info(request.env.REQUEST_METHOD)
+    response.title = 'Chuot Nhat'
+    tag_info = []
+    tag_info = user_tag_handler(auth).get_tag_info()
+    import pdb; pdb.set_trace()
+
+    #items = db(db.question_tbl).select()
+    items = question_tag_handler().get_question_by_tag_list(tag_info)
+    display_list, page_num, view_more_flag= _handle_page_num(request, items)
+
+
+
+
+    return dict(items= display_list, page_num = page_num, view_more_flag=view_more_flag, tag_info = tag_info)
 
 def get_header(text):
     """
@@ -485,7 +506,9 @@ def fb_main():
             pass
     return dict(tag_list = tag_info)
 
+@auth.requires_login()
 def fb_save_tag_list():
+    import pdb; pdb.set_trace()
     tag_list = request.vars['tag_info[]']
     rst = save_tag_info_for_user(tag_list, auth)
     # save tag list to db for generating question

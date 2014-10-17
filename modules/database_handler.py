@@ -31,7 +31,7 @@ def post_new_question(request, auth):
     user_id = auth.user.id
     tag_info = request.vars.tag_list
     tag_list = get_tag_list(tag_info)
-    question_id = question_handler().create_new_record_in_question_tbl(question_txt,
+    question_id = question_tbl_handler().create_new(question_txt,
                                                                 question_detail_txt,
                                                                 user_id,
                                                                 anonymous_info,
@@ -40,7 +40,7 @@ def post_new_question(request, auth):
     return question_id
 def delete_a_question(request):
     question_id = request.args[0]
-    question_handler().delete_question_in_db(question_id)
+    question_tbl_handler().delete_question_in_db(question_id)
     return
 
 def update_a_question(request):
@@ -48,7 +48,7 @@ def update_a_question(request):
     tag_info = request.vars.tag_list
     tag_list = get_tag_list(tag_info)
 
-    question_handler().update_to_question_tbl(question_id, request.vars.question_info, request.vars.question_detail_info, tag_list)
+    question_tbl_handler().update(question_id, request.vars.question_info, request.vars.question_detail_info, tag_list)
     return
 
 
@@ -57,23 +57,23 @@ def update_a_question(request):
 
 def user_like_a_question(request, auth):
     question_id = request.vars.question_id
-    record_id = question_handler().vote_up_a_question(question_id, auth.user.id)
+    record_id = question_tbl_handler().vote_up_a_question(question_id, auth.user.id)
     db = current.db
     count_like = db((db.question_like_tbl.question_id == question_id)).select()
     return len(count_like)
 
 def user_unlike_a_question(request, auth):
     question_id = request.vars.question_id
-    result = question_handler().vote_down_a_question(question_id, auth.user.id)
+    result = question_tbl_handler().vote_down_a_question(question_id, auth.user.id)
     db = current.db
     count_like = db((db.question_like_tbl.question_id == question_id)).select()
     return len(count_like)
 
-class question_handler(object):
+class question_tbl_handler(object):
     def __init__(self):
         self.db = current.db
 
-    def create_new_record_in_question_tbl(self,question_info, question_detail_info, user_id, anonymous_info,tag_list):
+    def create_new(self,question_info, question_detail_info, user_id, anonymous_info,tag_list):
         """
             create new question record
             create new tag for this question
@@ -102,7 +102,7 @@ class question_handler(object):
 
 
 
-    def update_to_question_tbl(self, question_id, question_info, question_detail_info, tag_list):
+    def update(self, question_id, question_info, question_detail_info, tag_list):
         db = self.db
         try:
             row = db(db.question_tbl.id == question_id).select().first()
@@ -118,13 +118,13 @@ class question_handler(object):
         pass
 
     def delete_question_in_db(self, question_id):
-        if self.delete_record_in_question_tbl(question_id):
+        if self._delete_record(question_id):
             #delete question id in tag
             if question_tag_handler().delete_question_tag(question_id):
                 return True
         return False
 
-    def delete_record_in_question_tbl(self, question_id):
+    def _delete_record(self, question_id):
         db = self.db
         try:
             db(db.question_tbl.id == question_id).delete()
@@ -175,6 +175,10 @@ class question_handler(object):
         except:
             log.error('cant create tbl')
         return question_report_id
+
+
+
+
 
 ########################answer #####################
 def create_new_answer(request, auth):

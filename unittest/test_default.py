@@ -6,6 +6,8 @@ file_path = os.path.join(os.getcwd(),'applications','chuotnhat','unittest','setu
 execfile(file_path, globals())
 
 
+execfile(os.path.join(file_path,'modules','tag_handler.py'), globals())
+
 
 
 
@@ -51,14 +53,31 @@ class TestTagHandling(unittest.TestCase):
         return_info = tag_handler()
         #self.assertEqual(return_info, self.createReturnHtmlForAddingNewTag())
 
-class TestUpdateTagInfo(unittest.TestCase):
-    def setUp(self):
-        set_up_basic_environment()
+class TagCreateUtility(object):
+    def generate_tag_list(self, length):
+        tag_list = []
+        for i in range(0, length, 1):
+            tag_list.append('tag'+ str(i))
+        return tag_list
 
-    def check_update_new_tag_list(self, tag_info):
+    def capitalize_tag_list(self, tag_info):
+        for i in range(0,len(tag_info),1):
+            tag_info[i] = tag_info[i].title()
+        return tag_info
+
+
+    def create_new_tag(self, tag_info):
         for tag in tag_info:
             request.vars.tag_info = tag
             create_new_tag()
+
+class TestUpdateTagInfo(unittest.TestCase):
+    def setUp(self):
+        set_up_basic_environment()
+        self.tag_utility = TagCreateUtility()
+
+    def check_update_new_tag_list(self, tag_info):
+        self.tag_utility.create_new_tag(tag_info)
         request.vars.update({'tag_info[]': tag_info})
         fb_save_tag_list()
         html_return = fb_main()
@@ -103,6 +122,35 @@ class TestUpdateTagInfo(unittest.TestCase):
         self.check_update_old_tag_list(tag_info)
 
 
+    def testDuplicate(self):
+        tag_list = self.tag_utility.generate_tag_list(40)
+        self.check_update_new_tag_list(tag_list)
+        new_tag_list = tag_list[:10]
+        self.check_update_new_tag_list(new_tag_list)
+        new_tag_list = tag_list[3:10]
+        self.check_update_old_tag_list(new_tag_list)
+        new_tag = tag_list[3]
+        self.check_update_new_tag_list([new_tag])
+
+
+
+class TestCreateNewTag(unittest.TestCase):
+    def setUp(self):
+        set_up_basic_environment()
+        self.tag_utility = TagCreateUtility()
+
+    def testDuplicateTag(self):
+        tag_list = self.tag_utility.generate_tag_list(30)
+
+        self.tag_utility.create_new_tag(tag_list)
+        self.tag_utility.capitalize_tag_list(tag_list)
+        query_tag_list = tag_tbl_handler().get_all_tag_info_from_db()
+        self.assertEqual(tag_list, query_tag_list)
+
+        tag_list_new = tag_list[:10]
+        self.tag_utility.create_new_tag(tag_list)
+        query_tag_list = tag_tbl_handler().get_all_tag_info_from_db()
+        self.assertEqual(tag_list, query_tag_list)
 
 
 
@@ -114,6 +162,7 @@ class TestUpdateTagInfo(unittest.TestCase):
 
 suite = unittest.TestSuite()
 suite.addTest(unittest.makeSuite(TestUpdateTagInfo))
+suite.addTest(unittest.makeSuite(TestCreateNewTag))
 unittest.TextTestRunner(verbosity=2).run(suite)
 
 

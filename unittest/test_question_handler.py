@@ -8,7 +8,7 @@ execfile(file_path, globals())
 
 
 def create_a_question( question_info, question_detail_info, user_id, tag_list):
-        question_id = question_handler().create_new_record_in_question_tbl(question_info,
+        question_id = question_handler().create_new(question_info,
                                                                        question_detail_info,
                                                                        user_id,
                                                                        tag_list)
