@@ -28,7 +28,6 @@
            <td>
                      <span id = "share_knownledge_header"  rel="nofollow"> Chia sẻ kinh nghiệm</span>
            </td>
-
        </tr>
        <tr class="detail_info">
            <td>
@@ -55,20 +54,13 @@
                       </div>
                   </td>
               </tr>
-              <tr>
-                  <td>
-
-                  </td>
-                  <td>
-                      <button id="save_tag_list_button" type = 'buton'> Lưu lại   </button>
-
-                  </td>
-              </tr>
              </table>
           <div style="position: absolute;" id="suggestions" class="suggestions">
           </div>
 
       </form>
+               <button id="save_tag_list_button"> Lưu lại   </button>
+
            </td>
        </tr>
    </table>
@@ -96,6 +88,7 @@
             });
         jQuery("#"+ TYPING_BOX).click(function(){
             $("#" + TYPING_BOX).val("");
+            $( "#save_tag_list_button" ).hide();
             });
         $("#" +  TYPING_BOX).keypress(function (e){
             if(e.keyCode == 13){
@@ -118,6 +111,7 @@
 
 
         jQuery("#" + SAVE_TAG_LIST_BUTTON).click(function(){
+            //alert($('#tag_list').val());
 
                      var request = $.ajax({
                 url: "{{=URL('fb_save_tag_list')}}",
@@ -128,8 +122,6 @@
 
 
         request.done(function( msg ) {
-            $("#" + SAVE_TAG_LIST_BUTTON).blur()
-             $("#" + SAVE_TAG_LIST_BUTTON).text('Done').button("refresh");
         });
 
         request.fail(function( jqXHR, textStatus ) {
@@ -140,7 +132,6 @@
 
         jQuery("#" + RESULT_BOX).on('click', 'span.delete-tag', function() {
             //remove tag from tag list
-             $("#" + SAVE_TAG_LIST_BUTTON).text('Luu lai').button("refresh");
             removeItem = $(this).parent().text();
             removeItem = removeItem.substring(0, removeItem.length - 1);
             user_remove_tag(removeItem);

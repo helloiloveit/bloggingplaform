@@ -78,8 +78,6 @@
               </td>
 
           </tr>
-              </table>
-      <table class = "user_answer_option">
           <tr>
                   {{if auth.is_logged_in():}}
               <td>
@@ -89,21 +87,8 @@
                       trả lời
                          </a>
                   </div>
-              </td>
+              </t>
               {{pass}}
-              <td>
-                  {{url_root = 'http://www.chuotnhat.vn'}}
-                                      <a id="ask_friend_button"  href=
-                          "http://www.facebook.com/dialog/send?
-  app_id=123050457758183
-  &link={{=url_root+ URL(r=request, f='question', args=[request.args[0]] )}}
-  &redirect_uri={{=url_root + URL(r=request, f='question', args=[request.args[0]] )}}"
-                              >
-            <img border="0" src={{=URL('static', 'images/ask_friend.png')}} alt="Pulpit rock" width="45" height="45">
-                                          hoi ban be
-             </a>
-
-              </td>
              </tr>
 
           </table>
@@ -204,6 +189,40 @@
 
 </div>
 {{block right_sidebar}}
+        {{url_root = 'http://www.chuotnhat.vn'}}
+        <div class="ask_friend_area">
+        <table>
+            <tr>
+                <td>
+                    Ban biet nguoi co the tra loi?
+                </td>
+            </tr>
+            <tr>
+               <td>
+                      <a id="ask_friend_button"  href=
+                          "http://www.facebook.com/dialog/send?
+  app_id=123050457758183
+  &link={{=url_root+ URL(r=request, f='question', args=[request.args[0]] )}}
+  &redirect_uri={{=url_root + URL(r=request, f='question', args=[request.args[0]] )}}"
+                              >
+            <img border="0" src={{=URL('static', 'images/ask_friend.png')}} alt="Pulpit rock" width="45" height="45">
+
+             </a>
+                   </td>
+                </tr>
+
+            </table>
+            </div>
+
+        <!--
+        <ul id="right_bar_question_list" >
+            {{for item in related_question_list:}}
+            <li>
+                <a id="related_question" href={{=URL(r=request,f='question',args=[item.id])}}>{{=XML(item.question_info)}}</a>
+            </li>
+            {{pass}}
+        </ul>
+        -->
 {{end}}
 
 

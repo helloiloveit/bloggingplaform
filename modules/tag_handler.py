@@ -70,7 +70,7 @@ class user_tag_handler(object):
         tag_info = db(db.user_tag_tbl).select()
         tag_list = []
         for tag in tag_info:
-            tag_data = db(db.tag_tbl.id == tag.tag_info).select()[0]
+            tag_data = db(db.tag_tbl.id == tag.id).select()[0]
             tag_list.append(tag_data.name)
         return tag_list
 

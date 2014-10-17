@@ -52,7 +52,7 @@ class TagUtility(object):
         self.driver = driver
 
 
-    def delete_all_user_tag_info(self):
+    def delete_user_tag_info(self):
         tag_list = self.driver.find_elements_by_class_name('post-tag')
         if len(tag_list):
             for tag_unit in tag_list:
@@ -61,7 +61,6 @@ class TagUtility(object):
             save_button = self.driver.find_element_by_id('save_tag_list_button')
             save_button.click()
 
-
     def add_new_tag(self, tag_name):
         tag_info= self.driver.find_element_by_id('typing_box')
         tag_info.click()
@@ -69,14 +68,10 @@ class TagUtility(object):
         sleep(2)
         temp = self.driver.find_element_by_id('suggestion_box')
         temp.click()
-        sleep(1)
 
     def add_new_tags(self, tag_list):
         for tag_info in tag_list:
             self.add_new_tag(tag_info)
-
-        save_button = self.driver.find_element_by_id('save_tag_list_button')
-        save_button.click()
 
     def get_tag_suggestion(self, input_tag):
         tag_info= self.driver.find_element_by_id('typing_box')
@@ -90,14 +85,6 @@ class TagUtility(object):
         for data in tag_suggess:
             tag_suggess_list.append(data.text)
         return tag_suggess_list
-
-    def get_added_tag(self):
-        tag_list = self.driver.find_elements_by_class_name('post-tag')
-        tag_added_list = []
-        if len(tag_list):
-            for tag_unit in tag_list:
-                tag_added_list.append(tag_unit.text[:len(tag_unit.text)-1])
-        return tag_added_list
 
 
 
@@ -125,83 +112,30 @@ class TestMainPage(unittest.TestCase):
 
 class TestShareTag(unittest.TestCase):
     def setUp(self):
-
-        import os, subprocess
-        """
-        os.chdir('/Users/mac/Documents/PyUnitTest')
-        subprocess.Popen(['python','clear_database.py'])
-        """
-
-
         self.driver = webdriver.Chrome()
         user_login(self.driver)
         self.driver.get(FB_PAGE)
-        self.Tag_handler = TagUtility(self.driver)
 
     def check_tag_suggesstion(self, Tag_handler,  tag_search_letter, existed_tag_list):
         tag_suggestion_list = Tag_handler.get_tag_suggestion(tag_search_letter)
         self.assertEqual(len(tag_suggestion_list),len(existed_tag_list))
-        self.assertItemsEqual( existed_tag_list, tag_suggestion_list)
+        self.assertEqual( existed_tag_list, tag_suggestion_list)
 
-    def check_added_tag(self , tag_list):
-        tag_added_list = self.Tag_handler.get_added_tag()
-        self.assertItemsEqual(tag_added_list, tag_list )
-        """
+
     def testNewTag(self):
 
-        Tag_handler = self.Tag_handler
+        Tag_handler = TagUtility(self.driver)
         tag_list = ['Tag1','Tag2']
         tag_search_letter = 't'
         Tag_handler.add_new_tags(tag_list)
-        self.check_added_tag( tag_list)
-        save_button = self.driver.find_element_by_id('save_tag_list_button')
-        save_button.click()
-        self.driver.get(FB_PAGE)
-        self.check_added_tag( tag_list)
 
         self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list)
-    """
-    def testUserAddManyTag(self):
 
-        Tag_handler = self.Tag_handler
-        tag_list = ['Tag1','Tag2','Tag3','Tag4','Tag5','Tag6']
-        tag_search_letter = 't'
-        Tag_handler.add_new_tags(tag_list)
-        self.check_added_tag( tag_list)
-        self.driver.get(FB_PAGE)
-        self.check_added_tag( tag_list)
-        self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list)
-
-        new_tag_list = ['Tag1','Tag2']
-        Tag_handler.add_new_tags(new_tag_list)
-        self.check_added_tag( tag_list)
-        self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list)
-
-        #delte all tags
-        import pdb; pdb.set_trace()
-        Tag_handler.delete_all_user_tag_info()
-
-        self.check_added_tag( [])
-        self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list)
-    """
-    def testUncapitalTag(self):
-        tag_list = ['Tag1','Tag2','Tag3','Tag4','Tag5','Tag6']
-        self.Tag_handler.add_new_tags(tag_list)
-        new_tag = 'tag1'
-        self.Tag_handler.add_new_tag(new_tag)
-        self.check_added_tag( tag_list)
-        self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list)
-    """
-
-
-
-
-    def testNewOneTag(self):
         new_tag = 'Tag3'
-        self.Tag_handler.add_new_tag(new_tag)
+        Tag_handler.add_new_tag(new_tag)
 
-        self.check_tag_suggesstion(self.Tag_handler, new_tag, [new_tag])
-        self.check_added_tag( [new_tag])
+        self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list.append(new_tag))
+
 
     def tearDown(self):
         self.driver.close()
