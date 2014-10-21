@@ -22,7 +22,8 @@ def handler_fb_noti(request):
     for temp in user_data:
         user_record = db(db.auth_user.id == temp.user_info).select()[0]
         # get user list to send noti
-        fb_noti_handler(user_record.username,"huyheo", noti_data.create_message()).send()
+        href_link = noti_handler(question_id).create_href()
+        fb_noti_handler(user_record.username, href_link, noti_data.create_message()).send()
 
 
 class fb_noti_handler(object):
@@ -62,7 +63,8 @@ class noti_handler(object):
 
 
     def create_href(self):
-        return "huyheo"
+        log.info("")
+        return "question" + "?id=" + self.question_id
 
     def create_message(self):
         db = self.db

@@ -233,15 +233,12 @@ def question():
     Display blog by id
     """
 
-    if request.env.REQUEST_METHOD == 'POST':
-        create_new_answer(request, auth)
-        redirect(URL(r = request, f= 'question', args = request.vars.question_id))
-    elif request.env.REQUEST_METHOD == 'GET':
+    if request.env.REQUEST_METHOD == 'GET':
         question = None
         answer_list = []
         user_id =''
         try:
-            question = db(db.question_tbl.id == int(request.args[0])).select()[0]
+            question = db(db.question_tbl.id == int(request.vars.id)).select()[0]
             user_info = db(db.auth_user.id == question.writer).select().first()
             try:
                 answer_list = db(db.answer_tbl.question_id == question.id).select()
@@ -261,6 +258,11 @@ def question():
                     comment_list = answer_list,
                     user_info = user_info,
                     related_question_list = related_question_list)
+def post_comment():
+    create_new_answer(request, auth)
+    import pdb; pdb.set_trace()
+    redirect(URL(r = request, f= 'question', vars ={'id': request.vars.id}))
+
 
 @auth.requires_login()
 def edit_question():
@@ -274,7 +276,7 @@ def edit_question():
         return dict(question = question , tag_list = tag_list)
     elif request.env.REQUEST_METHOD == 'POST':
         update_a_question(request)
-        redirect(URL(r = request, f= 'question', args = [request.args[0]]))
+        redirect(URL(r = request, f= 'question', vars ={'id': request.vars.id}))
 
     return dict()
 
@@ -288,7 +290,7 @@ def delete_question():
             delete_a_question(request)
             redirect(URL(r = request, f= 'question_list'))
         elif selection['selection'] == "NO":
-            redirect(URL(r = request, f= 'question', args = [request.args[0]]))
+            redirect(URL(r = request, f= 'question', vars ={'id': request.args[0]}))
     return dict()
 
 @auth.requires_login()
@@ -310,7 +312,7 @@ def edit_answer():
         if session.EDIT_ANSWER_ORIGIN_URL == 'user_profile':
             redirect(URL(r = request, f= 'user_profile', vars = {'user_id':auth.user.id}))
         elif session.EDIT_ANSWER_ORIGIN_URL == 'question':
-            redirect(URL(r = request, f= 'question', args = [question_id]))
+            redirect(URL(r = request, f= 'question', vars ={'id': request.vars.id}))
 
     return dict()
 
@@ -328,7 +330,7 @@ def delete_answer():
             delete_a_answer(request)
         elif selection['selection'] == "NO":
             pass
-        redirect(URL(r = request, f= 'question', args = [question_id]))
+        redirect(URL(r = request, f= 'question', vars ={'id':question_id} ))
     return dict()
 
     return dict()
@@ -431,7 +433,7 @@ def post_question():
         import copy
         question_id = copy.copy(question_id)
         noti_handler(question_id).add_to_gae_task_queue(request)
-        redirect(URL(r = request, f= 'question', args = question_id))
+        redirect(URL(r = request, f= 'question', vars = {'id':question_id}))
     return dict()
 
 
@@ -455,6 +457,7 @@ def user_update_an_answer():
 @auth.requires_login()
 def user_del_an_answer():
     del_an_answer(request)
+    log.info("")
     return dict()
 
 
@@ -494,11 +497,17 @@ def unfollow_a_person():
 ############################################
 ################facebook####################
 ############################################
+def check_noti():
+    if request.vars.fb_source == 'notification':
+        redirect(URL(r = request, f= 'question', vars = {'id':request.vars.id}))
+    else:
+        return
 
 def fb_main():
     """
     test data
     """
+    check_noti()
     tag_info = []
     if auth.is_logged_in():
         try:
