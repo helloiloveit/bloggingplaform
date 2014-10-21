@@ -96,8 +96,8 @@
                                       <a id="ask_friend_button"  href=
                           "http://www.facebook.com/dialog/send?
   app_id=123050457758183
-  &link={{=url_root+ URL(r=request, f='question', vars = {'id':request.vars.id} )}}
-  &redirect_uri={{=url_root + URL(r=request, f='question',  vars = {'id':request.vars.id} )}}"
+  &link={{=url_root+ URL(r=request, f='question', vars = {'question_id':request.vars.question_id} )}}
+  &redirect_uri={{=url_root + URL(r=request, f='question',  vars = {'question_id':request.vars.question_id} )}}"
                               >
             <img border="0" src={{=URL('static', 'images/ask_friend.png')}} alt="Pulpit rock" width="45" height="45">
                                           hoi ban be
@@ -118,7 +118,7 @@
 
     <form id="realEditor"  action="post_comment" method="post">
         <p>
-           <input type="hidden" name="id" value = {{=item.id}}>
+           <input type="hidden" name="question_id" value = {{=item.id}}>
         </p>
             <textarea  id="editor1" name="answer_info" rows="10" >
             </textarea>
