@@ -184,9 +184,10 @@ class TestShareTag(unittest.TestCase):
         tag_list = ['Tag1','Tag2','Tag3','Tag4','Tag5','Tag6']
         self.Tag_handler.add_new_tags(tag_list)
         new_tag = 'tag1'
+        tag_search_letter = 't'
         self.Tag_handler.add_new_tag(new_tag)
         self.check_added_tag( tag_list)
-        self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list)
+        self.check_tag_suggesstion(self.Tag_handler, tag_search_letter, tag_list)
 
 
 

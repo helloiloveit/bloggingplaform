@@ -2,6 +2,8 @@
 __author__ = 'huyheo'
 
 import os
+import mock
+from gluon import *
 file_path = os.path.join(os.getcwd(),'applications','chuotnhat','unittest','setup_test.py')
 execfile(file_path, globals())
 
@@ -51,7 +53,7 @@ class TestTagHandling(unittest.TestCase):
         """
         request.vars.tag_info = self.tag_info
         return_info = tag_handler()
-        #self.assertEqual(return_info, self.createReturnHtmlForAddingNewTag())
+        pass
 
 class TagCreateUtility(object):
     def generate_tag_list(self, length):
@@ -71,11 +73,11 @@ class TagCreateUtility(object):
             request.vars.tag_info = tag
             create_new_tag()
 
-class TestUpdateTagInfo(unittest.TestCase):
-    def setUp(self):
-        set_up_basic_environment()
-        self.tag_utility = TagCreateUtility()
-
+class HandleTagList(object):
+    """
+    cant be use as standalone object.
+    Need to be subclass by a Test clase for initializing request, tag_utility
+    """
     def check_update_new_tag_list(self, tag_info):
         self.tag_utility.create_new_tag(tag_info)
         request.vars.update({'tag_info[]': tag_info})
@@ -90,6 +92,11 @@ class TestUpdateTagInfo(unittest.TestCase):
         self.assertEqual(html_return['tag_list'], tag_info)
 
 
+class TestFbMainUpdateTag(unittest.TestCase, HandleTagList):
+    def setUp(self):
+        set_up_basic_environment()
+        self.tag_utility = TagCreateUtility()
+        pass
 
     def testUserUpdateNewTagInfo1(self):
         tag_info = ['Tag1', 'Tag2']
@@ -155,14 +162,56 @@ class TestCreateNewTag(unittest.TestCase):
 
 
 
+class TestFbQuestionList(unittest.TestCase):
+    def setUp(self):
+        set_up_basic_environment()
+        self.tag_utility = TagCreateUtility()
+
+    def testLoadEmptySite(self):
+        html_return = fb_question_list()
+        pass
+
+    def testLoadSiteWithInfo(self):
+        pass
+
+class TestFbMainNoti(unittest.TestCase, HandleTagList):
+    """
+    question?id=5404831942443008&fb_source=notification&ref=notif&notif_t=app_notificatio
+    <Storage {'fb_source': 'notification', 'notif_t': 'app_notification', 'ref': 'notif', 'id': '5404831942443008'}>
+    """
+    def setUp(self):
+        set_up_basic_environment()
+        self.tag_utility = TagCreateUtility()
+
+    @mock.patch('http.redirect')
+    def LoadByNoti(self, mock_redirect):
+        """
+        redirect is imported by default though gluon
+        so if we need to find a way to import default.gluon
+
+        """
+        tag_info = ['Tag1', 'Tag2']
+        self.check_update_new_tag_list(tag_info)
+        self.question_id = QuestionHandlingUtility('question header','question detail','tag1').create_a_question()
+        request.vars.update({ 'fb_source': 'notification'})
+        request.vars.update({  'notif_t': 'app_notification'})
+        request.vars.update({ 'id':self.question_id})
+        request.vars.function = 'question'
+        html_dic = fb_main()
+        mock_redirect.return_value = ''
+        mock_redirect.assert_called_with('', '', '')
+
+        pass
 
 
 
 
 
 suite = unittest.TestSuite()
-suite.addTest(unittest.makeSuite(TestUpdateTagInfo))
+suite.addTest(unittest.makeSuite(TestFbMainUpdateTag))
 suite.addTest(unittest.makeSuite(TestCreateNewTag))
+suite.addTest(unittest.makeSuite(TestFbQuestionList))
+suite.addTest(unittest.makeSuite(TestFbMainNoti))
 unittest.TextTestRunner(verbosity=2).run(suite)
 
 

@@ -43,23 +43,26 @@ class TestUserActivity(unittest.TestCase):
     @mock.patch('noti_handler.fb_noti_handler')
     def testUserPostQuestionWithTagOfHimSelf(self, mock_fb_noti):
         self.save_tag_info_for_user("tag1", auth.user)
-        QuestionHandlingUtilityTestNoti(self.question, self.question_detail_info, self.tag_list).create_a_question()
-        mock_fb_noti.assert_called_with(auth.user.username, 'huyheo', self.question)
+        question_id = QuestionHandlingUtilityTestNoti(self.question, self.question_detail_info, self.tag_list).create_a_question()
+        href_link = noti_handler(question_id).create_href()
+        mock_fb_noti.assert_called_with(auth.user.username, href_link, self.question)
 
     @mock.patch('noti_handler.fb_noti_handler')
     def testUserPostQuestionWithTagOfOther(self, mock_fb_noti):
         self.save_tag_info_for_user("tag1", user_record_2)
-        QuestionHandlingUtilityTestNoti(self.question, self.question_detail_info, self.tag_list).create_a_question()
-        mock_fb_noti.assert_called_with(auth.user.username, 'huyheo', self.question)
+        question_id = QuestionHandlingUtilityTestNoti(self.question, self.question_detail_info, self.tag_list).create_a_question()
+        href_link = noti_handler(question_id).create_href()
+        mock_fb_noti.assert_called_with(auth.user.username, href_link, self.question)
 
     @mock.patch('noti_handler.fb_noti_handler')
     def testUserPostQuestionWithTagOfOthers(self, mock_fb_noti):
         self.save_tag_info_for_user("tag1", user_record_2)
         self.save_tag_info_for_user("tag1", user_record_3)
 
-        QuestionHandlingUtilityTestNoti(self.question, self.question_detail_info, self.tag_list).create_a_question()
-        mock_fb_noti.assert_any_call(user_record_3.username, 'huyheo', self.question)
-        mock_fb_noti.assert_any_call(user_record_2.username, 'huyheo', self.question)
+        question_id = QuestionHandlingUtilityTestNoti(self.question, self.question_detail_info, self.tag_list).create_a_question()
+        href_link = noti_handler(question_id).create_href()
+        mock_fb_noti.assert_any_call(user_record_3.username, href_link, self.question)
+        mock_fb_noti.assert_any_call(user_record_2.username, href_link, self.question)
 
     @mock.patch('noti_handler.fb_noti_handler')
     def testUserPostQuestionWithTagOption1(self, mock_fb_noti):
@@ -67,10 +70,11 @@ class TestUserActivity(unittest.TestCase):
         self.save_tag_info_for_user("tag1", user_record_2)
         self.save_tag_info_for_user("tag1", user_record_3)
 
-        QuestionHandlingUtilityTestNoti(self.question, self.question_detail_info, self.tag_list).create_a_question()
-        mock_fb_noti.assert_any_call(user_record_1.username, 'huyheo', self.question)
-        mock_fb_noti.assert_any_call(user_record_2.username, 'huyheo', self.question)
-        mock_fb_noti.assert_any_call(user_record_3.username, 'huyheo', self.question)
+        question_id = QuestionHandlingUtilityTestNoti(self.question, self.question_detail_info, self.tag_list).create_a_question()
+        href_link = noti_handler(question_id).create_href()
+        mock_fb_noti.assert_any_call(user_record_1.username, href_link, self.question)
+        mock_fb_noti.assert_any_call(user_record_2.username, href_link, self.question)
+        mock_fb_noti.assert_any_call(user_record_3.username, href_link, self.question)
 
 
 

@@ -241,6 +241,7 @@ class question_tag_handler(object):
             return False
 
     def get_question_by_tag(self, tag_id):
+        db = self.db
         question_list = db(db.question_tag_tbl.tag_info == tag_id).select()
         return question_list
 

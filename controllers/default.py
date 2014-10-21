@@ -391,7 +391,6 @@ def fb_question_list():
     response.title = 'Chuot Nhat'
     tag_info = []
     tag_info = user_tag_handler(auth).get_tag_info()
-    import pdb; pdb.set_trace()
 
     #items = db(db.question_tbl).select()
     items = question_tag_handler().get_question_by_tag_list(tag_info)
@@ -429,6 +428,8 @@ def post_question():
     question_id = post_new_question(request, auth)
     if question_id:
         #add to queue
+        import copy
+        question_id = copy.copy(question_id)
         noti_handler(question_id).add_to_gae_task_queue(request)
         redirect(URL(r = request, f= 'question', args = question_id))
     return dict()
@@ -508,7 +509,6 @@ def fb_main():
 
 @auth.requires_login()
 def fb_save_tag_list():
-    import pdb; pdb.set_trace()
     tag_list = request.vars['tag_info[]']
     rst = save_tag_info_for_user(tag_list, auth)
     # save tag list to db for generating question
