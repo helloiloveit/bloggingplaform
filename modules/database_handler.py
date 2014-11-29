@@ -39,12 +39,12 @@ def post_new_question(request, auth):
 
     return question_id
 def delete_a_question(request):
-    question_id = request.args[0]
+    question_id = request.vars.id
     question_tbl_handler().delete_question_in_db(question_id)
     return
 
 def update_a_question(request):
-    question_id = request.args[0]
+    question_id = request.vars.id
     tag_info = request.vars.tag_list
     tag_list = get_tag_list(tag_info)
 
@@ -182,7 +182,7 @@ class question_tbl_handler(object):
 
 ########################answer #####################
 def create_new_answer(request, auth):
-    question_id = request.vars.question_id
+    question_id = request.vars.id
     answer_info = request.vars.answer_info
     answer_id = answer_handler().add_to_answer_tbl(question_id, answer_info, auth.user.id)
     return answer_id

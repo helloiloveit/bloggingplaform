@@ -54,10 +54,10 @@
               </td>
                 {{if (auth.is_logged_in() and auth.user.id == user_info.id):}}
                 <td>
-                    {{=A("sửa",_id ='edit_button', _class='handling_button',_href=URL(r=request,f='edit_question',args=[item.id]))}}
+                    {{=A("sửa",_id ='edit_button', _class='handling_button',_href=URL(r=request,f='edit_question',vars={'id':[item.id]}))}}
                 </td>
                 <td>
-                    {{=A("xoá",_id='delete_button',_class='handling_button', _href=URL(r=request,f='delete_question',args=[item.id]))}}
+                    {{=A("xoá",_id='delete_button',_class='handling_button', _href=URL(r=request,f='delete_question',vars={'id':[item.id]}))}}
                 </td>
                {{pass}}
               <td>

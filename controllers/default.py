@@ -260,7 +260,6 @@ def question():
                     related_question_list = related_question_list)
 def post_comment():
     create_new_answer(request, auth)
-    import pdb; pdb.set_trace()
     redirect(URL(r = request, f= 'question', vars ={'id': request.vars.id}))
 
 
@@ -271,8 +270,8 @@ def edit_question():
     """
     log.info("edit question")
     if request.env.REQUEST_METHOD == 'GET':
-        question = db(db.question_tbl.id == request.args[0]).select()[0]
-        tag_list = question_tag_handler().get_tag_name_list_of_a_question(request.args[0])
+        question = db(db.question_tbl.id == request.vars.id).select()[0]
+        tag_list = question_tag_handler().get_tag_name_list_of_a_question(request.vars.id)
         return dict(question = question , tag_list = tag_list)
     elif request.env.REQUEST_METHOD == 'POST':
         update_a_question(request)
@@ -290,7 +289,7 @@ def delete_question():
             delete_a_question(request)
             redirect(URL(r = request, f= 'question_list'))
         elif selection['selection'] == "NO":
-            redirect(URL(r = request, f= 'question', vars ={'id': request.args[0]}))
+            redirect(URL(r = request, f= 'question', vars ={'id': request.vars.id}))
     return dict()
 
 @auth.requires_login()
@@ -312,7 +311,7 @@ def edit_answer():
         if session.EDIT_ANSWER_ORIGIN_URL == 'user_profile':
             redirect(URL(r = request, f= 'user_profile', vars = {'user_id':auth.user.id}))
         elif session.EDIT_ANSWER_ORIGIN_URL == 'question':
-            redirect(URL(r = request, f= 'question', vars ={'id': request.vars.id}))
+            redirect(URL(r = request, f= 'question', vars ={'id': question_id}))
 
     return dict()
 

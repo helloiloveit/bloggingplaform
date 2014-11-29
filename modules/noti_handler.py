@@ -64,7 +64,7 @@ class noti_handler(object):
 
     def create_href(self):
         log.info("")
-        return "question" + "?id=" + self.question_id
+        return "question" + "?id=" + str(self.question_id)
 
     def create_message(self):
         db = self.db

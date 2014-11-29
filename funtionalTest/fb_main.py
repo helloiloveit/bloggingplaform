@@ -127,7 +127,7 @@ class TestShareTag(unittest.TestCase):
     def setUp(self):
 
         import os, subprocess
-        os.chdir('/Users/mac/Documents/PyUnitTest')
+        os.chdir('/Users/mac/Documents/ChuotNhatTest/FunctionTest')
         subprocess.Popen(['python','clear_database.py'])
 
 
@@ -208,6 +208,7 @@ BASE_URL = option_handler(sys)
 
 
 suite = unittest.TestSuite()
-#suite.addTest(unittest.makeSuite(TestMainPage))
+suite.addTest(unittest.makeSuite(TestMainPage))
 suite.addTest(unittest.makeSuite(TestShareTag))
+#suite.addTest(TestShareTag('testUserAddManyTag'))
 unittest.TextTestRunner(verbosity=2).run(suite)

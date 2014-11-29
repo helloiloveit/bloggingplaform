@@ -140,6 +140,17 @@ if not path in sys.path:
 
 from facebook import GraphAPI, GraphAPIError
 from gluon.contrib.login_methods.oauth20_account import OAuthAccount
+
+#chuotnhat
+APP_ID = "228859397308903"
+APP_SERCET ="650209bd438e288908309751aae01b5d"
+
+"""
+#chuotnhat test
+APP_ID = "313224325539076"
+APP_SERCET ="c56411e5458d343ce84be1b19fbda751"
+"""
+
 class FaceBookAccount(OAuthAccount):
     """OAuth impl for FaceBook"""
     AUTH_URL="https://graph.facebook.com/oauth/authorize"
@@ -147,7 +158,7 @@ class FaceBookAccount(OAuthAccount):
 
     def __init__(self, g):
 
-        OAuthAccount.__init__(self, g, "228859397308903", "650209bd438e288908309751aae01b5d",
+        OAuthAccount.__init__(self, g, APP_ID, APP_SERCET,
                               self.AUTH_URL, self.TOKEN_URL,
                               scope='user_photos,friends_photos')
         self.graph = None

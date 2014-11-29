@@ -167,8 +167,8 @@ class TestHandlingAnswer(unittest.TestCase):
         link.click()
 
     def postAnswer(self):
-        popularity_info = self.driver.find_element_by_class_name('article_popularity_info')
-        answer_button = popularity_info.find_element_by_id('inputCommentButton')
+        popularity_info = self.driver.find_element_by_class_name('user_answer_option')
+        answer_button = popularity_info.find_element_by_id('reply_question_button')
         answer_button.click()
         self.driver.execute_script("tinymce.get('{0}').focus()".format('editor1'))
         self.driver.execute_script("tinyMCE.activeEditor.setContent('{0}')".format(self.answer_info))
@@ -193,7 +193,7 @@ class TestHandlingAnswer(unittest.TestCase):
 
     def AnswerElement(self, answer_info):
         user_profile = answer_info.find_element_by_id('user_profile')
-        user_info = answer_info.find_element_by_class_name('user_detail_info')
+        user_info = answer_info.find_element_by_class_name('user_profile_text')
         answer_text = answer_info.find_element_by_class_name('comment_info')
         handling_info = answer_info.find_element_by_class_name('article_popularity_info')
         try:
@@ -285,10 +285,11 @@ class TestHandlingQuestion(unittest.TestCase):
         tag_info.click()
         tag_info.send_keys('c')
         try:
+            sleep(1)
             temp = driver.find_element_by_id('suggestion_box')
         except:
             #wait for ajax call to finish
-            print 'cant receive suggestion box'
+            print 'cant receive suggestion box..sleep for 6 second and check again'
             sleep(6)
             temp = driver.find_element_by_id('suggestion_box')
         tag_suggess = temp.find_element_by_xpath('div')
@@ -354,7 +355,7 @@ class TestHandlingQuestion(unittest.TestCase):
 
 
 
-class TestTagHandling(unittest.TestCase):
+class TestPostQuestionTagHandling(unittest.TestCase):
     def setUp(self):
         #self.driver = webdriver.Firefox()
         self.driver = webdriver.Chrome()
@@ -392,21 +393,26 @@ class TestTagHandling(unittest.TestCase):
                 temp = driver.find_element_by_id('suggestion_box')
             tag_suggess = temp.find_element_by_xpath('div')
             tag_suggess.click()
+            sleep(2)
             return random_string
         def post_a_tag(driver, tag_name):
             tag_info= driver.find_element_by_id('month')
             tag_info.click()
             tag_info.send_keys(tag_name)
-
+            sleep(1)
 
         post_new_tag(driver)
         delete_point = driver.find_element_by_id('delete_tag')
         delete_point.click()
+
         # User post same tag
         posted_tag = post_new_tag(driver)
         post_a_tag(driver, posted_tag)
         delete_point = driver.find_elements_by_id('delete_tag')
-        delete_point.click()
+        try:
+            delete_point.click()
+        except:
+            delete_point[0].click()
 
 
     def tearDown(self):
@@ -416,10 +422,10 @@ BASE_URL = option_handler(sys)
 
 
 suite = unittest.TestSuite()
-#suite.addTest(unittest.makeSuite(TestAuth))
-#suite.addTest(unittest.makeSuite(TestHandlingQuestion))
-#suite.addTest(unittest.makeSuite(TestHandlingAnswer))
-#suite.addTest(unittest.makeSuite(TestQuestionList))
-#suite.addTest(unittest.makeSuite(TestUserProfile))
-suite.addTest(unittest.makeSuite(TestTagHandling))
+suite.addTest(unittest.makeSuite(TestAuth))
+suite.addTest(unittest.makeSuite(TestHandlingQuestion))
+suite.addTest(unittest.makeSuite(TestHandlingAnswer))
+suite.addTest(unittest.makeSuite(TestQuestionList))
+suite.addTest(unittest.makeSuite(TestUserProfile))
+suite.addTest(unittest.makeSuite(TestPostQuestionTagHandling))
 unittest.TextTestRunner(verbosity=2).run(suite)
