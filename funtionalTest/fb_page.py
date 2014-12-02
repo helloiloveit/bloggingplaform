@@ -12,6 +12,11 @@ import os, sys
 import string, random
 from option_handler import *
 
+
+#test lib
+from TestLib import *
+
+
 FB_PAGE = 'http://localhost:8002/fb_main'
 
 #test user
@@ -44,60 +49,6 @@ def user_logout(driver):
 
 
 
-class TagUtility(object):
-    """
-    tool for handling user tag info
-    """
-    def __init__(self, driver):
-        self.driver = driver
-
-
-    def delete_all_user_tag_info(self):
-        tag_list = self.driver.find_elements_by_class_name('post-tag')
-        if len(tag_list):
-            for tag_unit in tag_list:
-                tag_del_but = tag_unit.find_element_by_id('delete_tag')
-                tag_del_but.click()
-            save_button = self.driver.find_element_by_id('save_tag_list_button')
-            save_button.click()
-
-
-    def add_new_tag(self, tag_name):
-        tag_info= self.driver.find_element_by_id('typing_box')
-        tag_info.click()
-        tag_info.send_keys(tag_name)
-        sleep(2)
-        temp = self.driver.find_element_by_id('suggestion_box')
-        temp.click()
-        sleep(1)
-
-    def add_new_tags(self, tag_list):
-        for tag_info in tag_list:
-            self.add_new_tag(tag_info)
-
-        save_button = self.driver.find_element_by_id('save_tag_list_button')
-        save_button.click()
-
-    def get_tag_suggestion(self, input_tag):
-        tag_info= self.driver.find_element_by_id('typing_box')
-        tag_info.click()
-        sleep(1)
-        tag_info.send_keys(input_tag)
-        sleep(2)
-        temp = self.driver.find_element_by_id('suggestion_box')
-        tag_suggess = temp.find_elements_by_xpath('div')
-        tag_suggess_list = []
-        for data in tag_suggess:
-            tag_suggess_list.append(data.text)
-        return tag_suggess_list
-
-    def get_added_tag(self):
-        tag_list = self.driver.find_elements_by_class_name('post-tag')
-        tag_added_list = []
-        if len(tag_list):
-            for tag_unit in tag_list:
-                tag_added_list.append(tag_unit.text[:len(tag_unit.text)-1])
-        return tag_added_list
 
 
 
@@ -108,6 +59,9 @@ class TestMainPage(unittest.TestCase):
         user_login(self.driver)
         self.driver.get(FB_PAGE)
 
+    def testLoginLogout(self):
+        self.driver.get(LOGIN_URL)
+        self.driver.get(LOGOUT_URL)
 
     def testDisplay(self):
         question_button = self.driver.find_element_by_id('fb_post_button')
@@ -119,6 +73,41 @@ class TestMainPage(unittest.TestCase):
 
         #share_tag_button = self.driver.find_element_by_id('share_knownledge_header')
         pass
+
+    def tearDown(self):
+        self.driver.close()
+
+
+class TestPostQuestion(HandlingQuestion):
+    POST_BUTTON_ID = "fb_post_button"
+    def setUp(self):
+        self.driver = webdriver.Chrome()
+        user_login(self.driver)
+        self.driver.get(FB_PAGE)
+        self.question_info = 'this is a question'
+        self.edit_question_info = 'this is a edited question'
+        self.question_info_detail = ' this is a detail of question'
+        self.edited_question_info_detail = ' this is a detail of question'
+
+    def testPostEditDelete(self):
+        """
+         write more in one testcase to reduce the login activity
+        """
+        driver = self.driver
+        self.post()
+        #confirm the posted question
+        question_info_result = driver.find_element_by_class_name('article_header')
+        self.assertIn(question_info_result.text, self.question_info)
+        self.edit_post()
+        question_info_result = driver.find_element_by_class_name('article_header')
+        self.assertIn(question_info_result.text, self.edit_question_info)
+        self.delete_post()
+        #check the url
+        url_info = driver.current_url
+        self.assertIn( os.path.join(BASE_URL , 'question_list'),url_info)
+        #go to profile
+
+
 
     def tearDown(self):
         self.driver.close()
@@ -158,6 +147,9 @@ class TestShareTag(unittest.TestCase):
         self.check_added_tag( tag_list)
 
         self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list)
+        self.driver.refresh()
+        self.check_added_tag(tag_list)
+
     def testUserAddManyTag(self):
 
         Tag_handler = self.Tag_handler
@@ -177,6 +169,10 @@ class TestShareTag(unittest.TestCase):
         #delte all tags
         Tag_handler.delete_all_user_tag_info()
 
+        self.check_added_tag( [])
+        self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list)
+        self.driver.refresh()
+        import pdb; pdb.set_trace()
         self.check_added_tag( [])
         self.check_tag_suggesstion(Tag_handler, tag_search_letter, tag_list)
 
@@ -208,7 +204,8 @@ BASE_URL = option_handler(sys)
 
 
 suite = unittest.TestSuite()
-suite.addTest(unittest.makeSuite(TestMainPage))
-suite.addTest(unittest.makeSuite(TestShareTag))
+#suite.addTest(unittest.makeSuite(TestMainPage))
+suite.addTest(unittest.makeSuite(TestPostQuestion))
+#suite.addTest(unittest.makeSuite(TestShareTag))
 #suite.addTest(TestShareTag('testUserAddManyTag'))
 unittest.TextTestRunner(verbosity=2).run(suite)

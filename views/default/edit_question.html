@@ -101,6 +101,7 @@
             removeItem = removeItem.substring(0, removeItem.length - 1);
             user_remove_tag(removeItem);
             $(this).parent().remove();
+            $('#tag_list').val(tag_list);
             });
 
 

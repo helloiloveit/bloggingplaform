@@ -1,6 +1,6 @@
 __author__ = 'huyheo'
 
-#python applications/chuotnhat/funtionalTest/AfterLogin.py
+#python applications/chuotnhat/funtionalTest/TestBasicFunction.py
 
 import unittest
 from selenium import webdriver
@@ -11,7 +11,7 @@ from time import *
 import os
 import sys
 from option_handler import *
-from PageElementInfo import *
+from PageElementInfoLib import *
 
 
 

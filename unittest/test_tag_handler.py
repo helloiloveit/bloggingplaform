@@ -30,6 +30,11 @@ class TestUserTagHandler(unittest.TestCase):
         tag_name_list = tag_tbl_handler().get_name_list_from_record_list(record)
         self.assertEqual(tag_name_list, self.tag_list2)
 
+    def testUpdateNoneTagList(self):
+        self.testCreateTagList()
+
+
+
     def testGetTagInfo(self):
         self.tag_list = ['tag1']
         user_tag_handler(auth).create_tag_list(self.tag_list)

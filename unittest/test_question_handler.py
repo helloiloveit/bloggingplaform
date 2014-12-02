@@ -82,7 +82,7 @@ class TestQuestionHandling(unittest.TestCase, QuestionHandlingUtility):
         questionUtility = QuestionHandlingUtility(self.question, self.question_detail_info, self.tag_list)
         question_id = questionUtility.create_a_question()
         #delete that question
-        request.args.append(question_id)
+        request.vars.id = question_id
         delete_a_question(request)
         #query that question
         question = db(db.question_tbl.id == question_id).select()

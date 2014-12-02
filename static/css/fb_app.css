@@ -8,7 +8,7 @@ margin-top: 40px;
 margin-bottom: 40px;
 }
 .fb_article_list_containter .article_header {
-font-size: 40px;
+font-size: 20px;
 font-family: 'Open Sans', sans-serif;
 font-weight: 300;
 color: rgb(19, 19, 219);
@@ -17,7 +17,7 @@ color: rgb(19, 19, 219);
 
 
 .fb_article_list_containter .detail_info {
-font-size: 20px;
+font-size: 18px;
 font-family: 'Open Sans', sans-serif;
 font-weight: 300;
 color: rgb(19, 19, 219);
@@ -36,9 +36,9 @@ color: black;
 
 
 #typing_box{
-height: 30px;
+height: 20px;
 width:300px;
-font-size: 20px;
+font-size: 18px;
 font-family: 'Open Sans', sans-serif;
 font-weight: 300;
 

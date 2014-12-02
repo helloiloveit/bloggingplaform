@@ -12,6 +12,10 @@ import os, sys
 import string, random
 from option_handler import *
 
+
+#lib
+from TestLib import *
+
 #test user
 EMAIL_TEST_USER_1='hrgohvb_bushakstein_1406709821@tfbnw.net'
 PASS_TEST_USER_1='maiphuong'
@@ -257,75 +261,12 @@ class TestHandlingAnswer(unittest.TestCase):
 
 
 
-class TestHandlingQuestion(unittest.TestCase):
+class TestHandlingQuestion(HandlingQuestion):
+    POST_BUTTON_ID = "post_button"
     def setUp(self):
         #self.driver = webdriver.Firefox()
-        self.driver = webdriver.Chrome()
+        super(TestPostQuestionTagHandling, self).setUp()
         user_login(self.driver)
-        self.question_info = 'this is a question'
-        self.edit_question_info = 'this is a edited question'
-        self.question_info_detail = ' this is a detail of question'
-        self.edited_question_info_detail = ' this is a detail of question'
-
-
-    def post(self):
-        driver = self.driver
-        try:
-            post_button = driver.find_element_by_id("post_button")
-            post_button.click()
-        except:
-
-            sleep(2)
-            post_button = driver.find_element_by_id("post_button")
-            post_button.click()
-
-        #add tag
-        sleep(2)
-        tag_info= driver.find_element_by_id('month')
-        tag_info.click()
-        tag_info.send_keys('c')
-        try:
-            sleep(1)
-            temp = driver.find_element_by_id('suggestion_box')
-        except:
-            #wait for ajax call to finish
-            print 'cant receive suggestion box..sleep for 6 second and check again'
-            sleep(6)
-            temp = driver.find_element_by_id('suggestion_box')
-        tag_suggess = temp.find_element_by_xpath('div')
-        tag_suggess.click()
-        #post_tag_button = driver.find_element_by_id('submit1')
-        #post_tag_button.click()
-        #add question title
-        question_info = driver.find_element_by_id('question_header')
-        question_info.clear()
-        question_info.send_keys(self.question_info)
-        driver.execute_script("tinymce.get('{0}').focus()".format('editor1'))
-        driver.execute_script("tinyMCE.activeEditor.setContent('{0}')".format(self.question_info_detail))
-        submit_button = driver.find_element_by_id('post_question_button')
-        submit_button.click()
-
-    def delete_post(self):
-        #delete post
-        driver = self.driver
-        delete_button = driver.find_element_by_id('delete_button')
-        delete_button.click()
-        yes_selection = driver.find_element_by_id('yes_selection')
-        yes_selection.click()
-
-    def edit_post(self):
-        driver = self.driver
-        edit_button = driver.find_element_by_id('edit_button')
-        edit_button.click()
-        question_info = driver.find_element_by_id('question_header')
-        question_info.clear()
-        question_info.send_keys(self.edit_question_info)
-        #wait a bit for javascript to load to use tinymce api
-        sleep(5)
-        driver.execute_script("tinymce.get('{0}').focus()".format('editor1'))
-        driver.execute_script("tinyMCE.activeEditor.setContent('{0}')".format(self.edited_question_info_detail))
-        submit_button = driver.find_element_by_id('post_question_button')
-        submit_button.click()
 
 
 
@@ -355,10 +296,12 @@ class TestHandlingQuestion(unittest.TestCase):
 
 
 
-class TestPostQuestionTagHandling(unittest.TestCase):
+class TestPostQuestionTagHandling(HandlingQuestion):
+    POST_BUTTON_ID = "post_button"
+
     def setUp(self):
+        super(TestPostQuestionTagHandling, self).setUp()
         #self.driver = webdriver.Firefox()
-        self.driver = webdriver.Chrome()
         user_login(self.driver)
 
     def random_tag_generator(self, size=6, chars=string.ascii_uppercase + string.digits):
@@ -366,15 +309,7 @@ class TestPostQuestionTagHandling(unittest.TestCase):
 
     def testUserManageTag(self):
         driver = self.driver
-        try:
-            post_button = driver.find_element_by_id("post_button")
-            post_button.click()
-        except:
-
-            sleep(2)
-            post_button = driver.find_element_by_id("post_button")
-            post_button.click()
-
+        self.compose_post()
         #add tag
         sleep(2)
         def post_new_tag(driver):
@@ -422,10 +357,10 @@ BASE_URL = option_handler(sys)
 
 
 suite = unittest.TestSuite()
-suite.addTest(unittest.makeSuite(TestAuth))
-suite.addTest(unittest.makeSuite(TestHandlingQuestion))
-suite.addTest(unittest.makeSuite(TestHandlingAnswer))
-suite.addTest(unittest.makeSuite(TestQuestionList))
-suite.addTest(unittest.makeSuite(TestUserProfile))
+#suite.addTest(unittest.makeSuite(TestAuth))
+#suite.addTest(unittest.makeSuite(TestHandlingQuestion))
+#suite.addTest(unittest.makeSuite(TestHandlingAnswer))
+#suite.addTest(unittest.makeSuite(TestQuestionList))
+#suite.addTest(unittest.makeSuite(TestUserProfile))
 suite.addTest(unittest.makeSuite(TestPostQuestionTagHandling))
 unittest.TextTestRunner(verbosity=2).run(suite)

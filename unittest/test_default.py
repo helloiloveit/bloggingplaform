@@ -104,6 +104,15 @@ class TestFbMainUpdateTag(unittest.TestCase, HandleTagList):
         tag_info = ['Tag1']
         self.check_update_new_tag_list(tag_info)
 
+    def testUserUpdateEmptyTagList(self):
+        tag_info = ['Tag1', 'Tag2']
+        self.check_update_new_tag_list(tag_info)
+        request.vars.update({'tag_info[]': None})
+        fb_save_tag_list()
+        html_return = fb_main()
+        self.assertEqual(html_return['tag_list'], [])
+
+
     def testUserUpdateNewTagInfo2(self):
         tag_info = ['Tag1', 'Tag2']
         self.check_update_new_tag_list(tag_info)

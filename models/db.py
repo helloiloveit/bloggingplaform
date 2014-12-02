@@ -150,7 +150,6 @@ APP_SERCET ="650209bd438e288908309751aae01b5d"
 APP_ID = "313224325539076"
 APP_SERCET ="c56411e5458d343ce84be1b19fbda751"
 """
-
 class FaceBookAccount(OAuthAccount):
     """OAuth impl for FaceBook"""
     AUTH_URL="https://graph.facebook.com/oauth/authorize"

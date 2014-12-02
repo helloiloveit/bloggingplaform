@@ -37,10 +37,12 @@
           <table>
               <tr>
                   <td>
+                       {{if auth.is_logged_in():}}
           <input id ="tag_list" type ="hidden"  type="text" name="tag_list"  autocomplete="off" value = tag_list>
           <input type="text" id="typing_box" name="tag_info" value = "" autocomplete="off"  />
           <!--<span class="suggest_text"> học tiếng anh..</span>-->
           <br />
+                      {{pass}}
                   </td>
                   <td>
                       <div id="target">

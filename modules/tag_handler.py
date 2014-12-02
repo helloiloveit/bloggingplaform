@@ -57,6 +57,8 @@ class user_tag_handler(object):
     def update_new_tag_list(self, tag_data):
         db = self.db
         db(db.user_tag_tbl.user_info == self.auth.user.id).delete()
+        if tag_data == None:
+            return True
         if type(tag_data) == list:
             rst = self.create_tag_list(tag_data)
         else:

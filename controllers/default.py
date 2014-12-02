@@ -511,8 +511,10 @@ def fb_main():
     if auth.is_logged_in():
         try:
             tag_info = user_tag_handler(auth).get_tag_info()
+            print tag_info
         except:
             pass
+    log.info('tag_list = %s',tag_info)
     return dict(tag_list = tag_info)
 
 @auth.requires_login()
@@ -534,7 +536,6 @@ def fb_test():
 
 def fb_test_queue():
     from google.appengine.api import taskqueue
-    log.info('lalal')
     taskqueue.add(url='/add_gae_queue', params={'question_id': '123'})
     return dict()
 
@@ -542,3 +543,18 @@ def fb_test_queue():
 def fb_post():
     log.info("request.vars = %s",request.vars)
     return dict(article_tag_list ="" )
+
+@auth.requires_login()
+def fb_post_question():
+    question_id = post_new_question(request, auth)
+    if question_id:
+        #add to queue
+        import copy
+        question_id = copy.copy(question_id)
+        noti_handler(question_id).add_to_gae_task_queue(request)
+        redirect(URL(r = request, f= 'fb_question', vars = {'id':question_id}))
+    return dict()
+
+@auth.requires_login()
+def fb_question():
+    return question()

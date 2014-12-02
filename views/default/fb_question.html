@@ -1,6 +1,6 @@
 {{left_sidebar_enabled = True}}
 {{right_sidebar_enabled=True}}
-{{extend 'layout.html'}}
+{{extend 'fb_layout.html'}}
 
 {{response.title = item.question_info}}
         {{block head}}
@@ -101,7 +101,7 @@
   &link={{=url_root+ URL(r=request, f='question', vars = {'id':request.vars.id} )}}
   &redirect_uri={{=url_root + URL(r=request, f='question',  vars = {'id':request.vars.id} )}}"
                               >
-            <img border="0" src={{=URL('static', 'images/ask_friend_small.png')}} alt="Pulpit rock" width="45" height="45">
+            <img border="0" src={{=URL('static', 'images/ask_friend.png')}} alt="Pulpit rock" width="45" height="45">
                                           hoi ban be
              </a>
 
@@ -170,7 +170,7 @@
                       <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon.png')}} alt="Pulpit rock" width="20" height="20">
                       thích</span>
                   {{else:}}
-                  <a class ="like_unlike_button" id ="like" value ={{=comment.id}} style="color:grey">
+                  a class ="like_unlike_button" id ="like" value ={{=comment.id}} style="color:grey">
                       <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon_grey.png')}} alt="Pulpit rock" width="20" height="20">
                       thích</a>
                   {{pass}}
