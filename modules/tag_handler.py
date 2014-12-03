@@ -149,6 +149,7 @@ class tag_tbl_handler(object):
         return tag_list
 
     def get_name_list_from_record_list(self, record):
+        db = self.db
         tag_name_list = []
         for data in record:
             tag_info = db(db.tag_tbl.id == data.tag_info).select()[0]

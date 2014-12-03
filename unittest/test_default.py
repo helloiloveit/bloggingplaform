@@ -22,7 +22,7 @@ class TestTagHandling(unittest.TestCase):
 
     def createReturnHtmlForAddingNewTag(self):
         """
-        SyntaxError: Non-ASCII character '\xe1' in file applications/chuotnhat/unittest/test_tag_handler.py
+        SyntaxError: Non-ASCII character '\xe1' in file applications/chuotnhat/unittest/test_user_tag_handler.py
          on line 15, but no encoding declared; see http://www.python.org/peps/pep-0263.html for details
         """
         temp = [DIV(u'',

@@ -36,6 +36,8 @@ def post_new_question(request, auth):
                                                                 user_id,
                                                                 anonymous_info,
                                                             tag_list)
+    #update tag list of question to user tag list
+    rst = save_tag_info_for_user(tag_list, auth)
 
     return question_id
 def delete_a_question(request):
@@ -184,7 +186,14 @@ class question_tbl_handler(object):
 def create_new_answer(request, auth):
     question_id = request.vars.id
     answer_info = request.vars.answer_info
-    answer_id = answer_handler().add_to_answer_tbl(question_id, answer_info, auth.user.id)
+    answer_id = answer_handler().create_new_answer(question_id, answer_info, auth.user.id)
+    #update tag list of question to user tag list
+    tag_list = question_tag_handler().get_tag_name_list_of_a_question(question_id)
+    rst = save_tag_info_for_user(tag_list, auth)
+
+    if not rst:
+        log.error('cant update tag info for user')
+
     return answer_id
 
 def update_an_answer(request):
@@ -220,7 +229,7 @@ class answer_handler(object):
             log.error('cant update answer')
         pass
 
-    def add_to_answer_tbl(self, question_id, answer_info, user_id):
+    def create_new_answer(self, question_id, answer_info, user_id):
         db = self.db
         answer_id = None
         try:
