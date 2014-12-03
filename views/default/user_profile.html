@@ -66,6 +66,7 @@ tinymce.init({
          </td>
      </tr>
      </table>
+        
  <table id = "user_popular_info">
     <tr>
         <td>
@@ -132,7 +133,7 @@ tinymce.init({
             <table class="content_info_table">
                 <tr>
                     <td class="article_header">
-                        {{=A(question.question_info,_class='article_header', _href=URL(f='question',args=[question.id]))}}
+                        {{=A(question.question_info,_class='article_header', _href=URL(f='question',vars={'id':[question.id]}))}}
                     </td>
                 </tr>
                 <tr>

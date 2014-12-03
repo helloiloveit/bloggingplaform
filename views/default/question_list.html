@@ -32,9 +32,10 @@
                 {{question_tag_list = db(db.question_tag_tbl.question_info == item.id).select()}}
                 {{for tag_unit in question_tag_list:}}
                <td>
+                   <a>
                    {{tag_record = db(db.tag_tbl.id == tag_unit.tag_info).select().first()}}
                    {{=tag_record.name}}
-
+                    </a>
 
                </td>
                 {{pass}}
