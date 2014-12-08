@@ -514,6 +514,7 @@ def fb_main():
             print tag_info
         except:
             pass
+    log.info('tag_list = %s',tag_info)
     return dict(tag_list = tag_info)
 
 @auth.requires_login()
@@ -540,6 +541,7 @@ def fb_test_queue():
 
 @auth.requires_login()
 def fb_post():
+    log.info("request.vars = %s",request.vars)
     return dict(article_tag_list ="" )
 
 @auth.requires_login()

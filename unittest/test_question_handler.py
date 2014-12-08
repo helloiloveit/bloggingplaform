@@ -2,8 +2,6 @@
 __author__ = 'huyheo'
 
 import os
-from tag_handler import *
-
 file_path = os.path.join(os.getcwd(),'applications','chuotnhat','unittest','setup_test.py')
 execfile(file_path, globals())
 
@@ -28,19 +26,25 @@ class TestQuestionHandling(unittest.TestCase, QuestionHandlingUtility):
         set_up_basic_environment()
         self.question = "this is a new question"
         self.question_detail_info = "more detail of this question"
-        self.tag_info = "tag1,tag2,tag3"
-        self.tag_list = self.tag_info.split(',')
+        self.tag_list = "tag1,tag2,tag3"
+        self.tag_list_list = self.tag_list.split(',')
 
     def testPostNewQuestion(self):
         #set variable for the test
         self.add_value_of_question_to_request(None)
         question_id = post_new_question(request, auth)
         question_record = db(db.question_tbl.id == question_id).select().first()
+        def get_tag_name_list_from_record_list(record_list):
+            tag_name_list= []
+            for unit in record_list:
+                tag = db(db.tag_tbl.id == unit.tag_info).select().first()
+                tag_name_list.append(tag.name)
+            return tag_name_list
         if question_record:
             question_tag_records = db(db.question_tag_tbl.question_info == question_record.id).select()
-            tag_name_list = tag_tbl_handler().get_name_list_from_record_list(question_tag_records)
-            result = set(tag_name_list)&set(self.tag_list)
-            self.assertEqual(len(result),len(self.tag_list))
+            tag_name_list = get_tag_name_list_from_record_list(question_tag_records)
+            result = set(tag_name_list)&set(self.tag_list_list)
+            self.assertEqual(len(result),len(self.tag_list_list))
 
         else:
             self.assertEqual(1,0)
@@ -50,10 +54,6 @@ class TestQuestionHandling(unittest.TestCase, QuestionHandlingUtility):
         self.assertEqual(type(question_id),gluon.dal.Reference)
         self.assertEqual(question_record.question_info, self.question)
         self.assertEqual(question_record.question_detail_info, self.question_detail_info)
-
-        record = db(db.user_tag_tbl.user_info == auth.user.id).select()
-        tag_name_list = tag_tbl_handler().get_name_list_from_record_list(record)
-        self.assertEqual(tag_name_list, self.tag_list)
         return question_id
 
     def testUpdateOldQuestion(self):
@@ -62,8 +62,8 @@ class TestQuestionHandling(unittest.TestCase, QuestionHandlingUtility):
         #update
         self.question = "this is an updated question"
         self.question_detail_info = "update more detail of this question"
-        self.tag_info = "tag1,tag2,tag3,tag4"
-        self.tag_list = self.tag_info.split(',')
+        self.tag_list = "tag1,tag2,tag3,tag4"
+        self.tag_list_list = self.tag_list.split(',')
 
         self.add_value_of_question_to_request(question_id)
         update_a_question(request)
@@ -73,13 +73,13 @@ class TestQuestionHandling(unittest.TestCase, QuestionHandlingUtility):
         self.assertEqual(question_record.question_detail_info , self.question_detail_info)
         #check tag
         tag_list = db(db.question_tag_tbl.question_info == question_id).select()
-        self.assertEqual(len(tag_list), len(self.tag_list))
+        self.assertEqual(len(tag_list), len(self.tag_list_list))
 
 
 
     def testDeleteAQuestion(self):
         #create a question in db
-        questionUtility = QuestionHandlingUtility(self.question, self.question_detail_info, self.tag_info)
+        questionUtility = QuestionHandlingUtility(self.question, self.question_detail_info, self.tag_list)
         question_id = questionUtility.create_a_question()
         #delete that question
         request.vars.id = question_id

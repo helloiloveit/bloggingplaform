@@ -1,7 +1,7 @@
 __author__ = 'huyheo'
 """
 Syntax:
- python web2py.py -S chuotnhat -M -R applications/chuotnhat/unittest/test_user_tag_handler.py
+ python web2py.py -S chuotnhat -M -R applications/chuotnhat/unittest/test_tag_handler.py
 """
 import unittest
 import gluon
@@ -44,7 +44,7 @@ class QuestionHandlingUtility(object):
     def __init__(self, question, question_detail_info, tag_list):
         self.question = question
         self.question_detail_info = question_detail_info
-        self.tag_info = tag_list
+        self.tag_list = tag_list
 
 
 
@@ -54,7 +54,7 @@ class QuestionHandlingUtility(object):
         if question_id:
             #question is existed
             request.vars.question_id = question_id
-        request.vars.tag_list = self.tag_info
+        request.vars.tag_list = self.tag_list
 
     def create_a_question(self):
         self.add_value_of_question_to_request(None)
