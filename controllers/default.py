@@ -556,3 +556,8 @@ def fb_post_question():
 @auth.requires_login()
 def fb_question():
     return question()
+
+@auth.requires_login()
+def fb_post_comment():
+    create_new_answer(request, auth)
+    redirect(URL(r = request, f= 'fb_question', vars ={'id': request.vars.id}))

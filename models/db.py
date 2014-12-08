@@ -29,6 +29,8 @@ else:                                         # else use a normal relational dat
 
 from gluon.tools import *
 from gluon import current
+from ConstantDefinition import *
+
 mail = Mail()                                  # mailer
 auth = Auth(globals(),db)                      # authentication/authorization
 crud = Crud(globals(),db)                      # for CRUD helpers using auth
@@ -141,15 +143,8 @@ if not path in sys.path:
 from facebook import GraphAPI, GraphAPIError
 from gluon.contrib.login_methods.oauth20_account import OAuthAccount
 
-#chuotnhat
-APP_ID = "228859397308903"
-APP_SERCET ="650209bd438e288908309751aae01b5d"
 
-"""
-#chuotnhat test
-APP_ID = "313224325539076"
-APP_SERCET ="c56411e5458d343ce84be1b19fbda751"
-"""
+
 class FaceBookAccount(OAuthAccount):
     """OAuth impl for FaceBook"""
     AUTH_URL="https://graph.facebook.com/oauth/authorize"
