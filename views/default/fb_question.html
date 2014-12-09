@@ -73,7 +73,7 @@
                   <img border="0" src={{=img_path}} alt="Pulpit rock" width="50" height="50">
                   -->
                   {{pass}}
-                  <a id ="author_profile" href={{=URL(r=request,f='user_profile',args=[])}} onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">
+                  <a id ="author_profile" href={{=URL(r=request,f='fb_user_profile',args=[])}} onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">
                       {{='  bởi   ' + user_info.last_name}}
                   </a>
                   {{else:}}
@@ -143,13 +143,13 @@
                 {{user_info = db(db.auth_user.id == comment.author_info).select().first()}}
                 {{img_path =' https://graph.facebook.com/' + user_info.username + '/picture'}}
                 <td>
-                    <a id ="user_profile" href="{{=URL(f='user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">
+                    <a id ="user_profile" href="{{=URL(f='fb_user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">
                         <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
                     </a>
 
                 </td>
                  <td class="user_profile_text">
-                      <a id ="user_profile" href="{{=URL(f='user_profile')}}"  onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
+                      <a id ="user_profile" href="{{=URL(f='fb_user_profile')}}"  onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
                      {{user_profile = db(db.user_profile.user_info == user_info.id).select().first()}}
                      {{if user_profile:}}
                      <span class="user_detail_info">{{=XML(user_profile.detail_info)}}</span>

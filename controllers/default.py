@@ -144,6 +144,7 @@ def user_profile():
                     view_more_flag = view_more_flag)
     return dict()
 
+@auth.requires_login()
 def edit_user_profile():
     if request.env.REQUEST_METHOD =='POST':
         rst = update_self_introduction(request, auth)
@@ -332,7 +333,6 @@ def delete_answer():
         redirect(URL(r = request, f= 'question', vars ={'id':question_id} ))
     return dict()
 
-    return dict()
 
 def create_data_for_question_list_for_test():
     import pdb; pdb.set_trace()
@@ -554,10 +554,118 @@ def fb_post_question():
     return dict()
 
 @auth.requires_login()
+def fb_edit_question():
+    """
+    Edit blog
+    """
+    log.info("edit question")
+    if request.env.REQUEST_METHOD == 'GET':
+        question = db(db.question_tbl.id == request.vars.id).select()[0]
+        tag_list = question_tag_handler().get_tag_name_list_of_a_question(request.vars.id)
+        return dict(question = question , tag_list = tag_list)
+    elif request.env.REQUEST_METHOD == 'POST':
+        update_a_question(request)
+        redirect(URL(r = request, f= 'fb_question', vars ={'id': request.vars.id}))
+
+    return dict()
+
+@auth.requires_login()
 def fb_question():
     return question()
+
+@auth.requires_login()
+def fb_delete_question():
+    selection = request.vars
+    if request.env.REQUEST_METHOD == 'GET':
+        return dict()
+    elif request.env.REQUEST_METHOD == 'POST':
+        if selection['selection'] == "YES":
+            delete_a_question(request)
+            redirect(URL(r = request, f= 'fb_main'))
+        elif selection['selection'] == "NO":
+            redirect(URL(r = request, f= 'fb_question', vars ={'id': request.vars.id}))
+    return dict()
+
 
 @auth.requires_login()
 def fb_post_comment():
     create_new_answer(request, auth)
     redirect(URL(r = request, f= 'fb_question', vars ={'id': request.vars.id}))
+
+
+@auth.requires_login()
+def fb_edit_answer():
+    """
+    edit answer
+    """
+    if request.env.REQUEST_METHOD == 'GET':
+        answer_id = request.args[0]
+        origin_url = request.vars.origin
+        session.EDIT_ANSWER_ORIGIN_URL = origin_url
+        answer = db(db.answer_tbl.id == answer_id).select().first()
+        return dict(answer = answer)
+    elif request.env.REQUEST_METHOD == 'POST':
+        update_an_answer(request)
+        answer_id = request.vars.answer_id
+        answer = db(db.answer_tbl.id == answer_id).select().first()
+        question_id = answer.question_id
+        if session.EDIT_ANSWER_ORIGIN_URL == 'user_profile':
+            redirect(URL(r = request, f= 'user_profile', vars = {'user_id':auth.user.id}))
+        elif session.EDIT_ANSWER_ORIGIN_URL == 'question':
+            redirect(URL(r = request, f= 'fb_question', vars ={'id': question_id}))
+
+    return dict()
+
+@auth.requires_login()
+def fb_delete_answer():
+    selection = request.vars
+    if request.env.REQUEST_METHOD == 'GET':
+        answer_id = request.args[0]
+        return dict(answer_id = answer_id)
+    elif request.env.REQUEST_METHOD == 'POST':
+        answer_id = selection['answer_id']
+        answer = db(db.answer_tbl.id == answer_id).select().first()
+        question_id = answer.question_id
+        if selection['selection'] == "YES":
+            delete_a_answer(request)
+        elif selection['selection'] == "NO":
+            pass
+        redirect(URL(r = request, f= 'fb_question', vars ={'id':question_id} ))
+    return dict()
+
+@auth.requires_login()
+def fb_user_profile():
+    return user_profile()
+
+@auth.requires_login()
+def fb_edit_user_profile():
+    if request.env.REQUEST_METHOD =='POST':
+        rst = update_self_introduction(request, auth)
+        redirect(URL('fb_user_profile', vars=dict(user_id=request.vars.user_id)))
+        return dict()
+    elif request.env.REQUEST_METHOD =='GET':
+        target_person_id = request.vars.user_id
+        profile_info = db(db.user_profile.user_info == target_person_id).select().first()
+        user_info = db(db.auth_user.id == target_person_id).select().first()
+        try:
+            #if user is logged in
+            follow_record = db((db.follow_info_tbl.followed_user == target_person_id)&(db.follow_info_tbl.following_user == auth.user.id )).select().first()
+        except:
+            # not login
+            follow_record = False
+            pass
+        if follow_record:
+            follow_flag = True
+        else:
+            follow_flag = False
+        #following
+        following_list = db(db.follow_info_tbl.followed_user == target_person_id).select()
+        #followed
+        followed_list = db(db.follow_info_tbl.following_user == target_person_id).select()
+        return dict(person_profile = profile_info,
+                    person_info= user_info,
+                    follow_flag = follow_flag,
+                    following_list = followed_list,
+                    followed_list = followed_list)
+
+    return dict()
