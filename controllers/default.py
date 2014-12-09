@@ -39,6 +39,13 @@ def search_box():
 def test_tinyMCE():
     return dict()
 
+def test_autocom():
+    temp = request.vars.callback
+    data_group = [{'type':'now',"data":""},{'type':'future',"data":""}]
+    data_group =  (['type','now'])
+    #data_group =  ([])
+    return temp + '('+json.dumps(data_group) + ')'
+
 def test_facebook():
     return dict()
 
@@ -58,29 +65,13 @@ def tag_handler():
     if not request.vars.tag_info: return ''
     tag_info = request.vars.tag_info
     selected = question_tag_handler().search_for_related_tag_in_tbl(tag_info)
-    #selected =['tag1','tag2', 'tag3','tag4']
-    #selected = [m for m in tag_list if m.name.startswith(tag_info)]
-    log.info('selected = %s', selected)
-    div_id = "suggestion_box"
 
-    if not selected:
-        temp = [DIV('tạo tag moi',
-                    _onclick="user_post_new_tag('%s','%s');" %(tag_info, div_id),
-                    _onmouseover="this.style.backgroundColor='yellow'",
-                    _onmouseout="this.style.backgroundColor='white'"
-        )]
-    else:
-        temp = [DIV(k,
-                    _onclick="user_select_tag_handler('%s','%s');" %(k,div_id),
-                    _onmouseover="this.style.backgroundColor='yellow'",
-                    _onmouseout="this.style.backgroundColor='white'"
-        ) for k in selected]
-
-
-    return DIV(
-                temp, _id ="%s" % div_id
-                )
-
+    temp = request.vars.callback
+    data_group = []
+    if type(selected) is list:
+        for k in selected:
+            data_group.append(k)
+    return temp + '('+json.dumps(data_group) + ')'
 
 
 def user():

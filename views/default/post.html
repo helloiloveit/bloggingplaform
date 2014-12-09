@@ -5,6 +5,16 @@
 .suggestions DIV { padding: 2px 4px 2px 4px; }
 </style>
 
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+  .ui-autocomplete-loading {
+    background: white url("{{=URL('static', 'images/ui-anim_basic_16x16.gif')}}") right center no-repeat;
+  }
+  #city { width: 15em; }
+  </style>
 
 <div class="post_article">
   <div id="mainContent">
@@ -23,25 +33,35 @@
         <input type="checkbox" name="mode" value="private"> hỏi nặc danh<br>
     </form>
       <form>
+         <div class="ui-widget">
           <table>
               <tr>
                   <td>
-          <input type="text" id="month" name="tag_info" value = "" autocomplete="off" style="width: 150px; height:30px" />
-          <!--<span class="suggest_text"> học tiếng anh..</span>-->
-          <br />
+                    <input id="city">
                   </td>
                   <td>
-                      <div id="target"></div>
+                          <div id="target" style="height: 50px; width: 200px; overflow: auto;" class=""></div>
+
                   </td>
               </tr>
-             </table>
-          <div style="position: absolute;" id="suggestions" class="suggestions">
-          </div>
+              <tr>
+                  <td>
+                      <a id="create_new_tag">save this tag</a>
+                  </td>
+              </tr>
+          </table>
+        </div>
       </form>
       <button id="post_question_button"> Gửi đi </button>
 
+
+
+
+
+
       <script src="{{=URL('static','js/default/post_question.js')}}"></script>
     <script>
+        $('#create_new_tag').hide();
         //set value for id
         var TYPING_BOX = "month";
         var RESULT_BOX = "target";
@@ -54,9 +74,13 @@
             $('#question_header').val("");
         });
 
-        jQuery("#" + TYPING_BOX).keyup(function(){
-            ajax('tag_handler', ['tag_info'], 'suggestions');
-            });
+
+        jQuery('#create_new_tag').click(function(){
+            var tag_value = $('#city').val();
+            user_post_new_tag(tag_value, 'suggestion_box');
+         });
+
+
         jQuery("#"+ TYPING_BOX).click(function(){
             $("#"+ TYPING_BOX).val("");
             });
@@ -71,6 +95,27 @@
             $( "#question_content_form" ).submit();
             });
 
+
+
+      function user_select_tag_handler_new(tag_info, suggestion_box_id){
+         tag_info =  capitaliseFirstLetter(tag_info);
+         $("#" + TYPING_BOX).val(tag_info);
+         $("#" + suggestion_box_id).remove();
+
+         current_tag = $("#" + RESULT_BOX).html();
+
+         if ($.inArray(tag_info, tag_list) == -1)
+        {
+            tag_list[tag_list.length] = tag_info;
+            var txt1 = "<span class = post-tag>" + tag_info + "<span id = delete_tag value = "+ tag_info + " class = delete-tag title = remove this tag>x</span></span>";
+            $("#" + RESULT_BOX).append(txt1);
+         }
+
+         $('#tag_list').val(tag_list);
+         $("#" + SAVE_TAG_LIST_BUTTON).show();
+
+
+      }
 
 
 
@@ -96,7 +141,8 @@
 
 
         request.done(function( msg ) {
-            user_select_tag_handler(tag_info, 'suggestion_box');
+            user_select_tag_handler_new(tag_info, 'suggestion_box');
+
         });
 
         request.fail(function( jqXHR, textStatus ) {
@@ -106,6 +152,47 @@
       }
 
     </script>
+  <script>
+
+  $(function() {
+    function log( message ) {
+      $( "<div>" ).text( message ).prependTo( "#target" );
+      $( "#target" ).scrollTop( 0 );
+    }
+
+    $( "#city" ).autocomplete({
+      source: function( request, response ) {
+        $.ajax({
+          //url: "http://gd.geobytes.com/AutoCompleteCity",
+          url: "http://localhost:8002/tag_handler",
+          dataType: "jsonp",
+          data: {
+            tag_info: request.term
+          },
+          success: function( data ) {
+            if (data.length ==0){
+                $('#create_new_tag').show();
+            }
+            response( data );
+          }
+        });
+      },
+      minLength: 3,
+      select: function( event, ui ) {
+        $('#create_new_tag').hide();
+        user_select_tag_handler_new(ui.item.label, 'suggestion_box');
+        //alert(tag_list);
+
+      },
+      open: function() {
+        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+      },
+      close: function() {
+        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+      }
+    });
+  });
+  </script>
 
 </html>
 
