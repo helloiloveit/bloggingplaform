@@ -113,7 +113,7 @@
             {{img_path =' https://graph.facebook.com/' + auth.user.username + '/picture'}}
             <li>
                 <!--<a href={{=URL( 'welcome/default/user_profile')}}>-->
-                <a id ="user_profile" href="{{=URL(f='user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=auth.user.id}}; return false;">
+                <a id ="user_profile" href="{{=URL(f='fb_user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=auth.user.id}}; return false;">
                 <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
                 </a>
             </li>

@@ -45,7 +45,8 @@ def test_facebook():
 @auth.requires_login()
 def create_new_tag():
     if not request.vars.tag_info: return ''
-    tag_info = request.vars.tag_info.capitalize()
+    tag_info = request.vars.tag_info
+
     rst = user_create_new_tag(tag_info)
     if rst:
         return True

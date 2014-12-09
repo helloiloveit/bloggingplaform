@@ -2,7 +2,9 @@
 __author__ = 'huyheo'
 
 import os
+import mock
 from tag_handler import *
+from noti_handler import *
 
 file_path = os.path.join(os.getcwd(),'applications','chuotnhat','unittest','setup_test.py')
 execfile(file_path, globals())
@@ -31,7 +33,8 @@ class TestQuestionHandling(unittest.TestCase, QuestionHandlingUtility):
         self.tag_info = "tag1,tag2,tag3"
         self.tag_list = self.tag_info.split(',')
 
-    def testPostNewQuestion(self):
+    @mock.patch('noti_handler.fb_noti_handler')
+    def testPostNewQuestion(self, mock_fb_noti):
         #set variable for the test
         self.add_value_of_question_to_request(None)
         question_id = post_new_question(request, auth)
@@ -54,6 +57,7 @@ class TestQuestionHandling(unittest.TestCase, QuestionHandlingUtility):
         record = db(db.user_tag_tbl.user_info == auth.user.id).select()
         tag_name_list = tag_tbl_handler().get_name_list_from_record_list(record)
         self.assertEqual(tag_name_list, self.tag_list)
+        print mock_fb_noti.call_count
         return question_id
 
     def testUpdateOldQuestion(self):
@@ -74,7 +78,6 @@ class TestQuestionHandling(unittest.TestCase, QuestionHandlingUtility):
         #check tag
         tag_list = db(db.question_tag_tbl.question_info == question_id).select()
         self.assertEqual(len(tag_list), len(self.tag_list))
-
 
 
     def testDeleteAQuestion(self):

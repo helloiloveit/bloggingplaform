@@ -41,10 +41,76 @@ class TestTagHandling(unittest.TestCase):
         return DIV(temp, _id ="%s" % div_id )
 
     def testCreateNewTag(self):
+        self.tag_info = u'\u0111i ch\u01a1i kh\xf4nng'
         request.vars.tag_info = self.tag_info
         create_new_tag()
         record = db(db.tag_tbl.name == request.vars.tag_info.capitalize()).select()[0]
-        self.assertEqual(record.name, self.tag_info.capitalize())
+        unicode_tag = unicode(record.name, "utf-8")
+        self.assertEqual(unicode_tag, self.tag_info.capitalize())
+
+    def testCreateNewTagWithCaptitalNotAtStart(self):
+        self.tag_info = u'\u0111i Ch\u01a1i kh\xf4ng'
+        request.vars.tag_info = self.tag_info
+        create_new_tag()
+        record = db(db.tag_tbl.name == request.vars.tag_info.capitalize()).select()[0]
+        unicode_tag = unicode(record.name, "utf-8")
+        self.assertEqual(unicode_tag, self.tag_info.capitalize())
+
+    def testCreateNewTagWithCaptitalAtStart(self):
+        self.tag_info = u'\u0110i ch\u01a1i kh\xf4ng'
+        request.vars.tag_info = self.tag_info
+        create_new_tag()
+        record = db(db.tag_tbl.name == request.vars.tag_info.capitalize()).select()[0]
+        unicode_tag = unicode(record.name, "utf-8")
+        self.assertEqual(unicode_tag, self.tag_info.capitalize())
+
+    def checkDuplicateTag(self, valid_tag, invalid_tag, first_letter_flag):
+        request.vars.tag_info = valid_tag
+        create_new_tag()
+        # di choi khong
+        request.vars.tag_info = invalid_tag
+        create_new_tag()
+        #query
+        record = db(db.tag_tbl.name == valid_tag).select()
+        self.assertEqual(len(record), 1)
+        unicode_tag = unicode(record[0].name, "utf-8")
+        self.assertEqual(unicode_tag, valid_tag )
+
+        if first_letter_flag:
+            record = db(db.tag_tbl.name == invalid_tag.capitalize()).select()
+            self.assertEqual(len(record), 1)
+        else:
+            record = db(db.tag_tbl.name == invalid_tag).select()
+            with self.assertRaises(IndexError):
+                record[0]
+
+            check_name = invalid_tag[0].upper() + invalid_tag[1:]
+            record = db(db.tag_tbl.name == check_name).select()
+            with self.assertRaises(IndexError):
+                record[0]
+
+
+    def testDuplicateTagByCapitalLetterFirstLetter(self):
+        # Di choi khong
+        tag_1 = u'\u0110i ch\u01a1i kh\xf4ng'
+        # di choi khong
+        tag_2 = u'\u0111i ch\u01a1i kh\xf4ng'
+        self.checkDuplicateTag(tag_1, tag_2, True)
+
+    def testDuplicateTagByCapitalLetterPositionRandom(self):
+        # Di choi khong
+        valid_tag = u'\u0110i ch\u01a1i kh\xf4ng'
+        # di Choi khong
+        invalid_tag = u'\u0111i Ch\u01a1i kh\xf4ng'
+        self.checkDuplicateTag(valid_tag, invalid_tag, False)
+
+    def testDuplicateTagByCapitalLetterPositionRandom_last(self):
+        # Di choi khong
+        valid_tag = u'\u0110i ch\u01a1i kh\xf4ng'
+        # di choi Khong
+        invalid_tag = u'\u0111i ch\u01a1i Kh\xf4ng'
+        self.checkDuplicateTag(valid_tag, invalid_tag, False)
+
 
 
     def testUserPostNewTag(self):
@@ -217,10 +283,13 @@ class TestFbMainNoti(unittest.TestCase, HandleTagList):
 
 
 suite = unittest.TestSuite()
+"""
 suite.addTest(unittest.makeSuite(TestFbMainUpdateTag))
 suite.addTest(unittest.makeSuite(TestCreateNewTag))
 suite.addTest(unittest.makeSuite(TestFbQuestionList))
-suite.addTest(unittest.makeSuite(TestFbMainNoti))
+"""
+suite.addTest(unittest.makeSuite(TestTagHandling))
+#suite.addTest(unittest.makeSuite(TestFbMainNoti))
 unittest.TextTestRunner(verbosity=2).run(suite)
 
 

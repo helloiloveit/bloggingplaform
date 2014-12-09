@@ -29,8 +29,25 @@ def save_tag_info_for_user(tag_list, auth):
 
 
 def user_create_new_tag(tag_info):
-    rst = tag_tbl_handler().get_id_by_name_if_not_exist_update_new(tag_info)
+    """
+    check the tag form:
+        - only first character should be capitalized
+
+    post tag to database
+    """
+    if type(tag_info) is str:
+        unicode_tag = unicode(tag_info, "utf-8")
+        unicode_tag = unicode_tag.lower()
+        unicode_tag = unicode_tag.capitalize()
+    else:
+        unicode_tag = tag_info
+        unicode_tag = unicode_tag.lower()
+        unicode_tag = unicode_tag.capitalize()
+
+    rst = tag_tbl_handler().get_id_by_name_if_not_exist_update_new(unicode_tag)
     return rst
+
+
 
 
 class user_tag_handler(object):
