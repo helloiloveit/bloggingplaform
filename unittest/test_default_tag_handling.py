@@ -113,13 +113,6 @@ class TestTagHandling(unittest.TestCase):
 
 
 
-    def testUserPostNewTag(self):
-        """
-        user post new tag
-        """
-        request.vars.tag_info = self.tag_info
-        return_info = tag_handler()
-        pass
 
 class TagCreateUtility(object):
     def generate_tag_list(self, length):

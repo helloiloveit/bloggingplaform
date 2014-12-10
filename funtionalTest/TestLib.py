@@ -73,7 +73,11 @@ class TagUtility(object):
 
 
 class HandlingQuestion(unittest.TestCase):
-    POST_BUTTON_ID = "post_button"
+    COMPOSE_POST_BUTTON_ID = "post_button"
+    POST_BUTTON_ID = 'post_question_button'
+    TAG_INPUT_BOX_ID = 'city'
+    DELAY_PERIOD = 1
+    CREATE_TAG_BUTTON_ID = 'create_new_tag'
     def setUp(self):
         #self.driver = webdriver.Firefox()
         self.driver = webdriver.Chrome()
@@ -83,32 +87,43 @@ class HandlingQuestion(unittest.TestCase):
         self.edited_question_info_detail = ' this is a detail of question'
 
 
-    def compose_post(self):
+    def create_random_tag(driver):
+        def random_tag_generator(self, size=6, chars=string.ascii_uppercase + string.digits):
+            return ''.join(random.choice(chars) for _ in range(size))
+        random_string= random_tag_generator(6)
+        return random_string
+
+    def compose_post(self, tag_value):
+
+        def get_suggesstion(driver):
+            sleep(self.DELAY_PERIOD)
+            temp = driver.find_element_by_id('ui-id-1')
+            sleep(self.DELAY_PERIOD)
+            temp2 = temp.find_element_by_id('ui-id-1')
+            return temp2
+
         driver = self.driver
         try:
-            post_button = driver.find_element_by_id(self.POST_BUTTON_ID)
+            post_button = driver.find_element_by_id(self.COMPOSE_POST_BUTTON_ID)
             post_button.click()
         except:
-
-            sleep(2)
-            post_button = driver.find_element_by_id(self.POST_BUTTON_ID)
+            sleep(self.DELAY_PERIOD)
+            post_button = driver.find_element_by_id(self.COMPOSE_POST_BUTTON_ID)
             post_button.click()
 
         #add tag
         sleep(2)
-        tag_info= driver.find_element_by_id('month')
+        tag_info= driver.find_element_by_id(self.TAG_INPUT_BOX_ID)
         tag_info.click()
-        tag_info.send_keys('c')
-        try:
-            sleep(1)
-            temp = driver.find_element_by_id('suggestion_box')
-        except:
-            #wait for ajax call to finish
-            print 'cant receive suggestion box..sleep for 6 second and check again'
-            sleep(6)
-            temp = driver.find_element_by_id('suggestion_box')
-        tag_suggess = temp.find_element_by_xpath('div')
-        tag_suggess.click()
+        tag_info.send_keys(tag_value)
+
+        temp2 = get_suggesstion(driver)
+        if temp2.text == '':
+            print 'no suggesstion'
+            create_tag_button = driver.find_element_by_id(self.CREATE_TAG_BUTTON_ID)
+            create_tag_button.click()
+        else:
+            temp2.click()
         #post_tag_button = driver.find_element_by_id('submit1')
         #post_tag_button.click()
         #add question title
@@ -119,8 +134,9 @@ class HandlingQuestion(unittest.TestCase):
         driver.execute_script("tinyMCE.activeEditor.setContent('{0}')".format(self.question_info_detail))
 
     def post(self):
-        self.compose_post()
-        submit_button = self.driver.find_element_by_id('post_question_button')
+        tag_info = self.create_random_tag()
+        self.compose_post(tag_info)
+        submit_button = self.driver.find_element_by_id(self.POST_BUTTON_ID)
         submit_button.click()
 
 
@@ -140,7 +156,8 @@ class HandlingQuestion(unittest.TestCase):
         question_info.clear()
         question_info.send_keys(self.edit_question_info)
         #wait a bit for javascript to load to use tinymce api
-        sleep(5)
+        sleep(self.DELAY_PERIOD)
+        sleep(self.DELAY_PERIOD)
         driver.execute_script("tinymce.get('{0}').focus()".format('editor1'))
         driver.execute_script("tinyMCE.activeEditor.setContent('{0}')".format(self.edited_question_info_detail))
         submit_button = driver.find_element_by_id('post_question_button')

@@ -17,7 +17,7 @@ from option_handler import *
 from TestLib import *
 
 #test user
-EMAIL_TEST_USER_1='hrgohvb_bushakstein_1406709821@tfbnw.net'
+EMAIL_TEST_USER_1='qcbavsr_sharpestein_1418015926@tfbnw.net'
 PASS_TEST_USER_1='maiphuong'
 """
 def user_login_real_user(self):
@@ -159,12 +159,14 @@ class TestQuestionList(unittest.TestCase):
         self.driver.close()
 
 
-class TestHandlingAnswer(unittest.TestCase):
+class TestHandlingAnswer(HandlingQuestion):
     def setUp(self):
+        super(TestHandlingAnswer, self).setUp()
         self.driver = webdriver.Chrome()
         user_login(self.driver)
         self.answer_info = 'this is an answer'
         self.answer_edit_info = 'this is an edited answer'
+        self.post()
         self.driver.get(QUESTION_LIST_URL)
         question_one = self.driver.find_element_by_class_name('article_header')
         link = question_one.find_element_by_link_text(question_one.text)
@@ -262,10 +264,10 @@ class TestHandlingAnswer(unittest.TestCase):
 
 
 class TestHandlingQuestion(HandlingQuestion):
-    POST_BUTTON_ID = "post_button"
+    COMPOSE_POST_BUTTON_ID = "post_button"
     def setUp(self):
         #self.driver = webdriver.Firefox()
-        super(TestPostQuestionTagHandling, self).setUp()
+        super(TestHandlingQuestion, self).setUp()
         user_login(self.driver)
 
 
@@ -296,71 +298,14 @@ class TestHandlingQuestion(HandlingQuestion):
 
 
 
-class TestPostQuestionTagHandling(HandlingQuestion):
-    POST_BUTTON_ID = "post_button"
-
-    def setUp(self):
-        super(TestPostQuestionTagHandling, self).setUp()
-        #self.driver = webdriver.Firefox()
-        user_login(self.driver)
-
-    def random_tag_generator(self, size=6, chars=string.ascii_uppercase + string.digits):
-        return ''.join(random.choice(chars) for _ in range(size))
-
-    def testUserManageTag(self):
-        driver = self.driver
-        self.compose_post()
-        #add tag
-        sleep(2)
-        def post_new_tag(driver):
-            tag_info= driver.find_element_by_id('month')
-            tag_info.click()
-            random_string= self.random_tag_generator(6)
-            tag_info.send_keys(random_string)
-            sleep(1)
-            #select option in tag suggestion box
-            try:
-                temp = driver.find_element_by_id('suggestion_box')
-            except:
-                #wait for ajax call to finish
-                print 'cant receive suggestion box'
-                sleep(6)
-                temp = driver.find_element_by_id('suggestion_box')
-            tag_suggess = temp.find_element_by_xpath('div')
-            tag_suggess.click()
-            sleep(2)
-            return random_string
-        def post_a_tag(driver, tag_name):
-            tag_info= driver.find_element_by_id('month')
-            tag_info.click()
-            tag_info.send_keys(tag_name)
-            sleep(1)
-
-        post_new_tag(driver)
-        delete_point = driver.find_element_by_id('delete_tag')
-        delete_point.click()
-
-        # User post same tag
-        posted_tag = post_new_tag(driver)
-        post_a_tag(driver, posted_tag)
-        delete_point = driver.find_elements_by_id('delete_tag')
-        try:
-            delete_point.click()
-        except:
-            delete_point[0].click()
-
-
-    def tearDown(self):
-        self.driver.close()
 
 BASE_URL = option_handler(sys)
 
 
 suite = unittest.TestSuite()
 #suite.addTest(unittest.makeSuite(TestAuth))
-#suite.addTest(unittest.makeSuite(TestHandlingQuestion))
-#suite.addTest(unittest.makeSuite(TestHandlingAnswer))
-#suite.addTest(unittest.makeSuite(TestQuestionList))
-#suite.addTest(unittest.makeSuite(TestUserProfile))
-suite.addTest(unittest.makeSuite(TestPostQuestionTagHandling))
+suite.addTest(unittest.makeSuite(TestHandlingQuestion))
+suite.addTest(unittest.makeSuite(TestHandlingAnswer))
+suite.addTest(unittest.makeSuite(TestQuestionList))
+suite.addTest(unittest.makeSuite(TestUserProfile))
 unittest.TextTestRunner(verbosity=2).run(suite)

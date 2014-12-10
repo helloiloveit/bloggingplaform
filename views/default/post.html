@@ -30,7 +30,9 @@
                     giải thích chi tiết
             </textarea>
         </p>
+        <!--
         <input type="checkbox" name="mode" value="private"> hỏi nặc danh<br>
+        -->
     </form>
       <form>
          <div class="ui-widget">
@@ -40,7 +42,9 @@
                     <input id="city">
                   </td>
                   <td>
-                          <div id="target" style="height: 50px; width: 200px; overflow: auto;" class=""></div>
+                          <div id="target" style="height: 50px;  overflow: auto;" class="">
+
+                          </div>
 
                   </td>
               </tr>
@@ -63,32 +67,28 @@
     <script>
         $('#create_new_tag').hide();
         //set value for id
-        var TYPING_BOX = "month";
+        var TAG_TYPING_BOX = "city";
         var RESULT_BOX = "target";
+        var CREATE_NEW_TAG = "create_new_tag";
         //set init value for input tag_list
        $('#tag_list').val('');
 
         $('#question_header').val("tiêu đề câu hỏi");
-        $("#" + TYPING_BOX).val("phân loại cho câu hỏi");
+        $("#" + TAG_TYPING_BOX).val("phân loại cho câu hỏi");
         $('#question_header').click(function(){
             $('#question_header').val("");
         });
+        $("#"+ TAG_TYPING_BOX).click(function(){
+            $("#"+ TAG_TYPING_BOX).val("");
+        });
 
 
-        jQuery('#create_new_tag').click(function(){
+        jQuery('#' + CREATE_NEW_TAG).click(function(){
             var tag_value = $('#city').val();
             user_post_new_tag(tag_value, 'suggestion_box');
          });
 
 
-        jQuery("#"+ TYPING_BOX).click(function(){
-            $("#"+ TYPING_BOX).val("");
-            });
-        $("#" +  TYPING_BOX).keypress(function (e){
-            if(e.keyCode == 13){
-             e.preventDefault();
-            }
-        });
 
 
         jQuery("#post_question_button").click(function(){
@@ -97,25 +97,6 @@
 
 
 
-      function user_select_tag_handler_new(tag_info, suggestion_box_id){
-         tag_info =  capitaliseFirstLetter(tag_info);
-         $("#" + TYPING_BOX).val(tag_info);
-         $("#" + suggestion_box_id).remove();
-
-         current_tag = $("#" + RESULT_BOX).html();
-
-         if ($.inArray(tag_info, tag_list) == -1)
-        {
-            tag_list[tag_list.length] = tag_info;
-            var txt1 = "<span class = post-tag>" + tag_info + "<span id = delete_tag value = "+ tag_info + " class = delete-tag title = remove this tag>x</span></span>";
-            $("#" + RESULT_BOX).append(txt1);
-         }
-
-         $('#tag_list').val(tag_list);
-         $("#" + SAVE_TAG_LIST_BUTTON).show();
-
-
-      }
 
 
 
@@ -141,7 +122,7 @@
 
 
         request.done(function( msg ) {
-            user_select_tag_handler_new(tag_info, 'suggestion_box');
+            user_select_tag_handler_new(tag_info);
 
         });
 
@@ -163,8 +144,7 @@
     $( "#city" ).autocomplete({
       source: function( request, response ) {
         $.ajax({
-          //url: "http://gd.geobytes.com/AutoCompleteCity",
-          url: "http://localhost:8002/tag_handler",
+          url: "{{=URL('tag_handler')}}",
           dataType: "jsonp",
           data: {
             tag_info: request.term
@@ -180,11 +160,12 @@
       minLength: 3,
       select: function( event, ui ) {
         $('#create_new_tag').hide();
-        user_select_tag_handler_new(ui.item.label, 'suggestion_box');
+        user_select_tag_handler_new(ui.item.label);
         //alert(tag_list);
 
       },
       open: function() {
+        $('#create_new_tag').hide();
         $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
       },
       close: function() {

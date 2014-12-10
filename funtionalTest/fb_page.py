@@ -20,7 +20,7 @@ from TestLib import *
 FB_PAGE = 'http://localhost:8002/fb_main'
 
 #test user
-EMAIL_TEST_USER_1='hrgohvb_bushakstein_1406709821@tfbnw.net'
+EMAIL_TEST_USER_1='qcbavsr_sharpestein_1418015926@tfbnw.net'
 PASS_TEST_USER_1='maiphuong'
 """
 def user_login_real_user(self):
@@ -79,7 +79,7 @@ class TestMainPage(unittest.TestCase):
 
 
 class TestPostQuestion(HandlingQuestion):
-    POST_BUTTON_ID = "fb_post_button"
+    COMPOSE_POST_BUTTON_ID = "fb_post_button"
     def setUp(self):
         self.driver = webdriver.Chrome()
         user_login(self.driver)
@@ -104,7 +104,7 @@ class TestPostQuestion(HandlingQuestion):
         self.delete_post()
         #check the url
         url_info = driver.current_url
-        self.assertIn( os.path.join(BASE_URL , 'question_list'),url_info)
+        self.assertIn( os.path.join(BASE_URL , 'fb_main'),url_info)
         #go to profile
 
 
@@ -204,8 +204,8 @@ BASE_URL = option_handler(sys)
 
 
 suite = unittest.TestSuite()
-#suite.addTest(unittest.makeSuite(TestMainPage))
-suite.addTest(unittest.makeSuite(TestPostQuestion))
+suite.addTest(unittest.makeSuite(TestMainPage))
+#suite.addTest(unittest.makeSuite(TestPostQuestion))
 #suite.addTest(unittest.makeSuite(TestShareTag))
 #suite.addTest(TestShareTag('testUserAddManyTag'))
 unittest.TextTestRunner(verbosity=2).run(suite)

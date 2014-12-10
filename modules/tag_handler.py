@@ -85,7 +85,7 @@ class user_tag_handler(object):
         return True
     def get_tag_info(self):
         db = self.db
-        tag_info = db(db.user_tag_tbl).select()
+        tag_info = db(db.user_tag_tbl.user_info == self.auth.user.id).select()
         tag_list = []
         for tag in tag_info:
             tag_data = db(db.tag_tbl.id == tag.tag_info).select()[0]
