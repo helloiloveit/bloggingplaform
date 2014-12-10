@@ -4,15 +4,20 @@
 
 {{response.title = item.question_info}}
         {{block head}}
+        {{url_link=URL(args=request.args, vars=request.get_vars, host=True)}}
         {{img_path ='https://graph.facebook.com/' + user_info.username + '/picture?type=large'}}
         <!--
         <meta property="og:image" content= "{{='http://' + request.env['HTTP_HOST'] + URL('static', 'images/user.jpg')}}">
         <meta property="og:image" content="https://graph.facebook.com/540428388/picture?type=large">
         -->
+        <meta property="og:url" content='{{=url_link}}'>
+        <meta property="og:title" content='{{=item.question_info}}'>
+        <meta property="og:description" content='{{item.question_detail_info}}'>
+
         <meta property="og:image" content={{=img_path}}>
         <meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="400">
-<meta property="og:image:height" content="400">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="200">
         {{end}}
 <div class="article_container">
   <div>
@@ -180,7 +185,7 @@
                       thích</a>
                   {{pass}}
                   {{else:}}
-                  <a  class ="register_to_like" value ={{=''}} style="color:grey" href={{=URL( f='user/login',vars=dict(_next=URL(f='question', args=[request.args[0]] ))  )}}>
+                  <a  class ="register_to_like" value ={{=''}} style="color:grey" href={{=URL( f='user/login',vars=dict(_next=URL(f='question', vars={'id':[request.vars.id]} ))  )}}>
                       <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon_grey.png')}} alt="Pulpit rock" width="20" height="20">
                       thích</a>
                   {{pass}}
