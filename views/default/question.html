@@ -95,7 +95,11 @@
               </td>
               {{pass}}
               <td>
-                  {{url_root = 'http://www.chuotnhat.vn'}}
+                  {{function_info = URL()}}
+                  {{url_root=URL( host=True)}}
+                  {{position = url_root.find(function_info)}}
+                  {{url_root = url_root[:position]}}
+
                                       <a id="ask_friend_button"  href=
                           "http://www.facebook.com/dialog/send?
   app_id= 313224325539076
