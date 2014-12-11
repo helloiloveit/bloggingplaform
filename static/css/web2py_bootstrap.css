@@ -1,4 +1,4 @@
-/*=============================================================
+*=============================================================
                        CUSTOM RULES
 ==============================================================*/
 
@@ -71,7 +71,7 @@ font-weight: 300;
 
     font-size: 18px;
     font-family: 'Roboto Slab', serif;
-    font-weight: 300;
+    font-weight: 400;
     height:40px;
     margin-top:20px;
     border-spacing: 7px;
@@ -89,6 +89,7 @@ background-color: rgb(245, 242, 242);
 .article_header{
     font-size: 26px;
     font-family: 'Open Sans', sans-serif;
+    //font-family: 'Roboto Slab', serif;
     font-weight: 300;
     margin-top:0px;
     color:rgb(19, 19, 219);
@@ -104,8 +105,8 @@ background-color: rgb(245, 242, 242);
 
 }
 .article_container .article_introduction{
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 16px;
+    font-weight: 300;
     margin-top:20px;
     width:80%;
 }

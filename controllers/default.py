@@ -124,6 +124,7 @@ def user_profile():
         #answer list
         answer_list = db(db.answer_tbl.author_info == user_info.id).select()
         answer_list, page_num, view_more_flag = _handle_page_num(request, answer_list)
+        log.info(" return %s", locals())
 
         return dict(person_profile = profile_info,
                     person_info= user_info,

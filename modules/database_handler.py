@@ -42,7 +42,7 @@ def post_new_question(request, auth):
     return question_id
 def delete_a_question(request):
     question_id = request.vars.id
-    question_tbl_handler().delete_question_in_db(question_id)
+    question_tbl_handler().delete_question(question_id)
     return
 
 def update_a_question(request):
@@ -119,7 +119,13 @@ class question_tbl_handler(object):
             log.error('cant update tbl')
         pass
 
-    def delete_question_in_db(self, question_id):
+    def delete_question(self, question_id):
+        """
+        - delete question record
+        - delete all answer of this question
+        """
+        answer_handler().delete_answers_of_question(question_id)
+
         if self._delete_record(question_id):
             #delete question id in tag
             if question_tag_handler().delete_question_tag(question_id):
@@ -239,6 +245,14 @@ class answer_handler(object):
         except:
             log.error("cant create answer record")
         return answer_id
+
+    def delete_answers_of_question(self, question_id):
+        db = self.db
+        answer_list = db(db.answer_tbl.question_id == question_id).select()
+        for answer_id in answer_list:
+            db(db.answer_tbl.id == answer_id).delete()
+        pass
+
 
     def del_answer_record_in_tbl(self, answer_id):
         db = self.db
