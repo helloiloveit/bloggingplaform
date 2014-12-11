@@ -498,6 +498,12 @@ def fb_main():
     """
     test data
     """
+    """
+    temporary for redirect call to fb_question
+    """
+    if request.args == ['fb_question']:
+        redirect(URL(r = request, f= 'fb_question', vars = {'id':request.vars.id}))
+
     check_noti()
     tag_info = []
     if auth.is_logged_in():
@@ -561,7 +567,6 @@ def fb_edit_question():
 
     return dict()
 
-@auth.requires_login()
 def fb_question():
     return question()
 
