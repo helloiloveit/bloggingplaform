@@ -108,7 +108,6 @@ background-color: rgb(245, 242, 242);
     font-size: 16px;
     font-weight: 300;
     margin-top:20px;
-    width:80%;
 }
 .article_container .article_introduction_bigger{
 //    font-size: 16px;
@@ -293,7 +292,6 @@ font-family: 'Roboto Slab', serif;
 }
 
 #question_header{
-width: 540px;
 height: 40px;
 font-size: 20px;
 font-family: 'Open Sans', sans-serif;
@@ -312,7 +310,6 @@ margin-top:60px;
 height: 20px;
 }
 #post_button{
-    margin-top:6px;
     color: black;
 }
 .like_unlike_button{
