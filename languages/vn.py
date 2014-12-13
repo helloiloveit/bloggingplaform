@@ -419,6 +419,8 @@
 'You are successfully running web2py': 'Úspěšně jste spustili web2py.',
 'You can also set and remove breakpoint in the edit window, using the Toggle Breakpoint button': 'Nastavovat a mazat body přerušení je též možno v rámci editování zdrojového souboru přes tlačítko Vyp./Zap. bod přerušení',
 'You can modify this application and adapt it to your needs': 'Tuto aplikaci si můžete upravit a přizpůsobit ji svým potřebám.',
+'You can modify this application and adapt it to your needs sdjflkjsdfljfjsjdfksjlfjskfjslkdjfdsljflskjfsjflksjfddskljfssdklfjskfj sdfjlsdk sdfsdf sdfsdf sdfsdf sdfsdf': 'You can modify this application and adapt it to your needs sdjflkjsdfljfjsjdfksjlfjskfjslkdjfdsljflskjfsjflksjfddskljfssdklfjskfj sdfjlsdk sdfsdf sdfsdf sdfsdf sdfsdf',
+'You can modify this application and adapt it to your needs sdjflkjsdfljfjsjdfksjlfjskfjslkdjfdsljflskjfsjflksjfddskljfssdklfjskfjsdfjlsdk': 'You can modify this application and adapt it to your needs sdjflkjsdfljfjsjdfksjlfjskfjslkdjfdsljflskjfsjflksjfddskljfssdklfjskfjsdfjlsdk',
 'You need to set up and reach a': 'Je třeba nejprve nastavit a dojít až na',
 'You visited the url %s': 'Navštívili jste stránku %s,',
 'Your application will be blocked until you click an action button (next, step, continue, etc.)': 'Aplikace bude blokována než se klikne na jedno z tlačítek (další, krok, pokračovat, atd.)',
