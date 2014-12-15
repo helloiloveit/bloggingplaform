@@ -1,114 +1,76 @@
-{{extend 'fb_layout.html'}}
+{{extend 'layout.html'}}
 <style>
-    #suggestions { position: relative; }
-    .suggestions { background: white; border: solid 1px #55A6C8; }
-    .suggestions DIV { padding: 2px 4px 2px 4px; }
+#suggestions { position: relative; }
+.suggestions { background: white; border: solid 1px #55A6C8; }
+.suggestions DIV { padding: 2px 4px 2px 4px; }
 </style>
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css">
-<style>
-    .ui-autocomplete-loading {
-    background: white url("{{=URL('static', 'images/ui-anim_basic_16x16.gif')}}") right center no-repeat;
-    }
-    #city { width: 15em; }
-</style>
 
 <div class="post_article">
-    <div id="mainContent">
-        <h1>  </h1>
+  <div id="mainContent">
+    <h1>  </h1>
 
-        <form id ="question_content_form" action="fb_post_question" method="post">
-            <p>
-                <input id ="tag_list" type ="hidden"  type="text" name="tag_list"  autocomplete="off" value = tag_list>
-                <input id = "question_header" type="text" name="question_info" value ="">
-            </p>
-            <p>
+    <form id ="question_content_form" action="post_question" method="post">
+        <p>
+            <input id ="tag_list" type ="hidden"  type="text" name="tag_list"  autocomplete="off" value = tag_list>
+           <input id = "question_header" type="text" name="question_info" value ="">
+        </p>
+        <p>
                 <textarea  id="editor1" name="question_detail_info" rows="10" >
-                    giải thích chi tiết
-                </textarea>
-            </p>
-            <!--
-            <input type="checkbox" name="mode" value="private"> hỏi nặc danh<br>
-            -->
-        </form>
-        <form>
-            <div class="ui-widget">
-                <table>
-                    <tr>
-                        <td>
-                            <input id="city">
-                        </td>
-                        <td>
-                            <div id="target" style="height: 50px; width: 200px; overflow: auto;" class=""></div>
+                     giải thích chi tiết
+            </textarea>
+        </p>
+    </form>
+      <form>
+          <table>
+              <tr>
+                  <td>
+          <input type="text" id="month" class="tag_box" name="tag_info" value = "" autocomplete="off" style="width: 150px; height:30px" /> <span class="suggest_text"></span>
+          <br />
+                      </td>
+              <td>
+                    <div id="target"></div>
+                  </td>
+              </tr>
+              </table>
+          <div style="position: absolute;" id="suggestions" class="suggestions">
+          </div>
+      </form>
+      <button id="post_question_button"> Gửi đi </button>
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a id="create_new_tag">save this tag</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </form>
-        <button id="post_question_button"> Gửi đi </button>
-
-
-
-
-
-
-        <script src="{{=URL('static','js/default/post_question.js')}}"></script>
-        <script>
-        $('#create_new_tag').hide();
-        //set value for id
-        var TAG_TYPING_BOX = "city";
-        var RESULT_BOX = "target";
-        var CREATE_NEW_TAG = "create_new_tag";
-        //set init value for input tag_list
-       $('#tag_list').val('');
-
-        $('#question_header').val("tiêu đề câu hỏi");
-        $("#" + TAG_TYPING_BOX).val("phân loại cho câu hỏi");
+    <script>
+        var tag_list = [];
+         // set vietnamese text for input
+        $('#question_header').val("câu hỏi của bạn");
+        $('#month').val("phân loại cho câu hỏi");
         $('#question_header').click(function(){
             $('#question_header').val("");
         });
-        $("#"+ TAG_TYPING_BOX).click(function(){
-            $("#"+ TAG_TYPING_BOX).val("");
-        });
 
-
-        jQuery('#' + CREATE_NEW_TAG).click(function(){
-            var tag_value = $('#city').val();
-            user_post_new_tag(tag_value, 'suggestion_box');
-         });
-
-
-
+        jQuery("#month").keyup(function(){
+            ajax('tag_handler', ['tag_info'], 'suggestions');
+            });
+        jQuery("#month").click(function(){
+            $("#month").val("");
+            });
 
         jQuery("#post_question_button").click(function(){
             $( "#question_content_form" ).submit();
             });
-
-
-
-
-
-
-        jQuery("#" + RESULT_BOX).on('click', 'span.delete-tag', function() {
+        jQuery("#target").on('click', 'span.delete-tag', function() {
+            //alert(tag_list);
+            //alert('delete' + $(this).attr('value'));
             //remove tag from tag list
-            removeItem = $(this).parent().text();
-            removeItem = removeItem.substring(0, removeItem.length - 1);
-            user_remove_tag(removeItem);
+            removeItem = $(this).attr('value');
+            tag_list = jQuery.grep(tag_list, function(value) {
+            return value != removeItem;
+            });
+            //alert(tag_list);
+            //alert($(this).parent().attr('class'));
             $(this).parent().remove();
             });
 
 
-
-        // leave this code here for using URL
       function user_post_new_tag(tag_info, suggestion_box_id){
          $("#" + suggestion_box_id).remove();
          var request = $.ajax({
@@ -120,8 +82,7 @@
 
 
         request.done(function( msg ) {
-            user_select_tag_handler_new(tag_info);
-
+            user_select_tag_handler(tag_info, 'suggestion_box');
         });
 
         request.fail(function( jqXHR, textStatus ) {
@@ -130,48 +91,30 @@
 
       }
 
-    </script>
-        <script>
+      function user_select_tag_handler(tag_info, suggestion_box_id){
+         //$('#month').val(tag_info);
+         //alert(suggestion_box_id);
+         $("#" + suggestion_box_id).remove();
 
-  $(function() {
-    function log( message ) {
-      $( "<div>" ).text( message ).prependTo( "#target" );
-      $( "#target" ).scrollTop( 0 );
-    }
+         current_tag = $('#target').html();
+         //$('#target').html(current_tag+' ' + tag_info);
+         //alert(tag_info + tag_list);
 
-    $( "#city" ).autocomplete({
-      source: function( request, response ) {
-        $.ajax({
-          url: "{{=URL('tag_handler')}}",
-          dataType: "jsonp",
-          data: {
-            tag_info: request.term
-          },
-          success: function( data ) {
-            if (data.length ==0){
-                $('#create_new_tag').show();
-            }
-            response( data );
-          }
-        });
-      },
-      minLength: 3,
-      select: function( event, ui ) {
-        $('#create_new_tag').hide();
-        user_select_tag_handler_new(ui.item.label);
-        //alert(tag_list);
+         if ($.inArray(tag_info, tag_list) == -1)
+        {
+            tag_list[tag_list.length] = tag_info;
+            //alert(tag_info);
+            var txt1 = "<span class = post-tag>" + tag_info + "<span id = delete_tag value = "+ tag_info + " class = delete-tag title = remove this tag>x</span></span>";
+            $('#target').append(txt1);
+         }
 
-      },
-      open: function() {
-        $('#create_new_tag').hide();
-        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-      },
-      close: function() {
-        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+         $('#tag_list').val(tag_list);
+
       }
-    });
-  });
-  </script>
 
-        </html>
+    </script>
+
+
+</html>
+
 

@@ -39,21 +39,13 @@ def search_box():
 def test_tinyMCE():
     return dict()
 
-def test_autocom():
-    temp = request.vars.callback
-    data_group = [{'type':'now',"data":""},{'type':'future',"data":""}]
-    data_group =  (['type','now'])
-    #data_group =  ([])
-    return temp + '('+json.dumps(data_group) + ')'
-
 def test_facebook():
     return dict()
 
 @auth.requires_login()
 def create_new_tag():
     if not request.vars.tag_info: return ''
-    tag_info = request.vars.tag_info
-
+    tag_info = request.vars.tag_info.capitalize()
     rst = user_create_new_tag(tag_info)
     if rst:
         return True
@@ -65,13 +57,29 @@ def tag_handler():
     if not request.vars.tag_info: return ''
     tag_info = request.vars.tag_info
     selected = question_tag_handler().search_for_related_tag_in_tbl(tag_info)
+    #selected =['tag1','tag2', 'tag3','tag4']
+    #selected = [m for m in tag_list if m.name.startswith(tag_info)]
+    log.info('selected = %s', selected)
+    div_id = "suggestion_box"
 
-    temp = request.vars.callback
-    data_group = []
-    if type(selected) is list:
-        for k in selected:
-            data_group.append(k)
-    return temp + '('+json.dumps(data_group) + ')'
+    if not selected:
+        temp = [DIV('tạo tag moi',
+                    _onclick="user_post_new_tag('%s','%s');" %(tag_info, div_id),
+                    _onmouseover="this.style.backgroundColor='yellow'",
+                    _onmouseout="this.style.backgroundColor='white'"
+        )]
+    else:
+        temp = [DIV(k,
+                    _onclick="user_select_tag_handler('%s','%s');" %(k,div_id),
+                    _onmouseover="this.style.backgroundColor='yellow'",
+                    _onmouseout="this.style.backgroundColor='white'"
+        ) for k in selected]
+
+
+    return DIV(
+                temp, _id ="%s" % div_id
+                )
+
 
 
 def user():
@@ -124,7 +132,6 @@ def user_profile():
         #answer list
         answer_list = db(db.answer_tbl.author_info == user_info.id).select()
         answer_list, page_num, view_more_flag = _handle_page_num(request, answer_list)
-        log.info(" return %s", locals())
 
         return dict(person_profile = profile_info,
                     person_info= user_info,
@@ -137,7 +144,6 @@ def user_profile():
                     view_more_flag = view_more_flag)
     return dict()
 
-@auth.requires_login()
 def edit_user_profile():
     if request.env.REQUEST_METHOD =='POST':
         rst = update_self_introduction(request, auth)
@@ -227,12 +233,15 @@ def question():
     Display blog by id
     """
 
-    if request.env.REQUEST_METHOD == 'GET':
+    if request.env.REQUEST_METHOD == 'POST':
+        create_new_answer(request, auth)
+        redirect(URL(r = request, f= 'question', args = request.vars.question_id))
+    elif request.env.REQUEST_METHOD == 'GET':
         question = None
         answer_list = []
         user_id =''
         try:
-            question = db(db.question_tbl.id == int(request.vars.id)).select()[0]
+            question = db(db.question_tbl.id == int(request.args[0])).select()[0]
             user_info = db(db.auth_user.id == question.writer).select().first()
             try:
                 answer_list = db(db.answer_tbl.question_id == question.id).select()
@@ -252,10 +261,6 @@ def question():
                     comment_list = answer_list,
                     user_info = user_info,
                     related_question_list = related_question_list)
-def post_comment():
-    create_new_answer(request, auth)
-    redirect(URL(r = request, f= 'question', vars ={'id': request.vars.id}))
-
 
 @auth.requires_login()
 def edit_question():
@@ -264,12 +269,12 @@ def edit_question():
     """
     log.info("edit question")
     if request.env.REQUEST_METHOD == 'GET':
-        question = db(db.question_tbl.id == request.vars.id).select()[0]
-        tag_list = question_tag_handler().get_tag_name_list_of_a_question(request.vars.id)
+        question = db(db.question_tbl.id == request.args[0]).select()[0]
+        tag_list = question_tag_handler().get_tag_name_list_of_a_question(request.args[0])
         return dict(question = question , tag_list = tag_list)
     elif request.env.REQUEST_METHOD == 'POST':
         update_a_question(request)
-        redirect(URL(r = request, f= 'question', vars ={'id': request.vars.id}))
+        redirect(URL(r = request, f= 'question', args = [request.args[0]]))
 
     return dict()
 
@@ -283,7 +288,7 @@ def delete_question():
             delete_a_question(request)
             redirect(URL(r = request, f= 'question_list'))
         elif selection['selection'] == "NO":
-            redirect(URL(r = request, f= 'question', vars ={'id': request.vars.id}))
+            redirect(URL(r = request, f= 'question', args = [request.args[0]]))
     return dict()
 
 @auth.requires_login()
@@ -305,7 +310,7 @@ def edit_answer():
         if session.EDIT_ANSWER_ORIGIN_URL == 'user_profile':
             redirect(URL(r = request, f= 'user_profile', vars = {'user_id':auth.user.id}))
         elif session.EDIT_ANSWER_ORIGIN_URL == 'question':
-            redirect(URL(r = request, f= 'question', vars ={'id': question_id}))
+            redirect(URL(r = request, f= 'question', args = [question_id]))
 
     return dict()
 
@@ -323,9 +328,10 @@ def delete_answer():
             delete_a_answer(request)
         elif selection['selection'] == "NO":
             pass
-        redirect(URL(r = request, f= 'question', vars ={'id':question_id} ))
+        redirect(URL(r = request, f= 'question', args = [question_id]))
     return dict()
 
+    return dict()
 
 def create_data_for_question_list_for_test():
     import pdb; pdb.set_trace()
@@ -425,7 +431,7 @@ def post_question():
         import copy
         question_id = copy.copy(question_id)
         noti_handler(question_id).add_to_gae_task_queue(request)
-        redirect(URL(r = request, f= 'question', vars = {'id':question_id}))
+        redirect(URL(r = request, f= 'question', args = question_id))
     return dict()
 
 
@@ -449,7 +455,6 @@ def user_update_an_answer():
 @auth.requires_login()
 def user_del_an_answer():
     del_an_answer(request)
-    log.info("")
     return dict()
 
 
@@ -489,28 +494,15 @@ def unfollow_a_person():
 ############################################
 ################facebook####################
 ############################################
-def check_noti():
-    if request.vars.fb_source == 'notification':
-        redirect(URL(r = request, f= 'question', vars = {'id':request.vars.id}))
-    else:
-        return
 
 def fb_main():
     """
     test data
     """
-    """
-    temporary for redirect call to fb_question
-    """
-    if request.args == ['fb_question']:
-        redirect(URL(r = request, f= 'fb_question', vars = {'id':request.vars.id}))
-
-    check_noti()
     tag_info = []
     if auth.is_logged_in():
         try:
             tag_info = user_tag_handler(auth).get_tag_info()
-            print tag_info
         except:
             pass
     return dict(tag_list = tag_info)
@@ -534,136 +526,11 @@ def fb_test():
 
 def fb_test_queue():
     from google.appengine.api import taskqueue
+    log.info('lalal')
     taskqueue.add(url='/add_gae_queue', params={'question_id': '123'})
     return dict()
 
 @auth.requires_login()
 def fb_post():
+    log.info("request.vars = %s",request.vars)
     return dict(article_tag_list ="" )
-
-@auth.requires_login()
-def fb_post_question():
-    question_id = post_new_question(request, auth)
-    if question_id:
-        #add to queue
-        import copy
-        question_id = copy.copy(question_id)
-        noti_handler(question_id).add_to_gae_task_queue(request)
-        redirect(URL(r = request, f= 'fb_question', vars = {'id':question_id}))
-    return dict()
-
-@auth.requires_login()
-def fb_edit_question():
-    """
-    Edit blog
-    """
-    log.info("edit question")
-    if request.env.REQUEST_METHOD == 'GET':
-        question = db(db.question_tbl.id == request.vars.id).select()[0]
-        tag_list = question_tag_handler().get_tag_name_list_of_a_question(request.vars.id)
-        return dict(question = question , tag_list = tag_list)
-    elif request.env.REQUEST_METHOD == 'POST':
-        update_a_question(request)
-        redirect(URL(r = request, f= 'fb_question', vars ={'id': request.vars.id}))
-
-    return dict()
-
-def fb_question():
-    return question()
-
-@auth.requires_login()
-def fb_delete_question():
-    selection = request.vars
-    if request.env.REQUEST_METHOD == 'GET':
-        return dict()
-    elif request.env.REQUEST_METHOD == 'POST':
-        if selection['selection'] == "YES":
-            delete_a_question(request)
-            redirect(URL(r = request, f= 'fb_main'))
-        elif selection['selection'] == "NO":
-            redirect(URL(r = request, f= 'fb_question', vars ={'id': request.vars.id}))
-    return dict()
-
-
-@auth.requires_login()
-def fb_post_comment():
-    create_new_answer(request, auth)
-    redirect(URL(r = request, f= 'fb_question', vars ={'id': request.vars.id}))
-
-
-@auth.requires_login()
-def fb_edit_answer():
-    """
-    edit answer
-    """
-    if request.env.REQUEST_METHOD == 'GET':
-        answer_id = request.args[0]
-        origin_url = request.vars.origin
-        session.EDIT_ANSWER_ORIGIN_URL = origin_url
-        answer = db(db.answer_tbl.id == answer_id).select().first()
-        return dict(answer = answer)
-    elif request.env.REQUEST_METHOD == 'POST':
-        update_an_answer(request)
-        answer_id = request.vars.answer_id
-        answer = db(db.answer_tbl.id == answer_id).select().first()
-        question_id = answer.question_id
-        if session.EDIT_ANSWER_ORIGIN_URL == 'user_profile':
-            redirect(URL(r = request, f= 'user_profile', vars = {'user_id':auth.user.id}))
-        elif session.EDIT_ANSWER_ORIGIN_URL == 'question':
-            redirect(URL(r = request, f= 'fb_question', vars ={'id': question_id}))
-
-    return dict()
-
-@auth.requires_login()
-def fb_delete_answer():
-    selection = request.vars
-    if request.env.REQUEST_METHOD == 'GET':
-        answer_id = request.args[0]
-        return dict(answer_id = answer_id)
-    elif request.env.REQUEST_METHOD == 'POST':
-        answer_id = selection['answer_id']
-        answer = db(db.answer_tbl.id == answer_id).select().first()
-        question_id = answer.question_id
-        if selection['selection'] == "YES":
-            delete_a_answer(request)
-        elif selection['selection'] == "NO":
-            pass
-        redirect(URL(r = request, f= 'fb_question', vars ={'id':question_id} ))
-    return dict()
-
-@auth.requires_login()
-def fb_user_profile():
-    return user_profile()
-
-@auth.requires_login()
-def fb_edit_user_profile():
-    if request.env.REQUEST_METHOD =='POST':
-        rst = update_self_introduction(request, auth)
-        redirect(URL('fb_user_profile', vars=dict(user_id=request.vars.user_id)))
-        return dict()
-    elif request.env.REQUEST_METHOD =='GET':
-        target_person_id = request.vars.user_id
-        profile_info = db(db.user_profile.user_info == target_person_id).select().first()
-        user_info = db(db.auth_user.id == target_person_id).select().first()
-        try:
-            #if user is logged in
-            follow_record = db((db.follow_info_tbl.followed_user == target_person_id)&(db.follow_info_tbl.following_user == auth.user.id )).select().first()
-        except:
-            # not login
-            follow_record = False
-            pass
-        if follow_record:
-            follow_flag = True
-        else:
-            follow_flag = False
-        #following
-        following_list = db(db.follow_info_tbl.followed_user == target_person_id).select()
-        #followed
-        followed_list = db(db.follow_info_tbl.following_user == target_person_id).select()
-        return dict(person_profile = profile_info,
-                    person_info= user_info,
-                    follow_flag = follow_flag,
-                    following_list = followed_list,
-                    followed_list = followed_list)
-
-    return dict()

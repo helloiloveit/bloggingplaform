@@ -19,6 +19,7 @@ def  option_handler(sys):
         option = sys.argv[1]
     except:
         option = ''
+
     if option == 'local':
         BASE_URL = LOCAL_TEST
         print '...start testing in local machine'

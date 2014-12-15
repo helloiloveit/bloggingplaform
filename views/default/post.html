@@ -5,16 +5,6 @@
 .suggestions DIV { padding: 2px 4px 2px 4px; }
 </style>
 
- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <style>
-  .ui-autocomplete-loading {
-    background: white url("{{=URL('static', 'images/ui-anim_basic_16x16.gif')}}") right center no-repeat;
-  }
-  #city { width: 15em; }
-  </style>
 
 <div class="post_article">
   <div id="mainContent">
@@ -30,72 +20,56 @@
                     giải thích chi tiết
             </textarea>
         </p>
-        <!--
         <input type="checkbox" name="mode" value="private"> hỏi nặc danh<br>
-        -->
     </form>
       <form>
-         <div class="ui-widget">
           <table>
               <tr>
                   <td>
-                    <input id="city">
+          <input type="text" id="month" name="tag_info" value = "" autocomplete="off" style="width: 150px; height:30px" />
+          <!--<span class="suggest_text"> học tiếng anh..</span>-->
+          <br />
                   </td>
                   <td>
-                          <div id="target" style="height: 50px;  overflow: auto;" class="">
-
-                          </div>
-
+                      <div id="target"></div>
                   </td>
               </tr>
-              <tr>
-                  <td>
-                      <a id="create_new_tag">save this tag</a>
-                  </td>
-              </tr>
-          </table>
-        </div>
+             </table>
+          <div style="position: absolute;" id="suggestions" class="suggestions">
+          </div>
       </form>
       <button id="post_question_button"> Gửi đi </button>
 
-
-
-
-
-
       <script src="{{=URL('static','js/default/post_question.js')}}"></script>
     <script>
-        $('#create_new_tag').hide();
         //set value for id
-        var TAG_TYPING_BOX = "city";
+        var TYPING_BOX = "month";
         var RESULT_BOX = "target";
-        var CREATE_NEW_TAG = "create_new_tag";
         //set init value for input tag_list
        $('#tag_list').val('');
 
         $('#question_header').val("tiêu đề câu hỏi");
-        $("#" + TAG_TYPING_BOX).val("phân loại cho câu hỏi");
+        $("#" + TYPING_BOX).val("phân loại cho câu hỏi");
         $('#question_header').click(function(){
             $('#question_header').val("");
         });
-        $("#"+ TAG_TYPING_BOX).click(function(){
-            $("#"+ TAG_TYPING_BOX).val("");
+
+        jQuery("#" + TYPING_BOX).keyup(function(){
+            ajax('tag_handler', ['tag_info'], 'suggestions');
+            });
+        jQuery("#"+ TYPING_BOX).click(function(){
+            $("#"+ TYPING_BOX).val("");
+            });
+        $("#" +  TYPING_BOX).keypress(function (e){
+            if(e.keyCode == 13){
+             e.preventDefault();
+            }
         });
-
-
-        jQuery('#' + CREATE_NEW_TAG).click(function(){
-            var tag_value = $('#city').val();
-            user_post_new_tag(tag_value, 'suggestion_box');
-         });
-
-
 
 
         jQuery("#post_question_button").click(function(){
             $( "#question_content_form" ).submit();
             });
-
-
 
 
 
@@ -122,8 +96,7 @@
 
 
         request.done(function( msg ) {
-            user_select_tag_handler_new(tag_info);
-
+            user_select_tag_handler(tag_info, 'suggestion_box');
         });
 
         request.fail(function( jqXHR, textStatus ) {
@@ -133,47 +106,6 @@
       }
 
     </script>
-  <script>
-
-  $(function() {
-    function log( message ) {
-      $( "<div>" ).text( message ).prependTo( "#target" );
-      $( "#target" ).scrollTop( 0 );
-    }
-
-    $( "#city" ).autocomplete({
-      source: function( request, response ) {
-        $.ajax({
-          url: "{{=URL('tag_handler')}}",
-          dataType: "jsonp",
-          data: {
-            tag_info: request.term
-          },
-          success: function( data ) {
-            if (data.length ==0){
-                $('#create_new_tag').show();
-            }
-            response( data );
-          }
-        });
-      },
-      minLength: 3,
-      select: function( event, ui ) {
-        $('#create_new_tag').hide();
-        user_select_tag_handler_new(ui.item.label);
-        //alert(tag_list);
-
-      },
-      open: function() {
-        $('#create_new_tag').hide();
-        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-      },
-      close: function() {
-        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-      }
-    });
-  });
-  </script>
 
 </html>
 

@@ -1,79 +1,60 @@
 {{extend 'layout.html'}}
 <style>
-    #suggestions { position: relative; }
-    .suggestions { background: white; border: solid 1px #55A6C8; }
-    .suggestions DIV { padding: 2px 4px 2px 4px; }
+#suggestions { position: relative; }
+.suggestions { background: white; border: solid 1px #55A6C8; }
+.suggestions DIV { padding: 2px 4px 2px 4px; }
 </style>
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css">
-<style>
-    .ui-autocomplete-loading {
-    background: white url("{{=URL('static', 'images/ui-anim_basic_16x16.gif')}}") right center no-repeat;
-    }
-    #city { width: 15em; }
-</style>
 
-<div class="post_article">
-    <div id="mainContent">
-        <h1>  </h1>
+<div id="container">
+  <div id="mainContent">
+    <h1>  </h1>
+ <form id ="question_content_form2" action="" method="post">
+         <p>
+            <input id ="tag_list" type ="hidden"  type="text" name="tag_list"  autocomplete="off" value = tag_list>
+           <input id = "question_header" type="text" name="question_info" value = "{{=question.question_info}}">
+        </p>
+        <p>
+            <textarea  cols="80" id="editor1" name="question_detail_info" rows="10">
+                {{=question.question_detail_info}}
+            </textarea>
+        </p>
+    </form>
 
-        <form id ="question_content_form2" action="post_question" method="post">
-            <p>
-                <input id ="tag_list" type ="hidden"  type="text" name="tag_list"  autocomplete="off" value = tag_list>
-                <input id = "question_header" type="text" name="question_info" value = "{{=question.question_info}}">
-            </p>
-            <p>
-                <textarea  id="editor1" name="question_detail_info" rows="10" >
-                     {{=question.question_detail_info}}
-                </textarea>
-            </p>
-            <!--
-            <input type="checkbox" name="mode" value="private"> hỏi nặc danh<br>
-            -->
-        </form>
-        <form>
-            <div class="ui-widget">
-                <table>
-                    <tr>
-                        <td>
-                            <input id="city">
-                        </td>
-                        <td>
-                            <div id="target" style="height: 50px;  overflow: auto;" class="">
+      <form>
+             <table>
+              <tr>
+                  <td>
+          <input type="text" id="month" name="tag_info" value = "" autocomplete="off" style="width: 150px;height:30px" />
+          <br />
+                      </td>
+                 <td>
+                           <div id="target">
           {{if len(tag_list):}}
           {{for tag in tag_list:}}
           <span class="post-tag" value="{{=tag}}">{{=tag}}<span id="delete_tag" value="{{=tag}}" class="delete-tag" title="remove" this="" tag="">x</span></span>
           {{pass}}
           {{pass}}
-                            </div>
+      </div>
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a id="create_new_tag">save this tag</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </form>
-        <button id="post_question_button"> Gửi đi </button>
+                     </td>
+                 </tr>
+                 </table>
+          <div style="position: absolute;" id="suggestions" class="suggestions">
+          </div>
+      </form>
+      <button id="post_question_button"> Lưu lại  </button>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <h2></h2>
+    <p></p>
+    <!-- end #mainContent --></div>
+<!-- end #container --></div>
+    <script src="{{=URL('static','js/default/post_question.js')}}"></script>
+    <script>
 
-
-
-
-
-
-        <script src="{{=URL('static','js/default/post_question.js')}}"></script>
-        <script>
-        $('#create_new_tag').hide();
-        //set value for id
-        var TAG_TYPING_BOX = "city";
+        var TYPING_BOX = "month";
         var RESULT_BOX = "target";
-        var CREATE_NEW_TAG = "create_new_tag";
 
         // initialize value for tag_list when page is loaded
         $(".post-tag").each(function( index ) {
@@ -87,34 +68,34 @@
             //alert($('#tag_list').val());
         });
 
-
-        $("#" + TAG_TYPING_BOX).val("phân loại cho câu hỏi");
-        $('#question_header').click(function(){
-            $('#question_header').val("");
-        });
-        $("#"+ TAG_TYPING_BOX).click(function(){
-            $("#"+ TAG_TYPING_BOX).val("");
-        });
-
-
-        jQuery('#' + CREATE_NEW_TAG).click(function(){
-            var tag_value = $('#city').val();
-            user_post_new_tag(tag_value, 'suggestion_box');
-         });
-
-
-
-
         jQuery("#post_question_button").click(function(){
             $( "#question_content_form2" ).submit();
             });
+        jQuery("#month").keyup(function(){
+
+            var tag_info = $(this).val();
+                     var request = $.ajax({
+                url: "{{=URL('tag_handler')}}",
+                type: "POST",
+                data: { tag_info  : tag_info },
+                dataType: "html"
+          });
+
+
+        request.done(function( msg ) {
+            $("#suggestions").html(msg);
+        });
+
+        request.fail(function( jqXHR, textStatus ) {
+            //alert( "Request failed: " + textStatus );
+        });
 
 
 
+            });
 
 
-
-        jQuery("#" + RESULT_BOX).on('click', 'span.delete-tag', function() {
+      jQuery("#" + RESULT_BOX).on('click', 'span.delete-tag', function() {
             //remove tag from tag list
             removeItem = $(this).parent().text();
             removeItem = removeItem.substring(0, removeItem.length - 1);
@@ -123,10 +104,9 @@
             });
 
 
-
-        // leave this code here for using URL
       function user_post_new_tag(tag_info, suggestion_box_id){
          $("#" + suggestion_box_id).remove();
+         //alert(tag_info);
          var request = $.ajax({
                 url: "{{=URL('create_new_tag')}}",
                 type: "POST",
@@ -136,8 +116,7 @@
 
 
         request.done(function( msg ) {
-            user_select_tag_handler_new(tag_info);
-
+            user_select_tag_handler(tag_info, 'suggestion_box');
         });
 
         request.fail(function( jqXHR, textStatus ) {
@@ -146,48 +125,10 @@
 
       }
 
-    </script>
-        <script>
+        jQuery("#month").click(function(){
+            $("#month").val("");
+            });
+   </script>
+</html>
 
-  $(function() {
-    function log( message ) {
-      $( "<div>" ).text( message ).prependTo( "#target" );
-      $( "#target" ).scrollTop( 0 );
-    }
-
-    $( "#city" ).autocomplete({
-      source: function( request, response ) {
-        $.ajax({
-          url: "{{=URL('tag_handler')}}",
-          dataType: "jsonp",
-          data: {
-            tag_info: request.term
-          },
-          success: function( data ) {
-            if (data.length ==0){
-                $('#create_new_tag').show();
-            }
-            response( data );
-          }
-        });
-      },
-      minLength: 3,
-      select: function( event, ui ) {
-        $('#create_new_tag').hide();
-        user_select_tag_handler_new(ui.item.label);
-        //alert(tag_list);
-
-      },
-      open: function() {
-        $('#create_new_tag').hide();
-        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-      },
-      close: function() {
-        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-      }
-    });
-  });
-  </script>
-
-        </html>
 

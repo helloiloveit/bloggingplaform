@@ -3,103 +3,103 @@
 {{extend 'fb_layout.html'}}
 {{block center}}
 
-<style>
-    #suggestions { position: relative; }
-    .suggestions { background: white; border: solid 1px #55A6C8; }
-    .suggestions DIV { padding: 2px 4px 2px 4px; }
-</style>
-
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css">
-<style>
-    .ui-autocomplete-loading {
-    background: white url("{{=URL('static', 'images/ui-anim_basic_16x16.gif')}}") right center no-repeat;
-    }
-    #city { width: 15em; }
-</style>
 
 
 
 <div class="fb_article_list_containter">
-    <div class="header">
-        <!--
-      <!-- end #header --></div>
-    <div class = "content">
-        <table class="fb_content_list_table">
-            <tr class="article_header" >
-                <td>
-                    <a id = "fb_post_button" href={{=URL('fb_post')}} rel="nofollow"> Đặt câu hỏi</a>
-                </td>
-            </tr>
-            <tr class="detail_info">
-                <td>
-                    <p class="">bat cu thu gi dang lam ban ban tam</p>
-                </td>
-            </tr>
-        </table>
-        <table class="fb_content_list_table">
-            <tr class="article_header" >
+  <div class="header">
+      <!--
+    <!-- end #header --></div>
+  <div class = "content">
+   <table class="fb_content_list_table">
+       <tr class="article_header" >
+           <td>
+                     <a id = "fb_post_button" href={{=URL('fb_post')}} rel="nofollow"> Đặt câu hỏi</a>
+           </td>
+       </tr>
+       <tr class="detail_info">
+           <td>
+               <a class="">bat cu thu gi dang lam ban ban tam</a>
+           </td>
+       </tr>
+   </table>
+   <table class="fb_content_list_table">
+       <tr class="article_header" >
 
-                <td>
-                    <span id = "share_knownledge_header"  rel="nofollow"> Chia sẻ kinh nghiệm</span>
-                </td>
+           <td>
+                     <span id = "share_knownledge_header"  rel="nofollow"> Chia sẻ kinh nghiệm</span>
+           </td>
 
-            </tr>
-            <tr class="detail_info">
-                <td>
+       </tr>
+       <tr class="detail_info">
+           <td>
                     <form id="tag_list_form" action="fb_save_tag_list" method="post">
-                        <table>
-                            <tr>
-                                <td>
-                                    {{if auth.is_logged_in():}}
-                                    <input id ="tag_list" type ="hidden"  type="text" name="tag_list"  autocomplete="off" value = tag_list>
-                                    <input type="text" id="city" name="tag_info" value = "" autocomplete="off"  />
-                                    <!--<span class="suggest_text"> học tiếng anh..</span>-->
-                                    <br />
-                                    {{pass}}
-                                </td>
-                                <td>
-                                    <div id="target">
-                                        {{if len(tag_list):}}
-                                        {{for tag in tag_list:}}
-                                        <span class="post-tag" value="{{=tag}}">{{=tag}}<span id="delete_tag" value="{{=tag}}" class="delete-tag" title="remove" this="" tag="">x</span></span>
-                                        {{pass}}
-                                        {{pass}}
+          <table>
+              <tr>
+                  <td>
+          <input id ="tag_list" type ="hidden"  type="text" name="tag_list"  autocomplete="off" value = tag_list>
+          <input type="text" id="typing_box" name="tag_info" value = "" autocomplete="off"  />
+          <!--<span class="suggest_text"> học tiếng anh..</span>-->
+          <br />
+                  </td>
+                  <td>
+                      <div id="target">
+                                    {{if len(tag_list):}}
+          {{for tag in tag_list:}}
+          <span class="post-tag" value="{{=tag}}">{{=tag}}<span id="delete_tag" value="{{=tag}}" class="delete-tag" title="remove" this="" tag="">x</span></span>
+          {{pass}}
+          {{pass}}
 
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
+                      </div>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
 
-                                </td>
-                            </tr>
-                        </table>
-                         <a id="create_new_tag">save this tag</a>
-                        </div>
+                  </td>
+                  <td>
+                      <div id="save_tag_list_button" > Lưu lại   </div>
 
-                    </form>
-                </td>
-            </tr>
-        </table>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <!-- end #mainContent --></div>
-    <div id="footer">
-        <!-- end #footer --></div>
-    <!-- end #container --></div>
+                  </td>
+              </tr>
+             </table>
+          <div style="position: absolute;" id="suggestions" class="suggestions">
+          </div>
 
-
-
-        <script src="{{=URL('static','js/default/post_question.js')}}"></script>
-        <script>
-        $('#create_new_tag').hide();
+      </form>
+           </td>
+       </tr>
+   </table>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <!-- end #mainContent --></div>
+  <div id="footer">
+  <!-- end #footer --></div>
+<!-- end #container --></div>
+              <script src="{{=URL('static','js/default/post_question.js')}}"></script>
+    <script>
         //set value for id
-        var TAG_TYPING_BOX = "city";
+        var TYPING_BOX = "typing_box";
         var RESULT_BOX = "target";
-        var CREATE_NEW_TAG = "create_new_tag";
+        var SAVE_TAG_LIST_BUTTON = "save_tag_list_button";
+        $( "#save_tag_list_button" ).hide();
+
+        $("#" + TYPING_BOX).val("Nhập vào lĩnh vực của bạn");
+        $('#question_header').click(function(){
+            $('#question_header').val("");
+        });
+
+        jQuery("#" + TYPING_BOX).keyup(function(){
+            ajax('tag_handler', ['tag_info'], 'suggestions');
+            });
+        jQuery("#"+ TYPING_BOX).click(function(){
+            $("#" + TYPING_BOX).val("");
+            });
+        $("#" +  TYPING_BOX).keypress(function (e){
+            if(e.keyCode == 13){
+             e.preventDefault();
+            }
+        });
 
         // initialize value for tag_list when page is loaded
         $(".post-tag").each(function( index ) {
@@ -114,44 +114,10 @@
         });
 
 
-        $('#question_header').val("tiêu đề câu hỏi");
-        $("#" + TAG_TYPING_BOX).val("lĩnh vực bạn quan tâm");
-        $('#question_header').click(function(){
-            $('#question_header').val("");
-        });
-        $("#"+ TAG_TYPING_BOX).click(function(){
-            $("#"+ TAG_TYPING_BOX).val("");
-        });
 
+        jQuery("#" + SAVE_TAG_LIST_BUTTON).click(function(){
 
-        jQuery('#' + CREATE_NEW_TAG).click(function(){
-            var tag_value = $('#city').val();
-            user_post_new_tag(tag_value, 'suggestion_box');
-         });
-
-
-
-
-        jQuery("#post_question_button").click(function(){
-            $( "#question_content_form2" ).submit();
-            });
-
-
-
-
-
-
-        jQuery("#" + RESULT_BOX).on('click', 'span.delete-tag', function() {
-            //remove tag from tag list
-            removeItem = $(this).parent().text();
-            removeItem = removeItem.substring(0, removeItem.length - 1);
-            user_remove_tag(removeItem);
-            $(this).parent().remove();
-            save_tag_list();
-            });
-
-        function save_tag_list(){
-                      var request = $.ajax({
+                     var request = $.ajax({
                 url: "{{=URL('fb_save_tag_list')}}",
                 type: "POST",
                 data: { tag_info  : tag_list },
@@ -160,14 +126,32 @@
 
 
         request.done(function( msg ) {
+            $("#" + SAVE_TAG_LIST_BUTTON).blur()
+             $("#" + SAVE_TAG_LIST_BUTTON).text('Done').button("refresh");
         });
 
         request.fail(function( jqXHR, textStatus ) {
             //alert( "Request failed: " + textStatus );
         });
-        }
 
-        // leave this code here for using URL
+            });
+
+        jQuery("#" + RESULT_BOX).on('click', 'span.delete-tag', function() {
+            //remove tag from tag list
+             $("#" + SAVE_TAG_LIST_BUTTON).text('Luu lai').button("refresh");
+            removeItem = $(this).parent().text();
+            removeItem = removeItem.substring(0, removeItem.length - 1);
+            user_remove_tag(removeItem);
+            //alert('tag list value = ');
+            //alert(tag_list);
+            $(this).parent().remove();
+            $( "#save_tag_list_button" ).show();
+
+            });
+
+
+
+            // leave this code here for using URL
       function user_post_new_tag(tag_info, suggestion_box_id){
          $("#" + suggestion_box_id).remove();
          var request = $.ajax({
@@ -179,9 +163,7 @@
 
 
         request.done(function( msg ) {
-            user_select_tag_handler_new(tag_info);
-            save_tag_list();
-
+            user_select_tag_handler(tag_info, 'suggestion_box');
         });
 
         request.fail(function( jqXHR, textStatus ) {
@@ -189,49 +171,14 @@
         });
 
       }
-
     </script>
-        <script>
+{{end}}
 
-  $(function() {
-    function log( message ) {
-      $( "<div>" ).text( message ).prependTo( "#target" );
-      $( "#target" ).scrollTop( 0 );
-    }
+{{block right_sidebar}}
+        <div id="right_bar_info" >
+            {{=A('Vi sao co chuotnhat.vn',_class='mission_info_link', _href=URL(f='fb_post',args=[]))}}
+            </div>
+{{end}}
+</html>
 
-    $( "#city" ).autocomplete({
-      source: function( request, response ) {
-        $.ajax({
-          url: "{{=URL('tag_handler')}}",
-          dataType: "jsonp",
-          data: {
-            tag_info: request.term
-          },
-          success: function( data ) {
-            if (data.length ==0){
-                $('#create_new_tag').show();
-            }
-            response( data );
-          }
-        });
-      },
-      minLength: 3,
-      select: function( event, ui ) {
-        $('#create_new_tag').hide();
-        user_select_tag_handler_new(ui.item.label);
-        save_tag_list();
-        //alert(tag_list);
 
-      },
-      open: function() {
-        $('#create_new_tag').hide();
-        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-      },
-      close: function() {
-        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-      }
-    });
-  });
-  </script>
-
-        </html>

@@ -66,7 +66,56 @@ tinymce.init({
          </td>
      </tr>
      </table>
+ <table id = "user_popular_info">
+    <tr>
+        <td>
+            {{="Theo dõi:"}}
+            {{=len(followed_list)}}
+        </td>
+    </tr>
+    <tr>
+        <!--
+        <td>
+            {{for follow_record in followed_list:}}
+            {{user_info = db(db.auth_user.id == follow_record.followed_user).select().first()}}
+            {{img_path =' https://graph.facebook.com/' + user_info.username + '/picture'}}
+            <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
+            {{pass}}
+        </td>
+        -->
+    </tr>
+    <tr>
+        <td>
+            {{="Được theo dõi bởi "}}
+            <span class="count_following_number">{{=len(following_list)}}</span>
+        </td>
+    </tr>
+    <tr>
+        <!--
+    <td>
+        {{for follow_record in following_list:}}
+        {{user_info = db(db.auth_user.id == follow_record.following_user).select().first()}}
+        {{img_path =' https://graph.facebook.com/' + user_info.username + '/picture'}}
+        <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
+        {{pass}}
+        </td>
+        -->
+    </tr>
+<tr><td>
+            <br></br>
+        {{if auth.is_logged_in():}}
+        {{if not view_my_profile:}}
+        {{if not follow_flag  :}}
+        <button class ="follow_unfollow_button" id="follow" value={{=person_info.id}} name="follow">Theo dõi</button>
+        {{else:}}
+        <button class = "follow_unfollow_button" id ="unfollow" value={{=person_info.id}} name="follow">Theo dõi</button>
+        {{pass}}
+        {{pass}}
+        {{pass}}
 
+            </td>
+     </tr>
+ </table>
 
 <table class="recent_activity_notice">
     <tr>
@@ -83,7 +132,7 @@ tinymce.init({
             <table class="content_info_table">
                 <tr>
                     <td class="article_header">
-                        {{=A(question.question_info,_class='article_header', _href=URL(f='question',vars={'id':[question.id]}))}}
+                        {{=A(question.question_info,_class='article_header', _href=URL(f='question',args=[question.id]))}}
                     </td>
                 </tr>
                 <tr>
