@@ -1,0 +1,38 @@
+{{extend 'fb_layout.html'}}
+<style>
+#suggestions { position: relative; }
+.suggestions { background: white; border: solid 1px #55A6C8; }
+.suggestions DIV { padding: 2px 4px 2px 4px; }
+</style>
+
+
+<div id="container">
+  <div id="mainContent">
+    <h1>  </h1>
+ <form id ="question_content_form2" action="" method="post">
+         <p>
+            <input id ="tag_list" type ="hidden"  type="text" name="answer_id"  autocomplete="off" value = {{=answer.id}}>
+        </p>
+        <p>
+            <textarea  cols="80" id="editor1" name="answer_info" rows="10">
+                {{=answer.answer_info}}
+            </textarea>
+        </p>
+    </form>
+
+      <button id="post_answer_button"> Lưu lại  </button>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <h2></h2>
+    <p></p>
+    <!-- end #mainContent --></div>
+<!-- end #container --></div>
+    <script>
+
+        jQuery("#post_answer_button").click(function(){
+            $( "#question_content_form2" ).submit();
+            });
+   </script>
+</html>
+
+

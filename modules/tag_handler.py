@@ -29,8 +29,25 @@ def save_tag_info_for_user(tag_list, auth):
 
 
 def user_create_new_tag(tag_info):
-    rst = tag_tbl_handler().get_id_by_name_if_not_exist_update_new(tag_info)
+    """
+    check the tag form:
+        - only first character should be capitalized
+
+    post tag to database
+    """
+    if type(tag_info) is str:
+        unicode_tag = unicode(tag_info, "utf-8")
+        unicode_tag = unicode_tag.lower()
+        unicode_tag = unicode_tag.capitalize()
+    else:
+        unicode_tag = tag_info
+        unicode_tag = unicode_tag.lower()
+        unicode_tag = unicode_tag.capitalize()
+
+    rst = tag_tbl_handler().get_id_by_name_if_not_exist_update_new(unicode_tag)
     return rst
+
+
 
 
 class user_tag_handler(object):
@@ -57,6 +74,8 @@ class user_tag_handler(object):
     def update_new_tag_list(self, tag_data):
         db = self.db
         db(db.user_tag_tbl.user_info == self.auth.user.id).delete()
+        if tag_data == None:
+            return True
         if type(tag_data) == list:
             rst = self.create_tag_list(tag_data)
         else:
@@ -66,7 +85,7 @@ class user_tag_handler(object):
         return True
     def get_tag_info(self):
         db = self.db
-        tag_info = db(db.user_tag_tbl).select()
+        tag_info = db(db.user_tag_tbl.user_info == self.auth.user.id).select()
         tag_list = []
         for tag in tag_info:
             tag_data = db(db.tag_tbl.id == tag.tag_info).select()[0]
@@ -147,6 +166,7 @@ class tag_tbl_handler(object):
         return tag_list
 
     def get_name_list_from_record_list(self, record):
+        db = self.db
         tag_name_list = []
         for data in record:
             tag_info = db(db.tag_tbl.id == data.tag_info).select()[0]

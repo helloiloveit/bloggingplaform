@@ -1,23 +1,18 @@
-{{left_sidebar_enabled = False}}
+{{left_sidebar_enabled = True}}
 {{right_sidebar_enabled=True}}
-{{extend 'layout.html'}}
+{{extend 'fb_layout.html'}}
 
 {{response.title = item.question_info}}
         {{block head}}
-        {{url_link=URL(args=request.args, vars=request.get_vars, host=True)}}
         {{img_path ='https://graph.facebook.com/' + user_info.username + '/picture?type=large'}}
         <!--
         <meta property="og:image" content= "{{='http://' + request.env['HTTP_HOST'] + URL('static', 'images/user.jpg')}}">
         <meta property="og:image" content="https://graph.facebook.com/540428388/picture?type=large">
         -->
-        <meta property="og:url" content='{{=url_link}}'>
-        <meta property="og:title" content='{{=item.question_info}}'>
-        <meta property="og:description" content='{{item.question_detail_info}}'>
-
         <meta property="og:image" content={{=img_path}}>
         <meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="200">
-<meta property="og:image:height" content="200">
+<meta property="og:image:width" content="400">
+<meta property="og:image:height" content="400">
         {{end}}
 <div class="article_container">
   <div>
@@ -31,10 +26,10 @@
                    <a>
                    {{tag_record = db(db.tag_tbl.id == tag_unit.tag_info).select().first()}}
                    {{=tag_record.name}}
-                    </a>
+                       </a>
+
                </td>
                 {{pass}}
-
            </tr>
          </table>
          <table  class="article_header">
@@ -63,10 +58,10 @@
               </td>
                 {{if (auth.is_logged_in() and auth.user.id == user_info.id):}}
                 <td>
-                    {{=A("sửa",_id ='edit_button', _class='handling_button',_href=URL(r=request,f='edit_question',vars={'id':[item.id]}))}}
+                    {{=A("sửa",_id ='edit_button', _class='handling_button',_href=URL(r=request,f='fb_edit_question',vars={'id':[item.id]}))}}
                 </td>
                 <td>
-                    {{=A("xoá",_id='delete_button',_class='handling_button', _href=URL(r=request,f='delete_question',vars={'id':[item.id]}))}}
+                    {{=A("xoá",_id='delete_button',_class='handling_button', _href=URL(r=request,f='fb_delete_question',vars={'id':[item.id]}))}}
                 </td>
                {{pass}}
               <td>
@@ -78,7 +73,7 @@
                   <img border="0" src={{=img_path}} alt="Pulpit rock" width="50" height="50">
                   -->
                   {{pass}}
-                  <a id ="author_profile" href={{=URL(r=request,f='user_profile',args=[])}} onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">
+                  <a id ="author_profile" href={{=URL(r=request,f='fb_user_profile',args=[])}} onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">
                       {{='  bởi   ' + user_info.last_name}}
                   </a>
                   {{else:}}
@@ -100,23 +95,21 @@
                   </div>
               </td>
               {{pass}}
+              <!--
               <td>
-                  {{function_info = URL()}}
-                  {{url_root=URL( host=True)}}
-                  {{position = url_root.find(function_info)}}
-                  {{url_root = url_root[:position]}}
-
+                  {{url_root = 'http://www.chuotnhat.vn'}}
                                       <a id="ask_friend_button"  href=
                           "http://www.facebook.com/dialog/send?
   app_id= 313224325539076
   &link={{=url_root+ URL(r=request, f='question', vars = {'id':request.vars.id} )}}
   &redirect_uri={{=url_root + URL(r=request, f='question',  vars = {'id':request.vars.id} )}}"
                               >
-            <img border="0" src={{=URL('static', 'images/ask_friend_small.png')}} alt="Pulpit rock" width="45" height="45">
+            <img border="0" src={{=URL('static', 'images/ask_friend.png')}} alt="Pulpit rock" width="45" height="45">
                                           hoi ban be
              </a>
 
               </td>
+              -->
              </tr>
 
           </table>
@@ -129,7 +122,7 @@
 
 
 
-    <form id="realEditor"  action="post_comment" method="post">
+    <form id="realEditor"  action="fb_post_comment" method="post">
         <p>
            <input type="hidden" name="id" value = {{=item.id}}>
         </p>
@@ -150,13 +143,13 @@
                 {{user_info = db(db.auth_user.id == comment.author_info).select().first()}}
                 {{img_path =' https://graph.facebook.com/' + user_info.username + '/picture'}}
                 <td>
-                    <a id ="user_profile" href="{{=URL(f='user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">
+                    <a id ="user_profile" href="{{=URL(f='fb_user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">
                         <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
                     </a>
 
                 </td>
                  <td class="user_profile_text">
-                      <a id ="user_profile" href="{{=URL(f='user_profile')}}"  onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
+                      <a id ="user_profile" href="{{=URL(f='fb_user_profile')}}"  onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
                      {{user_profile = db(db.user_profile.user_info == user_info.id).select().first()}}
                      {{if user_profile:}}
                      <span class="user_detail_info">{{=XML(user_profile.detail_info)}}</span>
@@ -186,7 +179,7 @@
                       thích</a>
                   {{pass}}
                   {{else:}}
-                  <a  class ="register_to_like" value ={{=''}} style="color:grey" href={{=URL( f='user/login',vars=dict(_next=URL(f='question', vars={'id':[request.vars.id]} ))  )}}>
+                  <a  class ="register_to_like" value ={{=''}} style="color:grey" href={{=URL( f='user/login',vars=dict(_next=URL(f='question', args=[request.args[0]] ))  )}}>
                       <img id="heart_img" border="0" src={{=URL('static', 'images/heart_icon_grey.png')}} alt="Pulpit rock" width="20" height="20">
                       thích</a>
                   {{pass}}
@@ -197,10 +190,10 @@
                  </td>
               {{if (auth.is_logged_in() and (auth.user.id == comment.author_info)):}}
               <td>
-                  {{=A("sửa",_id ='edit_answer_button', _class='handling_button', _href=URL(r=request,f='edit_answer',args=[comment.id], vars={'origin':'question'}))}}
+                  {{=A("sửa",_id ='edit_answer_button', _class='handling_button', _href=URL(r=request,f='fb_edit_answer',args=[comment.id], vars={'origin':'question'}))}}
               </td>
               <td>
-                  {{=A("xoá",_id='delete_answer_button', _class='handling_button', _href=URL(r=request,f='delete_answer',args=[comment.id]))}}
+                  {{=A("xoá",_id='delete_answer_button', _class='handling_button', _href=URL(r=request,f='fb_delete_answer',args=[comment.id]))}}
               </td>
               {{pass}}
               <!--

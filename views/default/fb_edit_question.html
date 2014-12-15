@@ -1,8 +1,4 @@
-{{left_sidebar_enabled = False}}
-{{right_sidebar_enabled=False}}
 {{extend 'fb_layout.html'}}
-{{block center}}
-
 <style>
     #suggestions { position: relative; }
     .suggestions { background: white; border: solid 1px #55A6C8; }
@@ -20,76 +16,52 @@
     #city { width: 15em; }
 </style>
 
+<div class="post_article">
+    <div id="mainContent">
+        <h1>  </h1>
+
+        <form id ="question_content_form2" action="fb_post_question" method="post">
+            <p>
+                <input id ="tag_list" type ="hidden"  type="text" name="tag_list"  autocomplete="off" value = tag_list>
+                <input id = "question_header" type="text" name="question_info" value = "{{=question.question_info}}">
+            </p>
+            <p>
+                <textarea  id="editor1" name="question_detail_info" rows="10" >
+                    {{=question.question_detail_info}}
+                </textarea>
+            </p>
+            <input type="checkbox" name="mode" value="private"> hỏi nặc danh<br>
+        </form>
+        <form>
+            <div class="ui-widget">
+                <table>
+                    <tr>
+                        <td>
+                            <input id="city">
+                        </td>
+                        <td>
+                            <div id="target" style="height: 50px; width: 200px; overflow: auto;" class="">
+                                {{if len(tag_list):}}
+                                {{for tag in tag_list:}}
+                                <span class="post-tag" value="{{=tag}}">{{=tag}}<span id="delete_tag" value="{{=tag}}" class="delete-tag" title="remove" this="" tag="">x</span></span>
+                                {{pass}}
+                                {{pass}}
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a id="create_new_tag">save this tag</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+        <button id="post_question_button"> Gửi đi </button>
 
 
-<div class="fb_article_list_containter">
-    <div class="header">
-        <!--
-      <!-- end #header --></div>
-    <div class = "content">
-        <table class="fb_content_list_table">
-            <tr class="article_header" >
-                <td>
-                    <a id = "fb_post_button" href={{=URL('fb_post')}} rel="nofollow"> Đặt câu hỏi</a>
-                </td>
-            </tr>
-            <tr class="detail_info">
-                <td>
-                    <p class="">bat cu thu gi dang lam ban ban tam</p>
-                </td>
-            </tr>
-        </table>
-        <table class="fb_content_list_table">
-            <tr class="article_header" >
 
-                <td>
-                    <span id = "share_knownledge_header"  rel="nofollow"> Chia sẻ kinh nghiệm</span>
-                </td>
-
-            </tr>
-            <tr class="detail_info">
-                <td>
-                    <form id="tag_list_form" action="fb_save_tag_list" method="post">
-                        <table>
-                            <tr>
-                                <td>
-                                    {{if auth.is_logged_in():}}
-                                    <input id ="tag_list" type ="hidden"  type="text" name="tag_list"  autocomplete="off" value = tag_list>
-                                    <input type="text" id="city" name="tag_info" value = "" autocomplete="off"  />
-                                    <!--<span class="suggest_text"> học tiếng anh..</span>-->
-                                    <br />
-                                    {{pass}}
-                                </td>
-                                <td>
-                                    <div id="target">
-                                        {{if len(tag_list):}}
-                                        {{for tag in tag_list:}}
-                                        <span class="post-tag" value="{{=tag}}">{{=tag}}<span id="delete_tag" value="{{=tag}}" class="delete-tag" title="remove" this="" tag="">x</span></span>
-                                        {{pass}}
-                                        {{pass}}
-
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-
-                                </td>
-                            </tr>
-                        </table>
-                         <a id="create_new_tag">save this tag</a>
-                        </div>
-
-                    </form>
-                </td>
-            </tr>
-        </table>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <!-- end #mainContent --></div>
-    <div id="footer">
-        <!-- end #footer --></div>
-    <!-- end #container --></div>
 
 
 
@@ -115,7 +87,7 @@
 
 
         $('#question_header').val("tiêu đề câu hỏi");
-        $("#" + TAG_TYPING_BOX).val("lĩnh vực bạn quan tâm");
+        $("#" + TAG_TYPING_BOX).val("phân loại cho câu hỏi");
         $('#question_header').click(function(){
             $('#question_header').val("");
         });
@@ -147,25 +119,10 @@
             removeItem = removeItem.substring(0, removeItem.length - 1);
             user_remove_tag(removeItem);
             $(this).parent().remove();
-            save_tag_list();
+
             });
 
-        function save_tag_list(){
-                      var request = $.ajax({
-                url: "{{=URL('fb_save_tag_list')}}",
-                type: "POST",
-                data: { tag_info  : tag_list },
-                dataType: "html"
-          });
 
-
-        request.done(function( msg ) {
-        });
-
-        request.fail(function( jqXHR, textStatus ) {
-            //alert( "Request failed: " + textStatus );
-        });
-        }
 
         // leave this code here for using URL
       function user_post_new_tag(tag_info, suggestion_box_id){
@@ -180,7 +137,6 @@
 
         request.done(function( msg ) {
             user_select_tag_handler_new(tag_info);
-            save_tag_list();
 
         });
 
@@ -219,7 +175,6 @@
       select: function( event, ui ) {
         $('#create_new_tag').hide();
         user_select_tag_handler_new(ui.item.label);
-        save_tag_list();
         //alert(tag_list);
 
       },

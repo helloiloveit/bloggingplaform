@@ -36,15 +36,17 @@ def post_new_question(request, auth):
                                                                 user_id,
                                                                 anonymous_info,
                                                             tag_list)
+    #update tag list of question to user tag list
+    rst = save_tag_info_for_user(tag_list, auth)
 
     return question_id
 def delete_a_question(request):
-    question_id = request.args[0]
-    question_tbl_handler().delete_question_in_db(question_id)
+    question_id = request.vars.id
+    question_tbl_handler().delete_question(question_id)
     return
 
 def update_a_question(request):
-    question_id = request.args[0]
+    question_id = request.vars.id
     tag_info = request.vars.tag_list
     tag_list = get_tag_list(tag_info)
 
@@ -117,7 +119,13 @@ class question_tbl_handler(object):
             log.error('cant update tbl')
         pass
 
-    def delete_question_in_db(self, question_id):
+    def delete_question(self, question_id):
+        """
+        - delete question record
+        - delete all answer of this question
+        """
+        answer_handler().delete_answers_of_question(question_id)
+
         if self._delete_record(question_id):
             #delete question id in tag
             if question_tag_handler().delete_question_tag(question_id):
@@ -182,9 +190,16 @@ class question_tbl_handler(object):
 
 ########################answer #####################
 def create_new_answer(request, auth):
-    question_id = request.vars.question_id
+    question_id = request.vars.id
     answer_info = request.vars.answer_info
-    answer_id = answer_handler().add_to_answer_tbl(question_id, answer_info, auth.user.id)
+    answer_id = answer_handler().create_new_answer(question_id, answer_info, auth.user.id)
+    #update tag list of question to user tag list
+    tag_list = question_tag_handler().get_tag_name_list_of_a_question(question_id)
+    rst = save_tag_info_for_user(tag_list, auth)
+
+    if not rst:
+        log.error('cant update tag info for user')
+
     return answer_id
 
 def update_an_answer(request):
@@ -220,7 +235,7 @@ class answer_handler(object):
             log.error('cant update answer')
         pass
 
-    def add_to_answer_tbl(self, question_id, answer_info, user_id):
+    def create_new_answer(self, question_id, answer_info, user_id):
         db = self.db
         answer_id = None
         try:
@@ -230,6 +245,14 @@ class answer_handler(object):
         except:
             log.error("cant create answer record")
         return answer_id
+
+    def delete_answers_of_question(self, question_id):
+        db = self.db
+        answer_list = db(db.answer_tbl.question_id == question_id).select()
+        for answer_id in answer_list:
+            db(db.answer_tbl.id == answer_id).delete()
+        pass
+
 
     def del_answer_record_in_tbl(self, answer_id):
         db = self.db

@@ -1,11 +1,11 @@
-/*=============================================================
+*=============================================================
                        CUSTOM RULES
 ==============================================================*/
 
 body{height:auto;} /* to avoid vertical scroll bar */
 /* add by huy */
 #logo_site{
-color:black;
+color:white;
 }
 #logo{
 margin-left: auto;
@@ -34,9 +34,11 @@ width: 450px;
 .question_answer_info{
 /*padding-left:100px
 */
+white-space:nowrap;
 }
 .question_like_info{
-padding-left:10px
+padding-left:10px;
+white-space:nowrap;
 }
 #edit_button{
 margin-left:100px;
@@ -69,7 +71,7 @@ font-weight: 300;
 
     font-size: 18px;
     font-family: 'Roboto Slab', serif;
-    font-weight: 300;
+    font-weight: 400;
     height:40px;
     margin-top:20px;
     border-spacing: 7px;
@@ -85,8 +87,9 @@ background-color: rgb(245, 242, 242);
 
 
 .article_header{
-    font-size: 26px;
-    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+   // font-family: 'Open Sans', sans-serif;
+    //font-family: 'Roboto Slab', serif;
     font-weight: 300;
     margin-top:0px;
     color:rgb(19, 19, 219);
@@ -95,17 +98,16 @@ background-color: rgb(245, 242, 242);
 .article_header_text{
     position: relative;
     color: black;
-    font-size: 36px;
+    font-size: 30px;
 }
 .article_container .article_header td{
     height: 100%;
 
 }
 .article_container .article_introduction{
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 16px;
+    font-weight: 300;
     margin-top:20px;
-    width:80%;
 }
 .article_container .article_introduction_bigger{
 //    font-size: 16px;
@@ -130,6 +132,7 @@ background-color: rgb(245, 242, 242);
 
 .popularity_a_tag_text{
     color:grey;
+    white-space: nowrap;
 }
 /*right side */
 #related_question{
@@ -232,9 +235,9 @@ text-align:center;
 }
 .article_list_containter .article_header{
     font-size: 20px;
-    font-family: 'Open Sans', sans-serif;
+   // font-family: 'Open Sans', sans-serif;
     font-weight: 300;
-    color:rgb(19, 19, 219);
+    color:rgb(6, 6, 6);
 }
 .article_list_containter .article_introduction{
     font-size: 13px;
@@ -282,14 +285,16 @@ font-family: 'Roboto Slab', serif;
     font-size:20px;
 }
 
-#month{
-
+#city{
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    height:40px;
 }
 
 #question_header{
-width: 540px;
 height: 40px;
-font-size: 24px;
+font-size: 20px;
 font-family: 'Open Sans', sans-serif;
 font-weight: 100;
 /*border: none;
@@ -306,19 +311,17 @@ margin-top:60px;
 height: 20px;
 }
 #post_button{
-    margin-top:6px;
-    color: black;
+    color: white;
 }
 .like_unlike_button{
 color: red;
 
 }
 .like_button_space{
-    width:200px;
 }
 .count_like{
     color:grey;
-    padding-left:100px;
+    padding-left:10px;
 }
 /*****user_profile***********/
 #user_fb_name{
@@ -328,7 +331,7 @@ font-weight: 400;
 padding-bottom:30px;
 }
 #user_profile{
-
+padding-left:10px;
 }
 #author_profile{
  margin-left:20px;
@@ -457,7 +460,7 @@ padding: 3px 4px 3px 4px;
 margin: 2px 2px 2px 0;
 text-decoration: none;
 font-size: 90%;
-line-height: 30px;
+line-height: 20px;
 white-space: nowrap;
 display: inline-block;
 }
@@ -616,14 +619,16 @@ div.controls select +.error_wrapper {margin-left:5px;}
 .navbar {margin-bottom:0;
         margin-left:auto;
         margin-right:auto;
-        margin-top:10px;
         /*
+        margin-top:10px;
         width:1022px;
-        */
         padding-bottom:5px;
+        border-bottom-color: lightgray;
+        border-width: 1px;
         border-bottom-style: solid;
-border-width: 1px;
-border-bottom-color: lightgray;
+        */
+        background-color:rgb(212, 57, 75);
+
         }
 .navbar-inverse .brand{color:#white;}
 .navbar-inverse .brand b{display:inline-block;margin-top:-1px;}
@@ -638,7 +643,7 @@ span.highlighted{color:#d8d800;}
 ==============================================================*/
 
 /* reset to default */
-a{white-space:normal;}
+a{white-space:nowrap;}
 li{margin-bottom:0;margin-top:0px;  list-style-type: none;}
 textarea,button{display:block;}
 /*reset ul padding */
