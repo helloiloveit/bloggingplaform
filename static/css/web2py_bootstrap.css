@@ -41,7 +41,6 @@ padding-left:10px;
 white-space:nowrap;
 }
 #edit_button{
-margin-left:100px;
 padding-bottom: 30px;
 }
 #edit_answer_button{
@@ -93,6 +92,10 @@ background-color: rgb(245, 242, 242);
     font-weight: 300;
     margin-top:0px;
     color:rgb(19, 19, 219);
+}
+.article_header td:hover {
+          text-decoration: underline;
+          cursor: pointer; cursor: hand;
 }
 
 .article_header_text{
@@ -273,7 +276,7 @@ font-family: 'Roboto Slab', serif;
 
 .article_tag{
     font-size: 14px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans', sans-14serif;
     font-weight: 300;
     height:40px;
     margin-top:20px;
@@ -286,7 +289,7 @@ font-family: 'Roboto Slab', serif;
 }
 
 #city{
-    font-size: 20px;
+    font-size: 14px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
     height:40px;
@@ -294,7 +297,7 @@ font-family: 'Roboto Slab', serif;
 
 #question_header{
 height: 40px;
-font-size: 20px;
+font-size: 14px;
 font-family: 'Open Sans', sans-serif;
 font-weight: 100;
 /*border: none;

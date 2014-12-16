@@ -46,7 +46,7 @@
             <table class = "content_info_table"  >
 
            <tr class="article_header">
-               <td onClick="document.location.href='{{=URL(f='question',vars={'id':[item.id]})}}';">
+               <td onClick="document.location.href='{{=URL(f='question',vars={'id':[item.id]})}}';" style="">
                    {{try:}}
                    {{=item.question_info }}
                    {{except:}}

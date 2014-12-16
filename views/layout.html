@@ -94,18 +94,7 @@ tinymce.init({
     <div class="navbar-inner-new">
       <div class="container">
 
-        {{is_mobile=request.user_agent().is_mobile}}
-        <!-- the next tag is necessary for bootstrap menus, do not remove -->
-          <!--
-        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse" style="{{='display:none;' if not is_mobile else ''}}">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        -->
-       <!-- {{=response.logo }}-->
-          <!-- bug of not update db when login second time with fb-->
-          {{pass}}
+          {{is_mobile=request.user_agent().is_mobile}}
 
         <ul id="navbar" class="nav pull-right">
             {{if auth.user:}}
@@ -126,7 +115,7 @@ tinymce.init({
             <center>
             <a  id = "logo_site" href="{{=URL(f='question_list')}}" style ="padding-left:10px">
             <img border="0" src={{=URL('static', 'images/chuotnhat_white.png')}} alt="Pulpit rock" width="55" height="65">
-               Chia se.Hoc hoi
+                 Chia sẻ. Học hỏi
              </a>
                 </center>
         </li>
@@ -165,6 +154,7 @@ tinymce.init({
                        </a>
                 </li>
                 -->
+                 {{if not is_mobile:}}
                <li class="web2py-menu-first" style ="padding-left:100px">
                     <center>
                     <a id = "post_button" href={{=URL('post')}} rel="nofollow">
@@ -173,6 +163,8 @@ tinymce.init({
                    </a>
                         </center>
                </li>
+                 {{else:}}
+                 {{pass}}
                  </ul>
              </div>
           <!--

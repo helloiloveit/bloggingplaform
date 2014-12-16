@@ -105,6 +105,7 @@
                   {{url_root=URL( host=True)}}
                   {{position = url_root.find(function_info)}}
                   {{url_root = url_root[:position]}}
+                  {{if not request.user_agent().is_mobile:}}
 
                                       <a id="ask_friend_button"  href=
                           "http://www.facebook.com/dialog/send?
@@ -115,6 +116,7 @@
             <img border="0" src={{=URL('static', 'images/ask_friend_small.png')}} alt="Pulpit rock" width="45" height="45">
                                           hoi ban be
              </a>
+                  {{pass}}
 
               </td>
              </tr>
@@ -196,12 +198,14 @@
                   <span class="count_like">{{=len(like_record)}}</span><span> thích</span>
                  </td>
               {{if (auth.is_logged_in() and (auth.user.id == comment.author_info)):}}
+              {{if not is_mobile:}}
               <td>
                   {{=A("sửa",_id ='edit_answer_button', _class='handling_button', _href=URL(r=request,f='edit_answer',args=[comment.id], vars={'origin':'question'}))}}
               </td>
               <td>
                   {{=A("xoá",_id='delete_answer_button', _class='handling_button', _href=URL(r=request,f='delete_answer',args=[comment.id]))}}
               </td>
+              {{pass}}
               {{pass}}
               <!--
               <td>bao cao</td>
