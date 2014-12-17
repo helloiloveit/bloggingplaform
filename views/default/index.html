@@ -1,8 +1,8 @@
 
-{{extend 'firstpage_layout.html'}}
-{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
 <style>
-
+body{
+    margin:0;
+    }
 table {
   margin-left: auto;
   margin-right: auto;
@@ -12,6 +12,19 @@ table {
   vertical-align: middle;
 }
 
+.box{
+    width:100%;
+    height:100%;
+    }
+img{
+    position: relative;
+    margin: auto;
+}
+
+.box .red_part{
+    background-color:red;
+    height:50%;
+    }
 #ask_button{
     margin-left: auto;
     margin-right: auto;
@@ -27,6 +40,10 @@ table {
     font-size : 30px;
     color: rgb(147, 96, 96);
     }
+ #slogan_info{
+   color:white;
+    font-size:50px;
+    }
 </style>
 <div>
   <p>
@@ -34,25 +51,36 @@ table {
 
   <table class="box" >
       <tr>
-          <td id="title">
-              Học hỏi và chia sẻ kinh nghiệm
+          <td class="">
+              <center>
+                  <a id = "post_button" href={{=URL('post')}} rel="nofollow">
+                      <img border="0" src={{=URL('static', 'images/ask.png')}} style="width:35px;height:35px;vertical-align:middle" >
+                      Đặt câu hỏi
+                  </a>
+                  </center>
           </td>
       </tr>
 
     <tr>
         <td>
-            <img src= {{=URL('static', 'images/friend_vector.jpg')}} style='  max-width:100%;' border="0" alt="Null">
+            <table height=100% width=100%>
+<td align=center valign=center>
+            <img src= {{=URL('static', 'images/friend_vector.jpg')}}  border="0" alt="Null">
+    </td>
+                </table>
         </td>
     </tr>
 
-     <tr>
-        <td>
-            <a id = "ask_button" href={{=URL('fb_post')}} rel="nofollow"> Đặt câu hỏi</a>
+     <tr >
+        <td class="red_part">
+            <center>
+                <p  id = "slogan_info">
+                    <img border="0" src={{=URL('static', 'images/chuotnhat_white.png')}} style="width:120px;height:120px;vertical-align:middle" >
+
+                    Học. Chia sẻ kinh nghiệm
+                </p>
+                </center>
         </td>
+
       </tr>
-      <tr>
-         <td>
-             <a id = "next_button" href={{=URL('question_list')}} rel="nofollow">khám phá</a>
-         </td>
-    </tr>
 </table>
