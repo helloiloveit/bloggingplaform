@@ -109,7 +109,7 @@
 
                                       <a id="ask_friend_button"  href=
                           "http://www.facebook.com/dialog/send?
-  app_id= 313224325539076
+  app_id= {{=app_id_info}}
   &link={{=url_root+ URL(r=request, f='question', vars = {'id':request.vars.id} )}}
   &redirect_uri={{=url_root + URL(r=request, f='question',  vars = {'id':request.vars.id} )}}"
                               >

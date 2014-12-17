@@ -185,7 +185,7 @@ def index():
     return auth.wiki()
     """
     log.info('index')
-    redirect(URL(f= 'question_list'))
+    #redirect(URL(f= 'question_list'))
     return dict()
 
 def fb_noti():
@@ -251,7 +251,8 @@ def question():
                     like_list = like_list,
                     comment_list = answer_list,
                     user_info = user_info,
-                    related_question_list = related_question_list)
+                    related_question_list = related_question_list,
+                    app_id_info= APP_ID)
 def post_comment():
     create_new_answer(request, auth)
     redirect(URL(r = request, f= 'question', vars ={'id': request.vars.id}))

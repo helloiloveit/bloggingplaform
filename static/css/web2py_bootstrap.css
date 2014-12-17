@@ -22,6 +22,7 @@ margin-left: 80px;
     font-weight: 300;
 }
 
+
 #kaka{
 width: 450px;
 }
@@ -429,6 +430,11 @@ background-repeat: repeat-x;
 border-color: none;
 */
 }
+
+
+
+
+
 .navbar-inner-new {
 -webkit-border-radius: 0;
 -moz-border-radius: 0;
@@ -633,6 +639,9 @@ div.controls select +.error_wrapper {margin-left:5px;}
         background-color:rgb(212, 57, 75);
 
         }
+
+
+
 .navbar-inverse .brand{color:#white;}
 .navbar-inverse .brand b{display:inline-block;margin-top:-1px;}
 .navbar-inverse .brand b>span{font-size:22px;color:white}
@@ -640,6 +649,8 @@ div.controls select +.error_wrapper {margin-left:5px;}
 /* beautify web2py link in navbar */
 span.highlighted{color:#d8d800;}
 .open span.highlighted{color:#ffff00;}
+
+
 
 /*=============================================================
                  OVERRIDING WEB2PY.CSS RULES
