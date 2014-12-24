@@ -10,6 +10,23 @@ execfile(file_path, globals())
 execfile(os.path.join(file_path,'modules','noti_handler.py'), globals())
 
 
+class TestNotiHandler2(unittest.TestCase):
+    def setUp(self):
+        set_up_basic_environment()
+        # question info
+        self.question = "this is a new question"
+        self.question_detail_info = "more detail of this question"
+        self.tag_list = "tag1"
+
+    def testGetRepliedUserList(self):
+        question_id = QuestionHandlingUtility(self.question, self.question_detail_info, self.tag_list).create_a_question_by_user(auth)
+        answer_info = "answer info"
+        auth.user = user_record_2
+        answer_id = AnswerHandlingUility(question_id).create_answer(answer_info, auth.user.id)
+        user_list = noti_handler(question_id).get_replied_user_list()
+        self.assertItemsEqual(user_list, [user_record_2.username])
+
+
 
 class TestNotiHandler(unittest.TestCase):
     def setUp(self):
@@ -124,6 +141,7 @@ class TestNotiHandler(unittest.TestCase):
 
 suite = unittest.TestSuite()
 suite.addTest(unittest.makeSuite(TestNotiHandler))
+suite.addTest(unittest.makeSuite(TestNotiHandler2))
 unittest.TextTestRunner(verbosity=2).run(suite)
 
 

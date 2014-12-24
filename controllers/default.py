@@ -86,6 +86,7 @@ def user():
         profile_info = db(db.user_profile.user_info == auth.user.id).select().first()
         return dict(user_profile = profile_infoimport pdb; pdb.set_trace())
     """
+    session.redirect_uri = 'https://testmobileissomuchfun.appspot.com/user/login'
     return dict(form = auth())
 
 def user_profile():
@@ -420,12 +421,16 @@ def post():
 
 @auth.requires_login()
 def post_question():
+    """
+    noti will be implemented later
+    """
     question_id = post_new_question(request, auth)
     if question_id:
         #add to queue
         import copy
         question_id = copy.copy(question_id)
-        noti_handler(question_id).add_to_gae_task_queue(request)
+        #noti_handler(question_id).add_to_gae_task_queue(request)
+
         redirect(URL(r = request, f= 'question', vars = {'id':question_id}))
     return dict()
 

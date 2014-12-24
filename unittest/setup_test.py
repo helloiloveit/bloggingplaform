@@ -38,6 +38,12 @@ def set_up_basic_environment():
     user_record_1 = db(db.auth_user.id == user_id_1).select()[0]
     auth.user = user_record_1
 
+class AnswerHandlingUility(object):
+    def __init__(self, question_id):
+        self.question_id = question_id
+    def create_answer(self, answer_info, user_id):
+        answer_id = answer_handler().create_new_answer(self.question_id, answer_info, user_id)
+        return answer_id
 
 
 class QuestionHandlingUtility(object):

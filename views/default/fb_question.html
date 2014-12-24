@@ -2,6 +2,10 @@
 {{right_sidebar_enabled=True}}
 {{extend 'fb_layout.html'}}
 
+<script language="javascript" type="text/javascript">
+     window.location.href = "{{=URL(args=request.args, vars=request.get_vars, host=True).replace('fb_question', 'question')}}";
+ </script>
+
 {{response.title = item.question_info}}
         {{block head}}
         {{img_path ='https://graph.facebook.com/' + user_info.username + '/picture?type=large'}}

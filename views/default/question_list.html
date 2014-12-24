@@ -93,7 +93,7 @@
               </td>
               <td>
                   {{answer_num=len(db(db.answer_tbl.question_id == item.id).select())}}
-                  {{=A("" + str(answer_num) + " trả lời", _class="popularity_a_tag_text",_href=URL(r=request,f='question',args=[item.id]))}}
+                  {{=A("" + str(answer_num) + " trả lời", _class="popularity_a_tag_text",_href=URL(r=request,f='question',vars={'id':[item.id]}))}}
               </td>
               <td>
                    {{if not item.privacy_mode:}}

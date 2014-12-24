@@ -61,13 +61,18 @@
               <td>
                   <span class="question_like_info">{{=len(like_list)}} thích </span>
               </td>
-                {{if (auth.is_logged_in() and auth.user.id == user_info.id):}}
+                {{if auth.is_logged_in():}}
+                {{if not is_mobile:}}
                 <td>
+
                     {{=A("sửa",_id ='edit_button', _class='handling_button',_href=URL(r=request,f='edit_question',vars={'id':[item.id]}))}}
                 </td>
                 <td>
+                    {{if auth.user.id == user_info.id:}}
                     {{=A("xoá",_id='delete_button',_class='handling_button', _href=URL(r=request,f='delete_question',vars={'id':[item.id]}))}}
+                    {{pass}}
                 </td>
+                {{pass}}
                {{pass}}
               <td>
              <!-- <img border="0" src=https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/p50x50/524680_10151914256443389_1087551412_n.jpg alt="Pulpit rock" width="150" height="150"> -->
@@ -94,7 +99,7 @@
               <td>
                   <div id="inputCommentButton" name="question_id" >
                       <a id="reply_question_button">
-                      <img border="0" src={{=URL('static', 'images/reply.png')}} alt="Pulpit rock" width="45" height="45">
+                      <img border="0" src={{=URL('static', 'images/reply2.png')}} alt="Pulpit rock" width="45" height="45">
                       trả lời
                          </a>
                   </div>
@@ -113,8 +118,8 @@
   &link={{=url_root+ URL(r=request, f='question', vars = {'id':request.vars.id} )}}
   &redirect_uri={{=url_root + URL(r=request, f='question',  vars = {'id':request.vars.id} )}}"
                               >
-            <img border="0" src={{=URL('static', 'images/ask_friend_small.png')}} alt="Pulpit rock" width="45" height="45">
-                                          hoi ban be
+            <img border="0" src={{=URL('static', 'images/ask_friend_small_fb.png')}} alt="Pulpit rock" width="45" height="45">
+                                         hỏi bạn bè
              </a>
                   {{pass}}
 

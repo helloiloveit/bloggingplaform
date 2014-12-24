@@ -7,7 +7,7 @@ table {
   margin-left: auto;
   margin-right: auto;
 }
-    .wrapper {
+.wrapper {
   display: table-cell;
   vertical-align: middle;
 }
@@ -16,13 +16,9 @@ table {
     width:100%;
     height:100%;
     }
-img{
-    position: relative;
-    margin: auto;
-}
 
 .box .red_part{
-    background-color:red;
+    background-color:rgb(187, 33, 34);;
     height:50%;
     }
 #ask_button{
@@ -36,28 +32,55 @@ img{
         font-size : 30px;
     color: rgb(147, 96, 96);
  }
-#next_button{
+#nav_button{
     font-size : 30px;
     color: rgb(147, 96, 96);
+     text-decoration: none;
     }
  #slogan_info{
    color:white;
-    font-size:50px;
+    font-size:2em;
+    }
+ #slogan_info_mobile{
+    color:white;
+    font-size:3.5em;
+    }
+ #white_next_button{
+   color:white;
+     text-decoration: none;
+    font-size:3em;
+    float:right;
+    margin-right:10%;
     }
 </style>
 <div>
-  <p>
-</p>
-
+    {{is_mobile=request.user_agent().is_mobile}}
   <table class="box" >
       <tr>
-          <td class="">
+          <td >
+              {{if not is_mobile:}}
+              <table height=100% width=100%>
+                  <tr>
+                      <td>
+
               <center>
-                  <a id = "post_button" href={{=URL('post')}} rel="nofollow">
+                  <a class = "nav_button" href={{=URL('post')}} rel="nofollow">
                       <img border="0" src={{=URL('static', 'images/ask.png')}} style="width:35px;height:35px;vertical-align:middle" >
                       Đặt câu hỏi
                   </a>
                   </center>
+                      </td>
+                      <td class="nav_button">
+                          <center>
+                          <a  href={{=URL('question_list')}} rel="nofollow">
+                              <img border="0" src={{=URL('static', 'images/next_button.png')}} style="width:35px;height:35px;vertical-align:middle" >
+                              Khám phá
+                          </a>
+                              </center>
+                      </td>
+                  </tr>
+               </table>
+              {{pass}}
           </td>
       </tr>
 
@@ -65,7 +88,11 @@ img{
         <td>
             <table height=100% width=100%>
 <td align=center valign=center>
-            <img src= {{=URL('static', 'images/friend_vector.jpg')}}  border="0" alt="Null">
+            {{if not is_mobile:}}
+            <img src= {{=URL('static', 'images/friend_vector.jpg')}}  style="max-width:80%;height:auto;" border="0" alt="Null">
+            {{else:}}
+            <img src= {{=URL('static', 'images/friend_vector_mobile_low_density.jpg')}}  style="max-width:80%;height:auto;" border="0" alt="Null">
+            {{pass}}
     </td>
                 </table>
         </td>
@@ -73,14 +100,32 @@ img{
 
      <tr >
         <td class="red_part">
+                {{if  is_mobile:}}
+            <center>
+                <p  id = "slogan_info_mobile">
+                    <img border="0" src={{=URL('static', 'images/chuotnhat_white.png')}} style="max-width:240px;max-height:240px;vertical-align:middle" >
+                <br>
+                    Học hỏi. Chia sẻ kinh nghiệm
+                </p>
+            </center>
+                <a id = "white_next_button" href={{=URL('question_list')}} rel="nofollow">
+                <img border="0" src={{=URL('static', 'images/next_button_white.png')}} style="width:80px;height:80px;vertical-align:middle" >
+                    Khám phá
+                    </a>
+                {{else:}}
             <center>
                 <p  id = "slogan_info">
-                    <img border="0" src={{=URL('static', 'images/chuotnhat_white.png')}} style="width:120px;height:120px;vertical-align:middle" >
-
-                    Học. Chia sẻ kinh nghiệm
+                    <img border="0" src={{=URL('static', 'images/chuotnhat_white.png')}} style="max-width:120px;max-height:120px;vertical-align:middle" >
+                    Học hỏi. Chia sẻ kinh nghiệm
                 </p>
-                </center>
+            </center>
+            <a id = "white_next_button" href={{=URL('question_list')}} rel="nofollow">
+                {{pass}}
+
+
+
         </td>
+
 
       </tr>
 </table>

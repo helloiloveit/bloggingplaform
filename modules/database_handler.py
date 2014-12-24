@@ -200,6 +200,9 @@ def create_new_answer(request, auth):
     if not rst:
         log.error('cant update tag info for user')
 
+    #noti
+    handler_fb_noti_of_new_reply(question_id, answer_id, auth.user.username)
+
     return answer_id
 
 def update_an_answer(request):

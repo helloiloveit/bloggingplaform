@@ -18,12 +18,29 @@ def handler_fb_noti(request):
     question_id = request.vars['question_id']
     noti_data = noti_handler(question_id)
     user_info_list = noti_data.get_targeted_user()
+    #user_info_list = noti_data.get_targeted_user_of_question()
     db = current.db
     for temp in user_info_list:
         user_record = db(db.auth_user.id == temp).select()[0]
         # get user list to send noti
         href_link = noti_handler(question_id).create_href()
         fb_noti_handler(user_record.username, href_link, noti_data.create_message()).send()
+
+def handler_fb_noti_of_new_reply(question_id, answer_id, author_username):
+    """
+    send noti to people related to a question
+    """
+    noti_data = noti_handler(question_id)
+    #noti owner
+    asked_user = noti_data.get_asked_question_user()
+    if asked_user != author_username:
+        fb_noti_handler(asked_user, noti_data.create_href(), noti_data.create_message_for_owner(answer_id, author_username)).send()
+
+    #noti commenter
+    user_info_list = noti_data.get_replied_user_list()
+    for username in user_info_list:
+        if username != author_username:
+            fb_noti_handler(username, noti_data.create_href(), noti_data.create_message(answer_id, author_username)).send()
 
 
 class fb_noti_handler(object):
@@ -66,10 +83,14 @@ class noti_handler(object):
         log.info("")
         return "fb_question" + "?id=" + str(self.question_id)
 
-    def create_message(self):
+    def create_message_for_owner(self, answer_id, author_username):
+        db = self.db
+        return '@[%s] tra loi cau hoi cua ban'%(author_username)
+
+    def create_message(self, answer_id, author_username):
         db = self.db
         question_record = db(db.question_tbl.id == self.question_id).select().first()
-        return question_record.question_info
+        return """@[%s] chia se kinh nghiem """%(author_username)
 
 
     def get_targeted_user(self):
@@ -87,6 +108,30 @@ class noti_handler(object):
                     if data.user_info not in user_list:
                         user_list.append(data.user_info)
         return user_list
+
+    def get_replied_user_list(self):
+        """
+        get user list to send noti to of this question
+        - get uesr of comment of this question
+        """
+        user_list = []
+        db = self.db
+
+        #answer
+        answer_record_list = db(db.answer_tbl.question_id == self.question_id).select()
+        for answer_record in answer_record_list:
+            user_record = db(db.auth_user.id == answer_record.author_info).select().first()
+            user_list.append(user_record.username)
+
+        return user_list
+    def get_asked_question_user(self):
+        """
+        return user who ask question
+        """
+        db = self.db
+        question_record = db(db.question_tbl.id == self.question_id).select().first()
+        user_record = db(db.auth_user.id == question_record.writer).select().first()
+        return user_record.username
 
     def send_noti_to_user(self):
         user_list = self.get_targeted_user()
