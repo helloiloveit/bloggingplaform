@@ -86,7 +86,8 @@ def user():
         profile_info = db(db.user_profile.user_info == auth.user.id).select().first()
         return dict(user_profile = profile_infoimport pdb; pdb.set_trace())
     """
-    session.redirect_uri = 'https://testmobileissomuchfun.appspot.com/user/login'
+    #session.redirect_uri = REDIRECT_URL_TEST
+    log.info('session redirect uri = %s',session.redirect_uri)
     return dict(form = auth())
 
 def user_profile():

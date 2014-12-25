@@ -17,7 +17,6 @@ from option_handler import *
 from TestLib import *
 
 
-FB_PAGE = 'http://localhost:8002/fb_main'
 
 #test user
 EMAIL_TEST_USER_1='qcbavsr_sharpestein_1418015926@tfbnw.net'
@@ -201,6 +200,7 @@ class TestShareTag(unittest.TestCase):
 
 
 BASE_URL = option_handler(sys)
+FB_PAGE = os.path.join(BASE_URL,'fb_main')
 
 
 suite = unittest.TestSuite()

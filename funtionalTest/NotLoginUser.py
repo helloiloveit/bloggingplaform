@@ -10,7 +10,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from time import *
 import os
 import sys
-from option_handler import *
+import option_handler
 from PageElementInfoLib import *
 
 
@@ -23,8 +23,8 @@ class TestUserProfile(unittest.TestCase, ProfilePage):
         driver.get(QUESTION_LIST_URL)
         try:
             question_one = driver.find_element_by_class_name('article_header')
-            link = question_one.find_element_by_link_text(question_one.text)
-            link.click()
+            #link = question_one.find_element_by_link_text(question_one.text)
+            question_one.click()
             #click on writer of question
             user_profile = driver.find_element_by_id('user_profile')
             user_profile.click()
@@ -33,6 +33,7 @@ class TestUserProfile(unittest.TestCase, ProfilePage):
             return False
 
     def testClickableFirstPage(self):
+        import pdb; pdb.set_trace()
         self.getToUserProfile(self.driver)
         self.viewAllQuestionInList(self.driver)
 
@@ -154,8 +155,10 @@ class TestQuestionPage(unittest.TestCase, QuestionPage):
         self.driver.close()
 
 
-
-BASE_URL =  option_handler(sys)
+option_handler.option_handler(sys)
+BASE_URL = option_handler.BASE_URL
+QUESTION_LIST_URL = option_handler.QUESTION_LIST_URL
+NUM_OF_QUESTION_PER_PAGE = option_handler.NUM_OF_QUESTION_PER_PAGE
 
 suite = unittest.TestSuite()
 suite.addTest(unittest.makeSuite(TestUserProfile))

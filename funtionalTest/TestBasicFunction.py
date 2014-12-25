@@ -10,15 +10,12 @@ from selenium.webdriver.common.action_chains import ActionChains
 from time import *
 import os, sys
 import string, random
-from option_handler import *
+import option_handler
 
 
 #lib
 from TestLib import *
 
-#test user
-EMAIL_TEST_USER_1='qcbavsr_sharpestein_1418015926@tfbnw.net'
-PASS_TEST_USER_1='maiphuong'
 """
 def user_login_real_user(self):
     self.driver.get(LOGIN_URL)
@@ -33,6 +30,7 @@ def user_login_real_user(self):
 """
 
 def user_login(driver):
+
     driver.get(LOGIN_URL)
     email = driver.find_elements_by_id('email')
     email[0].send_keys(EMAIL_TEST_USER_1)
@@ -169,8 +167,8 @@ class TestHandlingAnswer(HandlingQuestion):
         self.post()
         self.driver.get(QUESTION_LIST_URL)
         question_one = self.driver.find_element_by_class_name('article_header')
-        link = question_one.find_element_by_link_text(question_one.text)
-        link.click()
+        #link = question_one.find_element_by_link_text(question_one.text)
+        question_one.click()
 
     def postAnswer(self):
         popularity_info = self.driver.find_element_by_class_name('user_answer_option')
@@ -277,6 +275,7 @@ class TestHandlingQuestion(HandlingQuestion):
          write more in one testcase to reduce the login activity
         """
         driver = self.driver
+        self.driver.get(QUESTION_LIST_URL)
         self.post()
         #confirm the posted question
         question_info_result = driver.find_element_by_class_name('article_header')
@@ -296,10 +295,18 @@ class TestHandlingQuestion(HandlingQuestion):
     def tearDown(self):
         self.driver.close()
 
+option_handler.option_handler(sys)
+BASE_URL = option_handler.BASE_URL
+QUESTION_LIST_URL = option_handler.QUESTION_LIST_URL
+NUM_OF_QUESTION_PER_PAGE = option_handler.NUM_OF_QUESTION_PER_PAGE
+LOGIN_URL = option_handler.LOGIN_URL
+LOGOUT_URL = option_handler.LOGOUT_URL
 
 
 
-BASE_URL = option_handler(sys)
+#test user
+EMAIL_TEST_USER_1=option_handler.EMAIL_TEST_USER_1
+PASS_TEST_USER_1=option_handler.PASS_TEST_USER_1
 
 
 suite = unittest.TestSuite()
