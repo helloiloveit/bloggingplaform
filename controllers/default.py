@@ -46,8 +46,41 @@ def test_autocom():
     #data_group =  ([])
     return temp + '('+json.dumps(data_group) + ')'
 
-def test_facebook():
-    return dict()
+
+def update_user_tbl(user):
+    """
+    update new user if non exist before
+    """
+    #check if exit user
+    record = db(db.auth_user.username == user['id']).select().first()
+    auth.user = record
+    if not record:
+        new_record =  db.auth_user.insert(first_name = user['first_name'],
+                                     last_name = user['last_name'],
+                                     username =user['id'])
+        auth.user = new_record
+    return 1
+
+def client_access_tk():
+    """
+    get access tk from client
+    update auth
+    """
+    from facebook import GraphAPI, GraphAPIError
+    verify_access_token(request.vars.data)
+    return 0
+
+def verify_access_token(accesstk):
+    graph = GraphAPI((accesstk))
+    user = None
+    try:
+        user = graph.get_object("me")
+    except GraphAPIError, e:
+        self.session.token = None
+        self.graph = None
+    print'user ', user
+    update_user_tbl(user)
+    return 1
 
 @auth.requires_login()
 def create_new_tag():
@@ -76,15 +109,6 @@ def tag_handler():
 
 def user():
     """
-    if request.env.REQUEST_METHOD =='POST':
-        #save self introduction to db
-        update_self_introduction(request, auth)
-        redirect(URL(r = request, f= 'user', args = 'profile'))
-    if request.env.REQUEST_METHOD =='GET':
-        if request.args[0] == 'login':
-            return dict(form = auth())
-        profile_info = db(db.user_profile.user_info == auth.user.id).select().first()
-        return dict(user_profile = profile_infoimport pdb; pdb.set_trace())
     """
     #session.redirect_uri = REDIRECT_URL_TEST
     log.info('session redirect uri = %s',session.redirect_uri)
@@ -198,7 +222,6 @@ def fb_noti():
     }
     import urllib
     import urllib2
-    import pdb; pdb.set_trace()
     data = urllib.urlencode(data)
     url = 'http://www.facebook.com/' + str(auth.user.username) +  '/notifications'
     html = urllib2.urlopen(url)
@@ -255,6 +278,7 @@ def question():
                     user_info = user_info,
                     related_question_list = related_question_list,
                     app_id_info= APP_ID)
+
 def post_comment():
     create_new_answer(request, auth)
     redirect(URL(r = request, f= 'question', vars ={'id': request.vars.id}))
@@ -509,12 +533,14 @@ def fb_main():
     """
     temporary for redirect call to fb_question
     """
+    import pdb; pdb.set_trace()
     if request.args == ['fb_question']:
         redirect(URL(r = request, f= 'fb_question', vars = {'id':request.vars.id}))
-
+    print'l2'
     check_noti()
     tag_info = []
     if auth.is_logged_in():
+        print'l3'
         try:
             tag_info = user_tag_handler(auth).get_tag_info()
             print tag_info
@@ -550,12 +576,15 @@ def fb_post():
 
 @auth.requires_login()
 def fb_post_question():
+    if not verify_access_token(request.vars.accesstk):
+        log.error('cant verify this accesstk')
+        return
     question_id = post_new_question(request, auth)
     if question_id:
         #add to queue
         import copy
         question_id = copy.copy(question_id)
-        noti_handler(question_id).add_to_gae_task_queue(request)
+        #noti_handler(question_id).add_to_gae_task_queue(request)
         redirect(URL(r = request, f= 'fb_question', vars = {'id':question_id}))
     return dict()
 
@@ -594,6 +623,9 @@ def fb_delete_question():
 
 @auth.requires_login()
 def fb_post_comment():
+    if not verify_access_token(request.vars.accesstk):
+        log.error('cant verify this accesstk')
+        return
     create_new_answer(request, auth)
     redirect(URL(r = request, f= 'fb_question', vars ={'id': request.vars.id}))
 
@@ -623,6 +655,9 @@ def fb_edit_answer():
 
 @auth.requires_login()
 def fb_delete_answer():
+    if not verify_access_token(request.vars.accesstk):
+        log.error('cant verify this accesstk')
+        return
     selection = request.vars
     if request.env.REQUEST_METHOD == 'GET':
         answer_id = request.args[0]

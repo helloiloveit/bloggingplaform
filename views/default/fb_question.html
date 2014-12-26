@@ -2,9 +2,6 @@
 {{right_sidebar_enabled=True}}
 {{extend 'fb_layout.html'}}
 
-<script language="javascript" type="text/javascript">
-     window.location.href = "{{=URL(args=request.args, vars=request.get_vars, host=True).replace('fb_question', 'question')}}";
- </script>
 
 {{response.title = item.question_info}}
         {{block head}}
@@ -129,6 +126,7 @@
     <form id="realEditor"  action="fb_post_comment" method="post">
         <p>
            <input type="hidden" name="id" value = {{=item.id}}>
+            <input id = 'accesstk' type="hidden" name="accesstk" value = ''>
         </p>
             <textarea  id="editor1" name="answer_info" rows="10" >
             </textarea>
@@ -225,6 +223,8 @@ $( '#inputCommentButton' ).click(function() {
   <!--$( this ).slideUp();-->
     $( '#realEditor' ).show(  );
 tinymce.execCommand('mceFocus',false,'editor1');
+
+    $('#accesstk').val(ACCESS_TOKEN_GLOB);
 });
 
      $('.like_unlike_button').click(function () {

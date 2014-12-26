@@ -23,6 +23,7 @@
         <form id ="question_content_form" action="fb_post_question" method="post">
             <p>
                 <input id ="tag_list" type ="hidden"  type="text" name="tag_list"  autocomplete="off" value = tag_list>
+                <input id ="accesstk" type ="hidden"  type="text" name="accesstk"  autocomplete="off" value = ''>
                 <input id = "question_header" type="text" name="question_info" value ="">
             </p>
             <p>
@@ -80,7 +81,6 @@
             $("#"+ TAG_TYPING_BOX).val("");
         });
 
-
         jQuery('#' + CREATE_NEW_TAG).click(function(){
             var tag_value = $('#city').val();
             user_post_new_tag(tag_value, 'suggestion_box');
@@ -90,6 +90,7 @@
 
 
         jQuery("#post_question_button").click(function(){
+            $('#accesstk').val(ACCESS_TOKEN_GLOB);
             $( "#question_content_form" ).submit();
             });
 
