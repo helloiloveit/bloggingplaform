@@ -122,6 +122,10 @@
       testAPI();
       ACCESS_TOKEN_GLOB = response.authResponse.accessToken;
       post_access_tk(response.authResponse.accessToken);
+      $("#user_profile").show();
+      $("#user_profile_login").hide();
+      var _href = $("#user_profile").attr("href");
+      $("#user_profile").attr("href", _href + '?user_id=' + response.authResponse.userID+'&accesstk=' + response.authResponse.accessToken);
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       $("#user_profile").hide();
@@ -190,6 +194,9 @@
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
       $("#user_profile").text(response.name);
+      var _href = $("#user_profile").attr("href");
+      alert(response.authResponse.userID);
+      $("#user_profile").attr("href", _href + '?user_id=' + response.authResponse.userID);
       $("#user_profile_login").hide();
     console.log(JSON.stringify(response));
       console.log('Successful login for: ' + response.name);
@@ -257,12 +264,9 @@
 
         <ul id="navbar" class="nav pull-right">
             <li>
-                <!--<a href={{=URL( 'welcome/default/user_profile')}}>-->
-                <a id ="user_profile" href="{{=URL(f='fb_user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=auth.user.id}}; return false;">
+                <a id ="user_profile" href= "{{=URL(host=True).replace('fb_main','fb_user_profile')}}">
                 </a>
-                <a id="user_profile_login" style="display: none; onclick="loginFB();" >
-                    Click here
-                </a>
+                <a id="user_profile_login" style="display: none;" onclick="loginFB()">Đăng nhập</a>
             </li>
         </ul>
          <div class = "nav">

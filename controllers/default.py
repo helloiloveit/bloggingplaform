@@ -38,6 +38,8 @@ def search_box():
     return dict()
 def test_tinyMCE():
     return dict()
+def temp():
+    return dict()
 
 def test_autocom():
     temp = request.vars.callback
@@ -76,8 +78,8 @@ def verify_access_token(accesstk):
     try:
         user = graph.get_object("me")
     except GraphAPIError, e:
-        self.session.token = None
-        self.graph = None
+        session.token = None
+        graph = None
     print'user ', user
     update_user_tbl(user)
     return 1
@@ -355,7 +357,6 @@ def delete_answer():
 
 
 def create_data_for_question_list_for_test():
-    import pdb; pdb.set_trace()
     user_record = db(db.auth_user).select().first()
     if not user_record:
         user_id =  db.auth_user.insert(first_name = 'first_user', email = 'first_user_email@gmail.com')
@@ -533,7 +534,6 @@ def fb_main():
     """
     temporary for redirect call to fb_question
     """
-    import pdb; pdb.set_trace()
     if request.args == ['fb_question']:
         redirect(URL(r = request, f= 'fb_question', vars = {'id':request.vars.id}))
     print'l2'
@@ -570,11 +570,9 @@ def fb_test_queue():
     taskqueue.add(url='/add_gae_queue', params={'question_id': '123'})
     return dict()
 
-@auth.requires_login()
 def fb_post():
     return dict(article_tag_list ="" )
 
-@auth.requires_login()
 def fb_post_question():
     if not verify_access_token(request.vars.accesstk):
         log.error('cant verify this accesstk')
@@ -588,7 +586,6 @@ def fb_post_question():
         redirect(URL(r = request, f= 'fb_question', vars = {'id':question_id}))
     return dict()
 
-@auth.requires_login()
 def fb_edit_question():
     """
     Edit blog
@@ -607,7 +604,6 @@ def fb_edit_question():
 def fb_question():
     return question()
 
-@auth.requires_login()
 def fb_delete_question():
     selection = request.vars
     if request.env.REQUEST_METHOD == 'GET':
@@ -621,7 +617,6 @@ def fb_delete_question():
     return dict()
 
 
-@auth.requires_login()
 def fb_post_comment():
     if not verify_access_token(request.vars.accesstk):
         log.error('cant verify this accesstk')
@@ -630,7 +625,6 @@ def fb_post_comment():
     redirect(URL(r = request, f= 'fb_question', vars ={'id': request.vars.id}))
 
 
-@auth.requires_login()
 def fb_edit_answer():
     """
     edit answer
@@ -653,7 +647,6 @@ def fb_edit_answer():
 
     return dict()
 
-@auth.requires_login()
 def fb_delete_answer():
     if not verify_access_token(request.vars.accesstk):
         log.error('cant verify this accesstk')
@@ -673,20 +666,19 @@ def fb_delete_answer():
         redirect(URL(r = request, f= 'fb_question', vars ={'id':question_id} ))
     return dict()
 
-@auth.requires_login()
-def fb_user_profile():
-    return user_profile()
 
-@auth.requires_login()
 def fb_edit_user_profile():
+    if not verify_access_token(request.vars.accesstk):
+        log.error('cant verify this accesstk')
+        return
     if request.env.REQUEST_METHOD =='POST':
         rst = update_self_introduction(request, auth)
-        redirect(URL('fb_user_profile', vars=dict(user_id=request.vars.user_id)))
+        redirect(URL('fb_user_profile', vars=dict(user_id=request.vars.user_id,accesstk=request.vars.accesstk)))
         return dict()
     elif request.env.REQUEST_METHOD =='GET':
-        target_person_id = request.vars.user_id
+        user_info = db(db.auth_user.username == request.vars.user_id).select().first()
+        target_person_id = user_info.id
         profile_info = db(db.user_profile.user_info == target_person_id).select().first()
-        user_info = db(db.auth_user.id == target_person_id).select().first()
         try:
             #if user is logged in
             follow_record = db((db.follow_info_tbl.followed_user == target_person_id)&(db.follow_info_tbl.following_user == auth.user.id )).select().first()
@@ -709,3 +701,59 @@ def fb_edit_user_profile():
                     followed_list = followed_list)
 
     return dict()
+
+def fb_user_profile():
+    response.title ='user_profile'
+    follow_flag = False
+    view_my_profile= False
+    if not verify_access_token(request.vars.accesstk):
+        log.error('cant verify this accesstk')
+        return
+    if request.env.REQUEST_METHOD =='GET':
+        user_info = db(db.auth_user.username == request.vars.user_id).select().first()
+        target_person_id = user_info.id
+        profile_info = db(db.user_profile.user_info == target_person_id).select().first()
+        if not profile_info:
+            profile_id = create_basis_user_profile(target_person_id)
+            if profile_id:
+                profile_info = db(db.user_profile.id == profile_id).select().first()
+        #check if user view its own profile
+        if auth.is_logged_in():
+            if target_person_id == str(auth.user.id):
+                # view my profile
+                view_my_profile = True
+        try:
+            #if user is logged in
+            follow_record = db((db.follow_info_tbl.followed_user == target_person_id)&(db.follow_info_tbl.following_user == auth.user.id )).select().first()
+        except:
+            # not login
+            follow_record = False
+            pass
+        if follow_record:
+            follow_flag = True
+        else:
+            follow_flag = False
+        #following
+        following_list = db(db.follow_info_tbl.followed_user == target_person_id).select()
+        #followed
+        followed_list = db(db.follow_info_tbl.following_user == target_person_id).select()
+        response.title = user_info.first_name
+        #answer list
+        answer_list = db(db.answer_tbl.author_info == user_info.id).select()
+        answer_list, page_num, view_more_flag = _handle_page_num(request, answer_list)
+        log.info(" return %s", locals())
+
+        return dict(person_profile = profile_info,
+                    person_info= user_info,
+                    follow_flag = follow_flag,
+                    view_my_profile=view_my_profile,
+                    following_list = following_list,
+                    followed_list = followed_list,
+                    answer_list = answer_list,
+                    page_num = page_num,
+                    view_more_flag = view_more_flag,
+                    ACCESS_TOKEN_GLOB = request.vars.accesstk
+                    )
+    return dict()
+
+
