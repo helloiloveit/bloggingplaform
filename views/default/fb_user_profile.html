@@ -57,7 +57,7 @@ tinymce.init({
                   <td class="edit_button">
                       {{if auth.is_logged_in():}}
                       {{if auth.user.id == person_info.id:}}
-                      {{=A("sửa",_id ='edit_button',_class='profile_handling_button', _href=URL('fb_edit_user_profile',   vars=dict(user_id= request.vars.user_id))   )}}
+                      {{=A("sửa",_id ='edit_button',_class='profile_handling_button', _href=URL('fb_edit_user_profile',   vars={'user_id': request.vars.user_id,'accesstk':request.vars.accesstk})   )}}
                       {{pass}}
                       {{pass}}
                   </td>
@@ -118,7 +118,7 @@ tinymce.init({
                  </td>
               {{if (auth.is_logged_in() and (auth.user.id == answer.author_info)):}}
               <td>
-                  {{=A("sửa",_id ='edit_answer_button', _class='handling_button', _href=URL(r=request,f='fb_edit_answer',args=[answer.id], vars={'origin':'user_profile'}))}}
+                  {{=A("sửa",_id ='edit_answer_button', _class='handling_button', _href=URL(r=request,f='fb_edit_answer',args=[answer.id], vars={'origin':'user_profile','accesstk':request.vars.accesstk}))}}
               </td>
               <td>
                   {{=A("xoá",_id='delete_answer_button', _class='handling_button', _href=URL(r=request,f='fb_delete_answer',args=[answer.id]))}}
