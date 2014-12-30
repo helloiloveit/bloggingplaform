@@ -83,7 +83,7 @@ tinymce.init({
             <table class="content_info_table">
                 <tr>
                     <td class="article_header">
-                        {{=A(question.question_info,_class='article_header', _href=URL(f='question',vars={'id':[question.id]}))}}
+                        {{=A(question.question_info,_class='article_header', _href=URL(f='fb_question',vars={'id':[question.id],'accesstk':request.vars.accesstk}))}}
                     </td>
                 </tr>
                 <tr>
@@ -121,7 +121,7 @@ tinymce.init({
                   {{=A("sửa",_id ='edit_answer_button', _class='handling_button', _href=URL(r=request,f='fb_edit_answer',args=[answer.id], vars={'origin':'user_profile','accesstk':request.vars.accesstk}))}}
               </td>
               <td>
-                  {{=A("xoá",_id='delete_answer_button', _class='handling_button', _href=URL(r=request,f='fb_delete_answer',args=[answer.id]))}}
+                  {{=A("xoá",_id='delete_answer_button', _class='handling_button', _href=URL(r=request,f='fb_delete_answer',args=[answer.id] , vars={'accesstk':request.vars.accesstk}))}}
               </td>
               {{pass}}
               <!--
@@ -227,8 +227,8 @@ if (like_unlike_val == "like")
             //alert('equal like');
              $.ajax({
             type: "POST",
-            url: '{{=URL(f='like_an_answer')}}',
-            data: {answer_id : id},
+            url: '{{=URL(f='fb_like_an_answer')}}',
+            data: {answer_id : id, accesstk:ACCESS_TOKEN_GLOB},
             cache: false,
             success: function(data){
                 //myThisVariable.parent().find('.count_like').text(data);
@@ -243,8 +243,8 @@ if (like_unlike_val == "like")
          {
             $.ajax({
             type: "POST",
-            url: '{{=URL(f='unlike_an_answer')}}',
-            data: {answer_id : id},
+            url: '{{=URL(f='fb_unlike_an_answer')}}',
+            data: {answer_id : id, accesstk:ACCESS_TOKEN_GLOB},
             cache: false,
             success: function(data){
                 //myThisVariable.parent().find('.count_like').text(data);

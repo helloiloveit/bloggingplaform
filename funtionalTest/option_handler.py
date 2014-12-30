@@ -22,6 +22,7 @@ def  option_handler(sys):
     global QUESTION_LIST_URL
     global LOGIN_URL
     global LOGOUT_URL
+    global FB_PAGE
 
     try:
         option = sys.argv[1]
@@ -41,5 +42,6 @@ def  option_handler(sys):
     QUESTION_LIST_URL = os.path.join(BASE_URL, 'question_list')
     LOGIN_URL = os.path.join(BASE_URL, 'user/login?_next=/')
     LOGOUT_URL = os.path.join(BASE_URL, 'user/logout?_next=/')
+    FB_PAGE = os.path.join(BASE_URL,'fb_main')
     return BASE_URL
 

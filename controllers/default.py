@@ -88,7 +88,6 @@ def verify_access_token(accesstk):
 def create_new_tag():
     if not request.vars.tag_info: return ''
     tag_info = request.vars.tag_info
-
     rst = user_create_new_tag(tag_info)
     if rst:
         return True
@@ -404,24 +403,6 @@ def question_list():
 
     return dict(items= display_list, page_num = page_num, view_more_flag=view_more_flag)
 
-def fb_question_list():
-    """
-    test data
-    """
-    log.info('question list')
-    log.info(request.env.REQUEST_METHOD)
-    response.title = 'Chuot Nhat'
-    tag_info = []
-    tag_info = user_tag_handler(auth).get_tag_info()
-
-    #items = db(db.question_tbl).select()
-    items = question_tag_handler().get_question_by_tag_list(tag_info)
-    display_list, page_num, view_more_flag= _handle_page_num(request, items)
-
-
-
-
-    return dict(items= display_list, page_num = page_num, view_more_flag=view_more_flag, tag_info = tag_info)
 
 def get_header(text):
     """
@@ -469,6 +450,7 @@ def like_an_answer():
     like_record = db((db.answer_like_tbl.answer_id == request.vars.answer_id)).select()
     return len(like_record)
 
+@auth.requires_login()
 def unlike_an_answer():
     rst = user_unlike_an_answer(request, auth)
     like_record = db((db.answer_like_tbl.answer_id == request.vars.answer_id)).select()
@@ -583,7 +565,7 @@ def fb_post_question():
         import copy
         question_id = copy.copy(question_id)
         #noti_handler(question_id).add_to_gae_task_queue(request)
-        redirect(URL(r = request, f= 'fb_question', vars = {'id':question_id}))
+        redirect(URL(r = request, f= 'fb_question', vars = {'id':question_id,'accesstk':request.vars.accesstk}))
     return dict()
 
 def fb_edit_question():
@@ -602,6 +584,9 @@ def fb_edit_question():
     return dict()
 
 def fb_question():
+    if not verify_access_token(request.vars.accesstk):
+        log.error('cant verify this accesstk')
+        return
     return question()
 
 def fb_delete_question():
@@ -622,13 +607,16 @@ def fb_post_comment():
         log.error('cant verify this accesstk')
         return
     create_new_answer(request, auth)
-    redirect(URL(r = request, f= 'fb_question', vars ={'id': request.vars.id}))
+    redirect(URL(r = request, f= 'fb_question', vars ={'id': request.vars.id, 'accesstk':request.vars.accesstk}))
 
 
 def fb_edit_answer():
     """
     edit answer
     """
+    if not verify_access_token(request.vars.accesstk):
+        log.error('cant verify this accesstk')
+        return
     if request.env.REQUEST_METHOD == 'GET':
         answer_id = request.args[0]
         origin_url = request.vars.origin
@@ -641,9 +629,9 @@ def fb_edit_answer():
         answer = db(db.answer_tbl.id == answer_id).select().first()
         question_id = answer.question_id
         if session.EDIT_ANSWER_ORIGIN_URL == 'user_profile':
-            redirect(URL(r = request, f= 'user_profile', vars = {'user_id':auth.user.id}))
+            redirect(URL(r = request, f= 'user_profile', vars = {'user_id':auth.user.id, 'accesstk':request.vars.accesstk}))
         elif session.EDIT_ANSWER_ORIGIN_URL == 'question':
-            redirect(URL(r = request, f= 'fb_question', vars ={'id': question_id}))
+            redirect(URL(r = request, f= 'fb_question', vars ={'id': question_id, 'accesstk':request.vars.accesstk}))
 
     return dict()
 
@@ -663,7 +651,7 @@ def fb_delete_answer():
             delete_a_answer(request)
         elif selection['selection'] == "NO":
             pass
-        redirect(URL(r = request, f= 'fb_question', vars ={'id':question_id} ))
+        redirect(URL(r = request, f= 'fb_question', vars ={'id':question_id,  'accesstk':request.vars.accesstk}))
     return dict()
 
 
@@ -742,7 +730,6 @@ def fb_user_profile():
         answer_list = db(db.answer_tbl.author_info == user_info.id).select()
         answer_list, page_num, view_more_flag = _handle_page_num(request, answer_list)
         log.info(" return %s", locals())
-
         return dict(person_profile = profile_info,
                     person_info= user_info,
                     follow_flag = follow_flag,
@@ -756,4 +743,59 @@ def fb_user_profile():
                     )
     return dict()
 
+
+def fb_create_new_tag():
+    if not request.vars.tag_info: return ''
+    tag_info = request.vars.tag_info
+    rst = user_create_new_tag(tag_info)
+    if rst:
+        return True
+
+    else:
+        return False
+
+def fb_question_list():
+    """
+    test data
+    """
+    log.info('question list')
+    log.info(request.env.REQUEST_METHOD)
+    response.title = 'Chuot Nhat'
+
+    items = db(db.question_tbl).select()
+    display_list, page_num, view_more_flag= _handle_page_num(request, items)
+
+    return dict(items= display_list, page_num = page_num, view_more_flag=view_more_flag)
+
+##############################
+def fb_like_a_question():
+    if not verify_access_token(request.vars.accesstk):
+        log.error('cant verify this accesstk')
+        return
+    count_like = user_like_a_question(request, auth)
+    return count_like
+
+def fb_unlike_a_question():
+    if not verify_access_token(request.vars.accesstk):
+        log.error('cant verify this accesstk')
+        return
+    count_like = user_unlike_a_question(request, auth)
+    return count_like
+
+####### answer ######
+def fb_like_an_answer():
+    if not verify_access_token(request.vars.accesstk):
+        log.error('cant verify this accesstk')
+        return
+    rst= user_like_an_answer(request, auth)
+    like_record = db((db.answer_like_tbl.answer_id == request.vars.answer_id)).select()
+    return len(like_record)
+
+def fb_unlike_an_answer():
+    if not verify_access_token(request.vars.accesstk):
+        log.error('cant verify this accesstk')
+        return
+    rst = user_unlike_an_answer(request, auth)
+    like_record = db((db.answer_like_tbl.answer_id == request.vars.answer_id)).select()
+    return len(like_record)
 

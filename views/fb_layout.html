@@ -126,6 +126,9 @@
       $("#user_profile_login").hide();
       var _href = $("#user_profile").attr("href");
       $("#user_profile").attr("href", _href + '?user_id=' + response.authResponse.userID+'&accesstk=' + response.authResponse.accessToken);
+
+      var _href_logo = $("#logo_site").attr("href");
+      $("#logo_site").attr("href", _href_logo + '?accesstk=' + response.authResponse.accessToken);
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       $("#user_profile").hide();
@@ -194,9 +197,6 @@
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
       $("#user_profile").text(response.name);
-      var _href = $("#user_profile").attr("href");
-      alert(response.authResponse.userID);
-      $("#user_profile").attr("href", _href + '?user_id=' + response.authResponse.userID);
       $("#user_profile_login").hide();
     console.log(JSON.stringify(response));
       console.log('Successful login for: ' + response.name);
@@ -264,19 +264,31 @@
 
         <ul id="navbar" class="nav pull-right">
             <li>
-                <a id ="user_profile" href= "{{=URL(host=True).replace('fb_main','fb_user_profile')}}">
+                <a id ="user_profile" href= "{{=URL(host=True).replace(request.function,'fb_user_profile')}}">
                 </a>
                 <a id="user_profile_login" style="display: none;" onclick="loginFB()">Đăng nhập</a>
             </li>
         </ul>
          <div class = "nav">
              <ul class = "nav">
-        <li class="web2py-menu-first"><a  id = "logo_site" href="">
+        <li class="web2py-menu-first">
+            <a id ="logo_site" href= "{{=URL(host=True).replace(request.function,'fb_question_list')}}">
             <img border="0" src={{=URL('static', 'images/chuotnhat_white.png')}} alt="Pulpit rock" width="55" height="65">
             beta
              </a>
         </li>
       <!--  <li class="web2py-menu-first"><input type="text" name="" style="height:30px;font-size:16pt;size=80; width: 500px"  value = "search " ></li>-->
+              {{if not is_mobile:}}
+         <li class="web2py-menu-first" style ="padding-left:100px">
+                    <center>
+                    <a id = "post_button" href={{=URL('fb_post')}} rel="nofollow">
+                   <img border="0" src={{=URL('static', 'images/ask_icon.png')}} alt="Pulpit rock" width="55" height="65">
+                  Đặt câu hỏi
+                   </a>
+                        </center>
+               </li>
+                 {{else:}}
+                 {{pass}}
                  </ul>
              </div>
           <!--

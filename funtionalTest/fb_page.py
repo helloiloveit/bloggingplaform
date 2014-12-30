@@ -10,7 +10,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from time import *
 import os, sys
 import string, random
-from option_handler import *
+import option_handler
 
 
 #test lib
@@ -18,9 +18,6 @@ from TestLib import *
 
 
 
-#test user
-EMAIL_TEST_USER_1='qcbavsr_sharpestein_1418015926@tfbnw.net'
-PASS_TEST_USER_1='maiphuong'
 """
 def user_login_real_user(self):
     self.driver.get(LOGIN_URL)
@@ -55,14 +52,16 @@ def user_logout(driver):
 class TestMainPage(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
-        user_login(self.driver)
+        #user_login(self.driver)
         self.driver.get(FB_PAGE)
 
     def testLoginLogout(self):
-        self.driver.get(LOGIN_URL)
-        self.driver.get(LOGOUT_URL)
+        login_url ='user_profile_login'
+        login_button = self.driver.find_element_by_id(login_url)
+        login_button.click()
 
     def testDisplay(self):
+        import pdb;pdb.set_trace()
         question_button = self.driver.find_element_by_id('fb_post_button')
         question_button.click()
         self.driver.back()
@@ -199,9 +198,17 @@ class TestShareTag(unittest.TestCase):
 
 
 
-BASE_URL = option_handler(sys)
-FB_PAGE = os.path.join(BASE_URL,'fb_main')
 
+option_handler.option_handler(sys)
+BASE_URL = option_handler.BASE_URL
+QUESTION_LIST_URL = option_handler.QUESTION_LIST_URL
+NUM_OF_QUESTION_PER_PAGE = option_handler.NUM_OF_QUESTION_PER_PAGE
+LOGIN_URL = option_handler.LOGIN_URL
+LOGOUT_URL = option_handler.LOGOUT_URL
+FB_PAGE = option_handler.FB_PAGE
+#test user
+EMAIL_TEST_USER_1=option_handler.EMAIL_TEST_USER_1
+PASS_TEST_USER_1=option_handler.PASS_TEST_USER_1
 
 suite = unittest.TestSuite()
 suite.addTest(unittest.makeSuite(TestMainPage))

@@ -26,14 +26,13 @@ class TestUserProfile(unittest.TestCase, ProfilePage):
             #link = question_one.find_element_by_link_text(question_one.text)
             question_one.click()
             #click on writer of question
-            user_profile = driver.find_element_by_id('user_profile')
+            user_profile = driver.find_element_by_id('author_profile')
             user_profile.click()
         except:
-            print'Error: check question list '
+            print'warning: theres no question pls post at least one question'
             return False
 
     def testClickableFirstPage(self):
-        import pdb; pdb.set_trace()
         self.getToUserProfile(self.driver)
         self.viewAllQuestionInList(self.driver)
 

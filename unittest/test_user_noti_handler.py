@@ -19,6 +19,10 @@ class noti_handler_fake_queue(noti_handler):
 
 
 class QuestionHandlingUtilityTestNoti(QuestionHandlingUtility):
+    """
+    because Noti need gae task handler :
+    Create a question then make a call to noti manually for testing
+    """
     def create_a_question(self):
         self.add_value_of_question_to_request(None)
         question_id = post_new_question(request, auth)
@@ -26,7 +30,7 @@ class QuestionHandlingUtilityTestNoti(QuestionHandlingUtility):
             noti_handler_fake_queue(question_id).add_to_gae_task_queue()
         return question_id
 
-class TestUserActivity(unittest.TestCase):
+class TestNotiWhenUserMakeQuestion(unittest.TestCase):
     def setUp(self):
         set_up_basic_environment()
         # question info
@@ -84,7 +88,7 @@ class TestUserActivity(unittest.TestCase):
 
 
 suite = unittest.TestSuite()
-suite.addTest(unittest.makeSuite(TestUserActivity))
+#suite.addTest(unittest.makeSuite(TestNotiWhenUserMakeQuestion))
 unittest.TextTestRunner(verbosity=2).run(suite)
 
 

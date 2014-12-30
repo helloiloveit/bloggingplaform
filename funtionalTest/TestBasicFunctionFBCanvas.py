@@ -263,14 +263,16 @@ class TestHandlingAnswer(HandlingQuestion):
 
 class TestHandlingQuestion(HandlingQuestion):
     COMPOSE_POST_BUTTON_ID = "post_button"
+    QUESTION_LIST_FUNCTION ='fb_question_list'
     def setUp(self):
         #self.driver = webdriver.Firefox()
         super(TestHandlingQuestion, self).setUp()
-        user_login(self.driver)
+        #user_login(self.driver)
 
 
 
     def testPostEditDelete(self):
+        import pdb; pdb.set_trace()
         """
          write more in one testcase to reduce the login activity
         """
@@ -286,7 +288,7 @@ class TestHandlingQuestion(HandlingQuestion):
         self.delete_post()
         #check the url
         url_info = driver.current_url
-        self.assertIn( os.path.join(BASE_URL , 'question_list'),url_info)
+        self.assertIn( os.path.join(BASE_URL , QUESTION_LIST_FUNCTION),url_info)
         #go to profile
 
 
@@ -298,6 +300,7 @@ class TestHandlingQuestion(HandlingQuestion):
 option_handler.option_handler(sys)
 BASE_URL = option_handler.BASE_URL
 QUESTION_LIST_URL = option_handler.QUESTION_LIST_URL
+QUESTION_LIST_URL = os.path.join(BASE_URL, 'fb_question_list')
 NUM_OF_QUESTION_PER_PAGE = option_handler.NUM_OF_QUESTION_PER_PAGE
 LOGIN_URL = option_handler.LOGIN_URL
 LOGOUT_URL = option_handler.LOGOUT_URL

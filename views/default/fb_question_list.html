@@ -1,7 +1,8 @@
-{{left_sidebar_enabled = True}}
+{{left_sidebar_enabled = False}}
 {{right_sidebar_enabled=True}}
 {{extend 'fb_layout.html'}}
 {{block center}}
+
 
 
 
@@ -21,7 +22,7 @@
     -->
     <!-- end #header --></div>
   <div class = "content">
-    <h1> {{=tag_info}} </h1>
+    <h1>  </h1>
     <table class="content_list_table">
         {{for item in items:}}
       <tr class="article_unit">
@@ -32,9 +33,10 @@
                 {{question_tag_list = db(db.question_tag_tbl.question_info == item.id).select()}}
                 {{for tag_unit in question_tag_list:}}
                <td>
+                   <a>
                    {{tag_record = db(db.tag_tbl.id == tag_unit.tag_info).select().first()}}
                    {{=tag_record.name}}
-
+                    </a>
 
                </td>
                 {{pass}}
@@ -45,9 +47,9 @@
             <table class = "content_info_table"  >
 
            <tr class="article_header">
-               <td>
+               <td onClick="document.location.href='{{=URL(f='fb_question',vars={'id':[item.id],'accesstk':request.vars.accesstk})}}';" style="">
                    {{try:}}
-                   {{=A(item.question_info,_class='article_header', _href=URL(f='question',args=[item.id]))}}
+                   {{=item.question_info }}
                    {{except:}}
                    {{pass}}
                </td>
@@ -89,18 +91,16 @@
               <td>
                   {{like_record = db((db.question_like_tbl.question_id == item.id)).select()}}
                   <a class="count_like">{{=len(like_record)}}</a><span> thích</span>
+              </td>
+              <td>
                   {{answer_num=len(db(db.answer_tbl.question_id == item.id).select())}}
-                  <!--
-                  <button id ="view_answer_button" value={{=item.id}} name="view_answer">{{=str(answer_num)+' tra loi'}} </button>
-                  -->
-                  {{=A("        " + str(answer_num) + " trả lời", _class="popularity_a_tag_text",_href=URL(r=request,f='question',args=[item.id]))}}
+                  {{=A("" + str(answer_num) + " trả lời", _class="popularity_a_tag_text")}}
               </td>
               <td>
                    {{if not item.privacy_mode:}}
                   {{writer = db(db.auth_user.id == item.writer).select().first()}}
-                   &nbsp&nbsp {{=' đăng bởi '}}
-                  <a id ="user_profile" href={{=URL(r=request,f='user_profile',args=[])}} onclick="location.href=this.href+'?user_id='+{{=item.writer}}; return false;">
-                     {{=writer.last_name}}
+                  <a id ="user_profile" href={{=URL(r=request,f='user_profile',vars={'user_id':item.writer,'accesstk':request.vars.accesstk}) }}>
+                    {{=' đăng bởi '}} {{=writer.last_name}}
                    </a>
                   {{else:}}
                   {{=A("   bởi   nặc danh", _id = 'user_profile')}}
@@ -118,7 +118,7 @@
     {{if view_more_flag:}}
     <div>
         <br></br>
-    <a id ="view_more_question" href={{=URL(r=request,f='question_list',args=[])}} onclick="location.href=this.href+'?page_num='+{{=int(page_num) + 1}}; return false;">
+    <a id ="view_more_question" href={{=URL(r=request,f='question_list',vars={'page_num':int(page_num)+1})}}>
         xem thêm
         </a>
         </div>
@@ -153,23 +153,22 @@
          {
              $.ajax({
             type: "POST",
-            url: "like_a_question",
-            data: {question_id : id},
+            url: "fb_like_a_question",
+            data: {question_id : id, accesstk:ACCESS_TOKEN_GLOB},
             cache: false,
             success: function(data){
                 myThisVariable.parent().next('td').find('.count_like').text(data);
                 myThisVariable.find("#heart_img").attr("src","/chuotnhat/static/images/heart_icon.png");
             }
             });
-           $("#heart_img").attr("src","/chuotnhat/static/images/heart_icon.png");
            $(this).css('color', 'rgba(207, 9, 9, 1)');
            $(this).attr('id', 'unlike');
          } else
          {
             $.ajax({
             type: "POST",
-            url: "unlike_a_question",
-            data: {question_id : id},
+            url: "fb_unlike_a_question",
+            data: {question_id : id, accesstk:ACCESS_TOKEN_GLOB},
             cache: false,
             success: function(data){
                 myThisVariable.parent().next('td').find('.count_like').text(data);

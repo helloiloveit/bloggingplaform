@@ -74,7 +74,7 @@
                   <img border="0" src={{=img_path}} alt="Pulpit rock" width="50" height="50">
                   -->
                   {{pass}}
-                  <a id ="author_profile" href={{=URL(r=request,f='fb_user_profile',args=[])}} onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">
+                  <a id ="author_profile" href={{=URL(r=request,f='fb_user_profile',vars ={'user_id':user_info.username,'accesstk':request.vars.accesstk})}}>
                       {{='  bởi   ' + user_info.last_name}}
                   </a>
                   {{else:}}
@@ -90,7 +90,7 @@
               <td>
                   <div id="inputCommentButton" name="question_id" >
                       <a id="reply_question_button">
-                      <img border="0" src={{=URL('static', 'images/reply.png')}} alt="Pulpit rock" width="45" height="45">
+                      <img border="0" src={{=URL('static', 'images/reply2.png')}} alt="Pulpit rock" width="45" height="45">
                       trả lời
                          </a>
                   </div>
@@ -145,13 +145,14 @@
                 {{user_info = db(db.auth_user.id == comment.author_info).select().first()}}
                 {{img_path =' https://graph.facebook.com/' + user_info.username + '/picture'}}
                 <td>
-                    <a id ="user_profile" href="{{=URL(f='fb_user_profile')}}" onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">
+                    <a id ="user_profile" href="{{=URL(f='fb_user_profile', vars={'user_id':user_info.username,'accesstk':request.vars.accesstk} )}}">
                         <img border="0" src={{=img_path}} alt="Pulpit rock" width="40" height="40">
                     </a>
 
                 </td>
                  <td class="user_profile_text">
-                      <a id ="user_profile" href="{{=URL(f='fb_user_profile')}}"  onclick="location.href=this.href+'?user_id='+{{=user_info.id}}; return false;">  {{=user_info.first_name}}</a>
+                     <a id ="user_profile" href="{{=URL(f='fb_user_profile', vars={'user_id':user_info.username,'accesstk':request.vars.accesstk} )}}">
+                       {{=user_info.first_name}}</a>
                      {{user_profile = db(db.user_profile.user_info == user_info.id).select().first()}}
                      {{if user_profile:}}
                      <span class="user_detail_info">{{=XML(user_profile.detail_info)}}</span>
@@ -192,10 +193,10 @@
                  </td>
               {{if (auth.is_logged_in() and (auth.user.id == comment.author_info)):}}
               <td>
-                  {{=A("sửa",_id ='edit_answer_button', _class='handling_button', _href=URL(r=request,f='fb_edit_answer',args=[comment.id], vars={'origin':'question'}))}}
+                  {{=A("sửa",_id ='edit_answer_button', _class='handling_button', _href=URL(r=request,f='fb_edit_answer',args=[comment.id], vars={'origin':'question','accesstk':request.vars.accesstk}))}}
               </td>
               <td>
-                  {{=A("xoá",_id='delete_answer_button', _class='handling_button', _href=URL(r=request,f='fb_delete_answer',args=[comment.id]))}}
+                  {{=A("xoá",_id='delete_answer_button', _class='handling_button', _href=URL(r=request,f='fb_delete_answer',args=[comment.id], vars={'accesstk':request.vars.accesstk}))}}
               </td>
               {{pass}}
               <!--
@@ -241,8 +242,8 @@ tinymce.execCommand('mceFocus',false,'editor1');
             //alert('equal like');
              $.ajax({
             type: "POST",
-            url: '{{=URL(f='like_an_answer')}}',
-            data: {answer_id : id},
+            url: '{{=URL(f='fb_like_an_answer')}}',
+            data: {answer_id : id, accesstk:ACCESS_TOKEN_GLOB},
             cache: false,
             success: function(data){
                 //myThisVariable.parent().find('.count_like').text(data);
@@ -257,8 +258,8 @@ tinymce.execCommand('mceFocus',false,'editor1');
          {
             $.ajax({
             type: "POST",
-            url: '{{=URL(f='unlike_an_answer')}}',
-            data: {answer_id : id},
+            url: '{{=URL(f='fb_unlike_an_answer')}}',
+            data: {answer_id : id, accesstk:ACCESS_TOKEN_GLOB},
             cache: false,
             success: function(data){
                 //myThisVariable.parent().find('.count_like').text(data);
